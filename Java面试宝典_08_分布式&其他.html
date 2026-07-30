@@ -90,6 +90,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
+      <p><strong>分布式事务</strong>是指事务的参与者、资源服务器、事务管理器分别位于不同分布式节点上。简单说，一个业务操作需要跨多个服务/数据库完成，且要保证数据一致性。例如：下单（订单服务）→ 扣库存（库存服务）→ 扣余额（账户服务），三步要么全成功、要么全回滚。</p>
+      <p>与单机事务的<strong>核心区别</strong>：单机事务靠数据库的 ACID 机制保证；分布式事务中网络不可靠、各节点独立，无法简单套用 ACID，需要额外的协调协议。</p>
+      <p><strong>常见解决方案：</strong></p>
       <ul>
         <li><strong>2PC(两阶段提交)：</strong>准备阶段→提交阶段。强一致但性能差、协调者单点。</li>
         <li><strong>TCC(Try-Confirm-Cancel)：</strong>Try预留→Confirm确认→Cancel回滚。最终一致。</li>
