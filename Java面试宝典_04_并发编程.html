@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 04 并发编程</title>
+<style>
+:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.theme-switcher{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.theme-btn{padding:3px 12px;border-radius:14px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:11px;transition:.2s}
+.theme-btn:hover,.theme-btn.active{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.9)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:#1a1a2e}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.card-body{padding:12px 18px 16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:#f9fafb;border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🔀 04 · Java 并发编程</h1>
+  <p>16道高频题 · 线程池 · AQS · synchronized · volatile · JUC · 锁机制</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">📚 总目录</a>
+    <a href="Java面试宝典_03_JVM.html">← JVM</a>
+    <a href="Java面试宝典_05_MySQL.html">MySQL →</a>
+  </div>
+  <div class="theme-switcher">
+    <button class="theme-btn" onclick="setTheme('green')" id="btn-green">深绿</button>
+    <button class="theme-btn active" onclick="setTheme('gold')" id="btn-gold">黑白金</button>
+    <button class="theme-btn" onclick="setTheme('purple')" id="btn-purple">深靛紫</button>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Q1 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">创建线程有哪几种方式？</div><div class="q-tags"><span class="q-tag">线程</span><span class="q-tag">基础</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ol>
+        <li><strong>继承Thread类</strong> — 重写run()，start()启动。</li>
+        <li><strong>实现Runnable接口</strong> — 避免单继承限制。</li>
+        <li><strong>实现Callable接口</strong> — 有返回值+可抛异常，配合FutureTask。</li>
+        <li><strong>线程池(ExecutorService)</strong> — 实际开发首选，复用线程。</li>
+      </ol>
+      <p>💡 实际开发<strong>严禁直接new Thread()</strong>，必须使用线程池。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">线程的生命周期（6种状态）？</div><div class="q-tags"><span class="q-tag">线程</span><span class="q-tag">基础</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>NEW → RUNNABLE → BLOCKED / WAITING / TIMED_WAITING → TERMINATED</strong></p>
+      <ul>
+        <li><strong>NEW：</strong>创建但未start()</li>
+        <li><strong>RUNNABLE：</strong>就绪或运行中</li>
+        <li><strong>BLOCKED：</strong>等待获取锁</li>
+        <li><strong>WAITING：</strong>wait()/join()/LockSupport.park()无限等待</li>
+        <li><strong>TIMED_WAITING：</strong>sleep()/wait(timeout)限时等待</li>
+        <li><strong>TERMINATED：</strong>执行完毕</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">synchronized 的实现原理？锁升级过程？</div><div class="q-tags"><span class="q-tag">锁</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>底层实现：</strong>基于对象头的Mark Word + Monitor（管程）。</p>
+      <p><strong>锁升级过程（JDK1.6+优化）：</strong></p>
+      <p><strong>无锁 → 偏向锁 → 轻量级锁 → 重量级锁</strong></p>
+      <ul>
+        <li><strong>偏向锁：</strong>Mark Word记录线程ID，同一线程反复进入，CAS一次后不再CAS。</li>
+        <li><strong>轻量级锁：</strong>竞争时撤销偏向锁，CAS自旋获取，自旋失败升级。</li>
+        <li><strong>重量级锁：</strong>自旋失败后膨胀，线程阻塞进入等待队列，由操作系统调度。</li>
+      </ul>
+      <p>💡 锁只能升级不能降级（偏向锁可被撤销）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">volatile 关键字的作用和原理？</div><div class="q-tags"><span class="q-tag">volatile</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>两大作用：</strong></p>
+      <ul>
+        <li><strong>保证可见性：</strong>一个线程修改后立即写回主存，其他线程立即可见。通过<strong>内存屏障</strong>实现。</li>
+        <li><strong>禁止指令重排序：</strong>通过插入内存屏障阻止指令重排。</li>
+      </ul>
+      <p><strong>不保证原子性：</strong>i++不是原子操作，volatile不能解决。</p>
+      <p>💡 经典应用：DCL单例模式中的instance变量必须用volatile修饰。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">synchronized 和 Lock 的区别？</div><div class="q-tags"><span class="q-tag">锁</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>区别</th><th>synchronized</th><th>Lock</th></tr>
+        <tr><td>类型</td><td>JVM关键字</td><td>Java接口(ReentrantLock)</td></tr>
+        <tr><td>释放</td><td>自动释放</td><td>必须finally中unlock()</td></tr>
+        <tr><td>中断</td><td>不可中断</td><td>可中断lockInterruptibly()</td></tr>
+        <tr><td>公平</td><td>非公平</td><td>可选公平/非公平</td></tr>
+        <tr><td>条件</td><td>单一等待队列</td><td>多个Condition精确唤醒</td></tr>
+        <tr><td>尝试获取</td><td>不支持</td><td>tryLock()尝试获取</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">AQS（AbstractQueuedSynchronizer）原理？</div><div class="q-tags"><span class="q-tag">AQS</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>AQS是JUC锁框架的基础，核心三要素：</strong></p>
+      <ul>
+        <li><strong>state(volatile int)：</strong>同步状态，CAS修改。</li>
+        <li><strong>CLH队列(FIFO)：</strong>获取锁失败的线程加入队列等待。</li>
+        <li><strong>模板方法模式：</strong>子类实现tryAcquire/tryRelease等方法。</li>
+      </ul>
+      <p><strong>独占模式：</strong>ReentrantLock。state=0未锁定，state=1已锁定。</p>
+      <p><strong>共享模式：</strong>Semaphore、CountDownLatch。state>0表示可用资源数。</p>
+      <p>💡 ReentrantLock、Semaphore、CountDownLatch、ReentrantReadWriteLock等都基于AQS实现。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">ReentrantLock 如何实现可重入？</div><div class="q-tags"><span class="q-tag">Lock</span><span class="q-tag">源码</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p>通过AQS的<strong>state状态值</strong>实现：</p>
+      <ul>
+        <li>同一线程每次获取锁→state+1</li>
+        <li>每次释放锁→state-1</li>
+        <li>state=0时锁完全释放</li>
+      </ul>
+      <p>内部维护<strong>exclusiveOwnerThread</strong>记录当前持有锁的线程。</p>
+      <p>公平锁：先检查等待队列是否有线程，有则排队。</p>
+      <p>非公平锁：直接CAS尝试获取锁，失败再排队。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">线程池的核心参数有哪些？工作流程？</div><div class="q-tags"><span class="q-tag">线程池</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>7大参数（ThreadPoolExecutor）：</strong></p>
+      <ol>
+        <li><strong>corePoolSize：</strong>核心线程数</li>
+        <li><strong>maximumPoolSize：</strong>最大线程数</li>
+        <li><strong>keepAliveTime：</strong>非核心线程空闲存活时间</li>
+        <li><strong>unit：</strong>时间单位</li>
+        <li><strong>workQueue：</strong>阻塞队列</li>
+        <li><strong>threadFactory：</strong>线程工厂</li>
+        <li><strong>handler：</strong>拒绝策略</li>
+      </ol>
+      <p><strong>工作流程：</strong>核心线程→入队→创建非核心线程→拒绝策略</p>
+      <p>💡 <strong>4种拒绝策略：</strong>AbortPolicy(抛异常-默认)、CallerRunsPolicy(调用者执行)、DiscardPolicy(丢弃)、DiscardOldestPolicy(丢弃最旧)。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">Executors 创建线程池有什么问题？</div><div class="q-tags"><span class="q-tag">线程池</span><span class="q-tag">阿里规约</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>newFixedThreadPool / newSingleThreadExecutor：</strong>使用LinkedBlockingQueue(无界)→可能OOM。</li>
+        <li><strong>newCachedThreadPool / newScheduledThreadPool：</strong>maximumPoolSize=Integer.MAX_VALUE→无限创建线程→OOM。</li>
+      </ul>
+      <p>💡 <strong>阿里规约：</strong>必须通过ThreadPoolExecutor构造函数创建线程池，明确参数含义。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">如何合理配置线程池大小？</div><div class="q-tags"><span class="q-tag">线程池</span><span class="q-tag">实战</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>CPU密集型：</strong>N(cpu) + 1</li>
+        <li><strong>IO密集型：</strong>2 * N(cpu) 或 N(cpu) * (1 + 等待时间/计算时间)</li>
+      </ul>
+      <p>实际中需结合压测调整。可使用<code>Runtime.getRuntime().availableProcessors()</code>获取CPU核数。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">CountDownLatch 和 CyclicBarrier 的区别？</div><div class="q-tags"><span class="q-tag">JUC</span><span class="q-tag">工具</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>CountDownLatch</th><th>CyclicBarrier</th></tr>
+        <tr><td>作用</td><td>一个线程等N个线程完成</td><td>N个线程互相等待到齐</td></tr>
+        <tr><td>复用</td><td>不可复用，减到0结束</td><td>可复用，计数归零后重置</td></tr>
+        <tr><td>回调</td><td>无</td><td>可传Runnable，到齐后执行</td></tr>
+        <tr><td>场景</td><td>主线程等子任务完成</td><td>多线程汇总计算</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">ThreadLocal 的原理和内存泄漏问题？</div><div class="q-tags"><span class="q-tag">ThreadLocal</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>原理：</strong>每个Thread内部有一个ThreadLocalMap，key是ThreadLocal的弱引用，value是存储的值。</p>
+      <p><strong>内存泄漏原因：</strong></p>
+      <ul>
+        <li>ThreadLocal作为key是弱引用，GC时被回收→key=null。</li>
+        <li>但value是强引用，且线程存活→value无法回收→内存泄漏。</li>
+      </ul>
+      <p>💡 <strong>解决方案：</strong>使用完毕后调用<code>remove()</code>方法。阿里规约要求必须remove。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">CAS 是什么？有什么问题？</div><div class="q-tags"><span class="q-tag">CAS</span><span class="q-tag">无锁</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>CAS(Compare And Swap)：</strong>比较并交换，原子操作，CPU指令级支持。</p>
+      <p>需要3个操作数：内存地址V、预期值A、新值B。当V==A时更新为B。</p>
+      <p><strong>三大问题：</strong></p>
+      <ul>
+        <li><strong>ABA问题：</strong>A→B→A，CAS误判未变化。解决方案：AtomicStampedReference(版本号)。</li>
+        <li><strong>自旋开销：</strong>CAS失败后自旋重试，CPU消耗大。</li>
+        <li><strong>只能保证一个共享变量的原子操作：</strong>AtomicReference可包装多个变量。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q14 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">乐观锁和悲观锁的区别？</div><div class="q-tags"><span class="q-tag">锁</span><span class="q-tag">概念</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>乐观锁</th><th>悲观锁</th></tr>
+        <tr><td>思想</td><td>认为冲突少，先操作再检查</td><td>认为冲突多，先加锁再操作</td></tr>
+        <tr><td>实现</td><td>CAS、版本号</td><td>synchronized、Lock</td></tr>
+        <tr><td>性能</td><td>冲突少时高效</td><td>冲突多时高效</td></tr>
+        <tr><td>场景</td><td>读多写少</td><td>写多</td></tr>
+        <tr><td>数据库</td><td>version字段、CAS</td><td>SELECT FOR UPDATE</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<!-- Q15 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">死锁的4个必要条件？如何预防？</div><div class="q-tags"><span class="q-tag">死锁</span><span class="q-tag">经典</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>4个必要条件：</strong></p>
+      <ol>
+        <li><strong>互斥：</strong>资源同一时间只能一个线程使用。</li>
+        <li><strong>持有并等待：</strong>持有资源A，等待资源B。</li>
+        <li><strong>不可剥夺：</strong>已获取资源不能被强制剥夺。</li>
+        <li><strong>循环等待：</strong>形成资源等待环。</li>
+      </ol>
+      <p><strong>预防：</strong>破坏任一条件即可——锁排序、超时放弃(tryLock)、一次性申请所有资源、使用无锁数据结构。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q16 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">wait() 和 sleep() 的区别？</div><div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>区别</th><th>wait()</th><th>sleep()</th></tr>
+        <tr><td>所属</td><td>Object方法</td><td>Thread静态方法</td></tr>
+        <tr><td>释放锁</td><td>释放锁</td><td>不释放锁</td></tr>
+        <tr><td>使用条件</td><td>必须在synchronized块中</td><td>任意位置</td></tr>
+        <tr><td>唤醒</td><td>notify()/notifyAll()</td><td>时间到自动唤醒</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<!-- Q17 -->
+<div class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">ThreadLocal 原理和内存泄漏问题？</div><div class="q-tags"><span class="q-tag">ThreadLocal</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>每个Thread内部维护一个<strong>ThreadLocalMap</strong>，Key是ThreadLocal的<strong>弱引用</strong>，value是强引用。</p><p><strong>内存泄漏原因：</strong>ThreadLocal被回收→key变为null→但value仍被Thread引用→无法回收。</p><p><strong>解决方案：</strong></p><ul><li>使用完必须<strong>remove()</strong>！</li><li>ThreadLocalMap的set/get/remove会检测key==null并清理。</li></ul><p><strong>使用场景：</strong>数据库连接、Session管理、日期格式化（SimpleDateFormat非线程安全）。</p></div></div></div>
+
+<!-- Q18 -->
+<div class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">Atomic 原子类实现原理？CAS 的 ABA 问题？</div><div class="q-tags"><span class="q-tag">CAS</span><span class="q-tag">Atomic</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>原子类基于<strong>CAS（Compare And Swap）+ volatile</strong>实现，底层调用<code>Unsafe.compareAndSwapInt</code>等native方法，由CPU的cmpxchg指令保证原子性。</p><p><strong>ABA问题：</strong>变量从A→B→A，CAS无法感知变化。</p><p><strong>解决方案：</strong></p><ul><li><strong>版本号：</strong>AtomicStampedReference维护stamp。</li><li><strong>AtomicMarkableReference：</strong>维护布尔标记。</li></ul><p><strong>LongAdder：</strong>JDK8引入，高并发下优于AtomicLong。分段累加（base+Cell数组），最终求和。</p></div></div></div>
+
+<!-- Q19 -->
+<div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">CountDownLatch 和 CyclicBarrier 的区别？</div><div class="q-tags"><span class="q-tag">JUC</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>CountDownLatch</th><th>CyclicBarrier</th></tr></thead><tbody><tr><td>计数</td><td>递减到0</td><td>递增到目标值</td></tr><tr><td>重用</td><td>一次性</td><td>可reset重复使用</td></tr><tr><td>线程关系</td><td>一个/多个线程等其他线程</td><td>多个线程互相等待</td></tr><tr><td>回调</td><td>无</td><td>构造时可传Runnable</td></tr><tr><td>场景</td><td>主线程等子线程完成</td><td>多线程分阶段并行</td></tr></tbody></table></div></div></div></div>
+
+<!-- Q20 -->
+<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">Semaphore 的原理和应用场景？</div><div class="q-tags"><span class="q-tag">Semaphore</span><span class="q-tag">JUC</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Semaphore（信号量）基于<strong>AQS共享模式</strong>，维护一组许可证permits。</p><ul><li><code>acquire()</code>：获取许可，无则阻塞。</li><li><code>release()</code>：释放许可。</li><li><strong>公平/非公平：</strong>构造时指定，默认非公平。</li></ul><p><strong>应用场景：</strong></p><ul><li>限流：限制同时访问某资源的线程数。</li><li>数据库连接池：控制连接数。</li><li>只有有限停车位的停车场。</li></ul></div></div></div>
+
+<!-- Q21 -->
+<div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">Exchanger 是什么？怎么用？</div><div class="q-tags"><span class="q-tag">JUC</span><span class="q-tag">Exchanger</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Exchanger用于<strong>两个线程之间交换数据</strong>的同步点。</p><ul><li>线程调用<code>exchange(V data)</code>后阻塞，直到另一个线程也调用exchange。</li><li>两个线程的数据安全交换。</li></ul><p><strong>应用场景：</strong>遗传算法中交换染色体、校对工作（两个线程交换缓冲区数据）、流水线数据处理。</p></div></div></div>
+
+<!-- Q22 -->
+<div class="card"><div class="card-header"><div class="q-num">22</div><div class="q-meta"><div class="q-title">synchronized 锁升级过程是怎样的？</div><div class="q-tags"><span class="q-tag">高频</span><span class="q-tag">锁升级</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>synchronized锁升级是JDK6的优化：<strong>无锁→偏向锁→轻量级锁→重量级锁</strong>，只能升级不能降级。</p><ol><li><strong>偏向锁：</strong>第一个获取锁的线程，CAS设置ThreadID，后续该线程无需同步操作直接进入。</li><li><strong>轻量级锁（自旋锁）：</strong>有竞争时，撤销偏向锁。线程CAS尝试获取锁，失败则自旋等待（自适应自旋）。</li><li><strong>重量级锁：</strong>自旋超限或竞争激烈，膨胀为重量级锁（monitor互斥），未获取锁的线程阻塞。</li></ol><p>💡 偏向锁默认延迟4秒启动（可通过-XX:BiasedLockingStartupDelay=0关闭延迟）。</p></div></div></div>
+
+<!-- Q23 -->
+<div class="card"><div class="card-header"><div class="q-num">23</div><div class="q-meta"><div class="q-title">LockSupport.park() 和 unpark() 原理？</div><div class="q-tags"><span class="q-tag">LockSupport</span><span class="q-tag">AQS</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>LockSupport是<strong>最基本的线程阻塞原语</strong>，AQS的基石。</p><ul><li><strong>park()：</strong>阻塞当前线程，直到unpark()或中断。基于Unsafe.park()（C++的Parker::park）。</li><li><strong>unpark(thread)：</strong>唤醒指定线程。即使unpark先于park执行，park也会立即返回（permit机制，最多1个）。</li></ul><p><strong>相比wait/notify的优势：</strong></p><ul><li>不需要在synchronized块中。</li><li>unpark可以先于park调用。</li><li>可以精确唤醒指定线程。</li></ul></div></div></div>
+
+<!-- Q24 -->
+<div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">读写锁 ReentrantReadWriteLock 原理和锁降级？</div><div class="q-tags"><span class="q-tag">读写锁</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>基于AQS，state高16位=读锁计数，低16位=写锁重入次数。</p><ul><li><strong>读锁共享：</strong>多个线程可同时获取读锁。</li><li><strong>写锁互斥：</strong>写锁独占，读写互斥。</li><li><strong>锁降级：</strong>写锁→读锁（先获取读锁再释放写锁）。</li></ul><p><strong>锁降级场景：</strong>写完后需要立即读，保证数据可见性。</p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">rwLock.writeLock().lock();<br>// 写操作<br>rwLock.readLock().lock();   // 先获取读锁<br>rwLock.writeLock().unlock(); // 再释放写锁 = 降级为读锁</pre><p>💡 不支持锁升级（读→写），会死锁。JDK8引入StampedLock，支持乐观读。</p></div></div></div>
+
+<!-- Q25 -->
+<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">StampedLock 和 ReentrantReadWriteLock 的区别？</div><div class="q-tags"><span class="q-tag">StampedLock</span><span class="q-tag">JDK8</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>StampedLock</th><th>RRWLock</th></tr></thead><tbody><tr><td>可重入</td><td>不可重入</td><td>可重入</td></tr><tr><td>模式</td><td>写/悲观读/乐观读</td><td>读/写</td></tr><tr><td>乐观读</td><td>支持(tryOptimisticRead)</td><td>不支持</td></tr><tr><td>Condition</td><td>不支持</td><td>支持</td></tr><tr><td>性能</td><td>更高</td><td>一般</td></tr></tbody></table></div><p><strong>乐观读模式：</strong>读前获取stamp→读数据→validate(stamp)校验是否被修改→被修改则升级为悲观读。</p></div></div></div>
+
+<!-- Q26 -->
+<div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">CompletableFuture 的使用场景和方法？</div><div class="q-tags"><span class="q-tag">异步</span><span class="q-tag">JDK8</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>CompletableFuture是JDK8<strong>异步编排</strong>利器，实现了Future和CompletionStage。</p><p><strong>核心方法：</strong></p><ul><li><strong>创建：</strong>supplyAsync()、runAsync()。</li><li><strong>转换：</strong>thenApply()、thenAccept()、thenRun()。</li><li><strong>组合：</strong>thenCombine()、thenCompose()。</li><li><strong>聚合：</strong>allOf()（全完成）、anyOf()（任一完成）。</li><li><strong>异常：</strong>exceptionally()、handle()。</li><li><strong>回调：</strong>whenComplete()。</li></ul><p><strong>应用场景：</strong>多服务并行调用后聚合结果、异步数据预处理、多数据源查询合并。</p></div></div></div>
+
+<!-- Q27 -->
+<div class="card"><div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">Java 内存模型（JMM）是什么？</div><div class="q-tags"><span class="q-tag">JMM</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>JMM（Java Memory Model）是<strong>规范</strong>，定义多线程下共享变量的访问规则：</p><ul><li><strong>主内存：</strong>所有线程共享，存共享变量。</li><li><strong>工作内存：</strong>线程私有，存主内存中变量的副本。</li><li>线程不能直接读写主内存，必须通过工作内存。</li></ul><p><strong>三大特性：</strong></p><ul><li><strong>原子性：</strong>synchronized、Lock、Atomic类。</li><li><strong>可见性：</strong>volatile、synchronized、final。</li><li><strong>有序性：</strong>volatile、synchronized、happens-before原则。</li></ul></div></div></div>
+
+<!-- Q28 -->
+<div class="card"><div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">Happens-Before 规则有哪些？</div><div class="q-tags"><span class="q-tag">JMM</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Happens-Before规定操作间的<strong>偏序关系</strong>，保证前操作的结果对后操作可见：</p><ol><li><strong>程序次序：</strong>单线程中前面的操作hb后面的。（控制流而非程序顺序）。</li><li><strong>volatile：</strong>volatile写hb于后续读。</li><li><strong>锁：</strong>unlock hb于后续lock。</li><li><strong>传递性：</strong>A hb B, B hb C → A hb C。</li><li><strong>start()：</strong>线程start() hb于线程内所有操作。</li><li><strong>join()：</strong>线程所有操作 hb于join()返回。</li><li><strong>中断：</strong>interrupt() hb于被中断线程检测到中断。</li><li><strong>finalize：</strong>构造结束 hb于finalize()。</li></ol></div></div></div>
+
+<!-- Q29 -->
+<div class="card"><div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">synchronized 底层的 monitorenter/monitorexit 是什么？</div><div class="q-tags"><span class="q-tag">底层</span><span class="q-tag">字节码</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>synchronized编译后在字节码中对应<strong>monitorenter</strong>和<strong>monitorexit</strong>指令。</p><ul><li><strong>monitorenter：</strong>尝试获取对象的monitor锁，计数器+1。</li><li><strong>monitorexit：</strong>释放monitor锁，计数器-1，为0时释放。</li><li>每个对象有一个monitor，基于ObjectMonitor（C++实现）。</li><li>重入性：同一线程重复进入，计数器累加。</li></ul><p><strong>synchronized方法的区别：</strong>方法标志位ACC_SYNCHRONIZED，不需要monitorenter/exit指令。</p></div></div></div>
+
+<!-- Q30 -->
+<div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">volatile 如何保证可见性和有序性？（内存屏障）</div><div class="q-tags"><span class="q-tag">volatile</span><span class="q-tag">底层</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>volatile通过<strong>内存屏障</strong>实现：</p><ul><li><strong>volatile写：</strong>前插StoreStore屏障，后插StoreLoad屏障→写完后<strong>立即刷回主内存</strong>并<strong>使其他CPU缓存行失效</strong>。</li><li><strong>volatile读：</strong>前插LoadLoad屏障，后插LoadStore屏障→每次读都从主内存重新加载。</li><li><strong>禁止指令重排序：</strong>屏障确保volatile操作前后的指令不越界。</li></ul><p><strong>DCL单例为什么必须volatile：</strong>防止指令重排序导致半初始化对象被其他线程读到。不加volatile可能<code>instance!=null</code>但构造未完成。</p></div></div></div>
+
+<!-- Q31 -->
+<div class="card"><div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">Fork/Join 框架的 Work-Stealing 算法？</div><div class="q-tags"><span class="q-tag">ForkJoin</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Fork/Join是将大任务<strong>递归拆分</strong>为小任务并行执行的框架。</p><p><strong>Work-Stealing（工作窃取）：</strong></p><ul><li>每个工作线程有一个<strong>双端队列</strong>。</li><li>自己产生的任务放入队列底部，自己从<strong>顶部取（LIFO）</strong>。</li><li>自己队列空时，<strong>从其他队列尾部窃取（FIFO）</strong>。</li><li>减少线程竞争，提高CPU利用率。</li></ul><p>ForkJoinPool默认线程数=CPU核心数，适合CPU密集型任务。</p></div></div></div>
+
+<!-- Q32 -->
+<div class="card"><div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">中断机制：interrupt()/isInterrupted()/interrupted() 的区别？</div><div class="q-tags"><span class="q-tag">中断</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>方法</th><th>中断标志</th><th>静态</th></tr></thead><tbody><tr><td>interrupt()</td><td>设置中断标志为true</td><td>否</td></tr><tr><td>isInterrupted()</td><td>返回标志，不清除</td><td>否</td></tr><tr><td>interrupted()</td><td>返回标志并<strong>清除</strong>为false</td><td>是(当前线程)</td></tr></tbody></table></div><p><strong>中断不是立刻停止线程</strong>，而是协作机制：</p><ul><li>Object.wait()/Thread.sleep()/BlockingQueue.take()等方法抛出InterruptedException后<strong>清除中断标志</strong>。</li><li>线程应检查中断标志并自行退出。</li></ul></div></div></div>
+
+<!-- Q33 -->
+<div class="card"><div class="card-header"><div class="q-num">33</div><div class="q-meta"><div class="q-title">线程的生命周期（6种状态）？</div><div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">线程状态</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Thread.State定义了6种状态：</p><ol><li><strong>NEW：</strong>创建但未start()。</li><li><strong>RUNNABLE：</strong>运行中（包括就绪和运行，因为JVM不区分）。</li><li><strong>BLOCKED：</strong>等待synchronized锁。</li><li><strong>WAITING：</strong>wait()/join()/park()，等待其他线程通知。</li><li><strong>TIMED_WAITING：</strong>sleep(time)/wait(time)/join(time)。</li><li><strong>TERMINATED：</strong>执行完毕。</li></ol><p>💡 操作系统层面的线程状态与Java不同（多了就绪状态）。注意BLOCKED只是等synchronized锁，等Lock锁是WAITING状态。</p></div></div></div>
+
+<!-- Q34 -->
+<div class="card"><div class="card-header"><div class="q-num">34</div><div class="q-meta"><div class="q-title">如何实现一个生产者-消费者模型？</div><div class="q-tags"><span class="q-tag">模式</span><span class="q-tag">实战</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>实现方式（4种）：</strong></p><ol><li><strong>wait/notify：</strong>经典方式，需手动处理生产满/消费空的阻塞。</li><li><strong>BlockingQueue：</strong>最简单，ArrayBlockingQueue或LinkedBlockingQueue，自动阻塞。</li><li><strong>Lock + Condition：</strong>两个Condition（notFull/notEmpty），更精确唤醒。</li><li><strong>Semaphore：</strong>两个信号量控制生产和消费速率。</li></ol><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">// BlockingQueue 最简单<br>BlockingQueue&lt;Task&gt; queue = new LinkedBlockingQueue&lt;&gt;(100);<br>// 生产者: queue.put(task); // 满则阻塞<br>// 消费者: Task t = queue.take(); // 空则阻塞</pre></div></div></div>
+
+<!-- Q35 -->
+<div class="card"><div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">如何让多个线程顺序执行？</div><div class="q-tags"><span class="q-tag">实战</span><span class="q-tag">顺序</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>4种实现方式：</strong></p><ol><li><strong>join()：</strong>t1.start(); t1.join(); t2.start(); t2.join(); t3.start();</li><li><strong>单线程池：</strong>Executors.newSingleThreadExecutor()，任务按序执行。</li><li><strong>CountDownLatch：</strong>每个线程完成后countDown，下一个线程await。</li><li><strong>Semaphore：</strong>用一个信号量，每个线程acquire后执行再release给下一个。</li><li><strong>Lock + Condition：</strong>精确控制线程唤醒顺序。</li></ol></div></div></div>
+
+<!-- Q36 -->
+<div class="card"><div class="card-header"><div class="q-num">36</div><div class="q-meta"><div class="q-title">线程池如何监控？常用监控指标？</div><div class="q-tags"><span class="q-tag">监控</span><span class="q-tag">线程池</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>监控指标：</strong></p><ul><li><strong>corePoolSize / maximumPoolSize：</strong>核心/最大线程数。</li><li><strong>activeCount：</strong>活跃线程数。</li><li><strong>poolSize：</strong>当前线程数。</li><li><strong>queue.size()：</strong>队列中等待的任务数。</li><li><strong>completedTaskCount：</strong>已完成任务数。</li><li><strong>largestPoolSize：</strong>历史最大线程数。</li><li><strong>拒绝次数：</strong>自定义RejectedExecutionHandler统计。</li></ul><p>💡 可通过继承ThreadPoolExecutor，在beforeExecute/afterExecute中记录耗时、异常等。</p></div></div></div>
+
+<!-- Q37 -->
+<div class="card"><div class="card-header"><div class="q-num">37</div><div class="q-meta"><div class="q-title">线程池出现死锁如何排查？</div><div class="q-tags"><span class="q-tag">排查</span><span class="q-tag">死锁</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>线程池死锁常见原因：</strong></p><ul><li>任务A等待任务B完成，任务B等待线程释放 → 互相等待。</li><li>父子任务都提交到同一线程池 → 父任务占线程等子任务。</li></ul><p><strong>排查：</strong></p><ol><li><strong>jstack -l PID：</strong>查看线程状态，JVM会自动检测死锁（Found one Java-level deadlock）。</li><li>查看BLOCKED和WAITING的线程。</li><li>Arthas：<code>thread -b</code>找死锁。</li></ol><p><strong>解决：</strong>避免嵌套提交、用不同线程池执行父子任务、增加超时机制。</p></div></div></div>
+
+<!-- Q38 -->
+<div class="card"><div class="card-header"><div class="q-num">38</div><div class="q-meta"><div class="q-title">Future 和 CompletableFuture 对比？Future 的局限性？</div><div class="q-tags"><span class="q-tag">异步</span><span class="q-tag">对比</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>Future 局限性：</strong></p><ul><li>get()方法阻塞，不支持回调。</li><li>不能手动完成任务。</li><li>不能组合编排（A完成→B→聚合C和D）。</li><li>异常处理不友好。</li></ul><p><strong>CompletableFuture 优势：</strong></p><ul><li>支持回调（thenApply/thenAccept）。</li><li>支持组合编排。</li><li>支持异常恢复（exceptionally/handle）。</li><li>可手动完成（complete）。</li><li>allOf/anyOf多任务聚合。</li></ul></div></div></div>
+
+<!-- Q39 -->
+<div class="card"><div class="card-header"><div class="q-num">39</div><div class="q-meta"><div class="q-title">并行流 parallelStream 的陷阱？</div><div class="q-tags"><span class="q-tag">Stream</span><span class="q-tag">并发</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>共用ForkJoinPool：</strong>默认用公共线程池，阻塞操作会耗尽线程→影响其他并行流。</li><li><strong>数据量小反而慢：</strong>拆分和合并有开销，数据量小时串行更快。</li><li><strong>线程不安全操作：</strong>并行流中的副作用操作可能导致数据错乱。</li><li><strong>顺序依赖：</strong>forEach不保证顺序，需用forEachOrdered。</li></ul><p><strong>安全使用：</strong>无状态、无副作用、可拆分的大数据集才适合parallelStream。</p></div></div></div>
+
+<!-- Q40 -->
+<div class="card"><div class="card-header"><div class="q-num">40</div><div class="q-meta"><div class="q-title">InheritableThreadLocal 是什么？如何实现线程池上下文传递？</div><div class="q-tags"><span class="q-tag">ThreadLocal</span><span class="q-tag">上下文</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>InheritableThreadLocal：</strong>子线程会<strong>继承父线程的ThreadLocal值</strong>（fork时拷贝）。但线程池中线程复用后，不会重新复制。</p><p><strong>线程池上下文传递方案：</strong></p><ul><li><strong>手动传递：</strong>Runnable包装，run()前设置上下文，finally清理。</li><li><strong>线程池Hook：</strong>beforeExecute设置，afterExecute清理。</li><li><strong>Alibaba TransmittableThreadLocal(TTL)：</strong>完美解决线程池上下文传递。</li><li><strong>Hystrix：</strong>HystrixRequestContext。</li></ul></div></div></div>
+
+<div class="footer">
+  📌 04 · Java 并发编程 · 共40题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_05_MySQL.html" style="color:var(--primary)">下一板块 →</a>
+</div>
+
+</div>
+
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+t).classList.add('active')}
+</script>
+</body>
+</html>

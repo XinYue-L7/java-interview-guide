@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 总目录</title>
+<style>
+:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:48px 24px 32px;text-align:center}
+.hero h1{font-size:32px;font-weight:800;margin-bottom:6px}
+.hero p{opacity:.88;font-size:15px}
+.theme-switcher{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.theme-btn{padding:4px 14px;border-radius:16px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:12px;transition:.2s}
+.theme-btn:hover,.theme-btn.active{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.9)}
+.container{max-width:820px;margin:0 auto;padding:32px 20px 60px}
+.section-card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);margin-bottom:16px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s;display:block;text-decoration:none;color:inherit}
+.section-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-1px)}
+.card-inner{display:flex;align-items:center;gap:16px;padding:20px 22px}
+.card-icon{flex-shrink:0;width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff}
+.card-icon.green{background:#2d6a4f}.card-icon.blue{background:#2980b9}.card-icon.red{background:#c0392b}
+.card-icon.orange{background:#e67e22}.card-icon.purple{background:#8e44ad}.card-icon.teal{background:#16a085}
+.card-icon.navy{background:#2c3e50}.card-icon.pink{background:#c0392b}
+.card-info{flex:1;min-width:0}
+.card-info h3{font-size:17px;font-weight:700;margin-bottom:3px}
+.card-info p{font-size:13px;color:var(--muted)}
+.card-arrow{color:var(--muted);font-size:18px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.stat{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:20px 0 0}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>📚 Java 面试宝典</h1>
+  <p>8 大板块 · 300 道高频面试题 · 覆盖全栈知识点</p>
+  <div class="theme-switcher">
+    <button class="theme-btn" onclick="setTheme('green')" id="btn-green">深绿色</button>
+    <button class="theme-btn active" onclick="setTheme('gold')" id="btn-gold">黑白金</button>
+    <button class="theme-btn" onclick="setTheme('purple')" id="btn-purple">深靛紫</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <a class="section-card" href="Java面试宝典_01_Java基础.html">
+    <div class="card-inner">
+      <div class="card-icon green">☕</div>
+      <div class="card-info">
+        <h3>01 · Java 基础</h3>
+        <p>基础语法 · 面向对象 · 关键字 · 反射 · IO流</p>
+        <div class="stats"><span class="stat">40题</span><span class="stat">高频</span></div>
+      </div>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="section-card" href="Java面试宝典_02_集合容器.html">
+    <div class="card-inner">
+      <div class="card-icon blue">🗂️</div>
+      <div class="card-info">
+        <h3>02 · Java 集合容器</h3>
+        <p>ArrayList · LinkedList · HashMap · ConcurrentHashMap · 红黑树</p>
+        <div class="stats"><span class="stat">30题</span><span class="stat">高频</span></div>
+      </div>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="section-card" href="Java面试宝典_03_JVM.html">
+    <div class="card-inner">
+      <div class="card-icon red">⚙️</div>
+      <div class="card-info">
+        <h3>03 · JVM 虚拟机</h3>
+        <p>内存区域 · 垃圾回收 · 类加载机制 · 参数调优 · OOM排查</p>
+        <div class="stats"><span class="stat">35题</span><span class="stat">高频</span></div>
+      </div>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="section-card" href="Java面试宝典_04_并发编程.html">
+    <div class="card-inner">
+      <div class="card-icon orange">🔀</div>
+      <div class="card-info">
+        <h3>04 · Java 并发编程</h3>
+        <p>线程池 · AQS · synchronized · volatile · JUC · 锁机制</p>
+        <div class="stats"><span class="stat">40题</span><span class="stat">高频</span></div>
+      </div>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="section-card" href="Java面试宝典_05_MySQL.html">
+    <div class="card-inner">
+      <div class="card-icon teal">🗄️</div>
+      <div class="card-info">
+        <h3>05 · MySQL 数据库</h3>
+        <p>索引 · 事务 · 锁 · SQL优化 · 分库分表 · 执行流程</p>
+        <div class="stats"><span class="stat">40题</span><span class="stat">高频</span></div>
+      </div>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="section-card" href="Java面试宝典_06_Redis.html">
+    <div class="card-inner">
+      <div class="card-icon red">⚡</div>
+      <div class="card-info">
+        <h3>06 · Redis</h3>
+        <p>数据类型 · 持久化 · 集群 · 缓存问题 · 分布式锁 · 布隆过滤器</p>
+        <div class="stats"><span class="stat">35题</span><span class="stat">高频</span></div>
+      </div>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="section-card" href="Java面试宝典_07_框架.html">
+    <div class="card-inner">
+      <div class="card-icon navy">🏗️</div>
+      <div class="card-info">
+        <h3>07 · 框架 &amp; 中间件</h3>
+        <p>Spring · SpringBoot · MyBatis · Dubbo · Zookeeper</p>
+        <div class="stats"><span class="stat">40题</span><span class="stat">高频</span></div>
+      </div>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="section-card" href="Java面试宝典_08_分布式&其他.html">
+    <div class="card-inner">
+      <div class="card-icon purple">🌐</div>
+      <div class="card-info">
+        <h3>08 · 分布式 &amp; 其他</h3>
+        <p>分布式理论 · 消息队列 · 设计模式 · 网络协议 · 系统设计</p>
+        <div class="stats"><span class="stat">40题</span><span class="stat">高频</span></div>
+      </div>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <div class="footer">
+    📌 总计 <strong>110+ 道</strong> 精选高频面试题，覆盖 Java 后端全栈面试核心考点
+  </div>
+
+</div>
+
+<script>
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('btn-'+t).classList.add('active');
+}
+</script>
+</body>
+</html>

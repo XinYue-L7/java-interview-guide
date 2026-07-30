@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 03 JVM</title>
+<style>
+:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.theme-switcher{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.theme-btn{padding:3px 12px;border-radius:14px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:11px;transition:.2s}
+.theme-btn:hover,.theme-btn.active{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.9)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:#1a1a2e}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.card-body{padding:12px 18px 16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:#f9fafb;border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>⚙️ 03 · JVM 虚拟机</h1>
+  <p>14道高频题 · 内存区域 · 垃圾回收 · 类加载 · 参数调优 · OOM排查</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">📚 总目录</a>
+    <a href="Java面试宝典_02_集合容器.html">← 集合容器</a>
+    <a href="Java面试宝典_04_并发编程.html">并发编程 →</a>
+  </div>
+  <div class="theme-switcher">
+    <button class="theme-btn" onclick="setTheme('green')" id="btn-green">深绿</button>
+    <button class="theme-btn active" onclick="setTheme('gold')" id="btn-gold">黑白金</button>
+    <button class="theme-btn" onclick="setTheme('purple')" id="btn-purple">深靛紫</button>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Q1 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">JVM 内存区域是如何划分的？</div><div class="q-tags"><span class="q-tag">内存模型</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>线程私有：</strong></p>
+      <ul><li><strong>程序计数器：</strong>记录当前线程执行字节码的行号，唯一无OOM的区域。</li>
+      <li><strong>虚拟机栈：</strong>存储栈帧(局部变量表、操作数栈等)，方法调用入栈/返回出栈。StackOverflowError / OOM。</li>
+      <li><strong>本地方法栈：</strong>为Native方法服务，HotSpot中与虚拟机栈合二为一。</li></ul>
+      <p><strong>线程共享：</strong></p>
+      <ul><li><strong>堆：</strong>存放对象实例，GC主要区域。OOM。</li>
+      <li><strong>方法区/元空间(JDK8+)：</strong>存储类信息、常量、静态变量。OOM。</li>
+      <li><strong>运行时常量池：</strong>方法区的一部分，存放编译期生成的字面量和符号引用。</li></ul>
+      <p>💡 JDK8用元空间(Metaspace)替代永久代(PermGen)，使用本地内存，不再有-XX:MaxPermSize。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">堆内存的结构是怎样的？</div><div class="q-tags"><span class="q-tag">堆</span><span class="q-tag">分代</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>分代模型（JDK8）：</strong></p>
+      <ul>
+        <li><strong>新生代(Young Gen)：</strong>1/3堆空间
+          <ul><li>Eden区(8/10) + Survivor0(1/10) + Survivor1(1/10)</li>
+          <li>对象先在Eden分配，Minor GC后存活→S0→S1，每GC一次年龄+1</li></ul>
+        </li>
+        <li><strong>老年代(Old Gen)：</strong>2/3堆空间，年龄达到15(可配置)或大对象直接进入</li>
+      </ul>
+      <p>💡 字符串常量池在JDK7后移到堆中。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">对象创建的完整流程是怎样的？</div><div class="q-tags"><span class="q-tag">对象</span><span class="q-tag">内存分配</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ol>
+        <li><strong>类加载检查：</strong>检查类是否已加载→未加载则先加载。</li>
+        <li><strong>分配内存：</strong>指针碰撞(Bump Pointer)或空闲列表(Free List)，取决于GC是否有压缩。</li>
+        <li><strong>并发安全：</strong>CAS+失败重试 或 TLAB(线程本地分配缓冲)。</li>
+        <li><strong>初始化零值：</strong>内存空间初始化为零。</li>
+        <li><strong>设置对象头：</strong>Mark Word + 类型指针。</li>
+        <li><strong>执行init：</strong>构造方法。</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">如何判断对象是否已死？（GC Roots）</div><div class="q-tags"><span class="q-tag">GC</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>两种算法：</strong></p>
+      <ol><li><strong>引用计数法：</strong>有对象引用+1，引用失效-1。无法解决循环引用，Java不用。</li>
+      <li><strong>可达性分析：</strong>从GC Roots出发，不可达的对象判定为可回收。</li></ol>
+      <p><strong>GC Roots 包括：</strong></p>
+      <ul>
+        <li>虚拟机栈中引用的对象</li><li>方法区静态属性引用的对象</li>
+        <li>方法区常量引用的对象</li><li>本地方法栈中JNI引用的对象</li>
+        <li>被同步锁(synchronized)持有的对象</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">强引用、软引用、弱引用、虚引用的区别？</div><div class="q-tags"><span class="q-tag">引用</span><span class="q-tag">GC</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>类型</th><th>回收时机</th><th>用途</th></tr>
+        <tr><td>强引用(Strong)</td><td>永不回收</td><td>普通对象引用</td></tr>
+        <tr><td>软引用(Soft)</td><td>OOM前回收</td><td>缓存、图片缓存</td></tr>
+        <tr><td>弱引用(Weak)</td><td>下次GC即回收</td><td>WeakHashMap、ThreadLocal</td></tr>
+        <tr><td>虚引用(Phantom)</td><td>随时回收，get()始终返回null</td><td>对象回收跟踪</td></tr>
+      </table></div>
+      <p>💡 软引用适合实现内存敏感缓存；弱引用用于ThreadLocal防止内存泄漏。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">垃圾回收算法有哪些？</div><div class="q-tags"><span class="q-tag">GC算法</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>标记-清除(Mark-Sweep)：</strong>标记存活→清除未标记。简单但产生碎片。</li>
+        <li><strong>标记-复制(Mark-Copy)：</strong>标记存活→复制到新空间→清理原空间。无碎片但浪费一半内存。新生代使用。</li>
+        <li><strong>标记-整理(Mark-Compact)：</strong>标记存活→移动到一端→清理边界外。无碎片但耗时。老年代使用。</li>
+        <li><strong>分代收集：</strong>新生代用复制，老年代用标记-清除/整理。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">常见的垃圾收集器有哪些？</div><div class="q-tags"><span class="q-tag">GC收集器</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>收集器</th><th>区域</th><th>特点</th></tr>
+        <tr><td>Serial</td><td>新生代</td><td>单线程，简单高效，适合Client模式</td></tr>
+        <tr><td>ParNew</td><td>新生代</td><td>Serial多线程版，配合CMS</td></tr>
+        <tr><td>Parallel Scavenge</td><td>新生代</td><td>吞吐量优先，自适应调节</td></tr>
+        <tr><td>Serial Old</td><td>老年代</td><td>单线程，标记-整理</td></tr>
+        <tr><td>Parallel Old</td><td>老年代</td><td>多线程，标记-整理，配合Parallel Scavenge</td></tr>
+        <tr><td><strong>CMS</strong></td><td>老年代</td><td>低延迟，标记-清除，4步骤，浮动垃圾，CPU敏感</td></tr>
+        <tr><td><strong>G1</strong></td><td>全堆</td><td>Region分区，可预测停顿，JDK9默认</td></tr>
+        <tr><td>ZGC</td><td>全堆</td><td>超低延迟(&lt;10ms)，染色指针，TB级堆</td></tr>
+        <tr><td>Shenandoah</td><td>全堆</td><td>低延迟，与G1类似</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">CMS 和 G1 的区别？</div><div class="q-tags"><span class="q-tag">GC</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>CMS</th><th>G1</th></tr>
+        <tr><td>内存布局</td><td>连续分代</td><td>Region分区(1-32MB)</td></tr>
+        <tr><td>算法</td><td>标记-清除(碎片)</td><td>标记-整理+复制(无碎片)</td></tr>
+        <tr><td>停顿预测</td><td>不可预测</td><td>可设置停顿时间目标</td></tr>
+        <tr><td>筛选回收</td><td>全堆</td><td>优先回收价值最高的Region</td></tr>
+        <tr><td>适用</td><td>JDK8及之前</td><td>JDK9+默认，大内存</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">Minor GC、Major GC、Full GC 的区别？</div><div class="q-tags"><span class="q-tag">GC</span><span class="q-tag">基础</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>Minor GC(Young GC)：</strong>仅回收新生代，频繁，速度快(复制算法)。</li>
+        <li><strong>Major GC：</strong>回收老年代，通常伴随Minor GC，比Minor GC慢10倍+。CMS中特指老年代GC。</li>
+        <li><strong>Full GC：</strong>回收整个堆+方法区，最慢，STW最长。应尽量避免。</li>
+      </ul>
+      <p><strong>Full GC触发条件：</strong>老年代满、元空间满、System.gc()、大对象分配失败。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">类加载的过程是怎样的？双亲委派模型是什么？</div><div class="q-tags"><span class="q-tag">类加载</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>类加载过程(5步)：</strong>加载 → 验证 → 准备 → 解析 → 初始化</p>
+      <ul>
+        <li><strong>加载：</strong>获取二进制字节流→生成Class对象。</li>
+        <li><strong>验证：</strong>确保字节码符合JVM规范。</li>
+        <li><strong>准备：</strong>为静态变量分配内存并赋零值。</li>
+        <li><strong>解析：</strong>符号引用→直接引用。</li>
+        <li><strong>初始化：</strong>执行clinit方法，静态变量赋值+静态代码块。</li>
+      </ul>
+      <p><strong>双亲委派模型：</strong></p>
+      <p>类加载请求先委派父类加载器，父类加载不了才自己加载。</p>
+      <p>层级：<strong>Bootstrap → Extension → Application → 自定义加载器</strong></p>
+      <p>💡 好处：避免重复加载、防止核心API被篡改。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">如何排查 OOM 问题？</div><div class="q-tags"><span class="q-tag">OOM</span><span class="q-tag">实战</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ol>
+        <li><strong>配置JVM参数</strong>在OOM时自动dump：<code>-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path</code></li>
+        <li><strong>分析dump文件</strong>：使用MAT/JProfiler/VisualVM</li>
+        <li><strong>查看大对象</strong>：Histogram查看占用最多的类</li>
+        <li><strong>分析引用链</strong>：从GC Root到对象的引用路径</li>
+        <li><strong>常见原因</strong>：内存泄漏(集合未清理)、大对象、死循环创建对象、元空间溢出(动态代理/反射过多)</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">JVM 常用调优参数有哪些？</div><div class="q-tags"><span class="q-tag">调优</span><span class="q-tag">参数</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>参数</th><th>含义</th></tr>
+        <tr><td>-Xms</td><td>初始堆大小</td></tr>
+        <tr><td>-Xmx</td><td>最大堆大小（建议Xms=Xmx）</td></tr>
+        <tr><td>-Xmn</td><td>新生代大小</td></tr>
+        <tr><td>-XX:NewRatio</td><td>老年代/新生代比例</td></tr>
+        <tr><td>-XX:SurvivorRatio</td><td>Eden/Survivor比例</td></tr>
+        <tr><td>-XX:MetaspaceSize</td><td>元空间初始大小</td></tr>
+        <tr><td>-XX:MaxMetaspaceSize</td><td>元空间最大大小</td></tr>
+        <tr><td>-XX:+UseG1GC</td><td>使用G1收集器</td></tr>
+        <tr><td>-XX:MaxGCPauseMillis</td><td>最大GC停顿时间</td></tr>
+        <tr><td>-XX:+PrintGCDetails</td><td>打印GC详情</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">对象的访问定位有哪两种方式？</div><div class="q-tags"><span class="q-tag">对象</span><span class="q-tag">底层</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>句柄访问：</strong>栈→句柄池(两个指针：对象实例指针+类型数据指针)→堆/方法区。对象移动只需改句柄。</li>
+        <li><strong>直接指针(HotSpot)：</strong>栈→直接指向堆中对象实例，对象头中有类型指针指向方法区。访问快，但对象移动需改引用。</li>
+      </ul>
+      <p>💡 HotSpot使用直接指针方式。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q14 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">什么情况下会出现 StackOverflowError？</div><div class="q-tags"><span class="q-tag">异常</span><span class="q-tag">栈</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>无限递归：</strong>方法不断调用自身，栈帧不断入栈超过栈深度。</li>
+        <li><strong>大量局部变量：</strong>每个栈帧中的局部变量表太大。</li>
+      </ul>
+      <p><strong>解决方法：</strong></p>
+      <ul><li>检查递归终止条件</li><li>增大栈大小：<code>-Xss</code>参数</li><li>改用迭代</li></ul>
+      <p>💡 与OOM的区别：StackOverflow是栈深度超限，OOM是堆/元空间内存不足。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q15 -->
+<div class="card"><div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">GC Roots 有哪些？</div><div class="q-tags"><span class="q-tag">GC</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>GC Roots是可达性分析算法的起点：</p><ul><li><strong>虚拟机栈</strong>中引用的对象（局部变量表）。</li><li><strong>方法区</strong>静态属性引用的对象。</li><li>方法区<strong>常量池</strong>引用的对象。</li><li>本地方法栈中JNI引用的对象。</li><li>Java虚拟机内部的引用（Class对象、异常对象等）。</li><li>所有被<strong>synchronized</strong>持有的对象。</li><li>内部引用（如StringTable、ClassLoader等）。</li></ul></div></div></div>
+
+<!-- Q16 -->
+<div class="card"><div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">引用类型有哪几种？各自特点？</div><div class="q-tags"><span class="q-tag">引用</span><span class="q-tag">GC</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>类型</th><th>回收时机</th><th>用途</th></tr></thead><tbody><tr><td>强引用</td><td>永不回收</td><td>new对象</td></tr><tr><td>软引用(SoftReference)</td><td>内存不足时回收</td><td>缓存、图片缓存</td></tr><tr><td>弱引用(WeakReference)</td><td>下次GC必定回收</td><td>ThreadLocal、WeakHashMap</td></tr><tr><td>虚引用(PhantomReference)</td><td>随时，配合ReferenceQueue</td><td>跟踪对象回收、堆外内存管理</td></tr></tbody></table></div><p>💡 面试高频：ThreadLocal的key是弱引用，但value是强引用，使用完必须remove()。</p></div></div></div>
+
+<!-- Q17 -->
+<div class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">CMS 收集器的流程和优缺点？</div><div class="q-tags"><span class="q-tag">CMS</span><span class="q-tag">GC</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>CMS（Concurrent Mark Sweep）是<strong>老年代</strong>并发收集器，目标：最短停顿时间。</p><p><strong>流程4步：</strong></p><ol><li><strong>初始标记(STW)：</strong>标记GC Roots直接关联对象，快。</li><li><strong>并发标记：</strong>GC Roots Tracing，耗时长但并发。</li><li><strong>重新标记(STW)：</strong>修正并发标记变化，比初始标记长。</li><li><strong>并发清除：</strong>清理垃圾，并发。</li></ol><p><strong>缺点：</strong>产生浮动垃圾（并发标记中产生的新垃圾）、标记-清除算法有碎片、对CPU敏感、预留空间不足时退化为Serial Old。</p></div></div></div>
+
+<!-- Q18 -->
+<div class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">G1 收集器的核心特点和原理？</div><div class="q-tags"><span class="q-tag">G1</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>G1（Garbage First）是<strong>JDK9+默认</strong>收集器，面向服务端大堆内存。</p><p><strong>设计思想：</strong>将堆分为2048个Region，各Region可动态扮演Eden、Survivor、Old、Humongous。</p><p><strong>混合回收(Mixed GC)：</strong>不光回收新生代，还回收部分老年代Region（垃圾最多的Region优先→Garbage First）。</p><p><strong>核心特点：</strong></p><ul><li>可预测停顿：通过-XX:MaxGCPauseMillis设置目标。</li><li>标记-整理+复制算法，无内存碎片。</li><li>Remembered Set解决跨Region引用。</li><li>SATB(Snapshot-At-The-Beginning)解决并发标记问题。</li></ul></div></div></div>
+
+<!-- Q19 -->
+<div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">ZGC 和 Shenandoah 的特点？</div><div class="q-tags"><span class="q-tag">ZGC</span><span class="q-tag">低延迟</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>ZGC：</strong>JDK11引入，JDK15生产可用。目标：<strong>亚毫秒级停顿</strong>，支持TB级堆。</p><ul><li>基于<strong>染色指针</strong>（Colored Pointers）和读屏障。</li><li>并发标记、并发整理（Compacting时短暂停顿）。</li><li>停顿时间< 1ms，且不随堆大小增加。</li></ul><p><strong>Shenandoah：</strong>JDK12引入，类似G1但<strong>并发整理</strong>（移动对象与用户线程并发）。</p><ul><li>用Brooks Pointer转发指针实现并发整理。</li><li>回收阶段几乎全并发。</li></ul></div></div></div>
+
+<!-- Q20 -->
+<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">类加载器的双亲委派模型是什么？为什么破坏它？</div><div class="q-tags"><span class="q-tag">类加载</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>三层类加载器：</strong></p><ul><li>Bootstrap ClassLoader（C++，加载rt.jar）→ Extension ClassLoader（加载ext）→ Application ClassLoader（加载classpath）。</li></ul><p><strong>双亲委派流程：</strong>加载→先委托父加载器→父找不到才自己加载。保证核心类安全（如自定义String不会覆盖核心String）。</p><p><strong>破坏场景：</strong></p><ul><li>JDBC：Bootstrap加载的类需调用SPI实现类（Application加载），通过<strong>线程上下文类加载器</strong>绕开。</li><li>Tomcat：WebApp类加载器优先加载应用自己的类，打破委派。</li><li>OSGi：网状类加载器结构。</li></ul></div></div></div>
+
+<!-- Q21 -->
+<div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">Tomcat 为什么要打破双亲委派？</div><div class="q-tags"><span class="q-tag">类加载</span><span class="q-tag">Tomcat</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Tomcat的WebappClassLoader<strong>优先加载应用自己的类</strong>，原因：</p><ol><li><strong>隔离性：</strong>不同Web应用各自类加载器，同名类互不干扰。</li><li><strong>灵活性：</strong>应用可加载自己的Spring版本覆盖Tomcat提供的。</li><li><strong>热部署：</strong>单独卸载某个WebappClassLoader即可重载应用。</li></ol><p><strong>加载顺序：</strong>先查本地缓存→避免JVM核心类→先自己加载→自己找不到才委托父加载器。</p></div></div></div>
+
+<!-- Q22 -->
+<div class="card"><div class="card-header"><div class="q-num">22</div><div class="q-meta"><div class="q-title">对象分配内存的过程是怎样的？</div><div class="q-tags"><span class="q-tag">内存分配</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>优先TLAB（线程本地分配缓冲区）：</strong></p><ol><li>先在栈上分配（逃逸分析+标量替换），分配在栈上。</li><li>栈上不行→尝试TLAB（Eden区的线程私有区域），CAS分配。</li><li>TLAB不够→Eden区CAS分配。</li><li>Eden不够→触发Minor GC。</li><li>大对象（如长数组）→直接进老年代。</li><li>年龄够了→晋升老年代。</li></ol><p><strong>栈上分配条件：</strong>逃逸分析判定对象不会逃出方法+可以被标量替换。<code>-XX:+DoEscapeAnalysis</code>默认开启。</p></div></div></div>
+
+<!-- Q23 -->
+<div class="card"><div class="card-header"><div class="q-num">23</div><div class="q-meta"><div class="q-title">对象晋升老年代的几种情况？</div><div class="q-tags"><span class="q-tag">GC</span><span class="q-tag">晋升</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ol><li><strong>年龄达标：</strong>默认15岁（-XX:MaxTenuringThreshold）。</li><li><strong>动态年龄判断：</strong>Survivor区中同龄对象总大小 > Survivor空间的50%→直接晋升。</li><li><strong>大对象：</strong>超过-XX:PretenureSizeThreshold直接进老年代。</li><li><strong>空间担保：</strong>Minor GC时Survivor放不下→通过空间分配担保进老年代。</li></ol></div></div></div>
+
+<!-- Q24 -->
+<div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">JVM 调优常用参数有哪些？如何查看GC日志？</div><div class="q-tags"><span class="q-tag">调优</span><span class="q-tag">参数</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>常用参数：</strong></p><ul><li><code>-Xms / -Xmx</code> — 初始/最大堆内存。</li><li><code>-Xss</code> — 线程栈大小。</li><li><code>-XX:NewRatio</code> — 老年代:新生代比例。</li><li><code>-XX:SurvivorRatio</code> — Eden:Survivor比例。</li><li><code>-XX:+UseG1GC</code> — 使用G1收集器。</li><li><code>-XX:MaxGCPauseMillis=200</code> — G1目标停顿。</li><li><code>-XX:+PrintGCDetails</code> — 打印GC详情。</li><li><code>-XX:+PrintGCDateStamps</code> — GC发生时间。</li><li><code>-Xloggc:gc.log</code> — GC日志输出路径。</li><li><code>-XX:+HeapDumpOnOutOfMemoryError</code> — OOM时dump堆快照。</li><li><code>-XX:MetaspaceSize</code> — 元空间初始大小。</li><li><code>-XX:MaxMetaspaceSize</code> — 元空间最大。</li></ul></div></div></div>
+
+<!-- Q25 -->
+<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">OOM 有哪些类型？如何排查？</div><div class="q-tags"><span class="q-tag">OOM</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>常见OOM类型：</strong></p><ul><li><strong>Java heap space：</strong>堆溢出，大对象或内存泄漏。</li><li><strong>GC overhead limit exceeded：</strong>GC时间超过98%但只回收<2%堆。</li><li><strong>Metaspace：</strong>加载过多类或类加载器泄漏。</li><li><strong>Direct buffer memory：</strong>堆外内存溢出(NIO)。</li><li><strong>unable to create new native thread：</strong>线程数达到上限。</li></ul><p><strong>排查步骤：</strong></p><ol><li>留现场：<code>-XX:+HeapDumpOnOutOfMemoryError</code></li><li>分析dump：MAT/JProfiler查看大对象和GC Root链。</li><li>查日志：GC日志分析频率和效果。</li><li>监控：jstat查看各区域使用情况。</li></ol></div></div></div>
+
+<!-- Q26 -->
+<div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">JDK 自带监控工具有哪些？</div><div class="q-tags"><span class="q-tag">工具</span><span class="q-tag">监控</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>jps</strong> — 查看Java进程PID。</li><li><strong>jstat</strong> — JVM统计信息（GC、类加载、编译）:<code>jstat -gc pid 1000 10</code>。</li><li><strong>jinfo</strong> — 查看/修改JVM参数。</li><li><strong>jmap</strong> — 生成堆dump:<code>jmap -dump:format=b,file=heap.hprof pid</code>。</li><li><strong>jhat</strong> — 堆dump分析（已过时，用MAT/VisualVM）。</li><li><strong>jstack</strong> — 打印线程栈，排查死锁、CPU高。<code>jstack -l pid</code>。</li><li><strong>jcmd</strong> — 多功能命令（JDK7+）。</li><li><strong>jconsole/jvisualvm</strong> — 图形化监控。</li><li><strong>Arthas（阿里）：</strong>线上诊断神器，watch/trace/monitor。</li></ul></div></div></div>
+
+<!-- Q27 -->
+<div class="card"><div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">CPU 飙高如何排查？（JVM层面）</div><div class="q-tags"><span class="q-tag">排查</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ol><li><strong>找进程：</strong><code>top</code> 找到高CPU的Java进程PID。</li><li><strong>找线程：</strong><code>top -Hp PID</code> 找到具体线程TID。</li><li><strong>转十六进制：</strong><code>printf '%x\n' TID</code></li><li><strong>查栈：</strong><code>jstack PID | grep 十六进制tid -A30</code> 定位到具体代码行。</li><li><strong>分析原因：</strong>死循环、频繁GC、大量计算、锁竞争。</li></ol><p>💡 也可用Arthas：<code>thread -n 3</code>直接看最忙的3个线程。</p></div></div></div>
+
+<!-- Q28 -->
+<div class="card"><div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">full GC 频繁如何排查和优化？</div><div class="q-tags"><span class="q-tag">调优</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>排查方向：</strong></p><ol><li><strong>内存泄漏：</strong>jmap dump后MAT分析大对象引用链。</li><li><strong>堆太小：</strong>增大-Xmx。</li><li><strong>晋升过快：</strong>增大新生代(Xmn)或调整晋升阈值。</li><li><strong>System.gc()：</strong>使用-XX:+DisableExplicitGC禁用手动GC。</li><li><strong>元空间不足：</strong>增大-XX:MaxMetaspaceSize。</li><li><strong>大对象多：</strong>调整PretenureSizeThreshold。</li></ol><p><strong>优化手段：</strong>扩大堆内存、换G1收集器、调整Region大小、减少对象创建。</p></div></div></div>
+
+<!-- Q29 -->
+<div class="card"><div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">类的生命周期（加载过程）是怎样的？</div><div class="q-tags"><span class="q-tag">类加载</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>类从加载到卸载共<strong>7个阶段</strong>：</p><ol><li><strong>加载：</strong>通过全限定名获取二进制字节流→方法区生成Class对象。</li><li><strong>验证：</strong>文件格式、元数据、字节码、符号引用验证。</li><li><strong>准备：</strong>为static变量分配内存并赋零值（final static赋实际值）。</li><li><strong>解析：</strong>符号引用→直接引用（可延迟到初始化后）。</li><li><strong>初始化：</strong>执行类构造器<code>&lt;clinit&gt;()</code>（static块+static变量赋值）。</li><li><strong>使用。</strong></li><li><strong>卸载。</strong></li></ol><p>💡 验证-准备-解析统称<strong>链接</strong>阶段。</p></div></div></div>
+
+<!-- Q30 -->
+<div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">什么情况下会触发类初始化？</div><div class="q-tags"><span class="q-tag">类加载</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>主动引用（触发初始化）：</strong></p><ul><li>new、getstatic、putstatic、invokestatic指令。</li><li>反射：Class.forName()（initialize=true）。</li><li>子类初始化先触发父类初始化。</li><li>启动类（main方法所在类）。</li><li>JDK7+ MethodHandle REF_getStatic等。</li></ul><p><strong>被动引用（不触发初始化）：</strong></p><ul><li>子类引用父类静态字段（只初始化父类）。</li><li>数组定义：<code>MyClass[] arr = new MyClass[10]</code>。</li><li>引用常量（编译期存入常量池）。</li></ul></div></div></div>
+
+<!-- Q31 -->
+<div class="card"><div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">Tlab 是什么？有什么作用？</div><div class="q-tags"><span class="q-tag">TLAB</span><span class="q-tag">内存</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>TLAB（Thread Local Allocation Buffer）是Eden区中为<strong>每个线程预留</strong>的一小块内存区域。</p><p><strong>作用：</strong></p><ul><li>线程分配对象时优先在自己的TLAB中分配，<strong>无需加锁</strong>（CAS仅在线程创建TLAB时）。</li><li>极大提升对象分配效率，避免多线程竞争。</li></ul><p><strong>相关参数：</strong></p><ul><li><code>-XX:+UseTLAB</code> — 默认开启。</li><li><code>-XX:TLABSize</code> — TLAB大小。</li><li><code>-XX:+PrintTLAB</code> — 打印TLAB使用情况。</li></ul></div></div></div>
+
+<!-- Q32 -->
+<div class="card"><div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">逃逸分析是什么？有什么作用？</div><div class="q-tags"><span class="q-tag">逃逸分析</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>逃逸分析：分析对象动态作用域，判断对象是否<strong>逃逸出方法或线程</strong>。</p><p><strong>优化手段：</strong></p><ul><li><strong>栈上分配：</strong>不逃逸的对象直接在栈帧中分配，随方法结束自动销毁（减少GC）。</li><li><strong>标量替换：</strong>将对象拆解为基本类型成员变量，分别分配。</li><li><strong>锁消除：</strong>检测到锁只被一个线程使用，消除同步代码。</li></ul><p>JDK6u23+默认开启逃逸分析。可通过<code>-XX:-DoEscapeAnalysis</code>关闭。</p></div></div></div>
+
+<!-- Q33 -->
+<div class="card"><div class="card-header"><div class="q-num">33</div><div class="q-meta"><div class="q-title">JVM 中哪些区域会发生 OOM？</div><div class="q-tags"><span class="q-tag">OOM</span><span class="q-tag">内存</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>JVM几乎每个内存区域都可能OOM：</p><ul><li><strong>堆：</strong>对象太多→Java heap space。</li><li><strong>虚拟机栈：</strong>递归过深→StackOverflowError；线程太多→unable to create new native thread。</li><li><strong>方法区/元空间：</strong>类太多、动态代理→Metaspace OOM。</li><li><strong>直接内存：</strong>NIO分配过大→Direct buffer memory。</li><li><strong>GC overhead：</strong>频繁GC但仍内存不足。</li></ul><p>💡 元空间默认无上限（受限于物理内存），生产环境建议设置<code>-XX:MaxMetaspaceSize</code>。</p></div></div></div>
+
+<!-- Q34 -->
+<div class="card"><div class="card-header"><div class="q-num">34</div><div class="q-meta"><div class="q-title">什么是直接内存？和堆内存有什么区别？</div><div class="q-tags"><span class="q-tag">直接内存</span><span class="q-tag">NIO</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>直接内存是<strong>堆外内存</strong>，不属于JVM运行时数据区，通过<code>ByteBuffer.allocateDirect()</code>或<code>Unsafe.allocateMemory()</code>分配。</p><p><strong>特点：</strong></p><ul><li>减少Java堆和Native堆之间的数据拷贝，零拷贝→<strong>NIO性能高</strong>。</li><li>不受-Xmx限制，但受物理内存限制。</li><li>GC不直接管理，需手动释放或用Cleaner机制。</li><li>分配和回收成本高（系统调用）。</li></ul><p>用<code>-XX:MaxDirectMemorySize</code>限制直接内存大小。</p></div></div></div>
+
+<!-- Q35 -->
+<div class="card"><div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">JVM 如何判断一个类是否可以被卸载？</div><div class="q-tags"><span class="q-tag">类卸载</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>类卸载需要<strong>同时满足3个条件</strong>：</p><ol><li>该类的<strong>所有实例</strong>已被回收。</li><li>加载该类的<strong>ClassLoader</strong>已被回收。</li><li>该类的<strong>Class对象</strong>没有被引用。</li></ol><p>Bootstrap加载的核心类不会被卸载。通常只在动态代理、JSP热部署、OSGi等场景下才可能卸载类。</p><p>💡 <code>-Xnoclassgc</code>可禁止类卸载。</p></div></div></div>
+
+<div class="footer">
+  📌 03 · JVM 虚拟机 · 共35题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_04_并发编程.html" style="color:var(--primary)">下一板块 →</a>
+</div>
+
+</div>
+
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+t).classList.add('active')}
+</script>
+</body>
+</html>

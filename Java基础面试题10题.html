@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java 基础面试题 — 10题精选</title>
+    <style>
+        /* ===== 深绿色 (默认) ===== */
+        :root,
+        [data-theme="green"] {
+            --primary: #2d6a4f;
+            --hero-from: #1b4332;
+            --hero-mid: #2d6a4f;
+            --hero-to: #40916c;
+            --bg: #f8faf9;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --muted: #6c757d;
+            --border: #dde8e2;
+            --tag-bg: #e8f5e9;
+            --success: #2e7d32;
+            --code-bg: #1e1e1e;
+            --code-text: #dcdcaa;
+            --radius: 12px;
+        }
+
+        /* ===== 经典黑白金 ===== */
+        [data-theme="gold"] {
+            --primary: #c9a96e;
+            --hero-from: #0d0d1a;
+            --hero-mid: #1a1a2e;
+            --hero-to: #0d0d1a;
+            --bg: #fafaf8;
+            --card-bg: #ffffff;
+            --text: #1a1a2e;
+            --muted: #888;
+            --border: #e8e4dc;
+            --tag-bg: #faf5ed;
+            --success: #2d6a4f;
+            --code-bg: #1a1a2e;
+            --code-text: #c9a96e;
+            --radius: 12px;
+        }
+
+        /* ===== 深靛紫 ===== */
+        [data-theme="purple"] {
+            --primary: #5b4f8b;
+            --hero-from: #2d2640;
+            --hero-mid: #3f3556;
+            --hero-to: #5b4f8b;
+            --bg: #f9f8fb;
+            --card-bg: #ffffff;
+            --text: #2d2640;
+            --muted: #7a7a8c;
+            --border: #e4e0ee;
+            --tag-bg: #f3f0f8;
+            --success: #2d6a4f;
+            --code-bg: #1e1b2e;
+            --code-text: #b8a9d4;
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* ---- Theme Switcher ---- */
+        .theme-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 18px;
+        }
+        .theme-btn {
+            padding: 6px 18px;
+            border-radius: 20px;
+            border: 1.5px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all .2s;
+        }
+        .theme-btn:hover,
+        .theme-btn.active {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.9);
+        }
+
+        /* ---- Hero ---- */
+        .hero {
+            background: linear-gradient(135deg, var(--hero-from) 0%, var(--hero-mid) 40%, var(--hero-to) 100%);
+            color: #fff;
+            padding: 48px 24px 36px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .hero p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .hero .badge-row {
+            margin-top: 16px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(4px);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* ---- Container ---- */
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+        }
+
+        /* ---- Question Card ---- */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 4px rgba(0,0,0,.06), 0 1px 12px rgba(0,0,0,.03);
+            margin-bottom: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: box-shadow .2s;
+        }
+        .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 20px 22px 0;
+        }
+        .q-num {
+            flex-shrink: 0;
+            width: 36px; height: 36px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .q-meta {
+            flex: 1;
+            min-width: 0;
+        }
+        .q-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        .q-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+        .q-tag {
+            font-size: 12px;
+            background: var(--tag-bg);
+            color: var(--primary);
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .card-body {
+            padding: 16px 22px 20px;
+        }
+
+        /* ---- Toggle button ---- */
+        .toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: all .2s;
+        }
+        .toggle-btn:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        .toggle-btn .arrow {
+            display: inline-block;
+            transition: transform .2s;
+            font-size: 10px;
+        }
+        .toggle-btn.open .arrow { transform: rotate(180deg); }
+
+        /* ---- Answer ---- */
+        .answer {
+            display: none;
+            margin-top: 16px;
+            padding: 16px 18px;
+            background: #f9fafb;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+        .answer.show { display: block; }
+
+        .answer p { margin-bottom: 8px; }
+        .answer ul, .answer ol { padding-left: 20px; margin-bottom: 8px; }
+        .answer li { margin-bottom: 4px; }
+
+        .answer strong { color: var(--success); }
+
+        /* ---- Code block ---- */
+        .code-block {
+            background: var(--code-bg);
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 14px 16px;
+            overflow-x: auto;
+            font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        .code-block .kw  { color: #569cd6; }
+        .code-block .str { color: #ce9178; }
+        .code-block .co  { color: #6a9955; }
+        .code-block .fn  { color: #dcdcaa; }
+        .code-block .num { color: #b5cea8; }
+
+        /* ---- Table ---- */
+        .table-wrap { overflow-x: auto; margin: 8px 0; }
+        .table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .table-wrap th {
+            background: var(--tag-bg);
+            text-align: left;
+            padding: 8px 12px;
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary);
+        }
+        .table-wrap td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ---- Footer ---- */
+        .footer {
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+            padding: 20px 0 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>☕ Java 基础面试题</h1>
+    <p>精心挑选 10 道高频面试题，涵盖核心基础知识点</p>
+    <div class="badge-row">
+        <span class="badge">面向对象</span>
+        <span class="badge">集合框架</span>
+        <span class="badge">异常处理</span>
+        <span class="badge">多线程基础</span>
+        <span class="badge">JVM基础</span>
+    </div>
+    <div class="theme-switcher">
+        <button class="theme-btn active" onclick="setTheme('green')" id="btn-green">深绿色 A</button>
+        <button class="theme-btn" onclick="setTheme('gold')" id="btn-gold">黑白金 B</button>
+        <button class="theme-btn" onclick="setTheme('purple')" id="btn-purple">深靛紫 D</button>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- ======== 第1题 ======== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="q-num">1</div>
+            <div class="q-meta">
+                <div class="q-title">JDK、JRE、JVM 的区别与联系？</div>
+                <div class="q-tags">
+                    <span class="q-tag">JVM基础</span>
+                    <span class="q-tag">基础概念</span>
+                    <span class="q-tag">高频</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+            <div class="answer">
+                <p><strong>JDK（Java Development Kit）</strong> — Java 开发工具包，包含 JRE + 开发工具（javac、java、jar、javadoc 等），面向开发者。</p>
+                <p><strong>JRE（Java Runtime Environment）</strong> — Java 运行环境，包含 JVM + 核心类库，面向用户。</p>
+                <p><strong>JVM（Java Virtual Machine）</strong> — Java 虚拟机，负责执行字节码，是 Java 跨平台的核心。</p>
+                <div class="table-wrap">
+                    <table>
+                        <tr><th>对比维度</th><th>JDK</th><th>JRE</th><th>JVM</th></tr>
+                        <tr><td>包含关系</td><td>最全面</td><td>JVM + 类库</td><td>最底层</td></tr>
+                        <tr><td>用途</td><td>开发 + 运行</td><td>仅运行</td><td>执行字节码</td></tr>
+                        <tr><td>包含 javac</td><td>✅</td><td>❌</td><td>❌</td></tr>
+                    </table>
+                </div>
+                <p>一句话总结：<strong>JDK ⊃ JRE ⊃ JVM</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== 第2题 ======== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="q-num">2</div>
+            <div class="q-meta">
+                <div class="q-title">== 和 equals() 的区别？</div>
+                <div class="q-tags">
+                    <span class="q-tag">基础语法</span>
+                    <span class="q-tag">高频</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+            <div class="answer">
+                <p><strong>==</strong> 比较的是两个对象的<strong>内存地址</strong>（引用是否相同）；</p>
+                <p><strong>equals()</strong> 默认也是比较地址，但 <code>String</code>、<code>Integer</code> 等包装类已重写了该方法，比较的是<strong>内容是否相同</strong>。</p>
+                <div class="code-block">
+<span class="co">// 示例</span>
+<span class="kw">String</span> a = <span class="kw">new</span> <span class="kw">String</span>(<span class="str">"hello"</span>);
+<span class="kw">String</span> b = <span class="kw">new</span> <span class="kw">String</span>(<span class="str">"hello"</span>);
+System.out.println(a == b);       <span class="co">// false — 不同对象</span>
+System.out.println(a.equals(b));  <span class="co">// true  — 内容相同</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== 第3题 ======== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="q-num">3</div>
+            <div class="q-meta">
+                <div class="q-title">String、StringBuilder、StringBuffer 的区别？</div>
+                <div class="q-tags">
+                    <span class="q-tag">字符串</span>
+                    <span class="q-tag">线程安全</span>
+                    <span class="q-tag">高频</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+            <div class="answer">
+                <div class="table-wrap">
+                    <table>
+                        <tr><th>特性</th><th>String</th><th>StringBuilder</th><th>StringBuffer</th></tr>
+                        <tr><td>可变性</td><td>不可变（final）</td><td>可变</td><td>可变</td></tr>
+                        <tr><td>线程安全</td><td>✅ 安全</td><td>❌ 不安全</td><td>✅ 安全（synchronized）</td></tr>
+                        <tr><td>性能</td><td>拼接产生新对象</td><td><strong>最快</strong></td><td>较慢（加锁）</td></tr>
+                        <tr><td>适用场景</td><td>少量字符串</td><td>单线程大量拼接</td><td>多线程大量拼接</td></tr>
+                    </table>
+                </div>
+                <p>💡 <strong>面试要点：</strong>String 底层用 <code>final byte[]</code> 存储，每次拼接都会创建新对象，频繁拼接时用 StringBuilder。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== 第4题 ======== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="q-num">4</div>
+            <div class="q-meta">
+                <div class="q-title">重载（Overload）和重写（Override）的区别？</div>
+                <div class="q-tags">
+                    <span class="q-tag">面向对象</span>
+                    <span class="q-tag">多态</span>
+                    <span class="q-tag">高频</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+            <div class="answer">
+                <div class="table-wrap">
+                    <table>
+                        <tr><th>区别</th><th>重载（Overload）</th><th>重写（Override）</th></tr>
+                        <tr><td>发生范围</td><td>同一个类中</td><td>父类与子类之间</td></tr>
+                        <tr><td>方法签名</td><td>方法名相同，参数不同</td><td>方法名、参数、返回值都相同</td></tr>
+                        <tr><td>编译/运行</td><td>编译时多态</td><td>运行时多态</td></tr>
+                        <tr><td>访问修饰符</td><td>无限制</td><td>不能比父类更严格</td></tr>
+                        <tr><td>异常</td><td>无限制</td><td>不能抛出比父类更宽泛的异常</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== 第5题 ======== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="q-num">5</div>
+            <div class="q-meta">
+                <div class="q-title">接口（interface）和抽象类（abstract class）的区别？</div>
+                <div class="q-tags">
+                    <span class="q-tag">面向对象</span>
+                    <span class="q-tag">设计模式</span>
+                    <span class="q-tag">高频</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+            <div class="answer">
+                <ul>
+                    <li><strong>实现方式：</strong>一个类可以实现<strong>多个接口</strong>，但只能继承<strong>一个抽象类</strong>。</li>
+                    <li><strong>构造方法：</strong>接口<strong>不能有</strong>构造方法；抽象类<strong>可以有</strong>。</li>
+                    <li><strong>成员变量：</strong>接口中的变量默认是 <code>public static final</code>；抽象类可以有普通成员变量。</li>
+                    <li><strong>方法：</strong>Java 8+ 接口可以有 default / static 方法；抽象类可以有抽象方法 + 具体方法。</li>
+                    <li><strong>设计理念：</strong>接口定义<strong>行为规范</strong>（can-do）；抽象类体现<strong>is-a 关系</strong>，代码复用。</li>
+                </ul>
+                <p>💡 一般优先使用接口，需要共享代码时用抽象类。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== 第6题 ======== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="q-num">6</div>
+            <div class="q-meta">
+                <div class="q-title">final、finally、finalize 的区别？</div>
+                <div class="q-tags">
+                    <span class="q-tag">关键字</span>
+                    <span class="q-tag">异常处理</span>
+                    <span class="q-tag">经典</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+            <div class="answer">
+                <p><strong>final：</strong>修饰类 → 不可被继承；修饰方法 → 不可被重写；修饰变量 → 基本类型值不可变，引用类型引用不可变（但对象内容可变）。</p>
+                <p><strong>finally：</strong>异常处理中 <code>try-catch</code> 后的代码块，无论是否异常都会执行（除 <code>System.exit(0)</code> 外）。</p>
+                <p><strong>finalize()：</strong>Object 类的方法，GC 回收对象前调用（<strong>已废弃</strong> JDK 9+），不推荐使用，因为调用时机不确定。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== 第7题 ======== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="q-num">7</div>
+            <div class="q-meta">
+                <div class="q-title">ArrayList 和 LinkedList 的区别？</div>
+                <div class="q-tags">
+                    <span class="q-tag">集合框架</span>
+                    <span class="q-tag">数据结构</span>
+                    <span class="q-tag">高频</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+            <div class="answer">
+                <div class="table-wrap">
+                    <table>
+                        <tr><th>对比</th><th>ArrayList</th><th>LinkedList</th></tr>
+                        <tr><td>底层结构</td><td>动态数组 Object[]</td><td>双向链表</td></tr>
+                        <tr><td>随机访问</td><td>O(1) ✅ 快</td><td>O(n) ❌ 慢</td></tr>
+                        <tr><td>头/中插入删除</td><td>O(n) ❌ 需要移动元素</td><td>O(1) ✅ 改指针即可</td></tr>
+                        <tr><td>尾插入</td><td>均摊 O(1)</td><td>O(1)</td></tr>
+                        <tr><td>内存占用</td><td>仅存数据</td><td>额外存前后指针</td></tr>
+                    </table>
+                </div>
+                <p>💡 <strong>选型建议：</strong>频繁随机访问 → ArrayList；频繁头/中间增删 → LinkedList。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== 第8题 ======== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="q-num">8</div>
+            <div class="q-meta">
+                <div class="q-title">HashMap 的底层实现原理？（JDK 1.8）</div>
+                <div class="q-tags">
+                    <span class="q-tag">集合框架</span>
+                    <span class="q-tag">数据结构</span>
+                    <span class="q-tag">高频</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+            <div class="answer">
+                <p><strong>底层：数组 + 链表 + 红黑树</strong></p>
+                <ol>
+                    <li><strong>存储结构：</strong>Node&lt;K,V&gt;[] table 数组，每个位置是一个桶。</li>
+                    <li><strong>哈希计算：</strong><code>(n-1) & hash</code> 定位桶位置（n 为数组长度）。</li>
+                    <li><strong>冲突解决：</strong>链地址法 — 同一桶内的元素用链表串联。</li>
+                    <li><strong>链表 → 红黑树：</strong>链表长度 ≥ 8 且数组长度 ≥ 64 时，链表转为红黑树，提高查询效率到 O(log n)。</li>
+                    <li><strong>红黑树 → 链表：</strong>元素数量 ≤ 6 时退化回链表。</li>
+                    <li><strong>扩容：</strong>默认容量 16，负载因子 0.75，超过阈值时扩容为原来的 2 倍，rehash 重新分配位置。</li>
+                </ol>
+                <p>💡 <strong>JDK 1.7 vs 1.8：</strong>1.7 只有数组+链表，头插法导致死循环；1.8 引入红黑树，尾插法解决死循环。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== 第9题 ======== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="q-num">9</div>
+            <div class="q-meta">
+                <div class="q-title">创建线程有哪几种方式？</div>
+                <div class="q-tags">
+                    <span class="q-tag">多线程</span>
+                    <span class="q-tag">并发基础</span>
+                    <span class="q-tag">高频</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+            <div class="answer">
+                <p><strong>4 种方式：</strong></p>
+                <ol>
+                    <li><strong>继承 Thread 类</strong> — 重写 run()，调用 start() 启动。</li>
+                    <li><strong>实现 Runnable 接口</strong> — 更灵活，可继承其他类，避免单继承限制。</li>
+                    <li><strong>实现 Callable 接口</strong> — 有返回值 + 可抛异常，配合 FutureTask 使用。</li>
+                    <li><strong>线程池（ExecutorService）</strong> — 实际开发首选，复用线程、管理生命周期。</li>
+                </ol>
+                <div class="code-block">
+<span class="co">// 推荐：线程池方式</span>
+<span class="kw">ExecutorService</span> pool = Executors.newFixedThreadPool(<span class="num">5</span>);
+pool.submit(() -> System.out.println(<span class="str">"线程执行中..."</span>));
+pool.shutdown();
+                </div>
+                <p>💡 实际开发中<strong>严禁直接 new Thread()</strong>，必须使用线程池管理。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== 第10题 ======== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="q-num">10</div>
+            <div class="q-meta">
+                <div class="q-title">Java 中的异常体系是怎样的？</div>
+                <div class="q-tags">
+                    <span class="q-tag">异常处理</span>
+                    <span class="q-tag">基础语法</span>
+                    <span class="q-tag">经典</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+            <div class="answer">
+                <p>Java 异常分为两大类：</p>
+                <ul>
+                    <li><strong>Error：</strong>JVM 级别的严重错误（OutOfMemoryError、StackOverflowError），不处理。</li>
+                    <li><strong>Exception：</strong>程序可处理的异常，分两种：
+                        <ul>
+                            <li><strong>Checked Exception（编译时异常）：</strong>必须 try-catch 或 throws，如 IOException、SQLException。</li>
+                            <li><strong>Unchecked Exception（运行时异常）：</strong>RuntimeException 及其子类，如 NullPointerException、IndexOutOfBoundsException、IllegalArgumentException，编译期不强制处理。</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>💡 <strong>try-catch-finally 执行顺序：</strong>有 return 时，finally 在 return 之前执行（但 finally 中最好不要写 return，会覆盖 catch 中的返回值）。</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        📌 以上 10 题涵盖了 Java 基础的<strong>核心高频考点</strong>，建议每题都能流利作答，面试通过率会大幅提升！
+    </div>
+
+</div>
+
+<script>
+    function toggleAnswer(btn) {
+        const answer = btn.nextElementSibling;
+        const isOpen = answer.classList.contains('show');
+        answer.classList.toggle('show');
+        btn.classList.toggle('open');
+        btn.innerHTML = isOpen ? '查看答案 <span class="arrow">▼</span>' : '收起答案 <span class="arrow">▼</span>';
+    }
+
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-' + theme).classList.add('active');
+    }
+</script>
+
+</body>
+</html>

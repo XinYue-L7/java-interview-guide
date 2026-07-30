@@ -1,0 +1,14 @@
+# 素材及临时文件
+_pdf_text/
+qrcode_lan.png
+qrcode.min.js
+
+# 系统文件
+__pycache__/
+*.pyc
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
