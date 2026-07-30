@@ -47,7 +47,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
 </style>
 </head>
-<body>
+<body data-section="05">
 <div class="hero">
   <h1>🗄️ 05 · MySQL 数据库</h1>
   <p>16道高频题 · 索引 · 事务 · 锁 · SQL优化 · 分库分表 · 执行流程</p>
@@ -60,6 +60,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <button class="theme-btn" onclick="setTheme('green')" id="btn-green">深绿</button>
     <button class="theme-btn active" onclick="setTheme('gold')" id="btn-gold">黑白金</button>
     <button class="theme-btn" onclick="setTheme('purple')" id="btn-purple">深靛紫</button>
+  </div>
+  <div class="edit-toolbar">
+    <button id="edit-mode-btn" class="edit-mode-btn" onclick="toggleEditMode()">✏️ 编辑模式</button>
+    <button class="export-btn" onclick="exportEdits()">📥 导出修改</button>
   </div>
 </div>
 <div class="container">
@@ -437,5 +441,6 @@ SELECT id, name FROM t WHERE name='test'; -- 覆盖索引，无需回表</pre><p
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+t).classList.add('active')}
 </script>
+<script src="edit-answer.js"></script>
 </body>
 </html>
