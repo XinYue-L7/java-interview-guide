@@ -72,6 +72,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:28px 0 0}
 </style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
 </head>
 <body>
 
@@ -293,5 +294,6 @@ function doSearch(q){
   dd.classList.add('show');
 }
 </script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
 </body>
 </html>

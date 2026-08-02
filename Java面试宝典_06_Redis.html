@@ -54,6 +54,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
 .back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
 </style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
 </head>
 <body data-section="06">
 <div class="hero">
@@ -402,5 +403,6 @@ document.addEventListener('click',function(e){
   var si=document.getElementById('searchInput');
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
 </body>
 </html>
