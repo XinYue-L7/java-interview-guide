@@ -7,24 +7,28 @@
 :root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
 .nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover{background:rgba(255,255,255,.2)}
-.theme-switcher{display:flex;justify-content:center;gap:6px;margin-top:10px}
-.theme-btn{padding:3px 12px;border-radius:14px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:11px;transition:.2s}
-.theme-btn:hover,.theme-btn.active{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.9)}
-.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
 .card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
-.q-title{font-size:16px;font-weight:700;color:#1a1a2e}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
 .card-body{padding:12px 18px 16px}
@@ -32,7 +36,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
 .toggle-btn.open .arrow{transform:rotate(180deg)}
-.answer{display:none;margin-top:12px;padding:14px 16px;background:#f9fafb;border-radius:10px;border-left:4px solid var(--primary)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
 .answer.show{display:block}
 .answer p{margin-bottom:6px;font-size:14px}
 .answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
@@ -45,25 +49,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
 .table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
 </style>
 </head>
 <body data-section="05">
 <div class="hero">
-  <h1>🗄️ 05 · MySQL 数据库</h1>
-  <p>16道高频题 · 索引 · 事务 · 锁 · SQL优化 · 分库分表 · 执行流程</p>
-  <div class="nav-row">
-    <a href="Java面试宝典_总目录.html">📚 总目录</a>
+  <h1>MySQL 数据库</h1>
+  <p>18道高频题 · 索引 · 事务 · 锁 · SQL优化 · 分库分表 · 执行流程</p>
+<div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_04_并发编程.html">← 并发编程</a>
     <a href="Java面试宝典_06_Redis.html">Redis →</a>
   </div>
-  <div class="theme-switcher">
-    <button class="theme-btn" onclick="setTheme('green')" id="btn-green">深绿</button>
-    <button class="theme-btn active" onclick="setTheme('gold')" id="btn-gold">黑白金</button>
-    <button class="theme-btn" onclick="setTheme('purple')" id="btn-purple">深靛紫</button>
-  </div>
-  <div class="edit-toolbar">
-    <button id="edit-mode-btn" class="edit-mode-btn" onclick="toggleEditMode()">✏️ 编辑模式</button>
-    <button class="export-btn" onclick="exportEdits()">📥 导出修改</button>
   </div>
 </div>
 <div class="container">
@@ -405,7 +405,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="card"><div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">联合索引匹配原则和索引长度限制？</div><div class="q-tags"><span class="q-tag">联合索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>索引长度限制：</strong>InnoDB单列索引最大767字节（某些字符集达3072字节）。前缀索引可减少长度。</p><p><strong>联合索引设计：</strong></p><ul><li>区分度高的在前（等值查询字段优先）。</li><li>范围查询字段放最后（范围查询后的列不走索引）。</li><li>常用查询字段覆盖。</li><li>ORDER BY / GROUP BY 字段可考虑加在联合索引中。</li></ul></div></div></div>
 
 <!-- Q32 -->
-<div class="card"><div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">SQL 注入原理和防范？MyBatis 中 #{} 和 ${} 的区别？</div><div class="q-tags"><span class="q-tag">SQL注入</span><span class="q-tag">安全</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>SQL注入：</strong>拼接SQL时恶意输入如 <code>' OR 1=1 --</code>。</p><p><strong>防范：</strong>预编译（PreparedStatement）参数化查询、输入校验过滤、最小权限原则。</p><p><strong>MyBatis中：</strong></p><ul><li><strong>#{}：</strong>预编译占位符，安全。SELECT * FROM t WHERE name=#{name} → WHERE name=?。</li><li><strong>${}：</strong>字符串直接替换，有注入风险。仅用于动态表名/列名/ORDER BY等无法预编译的场景，且需白名单校验。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">SQL 注入原理和防范？MyBatis 中 #{} 和 ${} 的区别？</div><div class="q-tags"><span class="q-tag">SQL注入</span><span class="q-tag">安全</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>SQL注入：</strong>拼接SQL时恶意输入如 <code>' OR 1=1 --</code>。</p><p><strong>防范：</strong>预编译（PreparedStatement）参数化查询、输入校验过滤、最小权限原则。</p><p><strong>MyBatis中：</strong></p><ul><li><strong>#{}：</strong>预编译占位符，安全。SELECT * FROM t WHERE name=#{name} WHERE name=?。</li><li><strong>${}：</strong>字符串直接替换，有注入风险。仅用于动态表名/列名/ORDER BY等无法预编译的场景，且需白名单校验。</li></ul></div></div></div>
 
 <!-- Q33 -->
 <div class="card"><div class="card-header"><div class="q-num">33</div><div class="q-meta"><div class="q-title">子查询和 JOIN 哪个效率高？为什么？</div><div class="q-tags"><span class="q-tag">SQL优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>大多数情况<strong>JOIN优于子查询</strong>，原因：</p><ul><li>子查询可能产生临时表和多次查询。</li><li>MySQL优化器对JOIN的优化更成熟（Nested Loop Join/Block Nested Loop）。</li><li>NOT IN子查询有NULL陷阱且性能差，应改写为NOT EXISTS或LEFT JOIN ... IS NULL。</li><li>MySQL 5.6+对子查询优化有所改善（半连接优化），但JOIN仍更可控。</li></ul><p>💡 某些场景子查询更清晰（如EXISTS），优先可读性，再考虑性能。</p></div></div></div>
@@ -417,7 +417,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="card"><div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">count(*)、count(1)、count(列名) 的区别？</div><div class="q-tags"><span class="q-tag">高频</span><span class="q-tag">聚合</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>count(*)：</strong>统计所有行数（包括NULL），MySQL优化器专门优化，效率最高。</li><li><strong>count(1)：</strong>同count(*)，每行填充1再统计。</li><li><strong>count(列名)：</strong>统计该列<strong>非NULL</strong>的行数。</li><li><strong>count(distinct 列)：</strong>去重计数。</li></ul><p>💡 MyISAM中count(*)没有WHERE条件时O(1)（行数存在表头），InnoDB必须全表/全索引扫描。推荐count(*)。</p></div></div></div>
 
 <!-- Q36 -->
-<div class="card"><div class="card-header"><div class="q-num">36</div><div class="q-meta"><div class="q-title">MVCC 读提交(RC)和可重复读(RR)下 ReadView 生成时机有何不同？</div><div class="q-tags"><span class="q-tag">MVCC</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>RC：</strong>每次快照读都生成新的ReadView → 能读到其他事务已提交的修改 → 不可重复读。</li><li><strong>RR：</strong>事务中第一次快照读生成ReadView，后续复用 → 读到的数据始终一致 → 可重复读。</li></ul><p>💡 这就是为什么RR能避免不可重复读的原因——ReadView复用了。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">36</div><div class="q-meta"><div class="q-title">MVCC 读提交(RC)和可重复读(RR)下 ReadView 生成时机有何不同？</div><div class="q-tags"><span class="q-tag">MVCC</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>RC：</strong>每次快照读都生成新的ReadView 能读到其他事务已提交的修改 不可重复读。</li><li><strong>RR：</strong>事务中第一次快照读生成ReadView，后续复用 读到的数据始终一致 可重复读。</li></ul><p>💡 这就是为什么RR能避免不可重复读的原因——ReadView复用了。</p></div></div></div>
 
 <!-- Q37 -->
 <div class="card"><div class="card-header"><div class="q-num">37</div><div class="q-meta"><div class="q-title">AUTO_INCREMENT 自增主键的坑？自增ID用完了怎么办？</div><div class="q-tags"><span class="q-tag">自增</span><span class="q-tag">主键</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li>自增ID不一定连续（回滚/删除后不回收）。</li><li>insert...select等批量插入可能导致ID分配不均。</li><li>自增ID用完后INSERT会报主键冲突错误。</li></ul><p><strong>Int自增上限：</strong>有符号21.47亿，无符号42.94亿。单表日增百万，几年就用完。</p><p><strong>解决方案：</strong>提前用BIGINT（9.22*10^18）、分库分表、业务主键替代自增。</p></div></div></div>
@@ -439,8 +439,44 @@ SELECT id, name FROM t WHERE name='test'; -- 覆盖索引，无需回表</pre><p
 </div>
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+t).classList.add('active')}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');}else{bt.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
 </script>
-<script src="edit-answer.js"></script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+    }
+  }
+})();
+</script>
+
+document.addEventListener('click',function(e){
+  var sd=document.getElementById('searchDropdown');
+  var si=document.getElementById('searchInput');
+  if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
+});
 </body>
 </html>

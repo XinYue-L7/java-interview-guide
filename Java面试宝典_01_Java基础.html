@@ -8,25 +8,29 @@
 :root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
 .nav-row a,.nav-row button{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover,.nav-row button:hover{background:rgba(255,255,255,.2)}
-.theme-switcher{display:flex;justify-content:center;gap:6px;margin-top:10px}
-.theme-btn{padding:3px 12px;border-radius:14px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:11px;transition:.2s}
-.theme-btn:hover,.theme-btn.active{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.9)}
-.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
 /* Card */
 .card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
-.q-title{font-size:16px;font-weight:700;color:#1a1a2e}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
 .card-body{padding:12px 18px 16px}
@@ -34,7 +38,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
 .toggle-btn.open .arrow{transform:rotate(180deg)}
-.answer{display:none;margin-top:12px;padding:14px 16px;background:#f9fafb;border-radius:10px;border-left:4px solid var(--primary)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
 .answer.show{display:block}
 .answer p{margin-bottom:6px;font-size:14px}
 .answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
@@ -47,25 +51,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
 .table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
 </style>
 </head>
 <body data-section="01">
 
 <div class="hero">
-  <h1>☕ 01 · Java 基础面试题</h1>
-  <p>15道高频题 · 基础语法 · 面向对象 · 关键字 · 反射 · IO流</p>
-  <div class="nav-row">
-    <a href="Java面试宝典_总目录.html">📚 总目录</a>
-    <a href="Java面试宝典_02_集合容器.html">→ 集合容器</a>
+  <h1>Java 基础面试题</h1>
+  <p>13道高频题 · 基础语法 · 面向对象 · 关键字 · 反射 · IO流</p>
+<div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_02_集合容器.html">集合容器 →</a>
   </div>
-  <div class="theme-switcher">
-    <button class="theme-btn" onclick="setTheme('green')" id="btn-green">深绿</button>
-    <button class="theme-btn active" onclick="setTheme('gold')" id="btn-gold">黑白金</button>
-    <button class="theme-btn" onclick="setTheme('purple')" id="btn-purple">深靛紫</button>
-  </div>
-  <div class="edit-toolbar">
-    <button id="edit-mode-btn" class="edit-mode-btn" onclick="toggleEditMode()">✏️ 编辑模式</button>
-    <button class="export-btn" onclick="exportEdits()">📥 导出修改</button>
   </div>
 </div>
 
@@ -329,7 +329,7 @@ Class clz3 = user.getClass();</div>
         <li><strong>静态代码块：</strong>类加载时执行一次，用于初始化静态变量。</li>
         <li><strong>静态内部类：</strong>不依赖外部类实例。</li>
       </ul>
-      <p>💡 执行顺序：父类静态块 → 子类静态块 → 父类代码块/构造 → 子类代码块/构造。</p>
+      <p>💡 执行顺序：父类静态块 子类静态块 父类代码块/构造 子类代码块/构造。</p>
     </div>
   </div>
 </div>
@@ -412,16 +412,16 @@ Class clz3 = user.getClass();</div>
 <div class="card"><div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">Java 是值传递还是引用传递？</div><div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Java <strong>只有值传递</strong>，没有引用传递。</p><ul><li><strong>基本类型：</strong>传递值的副本，修改不影响原变量。</li><li><strong>引用类型：</strong>传递的是<strong>引用地址的副本</strong>，形参和实参指向同一对象，修改对象内容会生效，但修改引用本身（如指向新对象）不生效。</li></ul><p>💡 容易误解：能修改对象内容≠引用传递，这是共享对象引用而非传递引用本身。</p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">public void swap(Integer a, Integer b) { Integer t=a; a=b; b=t; } // 不生效<br>public void modify(User u) { u.setName("new"); }            // 生效</pre></div></div></div>
 
 <!-- Q17 -->
-<div class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">String 常量池（String Pool）是什么？</div><div class="q-tags"><span class="q-tag">String</span><span class="q-tag">JVM</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>String常量池是JVM在<strong>堆内存中</strong>维护的一个字符串缓存区域（JDK7+ 移到堆中）。</p><ul><li><strong>字面量赋值：</strong><code>String s="abc"</code> → 先去常量池找，有则复用，无则创建。</li><li><strong>new String("abc")：</strong>堆中创建对象，再检查常量池（无则创建），共创建1-2个对象。</li><li><strong>intern()：</strong>手动将字符串加入常量池，返回池中引用。</li><li><strong>+ 拼接：</strong>字面量拼接→编译期优化；变量拼接→StringBuilder→new String。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">String s1="a"+"b";      // 编译优化→"ab"，常量池<br>String s2=new String("a")+new String("b"); // 堆中新建<br>String s3=s2.intern(); // 将s2放入常量池，返回池中引用<br>System.out.println(s1==s3); // true</pre></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">String 常量池（String Pool）是什么？</div><div class="q-tags"><span class="q-tag">String</span><span class="q-tag">JVM</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>String常量池是JVM在<strong>堆内存中</strong>维护的一个字符串缓存区域（JDK7+ 移到堆中）。</p><ul><li><strong>字面量赋值：</strong><code>String s="abc"</code> 先去常量池找，有则复用，无则创建。</li><li><strong>new String("abc")：</strong>堆中创建对象，再检查常量池（无则创建），共创建1-2个对象。</li><li><strong>intern()：</strong>手动将字符串加入常量池，返回池中引用。</li><li><strong>+ 拼接：</strong>字面量拼接→编译期优化；变量拼接→StringBuilder→new String。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">String s1="a"+"b";      // 编译优化→"ab"，常量池<br>String s2=new String("a")+new String("b"); // 堆中新建<br>String s3=s2.intern(); // 将s2放入常量池，返回池中引用<br>System.out.println(s1==s3); // true</pre></div></div></div>
 
 <!-- Q18 -->
-<div class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">try-catch-finally 的执行顺序？finally 一定会执行吗？</div><div class="q-tags"><span class="q-tag">异常处理</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>执行顺序：try → (异常→catch) → finally → (正常后续代码)。</p><p><strong>finally不执行的情况：</strong></p><ul><li>try之前<code>System.exit(0)</code>退出JVM。</li><li>守护线程退出时finally可能不执行。</li><li>try/catch中执行<code>System.exit()</code>。</li><li>JVM崩溃或断电等不可恢复错误。</li></ul><p><strong>return 与 finally：</strong></p><ul><li>try有return值时，先计算return表达式，再执行finally，最后返回。</li><li>finally中有return会覆盖try的return！</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">public int test() { try { return 1; } finally { return 2; } } // 返回2！</pre></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">try-catch-finally 的执行顺序？finally 一定会执行吗？</div><div class="q-tags"><span class="q-tag">异常处理</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>执行顺序：try (异常→catch) finally (正常后续代码)。</p><p><strong>finally不执行的情况：</strong></p><ul><li>try之前<code>System.exit(0)</code>退出JVM。</li><li>守护线程退出时finally可能不执行。</li><li>try/catch中执行<code>System.exit()</code>。</li><li>JVM崩溃或断电等不可恢复错误。</li></ul><p><strong>return 与 finally：</strong></p><ul><li>try有return值时，先计算return表达式，再执行finally，最后返回。</li><li>finally中有return会覆盖try的return！</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">public int test() { try { return 1; } finally { return 2; } } // 返回2！</pre></div></div></div>
 
 <!-- Q19 -->
 <div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">throw 和 throws 的区别？</div><div class="q-tags"><span class="q-tag">异常处理</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>throw</th><th>throws</th></tr></thead><tbody><tr><td>位置</td><td>方法体内</td><td>方法签名上</td></tr><tr><td>数量</td><td>一次抛一个</td><td>可声明多个</td></tr><tr><td>作用</td><td>实际抛出异常对象</td><td>声明该方法可能抛出的异常</td></tr><tr><td>后续</td><td>throw所在代码不执行</td><td>由调用方处理</td></tr></tbody></table></div><p>💡 运行时异常(RuntimeException)不需要throws声明也可以抛出，检查异常(Checked Exception)必须声明或try-catch处理。</p></div></div></div>
 
 <!-- Q20 -->
-<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">什么是泛型擦除？泛型的上下界是什么？</div><div class="q-tags"><span class="q-tag">泛型</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>泛型擦除：</strong>编译后泛型信息被擦除，<code>List&lt;String&gt;</code>和<code>List&lt;Integer&gt;</code>在运行时都是<code>List</code>。</p><ul><li><strong>上界 extends：</strong><code>T extends Number</code> → 擦除后上界为Number。</li><li><strong>下界 super：</strong><code>T super Integer</code> → 擦除后下界为Integer（PECS原则：Producer Extends, Consumer Super）。</li></ul><p><strong>注意事项：</strong></p><ul><li>不能new泛型数组<code>T[]</code>。</li><li>不能用基本类型作泛型参数。</li><li>不能<code>instanceof</code>泛型类型。</li><li>静态方法中不能用类的泛型参数。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">什么是泛型擦除？泛型的上下界是什么？</div><div class="q-tags"><span class="q-tag">泛型</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>泛型擦除：</strong>编译后泛型信息被擦除，<code>List&lt;String&gt;</code>和<code>List&lt;Integer&gt;</code>在运行时都是<code>List</code>。</p><ul><li><strong>上界 extends：</strong><code>T extends Number</code> 擦除后上界为Number。</li><li><strong>下界 super：</strong><code>T super Integer</code> 擦除后下界为Integer（PECS原则：Producer Extends, Consumer Super）。</li></ul><p><strong>注意事项：</strong></p><ul><li>不能new泛型数组<code>T[]</code>。</li><li>不能用基本类型作泛型参数。</li><li>不能<code>instanceof</code>泛型类型。</li><li>静态方法中不能用类的泛型参数。</li></ul></div></div></div>
 
 <!-- Q21 -->
 <div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">Java 中有哪几种内部类？各自特点？</div><div class="q-tags"><span class="q-tag">内部类</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>成员内部类：</strong>作为外部类成员，可访问外部类所有成员。创建需外部类实例：<code>outer.new Inner()</code>。</li><li><strong>静态内部类：</strong>static修饰，不依赖外部类实例，只能访问外部类静态成员。</li><li><strong>局部内部类：</strong>定义在方法中，仅方法内可见，访问的局部变量需final。</li><li><strong>匿名内部类：</strong>无类名，一次性使用，常用于接口/抽象类实例化。必须实现所有抽象方法。</li></ul><p>💡 内部类编译后生成独立class文件：<code>Outer$Inner.class</code>。匿名内部类生成<code>Outer$1.class</code>。</p></div></div></div>
@@ -436,10 +436,10 @@ Class clz3 = user.getClass();</div>
 <div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">动态代理有哪几种实现方式？</div><div class="q-tags"><span class="q-tag">代理</span><span class="q-tag">AOP</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>1. JDK动态代理（接口代理）：</strong></p><ul><li>基于反射，要求目标类<strong>必须实现接口</strong>。</li><li>核心类：<code>Proxy.newProxyInstance()</code> + <code>InvocationHandler</code>。</li><li>运行时动态生成代理类$Proxy0。</li></ul><p><strong>2. CGLIB动态代理（子类代理）：</strong></p><ul><li>基于ASM字节码生成，通过<strong>继承</strong>目标类生成子类。</li><li>不需要接口，但目标类不能是final。</li><li>核心类：<code>Enhancer</code> + <code>MethodInterceptor</code>。</li></ul><p><strong>Spring选择策略：</strong>有接口→JDK代理；无接口→CGLIB。Spring Boot 2.x 默认使用CGLIB。</p></div></div></div>
 
 <!-- Q25 -->
-<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">Integer 的缓存机制是怎样的？</div><div class="q-tags"><span class="q-tag">包装类</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Integer内部维护了<strong>IntegerCache</strong>，默认缓存<strong>-128 ~ 127</strong>之间的Integer对象。</p><ul><li>自动装箱<code>Integer i=100</code> → 从缓存取，返回同一对象。</li><li><code>new Integer(100)</code> → 强制创建新对象，不在缓存中。</li><li>最大值可通过<code>-XX:AutoBoxCacheMax=</code>调整。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">Integer a=100, b=100;   System.out.println(a==b); // true (缓存)<br>Integer c=200, d=200;   System.out.println(c==d); // false (超出缓存)</pre><p>💡 同样有缓存的包装类：Byte/Short/Long(-128~127)、Character(0~127)、Boolean(TRUE/FALSE)。Double/Float没有缓存。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">Integer 的缓存机制是怎样的？</div><div class="q-tags"><span class="q-tag">包装类</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Integer内部维护了<strong>IntegerCache</strong>，默认缓存<strong>-128 ~ 127</strong>之间的Integer对象。</p><ul><li>自动装箱<code>Integer i=100</code> 从缓存取，返回同一对象。</li><li><code>new Integer(100)</code> 强制创建新对象，不在缓存中。</li><li>最大值可通过<code>-XX:AutoBoxCacheMax=</code>调整。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">Integer a=100, b=100;   System.out.println(a==b); // true (缓存)<br>Integer c=200, d=200;   System.out.println(c==d); // false (超出缓存)</pre><p>💡 同样有缓存的包装类：Byte/Short/Long(-128~127)、Character(0~127)、Boolean(TRUE/FALSE)。Double/Float没有缓存。</p></div></div></div>
 
 <!-- Q26 -->
-<div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">自动装箱和自动拆箱的原理及注意事项？</div><div class="q-tags"><span class="q-tag">包装类</span><span class="q-tag">语法糖</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>自动装箱：</strong>基本类型→包装类，编译器调用<code>Integer.valueOf(int)</code>。</li><li><strong>自动拆箱：</strong>包装类→基本类型，编译器调用<code>Integer.intValue()</code>。</li></ul><p><strong>注意事项（坑）：</strong></p><ul><li><strong>NPE风险：</strong>包装类为null时自动拆箱抛NullPointerException。</li><li><strong>== 比较：</strong>包装类<code>==</code>是比较地址，应使用<code>equals()</code>。</li><li><strong>三目运算符：</strong><code>flag ? 1 : new Integer(2)</code> → 结果自动拆箱为int。</li><li><strong>性能开销：</strong>循环中大量自动装箱/拆箱产生大量临时对象，应避免。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">自动装箱和自动拆箱的原理及注意事项？</div><div class="q-tags"><span class="q-tag">包装类</span><span class="q-tag">语法糖</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>自动装箱：</strong>基本类型→包装类，编译器调用<code>Integer.valueOf(int)</code>。</li><li><strong>自动拆箱：</strong>包装类→基本类型，编译器调用<code>Integer.intValue()</code>。</li></ul><p><strong>注意事项（坑）：</strong></p><ul><li><strong>NPE风险：</strong>包装类为null时自动拆箱抛NullPointerException。</li><li><strong>== 比较：</strong>包装类<code>==</code>是比较地址，应使用<code>equals()</code>。</li><li><strong>三目运算符：</strong><code>flag ? 1 : new Integer(2)</code> 结果自动拆箱为int。</li><li><strong>性能开销：</strong>循环中大量自动装箱/拆箱产生大量临时对象，应避免。</li></ul></div></div></div>
 
 <!-- Q27 -->
 <div class="card"><div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">BigDecimal 使用有哪些坑？如何正确比较？</div><div class="q-tags"><span class="q-tag">精度</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>常见坑：</strong></p><ul><li><strong>构造方式：</strong><code>new BigDecimal(0.1)</code> 不精确！浮点数本身不精确。应使用<code>new BigDecimal("0.1")</code> 或 <code>BigDecimal.valueOf(0.1)</code>。</li><li><strong>equals比较：</strong><code>BigDecimal(1.0)!=BigDecimal(1.00)</code>，因为scale不同。应使用<code>compareTo()</code>。</li><li><strong>除法：</strong>必须指定精度，否则无限小数抛异常：<code>divide(bd, 2, RoundingMode.HALF_UP)</code>。</li><li><strong>不可变性：</strong>所有运算返回新对象，原对象不变。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">BigDecimal a=new BigDecimal("1.0"), b=new BigDecimal("1.00");<br>System.out.println(a.equals(b));    // false<br>System.out.println(a.compareTo(b)); // 0 (相等)</pre></div></div></div>
@@ -491,8 +491,44 @@ Class clz3 = user.getClass();</div>
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+t).classList.add('active')}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');}else{bt.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
 </script>
-<script src="edit-answer.js"></script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+    }
+  }
+})();
+</script>
+
+document.addEventListener('click',function(e){
+  var sd=document.getElementById('searchDropdown');
+  var si=document.getElementById('searchInput');
+  if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
+});
 </body>
 </html>

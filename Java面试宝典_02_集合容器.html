@@ -7,24 +7,28 @@
 :root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
 .nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover{background:rgba(255,255,255,.2)}
-.theme-switcher{display:flex;justify-content:center;gap:6px;margin-top:10px}
-.theme-btn{padding:3px 12px;border-radius:14px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:11px;transition:.2s}
-.theme-btn:hover,.theme-btn.active{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.9)}
-.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
 .card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
-.q-title{font-size:16px;font-weight:700;color:#1a1a2e}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
 .card-body{padding:12px 18px 16px}
@@ -32,7 +36,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
 .toggle-btn.open .arrow{transform:rotate(180deg)}
-.answer{display:none;margin-top:12px;padding:14px 16px;background:#f9fafb;border-radius:10px;border-left:4px solid var(--primary)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
 .answer.show{display:block}
 .answer p{margin-bottom:6px;font-size:14px}
 .answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
@@ -45,26 +49,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
 .table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
 </style>
 </head>
 <body data-section="02">
 
 <div class="hero">
-  <h1>🗂️ 02 · Java 集合容器</h1>
-  <p>12道高频题 · ArrayList · LinkedList · HashMap · ConcurrentHashMap · 红黑树</p>
-  <div class="nav-row">
-    <a href="Java面试宝典_总目录.html">📚 总目录</a>
+  <h1>Java 集合容器</h1>
+  <p>8道高频题 · ArrayList · LinkedList · HashMap · ConcurrentHashMap · 红黑树</p>
+<div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_01_Java基础.html">← Java基础</a>
     <a href="Java面试宝典_03_JVM.html">JVM →</a>
   </div>
-  <div class="theme-switcher">
-    <button class="theme-btn" onclick="setTheme('green')" id="btn-green">深绿</button>
-    <button class="theme-btn active" onclick="setTheme('gold')" id="btn-gold">黑白金</button>
-    <button class="theme-btn" onclick="setTheme('purple')" id="btn-purple">深靛紫</button>
-  </div>
-  <div class="edit-toolbar">
-    <button id="edit-mode-btn" class="edit-mode-btn" onclick="toggleEditMode()">✏️ 编辑模式</button>
-    <button class="export-btn" onclick="exportEdits()">📥 导出修改</button>
   </div>
 </div>
 
@@ -337,7 +337,7 @@ map.get(<span class="kw">new</span> Person(<span class="str">"张三"</span>)); 
 <div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">Iterator 和 ListIterator 的区别？</div><div class="q-tags"><span class="q-tag">迭代器</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>Iterator</th><th>ListIterator</th></tr></thead><tbody><tr><td>适用范围</td><td>所有Collection</td><td>仅List</td></tr><tr><td>遍历方向</td><td>单向（向后）</td><td>双向（向前/向后）</td></tr><tr><td>操作</td><td>remove</td><td>add、set、remove</td></tr><tr><td>索引</td><td>无</td><td>nextIndex()、previousIndex()</td></tr></tbody></table></div></div></div></div>
 
 <!-- Q25 -->
-<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">HashSet 底层如何实现？为什么能保证不重复？</div><div class="q-tags"><span class="q-tag">Set</span><span class="q-tag">HashSet</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>HashSet底层就是<strong>HashMap</strong>，元素作为HashMap的key，value是一个固定的PRESENT对象。</p><p><strong>去重逻辑：</strong></p><ul><li>add(E e) → map.put(e, PRESENT)==null。</li><li>利用HashMap的key唯一性：hashCode不同→直接放入；hashCode相同→equals比较→true则覆盖（不增加），false则链表/红黑树插入。</li></ul><p>💡 自定义对象放入HashSet必须重写<strong>hashCode()和equals()</strong>，否则无法正确去重。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">HashSet 底层如何实现？为什么能保证不重复？</div><div class="q-tags"><span class="q-tag">Set</span><span class="q-tag">HashSet</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>HashSet底层就是<strong>HashMap</strong>，元素作为HashMap的key，value是一个固定的PRESENT对象。</p><p><strong>去重逻辑：</strong></p><ul><li>add(E e) map.put(e, PRESENT)==null。</li><li>利用HashMap的key唯一性：hashCode不同→直接放入；hashCode相同→equals比较→true则覆盖（不增加），false则链表/红黑树插入。</li></ul><p>💡 自定义对象放入HashSet必须重写<strong>hashCode()和equals()</strong>，否则无法正确去重。</p></div></div></div>
 
 <!-- Q26 -->
 <div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">TreeSet 和 HashSet 的区别？LinkedHashSet 又是什么？</div><div class="q-tags"><span class="q-tag">Set</span><span class="q-tag">对比</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>HashSet</th><th>TreeSet</th><th>LinkedHashSet</th></tr></thead><tbody><tr><td>底层</td><td>HashMap</td><td>TreeMap(红黑树)</td><td>LinkedHashMap</td></tr><tr><td>有序性</td><td>无序</td><td>排序(自然/比较器)</td><td>插入顺序</td></tr><tr><td>null</td><td>允许1个null</td><td>不允许null</td><td>允许1个null</td></tr><tr><td>操作复杂度</td><td>O(1)</td><td>O(log n)</td><td>O(1)</td></tr></tbody></table></div></div></div></div>
@@ -346,7 +346,7 @@ map.get(<span class="kw">new</span> Person(<span class="str">"张三"</span>)); 
 <div class="card"><div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">ArrayDeque 和 LinkedList 作为队列有什么区别？</div><div class="q-tags"><span class="q-tag">Queue</span><span class="q-tag">Deque</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>ArrayDeque：</strong>循环数组实现的双端队列。</p><ul><li>不能存null值。</li><li>容量动态扩展（翻倍），O(1)均摊。</li><li>无内存节点开销，比LinkedList省内存。</li></ul><p><strong>LinkedList：</strong>双向链表实现，也实现了Deque接口。</p><ul><li>允许null。</li><li>每个元素有Node开销（prev/next引用）。</li></ul><p>💡 作队列/栈时<strong>推荐ArrayDeque</strong>（性能更好）。Vector/Stack已过时，用ArrayDeque替代栈，用ArrayDeque或LinkedList替代队列。</p></div></div></div>
 
 <!-- Q28 -->
-<div class="card"><div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">PriorityQueue 的底层原理？</div><div class="q-tags"><span class="q-tag">堆</span><span class="q-tag">PriorityQueue</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>PriorityQueue基于<strong>二叉小顶堆</strong>（数组实现），默认最小堆。</p><ul><li>入队：尾部追加→上浮(siftUp)，O(log n)。</li><li>出队：取堆顶→尾部元素替换堆顶→下沉(siftDown)，O(log n)。</li><li>查堆顶：peek() → O(1)。</li><li>不允许null元素。</li><li>无序遍历（堆序不等于遍历序），只有出队按优先级。</li></ul><p><strong>自定义优先级：</strong>构造时传入Comparator，可实现大顶堆。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">PriorityQueue 的底层原理？</div><div class="q-tags"><span class="q-tag">堆</span><span class="q-tag">PriorityQueue</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>PriorityQueue基于<strong>二叉小顶堆</strong>（数组实现），默认最小堆。</p><ul><li>入队：尾部追加→上浮(siftUp)，O(log n)。</li><li>出队：取堆顶→尾部元素替换堆顶→下沉(siftDown)，O(log n)。</li><li>查堆顶：peek() O(1)。</li><li>不允许null元素。</li><li>无序遍历（堆序不等于遍历序），只有出队按优先级。</li></ul><p><strong>自定义优先级：</strong>构造时传入Comparator，可实现大顶堆。</p></div></div></div>
 
 <!-- Q29 -->
 <div class="card"><div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">WeakHashMap 和 IdentityHashMap 是什么？</div><div class="q-tags"><span class="q-tag">Map</span><span class="q-tag">特殊</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>WeakHashMap：</strong></p><ul><li>Key为<strong>弱引用</strong>，只有WeakReference指向key时，GC就会回收。</li><li>Entry在每次操作时自动清除已被回收的key。</li><li>适用场景：缓存，不希望影响GC。</li></ul><p><strong>IdentityHashMap：</strong></p><ul><li>用<strong>==</strong>而非equals()比较key（比较引用地址而非内容）。</li><li>允许key重复（不同地址的对象可以是不同key）。</li><li>底层用Object[]数组，相邻位置存key和value（非链表）。</li><li>适用场景：序列化框架、需要区分对象实例的场景。</li></ul></div></div></div>
@@ -362,8 +362,44 @@ map.get(<span class="kw">new</span> Person(<span class="str">"张三"</span>)); 
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+t).classList.add('active')}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');}else{bt.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
 </script>
-<script src="edit-answer.js"></script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+    }
+  }
+})();
+</script>
+
+document.addEventListener('click',function(e){
+  var sd=document.getElementById('searchDropdown');
+  var si=document.getElementById('searchInput');
+  if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
+});
 </body>
 </html>

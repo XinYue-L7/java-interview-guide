@@ -7,24 +7,28 @@
 :root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
 .nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover{background:rgba(255,255,255,.2)}
-.theme-switcher{display:flex;justify-content:center;gap:6px;margin-top:10px}
-.theme-btn{padding:3px 12px;border-radius:14px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:11px;transition:.2s}
-.theme-btn:hover,.theme-btn.active{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.9)}
-.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
 .card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
-.q-title{font-size:16px;font-weight:700;color:#1a1a2e}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
 .card-body{padding:12px 18px 16px}
@@ -32,7 +36,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
 .toggle-btn.open .arrow{transform:rotate(180deg)}
-.answer{display:none;margin-top:12px;padding:14px 16px;background:#f9fafb;border-radius:10px;border-left:4px solid var(--primary)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
 .answer.show{display:block}
 .answer p{margin-bottom:6px;font-size:14px}
 .answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
@@ -45,26 +49,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
 .table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
 </style>
 </head>
 <body data-section="03">
 
 <div class="hero">
-  <h1>⚙️ 03 · JVM 虚拟机</h1>
+  <h1>JVM 虚拟机</h1>
   <p>14道高频题 · 内存区域 · 垃圾回收 · 类加载 · 参数调优 · OOM排查</p>
-  <div class="nav-row">
-    <a href="Java面试宝典_总目录.html">📚 总目录</a>
+<div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_02_集合容器.html">← 集合容器</a>
     <a href="Java面试宝典_04_并发编程.html">并发编程 →</a>
   </div>
-  <div class="theme-switcher">
-    <button class="theme-btn" onclick="setTheme('green')" id="btn-green">深绿</button>
-    <button class="theme-btn active" onclick="setTheme('gold')" id="btn-gold">黑白金</button>
-    <button class="theme-btn" onclick="setTheme('purple')" id="btn-purple">深靛紫</button>
-  </div>
-  <div class="edit-toolbar">
-    <button id="edit-mode-btn" class="edit-mode-btn" onclick="toggleEditMode()">✏️ 编辑模式</button>
-    <button class="export-btn" onclick="exportEdits()">📥 导出修改</button>
   </div>
 </div>
 
@@ -241,7 +241,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>类加载过程(5步)：</strong>加载 → 验证 → 准备 → 解析 → 初始化</p>
+      <p><strong>类加载过程(5步)：</strong>加载 验证 准备 解析 初始化</p>
       <ul>
         <li><strong>加载：</strong>获取二进制字节流→生成Class对象。</li>
         <li><strong>验证：</strong>确保字节码符合JVM规范。</li>
@@ -251,7 +251,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
       <p><strong>双亲委派模型：</strong></p>
       <p>类加载请求先委派父类加载器，父类加载不了才自己加载。</p>
-      <p>层级：<strong>Bootstrap → Extension → Application → 自定义加载器</strong></p>
+      <p>层级：<strong>Bootstrap Extension Application 自定义加载器</strong></p>
       <p>💡 好处：避免重复加载、防止核心API被篡改。</p>
     </div>
   </div>
@@ -345,7 +345,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">ZGC 和 Shenandoah 的特点？</div><div class="q-tags"><span class="q-tag">ZGC</span><span class="q-tag">低延迟</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>ZGC：</strong>JDK11引入，JDK15生产可用。目标：<strong>亚毫秒级停顿</strong>，支持TB级堆。</p><ul><li>基于<strong>染色指针</strong>（Colored Pointers）和读屏障。</li><li>并发标记、并发整理（Compacting时短暂停顿）。</li><li>停顿时间< 1ms，且不随堆大小增加。</li></ul><p><strong>Shenandoah：</strong>JDK12引入，类似G1但<strong>并发整理</strong>（移动对象与用户线程并发）。</p><ul><li>用Brooks Pointer转发指针实现并发整理。</li><li>回收阶段几乎全并发。</li></ul></div></div></div>
 
 <!-- Q20 -->
-<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">类加载器的双亲委派模型是什么？为什么破坏它？</div><div class="q-tags"><span class="q-tag">类加载</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>三层类加载器：</strong></p><ul><li>Bootstrap ClassLoader（C++，加载rt.jar）→ Extension ClassLoader（加载ext）→ Application ClassLoader（加载classpath）。</li></ul><p><strong>双亲委派流程：</strong>加载→先委托父加载器→父找不到才自己加载。保证核心类安全（如自定义String不会覆盖核心String）。</p><p><strong>破坏场景：</strong></p><ul><li>JDBC：Bootstrap加载的类需调用SPI实现类（Application加载），通过<strong>线程上下文类加载器</strong>绕开。</li><li>Tomcat：WebApp类加载器优先加载应用自己的类，打破委派。</li><li>OSGi：网状类加载器结构。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">类加载器的双亲委派模型是什么？为什么破坏它？</div><div class="q-tags"><span class="q-tag">类加载</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>三层类加载器：</strong></p><ul><li>Bootstrap ClassLoader（C++，加载rt.jar）Extension ClassLoader（加载ext）Application ClassLoader（加载classpath）。</li></ul><p><strong>双亲委派流程：</strong>加载→先委托父加载器→父找不到才自己加载。保证核心类安全（如自定义String不会覆盖核心String）。</p><p><strong>破坏场景：</strong></p><ul><li>JDBC：Bootstrap加载的类需调用SPI实现类（Application加载），通过<strong>线程上下文类加载器</strong>绕开。</li><li>Tomcat：WebApp类加载器优先加载应用自己的类，打破委派。</li><li>OSGi：网状类加载器结构。</li></ul></div></div></div>
 
 <!-- Q21 -->
 <div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">Tomcat 为什么要打破双亲委派？</div><div class="q-tags"><span class="q-tag">类加载</span><span class="q-tag">Tomcat</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Tomcat的WebappClassLoader<strong>优先加载应用自己的类</strong>，原因：</p><ol><li><strong>隔离性：</strong>不同Web应用各自类加载器，同名类互不干扰。</li><li><strong>灵活性：</strong>应用可加载自己的Spring版本覆盖Tomcat提供的。</li><li><strong>热部署：</strong>单独卸载某个WebappClassLoader即可重载应用。</li></ol><p><strong>加载顺序：</strong>先查本地缓存→避免JVM核心类→先自己加载→自己找不到才委托父加载器。</p></div></div></div>
@@ -400,8 +400,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+t).classList.add('active')}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');}else{bt.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
 </script>
-<script src="edit-answer.js"></script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+    }
+  }
+})();
+</script>
+
+document.addEventListener('click',function(e){
+  var sd=document.getElementById('searchDropdown');
+  var si=document.getElementById('searchInput');
+  if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
+});
 </body>
 </html>

@@ -5,155 +5,293 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · 总目录</title>
 <style>
-:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9}
-[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed}
-[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8}
+:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#eef2f6;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#e0e6ed;--tag-bg:#e8f5e9;--link:#3b82f6;--icon-bg:rgba(45,106,79,0.08)}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#eef2f6;--card-bg:#fff;--text:#1a1a2e;--muted:#6b7280;--border:#e5e7eb;--tag-bg:#faf5ed;--link:#3b82f6;--icon-bg:rgba(201,169,110,0.10)}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#eef2f6;--card-bg:#fff;--text:#2d2640;--muted:#6b7280;--border:#e5e7eb;--tag-bg:#f3f0f8;--link:#3b82f6;--icon-bg:rgba(91,79,139,0.10)}
+[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#e4e9ed;--card-bg:#fff;--text:#1a2430;--muted:#4f5d66;--border:#c5d0d8;--tag-bg:#d5e0e7;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
-.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:48px 24px 32px;text-align:center}
-.hero h1{font-size:32px;font-weight:800;margin-bottom:6px}
-.hero p{opacity:.88;font-size:15px}
-.theme-switcher{display:flex;justify-content:center;gap:8px;margin-top:14px}
-.theme-btn{padding:4px 14px;border-radius:16px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:12px;transition:.2s}
-.theme-btn:hover,.theme-btn.active{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.9)}
-.container{max-width:820px;margin:0 auto;padding:32px 20px 60px}
-.section-card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);margin-bottom:16px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s;display:block;text-decoration:none;color:inherit}
-.section-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-1px)}
-.card-inner{display:flex;align-items:center;gap:16px;padding:20px 22px}
-.card-icon{flex-shrink:0;width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff}
-.card-icon.green{background:#2d6a4f}.card-icon.blue{background:#2980b9}.card-icon.red{background:#c0392b}
-.card-icon.orange{background:#e67e22}.card-icon.purple{background:#8e44ad}.card-icon.teal{background:#16a085}
-.card-icon.navy{background:#2c3e50}.card-icon.pink{background:#c0392b}
-.card-info{flex:1;min-width:0}
-.card-info h3{font-size:17px;font-weight:700;margin-bottom:3px}
-.card-info p{font-size:13px;color:var(--muted)}
-.card-arrow{color:var(--muted);font-size:18px}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
-.stat{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
-.footer{text-align:center;font-size:13px;color:var(--muted);padding:20px 0 0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+.settings-btn{position:absolute;top:12px;left:12px;z-index:200;padding:6px 14px;border-radius:8px;border:none;background:transparent;color:#fff;cursor:pointer;font-size:13px;transition:.2s}
+.settings-btn:hover{background:rgba(255,255,255,.12)}
+.settings-dropdown{position:absolute;top:48px;left:12px;z-index:200;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);padding:8px 0;min-width:130px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:.2s}
+.settings-dropdown.show{opacity:1;visibility:visible;transform:translateY(0)}
+.settings-dropdown-label{padding:6px 16px;font-size:11px;color:var(--muted);font-weight:600}
+.settings-dropdown .theme-item{padding:8px 16px;font-size:13px;color:#1a2430;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:8px}
+.settings-dropdown .theme-item:hover{background:#eef2f5}
+.settings-dropdown .theme-item .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.settings-dropdown .theme-item[data-theme="green"] .dot{background:#2d6a4f}
+.settings-dropdown .theme-item[data-theme="gold"] .dot{background:#c9a96e}
+.settings-dropdown .theme-item[data-theme="purple"] .dot{background:#5b4f8b}
+.settings-dropdown .theme-item[data-theme="light"] .dot{background:#2563eb}
+.settings-dropdown .theme-item[data-theme="dark"] .dot{background:#1e293b}
+
+.hero{position:relative;background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:42px 24px 28px;text-align:center}
+[data-theme="light"] .hero{color:#fff;border-bottom:none}
+.hero h1{font-size:30px;font-weight:800;margin-bottom:6px}
+.hero p{opacity:.85;font-size:14px}
+.search-wrap{position:relative;max-width:480px;margin:16px auto 0}
+.search-input{width:100%;padding:10px 40px 10px 16px;border-radius:24px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font-size:14px;outline:none;transition:.2s}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.2);color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);max-height:360px;overflow-y:auto;z-index:150;display:none;text-align:left}
+.search-dropdown.show{display:block}
+.search-item{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:.15s;color:var(--text);text-decoration:none;display:block}
+.search-item:hover{background:var(--tag-bg)}
+.search-item:last-child{border-bottom:none}
+.search-item-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.search-item-module{font-size:11px;color:var(--muted)}
+.search-history{padding:6px 14px;font-size:11px;color:var(--muted);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.search-history .clear-btn{cursor:pointer;font-size:11px;color:var(--link)}
+.search-history .clear-btn:hover{text-decoration:underline}
+.search-empty{padding:16px;text-align:center;color:var(--muted);font-size:13px}
+
+.container{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
+
+.card{background:var(--card-bg);border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid var(--border);transition:transform .2s,box-shadow .2s;display:block;text-decoration:none;color:inherit;position:relative;padding:16px 18px 48px;min-height:180px;overflow:hidden}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.10)}
+
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card-title{font-size:15px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px}
+.card-title .num{color:var(--primary);font-size:16px;font-weight:800}
+.card-count{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:1px 8px;border-radius:10px;font-weight:600;white-space:nowrap}
+
+.card-list{list-style:none}
+.card-list li{position:relative;padding-left:12px;font-size:12.5px;color:var(--muted);margin-bottom:5px;line-height:1.5}
+.card-list li::before{content:'';position:absolute;left:0;top:9px;width:4px;height:4px;border-radius:50%;background:var(--muted);opacity:.6}
+
+.card::after{content:attr(data-watermark);position:absolute;right:8px;bottom:0;font-size:64px;font-weight:900;color:var(--primary);opacity:.06;line-height:1;pointer-events:none;font-variant-numeric:tabular-nums}
+
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:28px 0 0}
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <h1>📚 Java 面试宝典</h1>
-  <p>8 大板块 · 300 道高频面试题 · 覆盖全栈知识点</p>
-  <div class="theme-switcher">
-    <button class="theme-btn" onclick="setTheme('green')" id="btn-green">深绿色</button>
-    <button class="theme-btn active" onclick="setTheme('gold')" id="btn-gold">黑白金</button>
-    <button class="theme-btn" onclick="setTheme('purple')" id="btn-purple">深靛紫</button>
+  <h1>Java 面试宝典</h1>
+  <p>8 大板块 · 300 道面试题 · 覆盖全栈知识点</p>
+  <p><strong>103 道高频面试题</strong></p>
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="searchInput" placeholder="搜索面试题..." oninput="doSearch(this.value)" onfocus="showHistory()" autocomplete="off">
+    <button class="search-btn" onclick="doSearch(document.getElementById('searchInput').value)">🔍</button>
+    <div class="search-dropdown" id="searchDropdown"></div>
+  </div>
+  <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()">⚙️ 设置</button>
+  <div class="settings-dropdown" id="settingsDropdown">
+    <div class="settings-dropdown-label">主题</div>
+    <div class="theme-item" data-theme="green" onclick="setTheme('green')"><span class="dot"></span>深绿</div>
+    <div class="theme-item" data-theme="gold" onclick="setTheme('gold')"><span class="dot"></span>黑白金</div>
+    <div class="theme-item" data-theme="purple" onclick="setTheme('purple')"><span class="dot"></span>紫色</div>
+    <div class="theme-item" data-theme="light" onclick="setTheme('light')"><span class="dot"></span>浅色</div>
+    <div class="theme-item" data-theme="dark" onclick="setTheme('dark')"><span class="dot"></span>深色</div>
   </div>
 </div>
 
 <div class="container">
+  <div class="grid">
 
-  <a class="section-card" href="Java面试宝典_01_Java基础.html">
-    <div class="card-inner">
-      <div class="card-icon green">☕</div>
-      <div class="card-info">
-        <h3>01 · Java 基础</h3>
-        <p>基础语法 · 面向对象 · 关键字 · 反射 · IO流</p>
-        <div class="stats"><span class="stat">40题</span><span class="stat">高频</span></div>
+    <a class="card" data-watermark="01" href="Java面试宝典_01_Java基础.html">
+      <div class="card-header">
+        <div class="card-title">Java 基础</div>
+        <span class="card-count">40题</span>
       </div>
-      <span class="card-arrow">→</span>
-    </div>
-  </a>
+      <ul class="card-list">
+        <li>基础语法与数据类型</li>
+        <li>面向对象三大特性</li>
+        <li>关键字与修饰符</li>
+        <li>反射机制</li>
+        <li>IO 流与 NIO</li>
+      </ul>
+    </a>
 
-  <a class="section-card" href="Java面试宝典_02_集合容器.html">
-    <div class="card-inner">
-      <div class="card-icon blue">🗂️</div>
-      <div class="card-info">
-        <h3>02 · Java 集合容器</h3>
-        <p>ArrayList · LinkedList · HashMap · ConcurrentHashMap · 红黑树</p>
-        <div class="stats"><span class="stat">30题</span><span class="stat">高频</span></div>
+    <a class="card" data-watermark="02" href="Java面试宝典_02_集合容器.html">
+      <div class="card-header">
+        <div class="card-title">集合容器</div>
+        <span class="card-count">30题</span>
       </div>
-      <span class="card-arrow">→</span>
-    </div>
-  </a>
+      <ul class="card-list">
+        <li>ArrayList / LinkedList</li>
+        <li>HashMap 原理</li>
+        <li>ConcurrentHashMap</li>
+        <li>红黑树实现</li>
+        <li>集合工具类</li>
+      </ul>
+    </a>
 
-  <a class="section-card" href="Java面试宝典_03_JVM.html">
-    <div class="card-inner">
-      <div class="card-icon red">⚙️</div>
-      <div class="card-info">
-        <h3>03 · JVM 虚拟机</h3>
-        <p>内存区域 · 垃圾回收 · 类加载机制 · 参数调优 · OOM排查</p>
-        <div class="stats"><span class="stat">35题</span><span class="stat">高频</span></div>
+    <a class="card" data-watermark="03" href="Java面试宝典_03_JVM.html">
+      <div class="card-header">
+        <div class="card-title">JVM 虚拟机</div>
+        <span class="card-count">35题</span>
       </div>
-      <span class="card-arrow">→</span>
-    </div>
-  </a>
+      <ul class="card-list">
+        <li>内存区域划分</li>
+        <li>垃圾回收算法</li>
+        <li>类加载机制</li>
+        <li>JVM 参数调优</li>
+        <li>OOM 排查实战</li>
+      </ul>
+    </a>
 
-  <a class="section-card" href="Java面试宝典_04_并发编程.html">
-    <div class="card-inner">
-      <div class="card-icon orange">🔀</div>
-      <div class="card-info">
-        <h3>04 · Java 并发编程</h3>
-        <p>线程池 · AQS · synchronized · volatile · JUC · 锁机制</p>
-        <div class="stats"><span class="stat">40题</span><span class="stat">高频</span></div>
+    <a class="card" data-watermark="04" href="Java面试宝典_04_并发编程.html">
+      <div class="card-header">
+        <div class="card-title">并发编程</div>
+        <span class="card-count">40题</span>
       </div>
-      <span class="card-arrow">→</span>
-    </div>
-  </a>
+      <ul class="card-list">
+        <li>线程池设计与原理</li>
+        <li>AQS 与锁机制</li>
+        <li>synchronized / volatile</li>
+        <li>JUC 并发包</li>
+        <li>并发安全与性能</li>
+      </ul>
+    </a>
 
-  <a class="section-card" href="Java面试宝典_05_MySQL.html">
-    <div class="card-inner">
-      <div class="card-icon teal">🗄️</div>
-      <div class="card-info">
-        <h3>05 · MySQL 数据库</h3>
-        <p>索引 · 事务 · 锁 · SQL优化 · 分库分表 · 执行流程</p>
-        <div class="stats"><span class="stat">40题</span><span class="stat">高频</span></div>
+    <a class="card" data-watermark="05" href="Java面试宝典_05_MySQL.html">
+      <div class="card-header">
+        <div class="card-title">MySQL 数据库</div>
+        <span class="card-count">40题</span>
       </div>
-      <span class="card-arrow">→</span>
-    </div>
-  </a>
+      <ul class="card-list">
+        <li>索引原理与优化</li>
+        <li>事务与隔离级别</li>
+        <li>锁机制详解</li>
+        <li>SQL 优化实战</li>
+        <li>分库分表方案</li>
+      </ul>
+    </a>
 
-  <a class="section-card" href="Java面试宝典_06_Redis.html">
-    <div class="card-inner">
-      <div class="card-icon red">⚡</div>
-      <div class="card-info">
-        <h3>06 · Redis</h3>
-        <p>数据类型 · 持久化 · 集群 · 缓存问题 · 分布式锁 · 布隆过滤器</p>
-        <div class="stats"><span class="stat">35题</span><span class="stat">高频</span></div>
+    <a class="card" data-watermark="06" href="Java面试宝典_06_Redis.html">
+      <div class="card-header">
+        <div class="card-title">Redis</div>
+        <span class="card-count">35题</span>
       </div>
-      <span class="card-arrow">→</span>
-    </div>
-  </a>
+      <ul class="card-list">
+        <li>数据类型与应用</li>
+        <li>持久化机制</li>
+        <li>集群与哨兵</li>
+        <li>缓存三大问题</li>
+        <li>分布式锁 / 布隆过滤器</li>
+      </ul>
+    </a>
 
-  <a class="section-card" href="Java面试宝典_07_框架.html">
-    <div class="card-inner">
-      <div class="card-icon navy">🏗️</div>
-      <div class="card-info">
-        <h3>07 · 框架 &amp; 中间件</h3>
-        <p>Spring · SpringBoot · MyBatis · Dubbo · Zookeeper</p>
-        <div class="stats"><span class="stat">40题</span><span class="stat">高频</span></div>
+    <a class="card" data-watermark="07" href="Java面试宝典_07_框架.html">
+      <div class="card-header">
+        <div class="card-title">框架 & 中间件</div>
+        <span class="card-count">40题</span>
       </div>
-      <span class="card-arrow">→</span>
-    </div>
-  </a>
+      <ul class="card-list">
+        <li>Spring 核心原理</li>
+        <li>SpringBoot 自动装配</li>
+        <li>MyBatis 执行流程</li>
+        <li>Dubbo RPC 框架</li>
+        <li>Zookeeper 协调服务</li>
+      </ul>
+    </a>
 
-  <a class="section-card" href="Java面试宝典_08_分布式&其他.html">
-    <div class="card-inner">
-      <div class="card-icon purple">🌐</div>
-      <div class="card-info">
-        <h3>08 · 分布式 &amp; 其他</h3>
-        <p>分布式理论 · 消息队列 · 设计模式 · 网络协议 · 系统设计</p>
-        <div class="stats"><span class="stat">40题</span><span class="stat">高频</span></div>
+    <a class="card" data-watermark="08" href="Java面试宝典_08_分布式&其他.html">
+      <div class="card-header">
+        <div class="card-title">分布式 & 其他</div>
+        <span class="card-count">40题</span>
       </div>
-      <span class="card-arrow">→</span>
-    </div>
-  </a>
+      <ul class="card-list">
+        <li>分布式理论基础</li>
+        <li>消息队列应用</li>
+        <li>常用设计模式</li>
+        <li>网络协议详解</li>
+        <li>系统设计方案</li>
+      </ul>
+    </a>
 
-  <div class="footer">
-    📌 总计 <strong>110+ 道</strong> 精选高频面试题，覆盖 Java 后端全栈面试核心考点
   </div>
 
+  <div class="footer">
+    📌 总计 <strong>300 道</strong> 精选面试题，覆盖 Java 后端全栈面试核心考点
+  </div>
 </div>
 
 <script>
 function setTheme(t){
   document.documentElement.setAttribute('data-theme',t);
-  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('btn-'+t).classList.add('active');
+  localStorage.setItem('theme',t);
+  document.getElementById('settingsDropdown').classList.remove('show');
+}
+(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+function toggleSettings(){
+  document.getElementById('settingsDropdown').classList.toggle('show');
+}
+document.addEventListener('click',function(e){
+  var d=document.getElementById('settingsDropdown');
+  var b=document.getElementById('settingsBtn');
+  var sd=document.getElementById('searchDropdown');
+  var si=document.getElementById('searchInput');
+  if(!d.contains(e.target)&&e.target!==b){d.classList.remove('show');}
+  if(!sd.contains(e.target)&&e.target!==si){sd.classList.remove('show');}
+});
+
+/* ===== Search ===== */
+var searchIndex=[];
+var searchReady=false;
+fetch('search_index.json?t='+Date.now()).then(function(r){return r.json();}).then(function(d){searchIndex=d;searchReady=true;console.log('搜索索引加载成功，共'+d.length+'条');}).catch(function(e){console.error('搜索索引加载失败',e);});
+
+function getHistory(){var h=localStorage.getItem('search_history');return h?JSON.parse(h):[];}
+function addHistory(q){if(!q)return;var h=getHistory();h=h.filter(x=>x!==q);h.unshift(q);if(h.length>10)h.pop();localStorage.setItem('search_history',JSON.stringify(h));}
+function clearHistory(){localStorage.removeItem('search_history');showHistory();}
+
+function showHistory(){
+  var dd=document.getElementById('searchDropdown');
+  var h=getHistory();
+  if(!h.length){dd.classList.remove('show');return;}
+  dd.innerHTML='<div class="search-history">搜索历史 <span class="clear-btn" onclick="clearHistory()">清空</span></div>'+
+    h.map(function(x){return '<span class="search-item" onclick="pickHistory(this.textContent)"><div class="search-item-title">'+escapeHtml(x)+'</div></span>';}).join('');
+  dd.classList.add('show');
+}
+function pickHistory(q){var inp=document.getElementById('searchInput');inp.value=q;inp.focus();setTimeout(function(){doSearch(inp.value);},50);}
+
+function escapeHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function doSearch(q){
+  q=q.trim().toLowerCase();
+  var dd=document.getElementById('searchDropdown');
+  if(!q){showHistory();return;}
+  if(!searchReady){dd.innerHTML='<div class="search-empty">搜索索引加载中，请稍候...</div>';dd.classList.add('show');return;}
+  var keywords=q.split(/\s+/).filter(function(x){return x.length>0;});
+  function match(item,term){
+    var t=item.title.toLowerCase();
+    var m=item.module.toLowerCase();
+    var g=(item.tags||[]).join(' ').toLowerCase();
+    return t.indexOf(term)!==-1 || m.indexOf(term)!==-1 || g.indexOf(term)!==-1;
+  }
+  // 1. 精确 AND 匹配（每个关键词都要命中）
+  var results=searchIndex.filter(function(item){
+    return keywords.every(function(term){return match(item,term);});
+  });
+  // 2. 如果没有结果且关键词>2个字，尝试去掉第一个字再匹配
+  if(!results.length){
+    var fallback=keywords.map(function(k){return k.length>2?k.substring(1):k;});
+    results=searchIndex.filter(function(item){
+      return fallback.every(function(term){return match(item,term);});
+    });
+  }
+  // 3. 如果还没有结果，尝试 OR 匹配（至少命中一个词）
+  if(!results.length){
+    results=searchIndex.filter(function(item){
+      return keywords.some(function(term){return match(item,term);});
+    });
+  }
+  addHistory(q);
+  if(!results.length){dd.innerHTML='<div class="search-empty">未找到相关题目</div>';dd.classList.add('show');return;}
+  dd.innerHTML=results.slice(0,20).map(function(item){
+    return '<a class="search-item" href="'+item.file+'?q='+item.num+'" target="_blank"><div class="search-item-title">'+escapeHtml(item.title)+'</div><div class="search-item-module">'+escapeHtml(item.module)+' · 第 '+item.num+' 题</div></a>';
+  }).join('');
+  dd.classList.add('show');
 }
 </script>
 </body>
