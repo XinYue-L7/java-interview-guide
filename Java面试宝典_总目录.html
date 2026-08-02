@@ -80,8 +80,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <p>8 大板块 · 300 道面试题 · 覆盖全栈知识点</p>
   <p><strong>103 道高频面试题</strong></p>
   <div class="search-wrap">
-    <input type="text" class="search-input" id="searchInput" placeholder="搜索面试题..." oninput="doSearch(this.value)" onfocus="showHistory()" autocomplete="off">
-    <button class="search-btn" onclick="doSearch(document.getElementById('searchInput').value)">🔍</button>
+    <input type="text" class="search-input" id="searchInput" placeholder="搜索面试题..." oninput="doSearch(this.value)" onkeydown="if(event.key==='Enter'){addHistory(this.value);doSearch(this.value)}" onfocus="showHistory()" autocomplete="off">
+    <button class="search-btn" onclick="addHistory(document.getElementById('searchInput').value);doSearch(document.getElementById('searchInput').value)">🔍</button>
     <div class="search-dropdown" id="searchDropdown"></div>
   </div>
   <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()">⚙️ 设置</button>
@@ -253,7 +253,7 @@ function showHistory(){
     h.map(function(x){return '<span class="search-item" onclick="pickHistory(this.textContent)"><div class="search-item-title">'+escapeHtml(x)+'</div></span>';}).join('');
   dd.classList.add('show');
 }
-function pickHistory(q){var inp=document.getElementById('searchInput');inp.value=q;inp.focus();setTimeout(function(){doSearch(inp.value);},50);}
+function pickHistory(q){var inp=document.getElementById('searchInput');inp.value=q;addHistory(q);inp.focus();setTimeout(function(){doSearch(inp.value);},50);}
 
 function escapeHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
@@ -286,7 +286,6 @@ function doSearch(q){
       return keywords.some(function(term){return match(item,term);});
     });
   }
-  addHistory(q);
   if(!results.length){dd.innerHTML='<div class="search-empty">未找到相关题目</div>';dd.classList.add('show');return;}
   dd.innerHTML=results.slice(0,20).map(function(item){
     return '<a class="search-item" href="'+item.file+'?q='+item.num+'" target="_blank"><div class="search-item-title">'+escapeHtml(item.title)+'</div><div class="search-item-module">'+escapeHtml(item.module)+' · 第 '+item.num+' 题</div></a>';
