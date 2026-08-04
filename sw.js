@@ -1,16 +1,16 @@
 // Service Worker - Java面试宝典 PWA离线缓存
-const CACHE_NAME = 'interview-baodian-v1';
-const ASSETS = [
-  '/Java面试宝典_总目录.html',
-  '/Java面试宝典_01_Java基础.html',
-  '/Java面试宝典_02_集合容器.html',
-  '/Java面试宝典_03_JVM.html',
-  '/Java面试宝典_04_并发编程.html',
-  '/Java面试宝典_05_MySQL.html',
-  '/Java面试宝典_06_Redis.html',
-  '/Java面试宝典_07_框架.html',
-  '/Java面试宝典_08_分布式&其他.html',
-  '/扫码访问.html',
+var CACHE_NAME = 'interview-baodian-v3';
+var ASSETS = [
+  '/Java%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8_%E6%80%BB%E7%9B%AE%E5%BD%95.html',
+  '/Java%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8_01_Java%E5%9F%BA%E7%A1%80.html',
+  '/Java%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8_02_%E9%9B%86%E5%90%88%E5%AE%B9%E5%99%A8.html',
+  '/Java%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8_03_JVM.html',
+  '/Java%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8_04_%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B.html',
+  '/Java%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8_05_MySQL.html',
+  '/Java%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8_06_Redis.html',
+  '/Java%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8_07_%E6%A1%86%E6%9E%B6.html',
+  '/Java%E9%9D%A2%E8%AF%95%E5%AE%9D%E5%85%B8_08_%E5%88%86%E5%B8%83%E5%BC%8F%26%E5%85%B6%E4%BB%96.html',
+  '/%E6%89%AB%E7%A0%81%E8%AE%BF%E9%97%AE.html',
   '/search_index.json',
   '/qrcode_lan.png',
   '/manifest.json',
@@ -21,7 +21,7 @@ const ASSETS = [
 self.addEventListener('install', function(e) {
   e.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-      return Promise.allSettled(
+      return Promise.all(
         ASSETS.map(function(url) {
           return cache.add(url).catch(function() {
             // 单个文件失败不影响其他缓存
