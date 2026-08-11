@@ -138,7 +138,7 @@ Java面试宝典是一套纯静态HTML面试刷题系统，覆盖Java工程师�
 
 ```powershell
 cd D:\AiWordSpace
-python -m http.server 9876
+    python -m http.server 9876
 ```
 
 | 参数 | 说明 |
