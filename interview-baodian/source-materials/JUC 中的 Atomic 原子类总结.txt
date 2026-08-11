@@ -1,0 +1,629 @@
+1 Atomic 原子类介绍
+Atomic 翻译成中文是原子的意思。在化学上，我们知道原子是构成一般物质的最小单位，在化学反应
+中是不可分割的。在我们这里 Atomic 是指一个操作是不可中断的。即使是在多个线程一起执行的时
+候，一个操作一旦开始，就不会被其他线程干扰。
+n
+所以，所谓原子类说简单点就是具有原子/原子操作特征的类。
+c
+并发包 java.util.concurrent 的原子类都存放在java.util.concurrent.atomic下,如下图所示。
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 根据操作的数据类型，狼 可以将JUC包中的众 原子类分为4类 教 号 育 ：
+基本类型
+微 叩 信 丁 公 狼 众 教 号
+使用原子的方式更新基本类型
+AtomicInteger：整型原子类
+微 叩 信 丁 公 狼 众
+AtomicLong：长整型原子类
+AtomicBoolean ：布尔型原子类
+微 叩 信 丁 公
+数组类型
+使用原子的方式更新数组里的某个元素
+微 叩 信
+AtomicIntegerArray：整型数组原子类
+AtomicLongArray：长整型数组原子类
+AtomicReferenceArray ：引用类型数组原子类 微
+引用类型
+AtomicReference：引用类型原子类
+AtomicMarkableReference：原子更新带有标记的引用类型。该类将 boolean 标记与引用关联起
+来，也可以解决使用 CAS 进行原子更新时可能出现的 ABA 问题。
+AtomicStampedReference ：原子更新带有版本号的引用类型。该类将整数值与引用关联起来，
+可用于解决原子的更新数据和数据的版本号，可以解决使用 CAS 进行原子更新时可能出现的 ABA
+问题。
+对象的属性修改类型
+AtomicIntegerFieldUpdater:原子更新整型字段的更新器
+AtomicLongFieldUpdater：原子更新长整型字段的更新器
+AtomicReferenceFieldUpdater：原子更新引用类型里的字段
+修正: AtomicMarkableReference 不能解决ABA问题 issue#626
+n /**
+c
+AtomicMarkableReference是将一个boolean值作是否有更改的标记，本质就是它的版本号只有两个，
+e n
+true和false，
+d c
+修改的时候在这两个版本号之间来回切换，这样做并不能解决ABA的问题，只是会降低ABA问题发生的几率而
+o e n
+已
+c d c
+@author : mazh
+理 f o e n
+l @Date : 2020c/1/17 14:41 d c
+整 o 理 */ f o e n
+w l c d c
+public class SolveABAByAtomicMarkableReference {
+育 ： 整 o 理 f o e
+private static AtomicMarkableReference atomicMarkableReference = new
+w l c d
+AtomicMarkableReference(100, false);
+教 号 育 ： 整 o 理 f o
+public static void main(String[] args) {
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+Thread refT1 = new Thread(() -> {
+try { w l
+TimeUnit.SECONDS.sleep(1);
+丁 公 狼 众 教 号 育 ： 整 o
+} catch (InterruptedException e) {
+e.printStackTrace(); w
+}
+叩 信 丁 公 狼 众 教 号 育 ：
+atomicMarkableReference.compareAndSet(100, 101,
+atomicMarkableReference.isMarked(), !atomicMarkableReference.isMarked());
+微 叩 信 丁 atomicM公arkableReference.compareAndSet(101, 100, 狼 众 教 号
+atomicMarkableReference.isMarked(), !atomicMarkableReference.isMarked());
+});
+微 叩 信 丁 公 狼 众
+Thread refT2 = new Thread(() -> {
+boolean marked = atomicMarkableReference.isMarked();
+微 try { 叩 信 丁 公
+TimeUnit.SECONDS.sleep(2);
+} catch (InterruptedException e) {
+微 叩 信
+e.printStackTrace();
+}
+boolean c3 = atomicMarkableReference.compareAndSet(100, 101,
+微
+marked, !marked);
+System.out.println(c3); // 返回true,实际应该返回false
+});
+refT1.start();
+refT2.start();
+}
+}
+CAS ABA 问题
+描述: 第一个线程取到了变量 x 的值 A，然后巴拉巴拉干别的事，总之就是只拿到了变量 x 的值
+A。这段时间内第二个线程也取到了变量 x 的值 A，然后把变量 x 的值改为 B，然后巴拉巴拉干别
+的事，最后又把变量 x 的值变为 A （相当于还原了）。在这之后第一个线程终于进行了变量 x 的
+操作，但是此时变量 x 的值还是 A，所以 compareAndSet 操作是成功。
+例子描述(可能不太合适，但好理解): 年初，现金为零，然后通过正常劳动赚了三百万，之后正常
+消费了（比如买房子）三百万。年末，虽然现金零收入（可能变成其他形式了），但是赚了钱是事
+n
+实，还是得交税的！
+c 代码例子（以AtomicInteger为例）
+e n
+import java.util.concurrent.atomic.AtomicInteger;
+d c
+o e n
+public class AtomicIntegerDefectDemo {
+c public static vdoid main(String[] args) { c
+defectOfABA();
+理 f o e n
+}
+l c d c
+static void defectOfABA() {
+整 o 理 f o e n
+final AtomicInteger atomicInteger = new AtomicInteger(1);
+w l c d c
+育 ： 整 o Thread coreThread = new Thread( 理 f o e
+() -> {
+w l c d
+final int currentValue = atomicInteger.get();
+教 号 育 ： System.out.printl整n(Thread.currenotThread().getName() + " ---- 理 f o
+-- currentValue=" + currentValue);
+w l c
+狼 众 教 号 // 这段目的：育 模拟处理其他业务：花费的时间 整 o 理 f
+try { w l
+Thread.sleep(300);
+丁 公 狼 众 教 号 育 ： 整 o
+} catch (InterruptedException e) {
+e.printStackTrace(); w
+}
+叩 信 丁 公 狼 众 教 号 育 ：
+boolean casResult = atomicInteger.compareAndSet(1, 2);
+System.out.println(Thread.currentThread().getName()
+微 叩 信 丁 公 狼 众 教 号
++ " ------ currentValue=" + currentValue
++ ", finalValue=" + atomicInteger.get()
+微 叩 信 + ", compareAndSet Result=" + c丁asResult); 公 狼 众
+}
+);
+c微 oreThread.start(); 叩 信 丁 公
+// 这段目的：为了让 coreThread 线程先跑起来
+微 叩 信
+try {
+Thread.sleep(100);
+} catch (InterruptedException e) {
+微
+e.printStackTrace();
+}
+Thread amateurThread = new Thread(
+() -> {
+int currentValue = atomicInteger.get();
+boolean casResult = atomicInteger.compareAndSet(1, 2);
+System.out.println(Thread.currentThread().getName()
++ " ------ currentValue=" + currentValue
++ ", finalValue=" + atomicInteger.get()
++ ", compareAndSet Result=" + casResult);
+currentValue = atomicInteger.get();
+casResult = atomicInteger.compareAndSet(2, 1);
+System.out.println(Thread.currentThread().getName()
++ " ------ currentValue=" + currentValue
++ ", finalValue=" + atomicInteger.get()
++ ", compareAndSet Result=" + casResult);
+n }
+);
+c
+amateurThread.start();
+e } n
+d } c
+o e n
+输出内容如下：
+c d c
+理 f o e n
+Thread-0 ------ currentValue=1
+l Thread-1 ---c--- currentValue=1, finalValue=2, compareAndSet Result=trude c
+Thread-1 ------ currentValue=2, finalValue=1, compareAndSet Result=true
+整 o 理 f o e n
+Thread-0 ------ currentValue=1, finalValue=2, compareAndSet Result=true
+w l c d c
+育 ： 整 下面o我们来详细介绍一下这些原子类。 理 f o e
+w l c d
+2 基本类型原子类
+教 号 育 ： 整 o 理 f o
+2.1 基本类型原子类介绍
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+使用原子的方式更新基本类型
+w l
+AtomicInteger：整型原子类
+丁 公 狼 众 教 号 育 ： 整 o
+AtomicLong：长整型原子类
+AtomicBoolean ：布尔型原子类 w
+叩 信 丁 公 狼 众 教 号 育 ：
+上面三个类提供的方法几乎相同，所以我们这里以 AtomicInteger 为例子来介绍。
+AtomicInteger 类常用方法
+微 叩 信 丁 公 狼 众 教 号
+public final int get() //获取当前的值
+public final int getAndSet(int newValue)//获取当前的值，并设置新的值
+微 叩 信 丁 公 狼 众
+public final int getAndIncrement()//获取当前的值，并自增
+public final int getAndDecrement() //获取当前的值，并自减
+public final int getAndAdd(int delta) //获取当前的值，并加上预期的值
+微 叩 信 丁 公
+boolean compareAndSet(int expect, int update) //如果输入的数值等于预期值，则以原子方式
+将该值设置为输入值（update）
+public final void lazySet(int newValue)//最终设置为newValue,使微 用 lazySet 设置之后可 叩 信
+能导致其他线程在之后的一小段时间内还是可以读到旧的值。
+微
+2.2 AtomicInteger 常见方法使用
+import java.util.concurrent.atomic.AtomicInteger;
+public class AtomicIntegerTest {
+public static void main(String[] args) {
+// TODO Auto-generated method stub
+int temvalue = 0;
+AtomicInteger i = new AtomicInteger(0);
+temvalue = i.getAndSet(3);
+System.out.println("temvalue:" + temvalue + "; i:" + i);//temvalue:0;
+i:3
+temvalue = i.getAndIncrement();
+System.out.println("temvalue:" + temvalue + "; i:" + i);//temvalue:3;
+i:4
+temvalue = i.getAndAdd(5);
+n System.out.println("temvalue:" + temvalue + "; i:" + i);//temvalue:4;
+i:9
+c
+}
+e n
+d } c
+o e n
+2.3 基本数据类型原子类的优势
+c d c
+理 f 通过一个简单例子带大o家看一下基本数据类型原子类的优势 e n
+l ①多线程环境不使c用原子类保证线程安全（基本数据类型） d c
+整 o 理 f o e n
+class Test {
+w l c d c
+private volatile int count = 0;
+育 ： 整 o //若要线程安全执行执行count++，需要加锁 理 f o e
+public synchronized void increment() {
+w l c d
+count++;
+教 号 育 ： 整 o 理 f o
+}
+w l c
+public int getCount() {
+狼 众 教 号 育 ： 整 o 理 f
+return count;
+} w l
+}
+丁 公 狼 众 教 号 育 ： 整 o
+w
+②多线程环境使用原子类保证线程安全（基本数据类型）
+叩 信 丁 公 狼 众 教 号 育 ：
+class Test2 {
+private AtomicInteger count = new AtomicInteger();
+微 叩 信 丁 公 狼 众 教 号
+public void increment() {
+微 叩 信 count.incrementAndGet(); 丁 公 狼 众
+}
+//使用AtomicInteger之后，不需要加锁，也可以实现线程安全。
+pu微 blic int getCount() { 叩 信 丁 公
+return count.get();
+}
+微 叩 信
+}
+2.4 AtomicInteger 线程安全原理简单分析 微
+AtomicInteger 类的部分源码：
+// setup to use Unsafe.compareAndSwapInt for updates（更新操作时提供“比较并替
+换”的作用）
+private static final Unsafe unsafe = Unsafe.getUnsafe();
+private static final long valueOffset;
+static {
+try {
+valueOffset = unsafe.objectFieldOffset
+n
+(AtomicInteger.class.getDeclaredField("value"));
+c } catch (Exception ex) { throw new Error(ex); }
+}
+e n
+d c
+private volatile int value;
+o e n
+c AtomicInteger 类主要利用d CAS (compare and swap) + volatile 和 native 方法来保证原子操作，c从而
+避免 synchronized 的高开销，执行效率大为提升。
+理 f o e n
+l CAS的原理是拿期c望的值和原本的一个值作比较，如果相同则更新成新的值。UnSafe 类的d c
+objectFieldOffset() 方法是一个本地方法，这个方法是用来拿到“原来的值”的内存地址。另外 value 是
+整 o 理 f o e n
+一个volatile变量，在内存中可见，因此 JVM 可以保证任何时刻任何线程总能拿到该变量的最新值。
+w l c d c
+3 数组类型原子类
+育 ： 整 o 理 f o e
+w l c d
+3.1 数组类型原子类介绍
+教 号 育 ： 整 o 理 f o
+使用原子的方式更新数组里的某个元素
+w l c
+狼 众 教 号 AtomicIntegerArray：整形数组原育子类 ： 整 o 理 f
+AtomicLongArray：长整形数组原子类
+w l
+AtomicReferenceArray ：引用类型数组原子类
+丁 公 狼 众 教 号 育 ： 整 o
+上面三个类提供的方法几乎相同，所以我们这里以 AtomicIntegerArray 为例子来介绍。
+w
+叩 信 丁 公 AtomicIntegerArra狼y 类常用方法 众 教 号 育 ：
+public final int get(int i) //获取 index=i 位置元素的值
+微 叩 信 丁 公 狼 众 教 号
+public final int getAndSet(int i, int newValue)//返回 index=i 位置的当前的值，并将其
+设置为新值：newValue
+public final int getAndIncrement(int i)//获取 index=i 位置元素的值，并让该位置的元素自
+微 叩 信 丁 公 狼 众
+增
+public final int getAndDecrement(int i) //获取 index=i 位置元素的值，并让该位置的元素
+自减
+微 叩 信 丁 公
+public final int getAndAdd(int delta) //获取 index=i 位置元素的值，并加上预期的值
+boolean compareAndSet(int expect, int update) //如果输入的数值等于预期值，则以原子方式
+将 index=i 位置的元素值设置为输入值（update） 微 叩 信
+public final void lazySet(int i, int newValue)//最终 将index=i 位置的元素设置为
+newValue,使用 lazySet 设置之后可能导致其他线程在之后的一小段时间内还是可以读到旧的值。
+微
+3.2 AtomicIntegerArray 常见方法使用
+import java.util.concurrent.atomic.AtomicIntegerArray;
+public class AtomicIntegerArrayTest {
+public static void main(String[] args) {
+// TODO Auto-generated method stub
+int temvalue = 0;
+int[] nums = { 1, 2, 3, 4, 5, 6 };
+AtomicIntegerArray i = new AtomicIntegerArray(nums);
+for (int j = 0; j < nums.length; j++) {
+System.out.println(i.get(j));
+}
+temvalue = i.getAndSet(0, 2);
+System.out.println("temvalue:" + temvalue + "; i:" + i);
+n temvalue = i.getAndIncrement(0);
+System.out.println("temvalue:" + temvalue + "; i:" + i);
+c
+temvalue = i.getAndAdd(0, 5);
+e System.out.println("tenmvalue:" + temvalue + "; i:" + i);
+d } c
+o e n
+}
+c d c
+理 f 4 引用类型原子o类 e n
+l c d c
+4.1 引用类型原子类介绍
+整 o 理 f o e n
+w 基本类型l原子类只能更新一个变量，如果需要原子更新多个变量，需要使用 引用c类型原子类。 d c
+育 ： 整 oAtomicReference：引用类型原子类 理 f o e
+w AtomicStampedReference：原子更新带有版本号的引用类型。该l类将整数值与引用关联起来， c d
+可用于解决原子的更新数据和数据的版本号，可以解决使用 CAS 进行原子更新时可能出现的 ABA
+教 号 育 ： 整 o 理 f o
+问题。
+w l c
+AtomicMarkableReference ：原子更新带有标记的引用类型。该类将 boolean 标记与引用关联起
+狼 众 教 号 来，也可以解决使用 CAS 进行原子育 更新时可能出现的： ABA 问题。 整 o 理 f
+w l
+上面三个类提供的方法几乎相同，所以我们这里以 AtomicReference 为例子来介绍。
+丁 公 狼 众 教 号 育 ： 整 o
+4.2 AtomicReference 类使用示例
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+import java.util.concurrent.atomic.AtomicReference;
+public class AtomicReferenceTest {
+微 叩 信 丁 公 狼 众 教 号
+public static void main(String[] args) {
+AtomicReference<Person> ar = new AtomicReference<Person>();
+微 叩 信 丁 公 狼 众
+Person person = new Person("SnailClimb", 22);
+ar.set(person);
+P微 erson updatePerson = new Person("Daisy", 20叩 ); 信 丁 公
+ar.compareAndSet(person, updatePerson);
+System.out.println(ar.get().getName()); 微 叩 信
+System.out.println(ar.get().getAge());
+}
+} 微
+class Person {
+private String name;
+private int age;
+public Person(String name, int age) {
+super();
+this.name = name;
+this.age = age;
+}
+public String getName() {
+return name;
+}
+public void setName(String name) {
+this.name = name;
+n }
+c
+public int getAge() {
+e return age; n
+d } c
+o e n
+public void setAge(int age) {
+c this.age = dage; c
+}
+理 f o e n
+l } c d c
+整 o 理 f o e n
+上述代码首先创建了一个 Person 对象，然后把 Person 对象设置进 AtomicReference 对象中，然后调
+w l c d c
+用 compareAndSet 方法，该方法就是通过 CAS 操作设置 ar。如果 ar 的值为 person 的话，则将其设
+育 ： 整 o 理 f o e
+置为 updatePerson。实现原理与 AtomicInteger 类中的 compareAndSet 方法相同。运行上面的代码
+w后的输出结果如下： l c d
+教 号 育 ： 整 o 理 f o
+Daisy
+w l c
+20
+狼 众 教 号 育 ： 整 o 理 f
+4.3 AtomicStampedReference 类使用示例 w l
+丁 公 狼 众 教 号 育 ： 整 o
+import java.util.concurrent.atomic.AtomicStampedReference; w
+叩 信 丁 公 狼 众 教 号 育 ：
+public class AtomicStampedReferenceDemo {
+public static void main(String[] args) {
+// 实例化、取当前值和 stamp 值
+微 叩 信 丁 公 狼 众 教 号
+final Integer initialRef = 0, initialStamp = 0;
+final AtomicStampedReference<Integer> asr = new AtomicStampedReference<>
+(initialRef, initialStamp);
+微 叩 信 丁 公 狼 众
+System.out.println("currentValue=" + asr.getReference() + ",
+currentStamp=" + asr.getStamp());
+微 叩 信 丁 公
+// compare and set
+final Integer newReference = 666, newStamp = 999;
+final boolean casResult = asr.compareAndSet(initial微Ref, newReference, 叩 信
+initialStamp, newStamp);
+System.out.println("currentValue=" + asr.getReference()
+微
++ ", currentStamp=" + asr.getStamp()
++ ", casResult=" + casResult);
+// 获取当前的值和当前的 stamp 值
+int[] arr = new int[1];
+final Integer currentValue = asr.get(arr);
+final int currentStamp = arr[0];
+System.out.println("currentValue=" + currentValue + ", currentStamp=" +
+currentStamp);
+// 单独设置 stamp 值
+final boolean attemptStampResult = asr.attemptStamp(newReference, 88);
+System.out.println("currentValue=" + asr.getReference()
++ ", currentStamp=" + asr.getStamp()
++ ", attemptStampResult=" + attemptStampResult);
+// 重新设置当前值和 stamp 值
+asr.set(initialRef, initialStamp);
+n System.out.println("currentValue=" + asr.getReference() + ",
+currentStamp=" + asr.getStamp());
+c
+e // [不推荐使用，除非搞清楚n注释的意思了] weak compare and set
+d // 困惑！weakComparecAndSet 这个方法最终还是调用 compareAndSet 方法。[版本:
+jdk-8u191]
+o e n
+// 但是注释上写着 "May fail spuriously and does not provide ordering
+c guarantees, d c
+// so is only rarely an appropriate alternative to compareAndSet."
+理 f o e n
+// todo 感觉有可能是 jvm 通过方法名在 native 方法里面做了转发
+l finacl boolean wCasResult = asr.weakCompareAndSet(initialRef, d c
+newReference, initialStamp, newStamp);
+整 o 理 f o e n
+System.out.println("currentValue=" + asr.getReference()
+w l c d c
++ ", currentStamp=" + asr.getStamp()
+育 ： 整 o + ", wCasResult=" + wCasResul理 t); f o e
+}
+w l c d
+}
+教 号 育 ： 整 o 理 f o
+输出结果如下： w l c
+狼 众 教 号 育 ： 整 o 理 f
+currentValue=0, currentStamp=0
+w l
+currentValue=666, currentStamp=999, casResult=true
+丁 公 狼 众 currentValue=666, curre教ntStamp=999 号 育 ： 整 o
+currentValue=666, currentStamp=88, attemptStampResult=true
+w
+currentValue=0, currentStamp=0
+叩 信 丁 公 狼 众 教 号 育 ：
+currentValue=666, currentStamp=999, wCasResult=true
+微 叩 信 4.4 Atom丁icMarkableR公eference 类使用示例 狼 众 教 号
+import java.util.concurrent.atomic.AtomicMarkableReference;
+微 叩 信 丁 公 狼 众
+public class AtomicMarkableReferenceDemo {
+public static void main(String[] args) {
+微 叩 信 丁 公
+// 实例化、取当前值和 mark 值
+final Boolean initialRef = null, initialMark = false;
+final AtomicMarkableReference<Boolean> amr = new
+微 叩 信
+AtomicMarkableReference<>(initialRef, initialMark);
+System.out.println("currentValue=" + amr.getReference() + ",
+currentMark=" + amr.isMarked()); 微
+// compare and set
+final Boolean newReference1 = true, newMark1 = true;
+final boolean casResult = amr.compareAndSet(initialRef, newReference1,
+initialMark, newMark1);
+System.out.println("currentValue=" + amr.getReference()
++ ", currentMark=" + amr.isMarked()
++ ", casResult=" + casResult);
+// 获取当前的值和当前的 mark 值
+boolean[] arr = new boolean[1];
+final Boolean currentValue = amr.get(arr);
+final boolean currentMark = arr[0];
+System.out.println("currentValue=" + currentValue + ", currentMark=" +
+currentMark);
+// 单独设置 mark 值
+n final boolean attemptMarkResult = amr.attemptMark(newReference1, false);
+System.out.println("currentValue=" + amr.getReference()
+c
++ ", currentMark=" + amr.isMarked()
+e + ", attemptManrkResult=" + attemptMarkResult);
+d c
+// 重新设置当前值和 mark 值
+o e n
+amr.set(initialRef, initialMark);
+c System.out.dprintln("currentValue=" + amr.getReference() + ", c
+currentMark=" + amr.isMarked());
+理 f o e n
+l // [c不推荐使用，除非搞清楚注释的意思了] weak compare and set d c
+// 困惑！weakCompareAndSet 这个方法最终还是调用 compareAndSet 方法。[版本:
+整 o 理 f o e n
+jdk-8u191]
+w l c d c
+// 但是注释上写着 "May fail spuriously and does not provide ordering
+育 ： 整 gouarantees, 理 f o e
+// so is only rarely an appropriate alternative to compareAndSet."
+w l c d
+// todo 感觉有可能是 jvm 通过方法名在 native 方法里面做了转发
+教 号 育 ： final boolean wCasResult = am整r.weakCompareAnodSet(initialRef, 理 f o
+newReference1, initialMark, newMark1);
+w l c
+System.out.println("currentValue=" + amr.getReference()
+狼 众 教 号 育 ： 整 o 理 f
++ ", currentMark=" + amr.isMarked()
++ ", wCasResult=" + wCasResult); w l
+}
+丁 公 狼 众 教 号 育 ： 整 o
+}
+w
+叩 信 丁 公 输出结果如下： 狼 众 教 号 育 ：
+currentValue=null, currentMark=false
+微 叩 信 丁 公 狼 众 教 号
+currentValue=true, currentMark=true, casResult=true
+currentValue=true, currentMark=true
+currentValue=true, currentMark=false, attemptMarkResult=true
+微 叩 信 丁 公 狼 众
+currentValue=null, currentMark=false
+currentValue=true, currentMark=true, wCasResult=true
+微 叩 信 丁 公
+5 对象的属性修改类型原子类
+微 叩 信
+5.1 对象的属性修改类型原子类介绍
+如果需要原子更新某个类里的某个字段时，需要用到对象的属性修改类型原子类。
+微
+AtomicIntegerFieldUpdater:原子更新整形字段的更新器
+AtomicLongFieldUpdater：原子更新长整形字段的更新器
+AtomicReferenceFieldUpdater ：原子更新引用类型里的字段的更新器
+要想原子地更新对象的属性需要两步。第一步，因为对象的属性修改类型原子类都是抽象类，所以每次
+使用都必须使用静态方法 newUpdater()创建一个更新器，并且需要设置想要更新的类和属性。第二
+步，更新的对象属性必须使用 public volatile 修饰符。
+上面三个类提供的方法几乎相同，所以我们这里以 AtomicIntegerFieldUpdater为例子来介绍。
+5.2 AtomicIntegerFieldUpdater 类使用示例
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+public class AtomicIntegerFieldUpdaterTest {
+public static void main(String[] args) {
+AtomicIntegerFieldUpdater<User> a =
+AtomicIntegerFieldUpdater.newUpdater(User.class, "age");
+n
+c User user = new User("Java", 22);
+System.out.println(a.getAndIncrement(user));// 22
+e n
+System.out.println(a.get(user));// 23
+d c
+}
+o } e n
+c d c
+class User {
+理 f private Striong name; e n
+public volatile int age;
+l c d c
+整 o 理 f o e n
+public User(String name, int age) {
+w l super(); c d c
+this.name = name;
+育 ： 整 o 理 f o e
+this.age = age;
+w } l c d
+教 号 育 ： 整 o 理 f o
+public String getName() {
+return name; w l c
+狼 众 教 号 } 育 ： 整 o 理 f
+w l
+public void setName(String name) {
+丁 公 狼 众 this.name = nam教e; 号 育 ： 整 o
+}
+w
+叩 信 丁 公 public int g狼 etAge() { 众 教 号 育 ：
+return age;
+}
+微 叩 信 丁 公 狼 众 教 号
+public void setAge(int age) {
+this.age = age;
+微 叩 信 丁 公 狼 众
+}
+}
+微 叩 信 丁 公
+输出结果：
+微 叩 信
+22
+23
+微
+Reference
+《Java并发编程的艺术》

@@ -1,0 +1,539 @@
+Dubbo支持哪些协议，每种协议的应用场景，优缺点？
+ dubbo： 单一长连接和NIO异步通讯，适合大并发小数据量的服务调用，
+以及消费者远大于提供者。传输协议TCP，异步，Hessian序列化；
+n  rmi： 采用JDK标准的rmi协议实现，传输参数和返回参数对象需要实现
+Serializable接口，使用java标准序列化机制，使用阻塞式短连接，传输数
+c
+据包大小混合，消费者和提供者个数差不多，可传文件，传输协议TCP。
+e n
+多个短连接，TCP协议传输，同步传输，适用常规的远程服务调用和rmi互
+d c
+操作。在依赖低版本的Common-Collections包，java序列化存在安全漏
+o 洞； e n
+c  webservice：d 基于WebService的远程调用协议，集成CXF实现，提供和c
+原生WebService的互操作。多个短连接，基于HTTP传输，同步传输，适
+理 f o e n
+用系统集成和跨语言调用；
+l c d c
+ http： 基于Http表单提交的远程调用协议，使用Spring的HttpInvoke实
+整 o 理 现f。多个短连接，传输协议HTTP，传入参数大小混合，提供者o个数多于消 e n
+w l费者，需要给应用程序和浏览器JS调用； c d c
+育 ： 整 o hessian： 集成Hessian服务，基于HT 理 TP通讯，采用 fServlet暴露服务， o e
+Dubbo内嵌Jetty作为服务器时默认实现，提供与Hession服务互操作。多
+w l c d
+个短连接，同步HTTP传输，Hessian序列化，传入参数较大，提供者大于
+教 号 育 ： 整 o 理 f o
+消费者，提供者压力较大，可传文件；
+ memcache： 基于memcached实现的RPwC协议 l c
+狼 众 教 号  redis： 基于redis实现的育 RPC协议 ： 整 o 理 f
+Dubbo超时时间怎样设置？ w l
+丁 公 狼 众 教 号 育 ： 整 o
+Dubbo 超时时间设置有两种方式：
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+ 服务提供者端设置超时时间，在Dubbo的用户文档中，推荐如果能在服务
+端多配置就尽量多配置，因为服务提供者比消费者更清楚自己提供的服务特
+微 叩 信 性丁 。 公 狼 众 教 号
+ 服务消费者端设置超时时间，如果在消费者端设置了超时时间，以消费者端
+为主，即优先级更高。因为服务调用方设置超时时间控制性更灵活。如果消
+微 叩 信 丁 公 狼 众
+费方超时，服务端线程不会定制，会产生警告。
+Dubbo有些哪些注册中心？
+微 叩 信 丁 公
+ Multicast注册中心： Multicast注册中心不需要任何中心节点，只要广播地
+址，就能进行服务注册和发现。基于网络中组播传输实 微现；
+叩 信
+ Zookeeper注册中心： 基于分布式协调系统Zookeeper实现，采用
+Zookeeper的watch机制实现数据变更；
+微
+ redis注册中心： 基于redis实现，采用key/Map存储，住key存储服务名
+和类型，Map中key存储服务URL，value服务过期时间。基于redis的发
+布/订阅模式通知数据变更；
+ Simple注册中心
+Dubbo集群的负载均衡有哪些策略
+Dubbo 提供了常见的集群策略实现，并预扩展点予以自行实现。
+ Random LoadBalance: 随机选取提供者策略，有利于动态调整提供者权
+重。截面碰撞率高，调用次数越多，分布越均匀；
+n
+ RoundRobin LoadBalance: 轮循选取提供者策略，平均分布，但是存在请
+c 求累积的问题；
+e  LeastActive LoadBalannce: 最少活跃调用策略，解决慢提供者接收更少的
+请求；
+d c
+ ConstantHash LoadBalance: 一致性Hash策略，使相同参数请求总是发
+o e n
+到同一提供者，一台机器宕机，可以基于虚拟节点，分摊至其他提供者，避
+c d c
+免引起提供者的剧烈变动；
+理 f o e n
+l c d c
+ Dubbo 是什么？
+整 o 理 f o e n
+w l c d c
+ Dubbo 是一个分布式、高性能、透明化的 RPC 服务框架，提
+育 ： 整 o 理 f o e
+w l c d
+供服务自动注册、自动发现等高效服务治理方案， 可以和
+教 号 育 ： 整 o 理 f o
+Spring 框架无缝集成。 w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+ Dubbo 的主要应用场景？
+丁 公 狼 众 教 号 育 ： 整 o
+w
+ 透明化的远程方法调用，就像调用本地方法一样调用远程方法，
+叩 信 丁 公 狼 众 教 号 育 ：
+只需简单配置，没有任何 API 侵入。
+微 叩 信 丁 公 狼 众 教 号
+ 软负载均衡及容错机制，可在内网替代 F5 等硬件负载均衡器，
+微 叩 信 丁 公 狼 众
+降低成本，减少单点。
+微 叩 信 丁 公
+ 服务自动注册与发现，不再需要写死服务提供方地址，注册中心
+微 叩 信
+基于接口名查询服务提供者的 IP 地址，并且能够平滑添加或删
+微
+除服务提供者。
+Dubbo 的核心功能？
+主要就是如下 3 个核心功能：
+ Remoting：网络通信框架，提供对多种 NIO 框架抽象封装，包括
+n
+c “同步转异步”和“请求-响应”模式的信息交换方式。
+e n
+ Cluster：服务框架，提供基于接口方法的透明远程过程调用，包括多
+d c
+o e n
+协议支持，以及软负载均衡，失败容错，地址路由，动态配置等集群
+c d c
+理 f 支持。 o e n
+l c d c
+ Registry：服务注册，基于注册中心目录服务，使服务消费方能动态
+整 o 理 f o e n
+w l c d c
+的查找服务提供方，使地址透明，使服务提供方可以平滑增加或减少
+育 ： 整 o 理 f o e
+w机器。 l c d
+教 号 育 ： 整 o 理 f o
+w l c
+ Dubbo 的核心组件？
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+
+微
+Dubbo 服务注册与发现的流程？
+n
+c
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+流程说明：
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号  Provider(提供者)绑定指定育 端口并启动服： 务 整 o 理 f
+w l
+ 指供者连接注册中心，并发本机 IP、端口、应用信息和提供服务信息
+丁 公 狼 众 教 号 育 ： 整 o
+w
+发送至注册中心存储
+叩 信 丁 公 狼 众 教 号 育 ：
+ Consumer(消费者），连接注册中心 ，并发送应用信息、所求服务信
+微 叩 信 丁 公 狼 众 教 号
+息至注册中心
+微 叩 信 丁 公 狼 众
+ 注册中心根据 消费 者所求服务信息匹配对应的提供者列表发送至
+Consu微mer 应用缓存。 叩 信 丁 公
+ Consumer 在发起远程调用时基于缓存的消费者列表择其一发起调
+微 叩 信
+用。
+微
+ Provider 状态变更会实时通知注册中心、在由注册中心实时推送至
+Consumer
+设计的原因：
+ Consumer 与 Provider 解偶，双方都可以横向增减节点数。
+n
+c  注册中心对本身可做对等集群，可动态增减节点，并且任意一台宕掉
+e n
+后，将自动切换到另一台
+d c
+o e n
+ 去中心化，双方不直接依懒注册中心，即使注册中心全部宕机短时间
+c d c
+理 f 内也不会影响o服务的调用 e n
+l c d c
+ 服务提供者无状态，任意一台宕掉后，不影响使用
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微
+Dubbo 的架构设计？
+n
+c
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+Dubbo 框架设计一共划分了 10 个层：
+微 叩 信 丁 公 狼 众 教 号
+微 服叩 务接口层（信 Service）：该层是与实际业务逻辑相关丁 的，根据服公务提 狼 众
+
+供方和服务消费方的业务设计对应的接口和实现。
+微 叩 信 丁 公
+ 配置层（Config）：对外配置接口，以 ServiceConfig 和
+微 叩 信
+ReferenceConfig 为中心。
+微
+ 服务代理层（Proxy）：服务接口透明代理，生成服务的客户端 Stub
+和服务器端 Skeleton。
+ 服务注册层（Registry）：封装服务地址的注册与发现，以服务 URL
+为中心。
+n
+ 集群层（Cluster）：封装多个提供者的路由及负载均衡，并桥接注册
+c
+e 中心，以 Invoker 为中心。n
+d c
+ 监控层（Monitor）：RPC 调用次数和调用时间监控。
+o e n
+c d c
+ 远程调用层（Protocol）：封将 RPC 调用，以 Invocation 和 Result
+理 f o e n
+l 为中心，扩c展接口为 Protocol、Invoker 和 Exporter。 d c
+整 o 理 f o e n
+ 信息交换层（Exchange）：封装请求响应模式，同步转异步，以
+w l c d c
+育 ： 整 o 理 f o e
+Request 和 Response 为中心。
+w l c d
+教 号 育 ：  网络传输层（Transport）：抽象 整 mina 和 ne otty 为统一接口，以 理 f o
+w l c
+Message 为中心。
+狼 众 教 号 育 ： 整 o 理 f
+w l
+Dubbo 的服务调用流程？
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微
+n
+c
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
+微 叩 信 丁 公 狼 众
+ dubbo微 ： 单一长连接和 NIO 异步通讯，适合叩大并发小数据信 量的服务 丁 公
+调用，以及消费者远大于提供者。传输协议 TCP，异步，Hessian 序
+微 叩 信
+列化；
+微
+ rmi： 采用 JDK 标准的 rmi 协议实现，传输参数和返回参数对象需要
+实现 Serializable 接口，使用 java 标准序列化机制，使用阻塞式短连
+接，传输数据包大小混合，消费者和提供者个数差不多，可传文件，
+传输协议 TCP。 多个短连接，TCP 协议传输，同步传输，适用常规的
+远程服务调用和 rmi 互操作。在依赖低版本的 Common-Collections
+n
+包，java 序列化存在安全漏洞；
+c
+e  webservice： 基于 WebSnervice 的远程调用协议，集成 CXF 实现，
+d c
+提供和原生 WebService 的互操作。多个短连接，基于 HTTP 传输，
+o e n
+c d c
+同步传输，适用系统集成和跨语言调用；
+理 f o e n
+l  http： 基c于 Http 表单提交的远程调用协议，使用 Spring 的 d c
+整 o 理 f o e n
+HttpInvoke 实现。多个短连接，传输协议 HTTP，传入参数大小混
+w l c d c
+育 ： 整 o 理 f o e
+合，提供者个数多于消费者，需要给应用程序和浏览器 JS 调用；
+w l c d
+教 号 育 ：  hessian： 集成 Hessian 服务，基 整 于 HTTP 通 o讯，采用 Servlet 暴露 理 f o
+w l c
+服务，Dubbo 内嵌 Jetty 作为服务器时默认实现，提供与 Hession 服
+狼 众 教 号 育 ： 整 o 理 f
+务互操作。多个短连接，同步 HTTP 传输，Hessian 序列化，传入参 w l
+丁 公 狼 众 教 号 育 ： 整 o
+数较大，提供者大于消费者，提供者压力较大，可传文件；
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+ memcache： 基于 memcached 实现的 RPC 协议
+微 叩 信  redis：丁 基于 redis 实公 现的 RPC 协议 狼 众 教 号
+dubbo 推荐用什么协议？
+微 叩 信 丁 公 狼 众
+默认使微用 dubbo 协议 叩 信 丁 公
+微 叩 信
+Dubbo 有些哪些注册中心？
+微
+ Multicast 注册中心： Multicast 注册中心不需要任何中心节点，只
+要广播地址，就能进行服务注册和发现。基于网络中组播传输实现；
+ Zookeeper 注册中心： 基于分布式协调系统 Zookeeper 实现，采用
+Zookeeper 的 watch 机制实现数据变更；
+n
+ redis 注册中心： 基于 redis 实现，采用 key/Map 存储，住 key 存储
+c
+e 服务名和类型，Map 中 keny 存储服务 URL，value 服务过期时间。基
+d c
+于 redis 的发布/订阅模式通知数据变更；
+o e n
+c d c
+ Simple 注册中心
+理 f o e n
+l c d c
+Dubbo 默认采用注册中心？
+整 o 理 f o e n
+w l c d c
+育 ： 整 采o用 Zookeeper 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+为什么需要服务治理？
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微
+ 过多的服务 URL 配置困难
+ 负载均衡分配节点压力过大的情况下也需要部署集群
+ 服务依赖混乱，启动顺序不清晰
+ 过多服务导致性能指标分析难度较大，需要监控
+n
+c Dubbo 的注册中心集群挂掉，发布者和订阅者之间还能通信么？
+e n
+d c
+可以的，启动 dubbo 时，消费者会从 zookeeper 拉取注册的生产者
+o e n
+c 的地址接口等数据d，缓存在本地。 c
+理 f o e n
+l c d c
+每次调用时，按照本地存储的地址进行调用。
+整 o 理 f o e n
+w l c d c
+Dubbo 与 Spring 的关系？
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： Dubbo 采用全 Spring 配置方式，整 透明化接入o应用，对应用没有任何 理 f o
+w l c
+API 侵入，只需用 Spring 加载 Dubbo 的配置即可，Dubbo 基于
+狼 众 教 号 育 ： 整 o 理 f
+w l
+Spring 的 Schema 扩展进行加载。
+丁 公 狼 众 教 号 育 ： 整 o
+w
+Dubbo 使用的是什么通信框架?
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 默认使丁用 NIO Netty公 框架 狼 众 教 号
+微 叩 信 丁 公 狼 众
+Dubbo 集群提供了哪些负载均衡策略？
+微 叩 信 丁 公
+ Random LoadBalance: 随机选取提供者策略，有利于动态调整提供
+微 叩 信
+者权重。截面碰撞率高，调用次数越多，分布越均匀；
+ RoundRobin LoadBalance: 轮循选取提供者策略，平均分布，但是 微
+存在请求累积的问题；
+ LeastActive LoadBalance: 最少活跃调用策略，解决慢提供者接收
+更少的请求；
+n
+ ConstantHash LoadBalance: 一致性 Hash 策略，使相同参数请求
+c
+e 总是发到同一提供者，一台n机器宕机，可以基于虚拟节点，分摊至其
+d c
+他提供者，避免引起提供者的剧烈变动；
+o e n
+c d c
+理 f 缺省时为 Ranodom 随机调用 e n
+l c d c
+整 o 理 f o e n
+Dubbo 的集群容错方案有哪些？
+w l c d c
+育 ： 整 o 理 f o e
+ Failover Cluster
+w l c d
+教 号 育 ： 整 o 理 f o
+ 失败自动切换，当出现失败，重试其它服务器。通常用于读操作，但
+w l c
+狼 众 教 号 重试会带来更长延迟。 育 ： 整 o 理 f
+w l
+ Failfast Cluster
+丁 公 狼 众 教 号 育 ： 整 o
+w
+ 快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写
+叩 信 丁 公 狼 众 教 号 育 ：
+操作，比如新增记录。
+微 叩 信 丁 公 狼 众 教 号
+ Failsafe Cluster
+微  失叩 败安全，出信 现异常时，直接忽略。通常用于写入审丁 计日志等操作公 。 狼 众
+ Failba 微ck Cluster 叩 信 丁 公
+ 失败自动恢复，后台记录失败请求，定时重发。通常用于消息通知操
+微 叩 信
+作。
+微
+ Forking Cluster
+ 并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较
+高的读操作，但需要浪费更多服务资源。可通过 forks="2" 来设置最
+n
+大并行数。
+c
+e  Broadcast Cluster n
+d c
+ 广播调用所有提供者，逐个调用，任意一台报错则报错 。通常用于通
+o e n
+c d c
+知所有提供者更新缓存或日志等本地资源信息。
+理 f o e n
+l c d c
+Dubbo 的默认集群容错方案？
+整 o 理 f o e n
+w l c d c
+育 ： 整 Foailover Cluster 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+Dubbo 支持哪些序列化方式？
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+默认使用 Hessian 序列化，还有 Duddo、FastJson、Java 自带序列
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+化。
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+Dubbo 超时时间怎样设置？
+微 叩 信 丁 公 狼 众 教 号
+Dubbo 超时时间设置有两种方式：
+微 叩 信 丁 公 狼 众
+ 服务提供者端设置超时时间，在 Dubbo 的用户文档中，推荐如果能
+微 叩 信 丁 公
+在服务端多配置就尽量多配置，因为服务提供者比消费者更清楚自己
+微 叩 信
+提供的服务特性。
+微
+ 服务消费者端设置超时时间，如果在消费者端设置了超时时间，以消
+费者端为主，即优先级更高。因为服务调用方设置超时时间控制性更
+灵活。如果消费方超时，服务端线程不会定制，会产生警告。
+服务调用超时问题怎么解决？
+dubbo 在调用服务不成功时，默认是会重试两次的。
+n
+c
+Dubbo 在安全机制方面是如何解决？
+e n
+d c
+o Dubbo 通过 Tokene令牌防止用户绕过注册中心直连，然后在注册中 n
+c d c
+心上管理授权。Dubbo 还提供服务黑白名单，来控制服务所允许的调
+理 f o e n
+l c d c
+用方。
+整 o 理 f o e n
+w l c d c
+Dubbo 和 Dubbox 之间的区别？
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： dubbox 基于 dubbo 上做了一整些扩展，如加o了服务可 restful 调 理 f o
+w l c
+用，更新了开源组件等。
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 Dubbo 和 Spring C教 loud 的关系号 ？ 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+Dubbo 是 SOA 时代的产物，它的关注点主要在于服务的调用，流
+微 叩 信 量分发丁、流量监控和公 熔断。而 Spring Cloud 诞生于微服务狼 架构时 众 教 号
+代，考虑的是微服务治理的方方面面，另外由于依托了 Spirng、
+微 叩 信 丁 公 狼 众
+Spirng Boot 的优势之上，两个框架在开始目标就不一致，Dubbo
+微 叩 信 丁 公
+定位服务治理、Spirng Cloud 是一个生态。
+微 叩 信
+Dubbo 和 Spring Cloud 的区别？
+微
+n
+c
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+最大的区别：Dubbo 底层是使用 Netty 这样的 NIO 框架，是基于
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+TCP 协议传输的，配合以 Hession 序列化完成 RPC 通信。
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+而 SpringCloud 是基于 Http 协议+Rest 接口调用远程过程的通信，
+w
+叩 信 丁 公 相对来说，Ht狼 tp 请求会有更众 大的报文，占的带宽也会更多。但是教 号 育 ：
+REST 相比 RPC 更为灵活，服务提供方和调用方的依赖只依靠一纸契
+微 叩 信 丁 公 狼 众 教 号
+约，不存在代码级别的强依赖。
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微

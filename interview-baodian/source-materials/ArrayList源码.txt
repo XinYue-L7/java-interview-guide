@@ -1,0 +1,867 @@
+ArrayList简介
+ArrayList 的底层是数组队列，相当于动态数组。与 Java 中的数组相比，它的容量能动态增长。在
+添加大量元素前，应用程序可以使用ensureCapacity操作来增加 ArrayList 实例的容量。这可以减少
+递增式再分配的数量。
+n
+它继承于 AbstractList，实现了 List, RandomAccess, Cloneable, java.io.Serializable 这些接口。
+c
+在我们学数据结构的时候就知道了线性表的顺序存储，插入删除元素的时间复杂度为O（n）,求表长以
+e n
+及增加元素，取第 i 元素的时间复杂度为O（1）
+d c
+ArrayList 继承了AbstractList，实现了List。它是一个数组队列，提供了相关的添加、删除、修改、
+o e n
+遍历等功能。
+c d c
+ArrayList 实现了RandomAccess 接口， RandomAccess 是一个标志接口，表明实现这个这个接
+理 f o e n
+口的 List 集合是支持快速随机访问的。在 ArrayList 中，我们即可以通过元素的序号快速获取元素对
+l c d c
+象，这就是快速随机访问。
+整 o 理 f o e n
+ArrayList 实现了Cloneable 接口，即覆盖了函数 clone()，能被克隆。
+w l c d c
+ArrayList 实现java.io.Serializable 接口，这意味着ArrayList支持序列化，能通过序列化去传输。
+育 ： 整 o 理 f o e
+w 和 Vector 不同，ArrayList 中的操作不是线程安全的！所以，建议l在单线程中才使用 ArrayList， c d
+而在多线程中可以选择 Vector 或者 CopyOnWriteArrayList。
+教 号 育 ： 整 o 理 f o
+ArrayList核心源码 w l c
+狼 众 教 号 育 ： 整 o 理 f
+package java.util; w l
+丁 公 狼 众 教 号 育 ： 整 o
+import java.util.function.Consumer;
+import java.util.function.Predicate; w
+import java.util.function.UnaryOperator;
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 public cl丁 ass ArrayList<公E> extends AbstractList<E> 狼 众 教 号
+implements List<E>, RandomAccess, Cloneable, java.io.Serializable
+{
+微 叩 private stat信 ic final long serialVersionUID = 8683452581丁122892189L; 公 狼 众
+/**
+* 默微认初始容量大小 叩 信 丁 公
+*/
+private static final int DEFAULT_CAPACITY = 10;
+微 叩 信
+/**
+* 空数组（用于空实例）。
+微
+*/
+private static final Object[] EMPTY_ELEMENTDATA = {};
+//用于默认大小空实例的共享空数组实例。
+//我们把它从EMPTY_ELEMENTDATA数组中区分出来，以知道在添加第一个元素时容量需要增加多
+少。
+private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
+/**
+* 保存ArrayList数据的数组
+*/
+transient Object[] elementData; // non-private to simplify nested class
+access
+/**
+* ArrayList 所包含的元素个数
+*/
+private int size;
+n
+/**
+c
+* 带初始容量参数的构造函数。（用户自己指定容量）
+e */ n
+d public ArrayList(int incitialCapacity) {
+if (initialCapacity > 0) {
+o e n
+//创建initialCapacity大小的数组
+c this.eldementData = new Object[initialCapacity]; c
+} else if (initialCapacity == 0) {
+理 f o e n
+//创建空数组
+l cthis.elementData = EMPTY_ELEMENTDATA; d c
+} else {
+整 o 理 f o e n
+throw new IllegalArgumentException("Illegal Capacity: "+
+w l c d c
+initialCapacity);
+育 ： 整 o } 理 f o e
+}
+w l c d
+教 号 育 ： /** 整 o 理 f o
+*默认构造函数，DEFAULTCAPACITY_EMPTY_ELEMENTDATA 为0.初始化为10，也就是说初始其实
+w l c
+是空数组 当添加第一个元素的时候数组容量才变成10
+狼 众 教 号 育 ： 整 o 理 f
+*/
+public ArrayList() { w l
+this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
+丁 公 狼 众 教 号 育 ： 整 o
+}
+w
+/**
+叩 信 丁 公 狼 众 教 号 育 ：
+* 构造一个包含指定集合的元素的列表，按照它们由集合的迭代器返回的顺序。
+*/
+public ArrayList(Collection<? extends E> c) {
+微 叩 信 丁 公 狼 众 教 号
+//
+elementData = c.toArray();
+微 叩 //如果指定信 集合元素个数不为0 丁 公 狼 众
+if ((size = elementData.length) != 0) {
+// c.toArray 可能返回的不是Object类型的数组所以加上下面的语句用于判断，
+微 //这里用到了反射里面的getClass()方法 叩 信 丁 公
+if (elementData.getClass() != Object[].class)
+elementData = Arrays.copyOf(elementData, size, Object[].class);
+微 叩 信
+} else {
+// 用空数组代替
+this.elementData = EMPTY_ELEMENTDATA;
+微
+}
+}
+/**
+* 修改这个ArrayList实例的容量是列表的当前大小。 应用程序可以使用此操作来最小化
+ArrayList实例的存储。
+*/
+public void trimToSize() {
+modCount++;
+if (size < elementData.length) {
+elementData = (size == 0)
+? EMPTY_ELEMENTDATA
+: Arrays.copyOf(elementData, size);
+}
+}
+//下面是ArrayList的扩容机制
+//ArrayList的扩容机制提高了性能，如果每次只扩充一个，
+//那么频繁的插入会导致频繁的拷贝，降低性能，而ArrayList的扩容机制避免了这种情况。
+n /**
+* 如有必要，增加此ArrayList实例的容量，以确保它至少能容纳元素的数量
+c
+* @param minCapacity 所需的最小容量
+e */ n
+d public void ensureCapaccity(int minCapacity) {
+int minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)
+o e n
+// any size if not default element table
+c ? 0 d c
+// larger than default for default empty table. It's already
+理 f o e n
+// supposed to be at default size.
+l c: DEFAULT_CAPACITY; d c
+整 o 理 f o e n
+if (minCapacity > minExpand) {
+w l c d c
+ensureExplicitCapacity(minCapacity);
+育 ： 整 o } 理 f o e
+}
+w l c d
+//得到最小扩容量
+教 号 育 ： private void ensureCapacityIntern整al(int minCapacoity) { 理 f o
+if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
+w l c
+// 获取默认的容量和传入参数的较大值
+狼 众 教 号 育 ： 整 o 理 f
+minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);
+} w l
+丁 公 狼 众 教 号 育 ： 整 o
+ensureExplicitCapacity(minCapacity);
+} w
+//判断是否需要扩容
+叩 信 丁 公 狼 众 教 号 育 ：
+private void ensureExplicitCapacity(int minCapacity) {
+modCount++;
+微 叩 信 丁 公 狼 众 教 号
+// overflow-conscious code
+if (minCapacity - elementData.length > 0)
+微 叩 //调信用grow方法进行扩容，调用此方法代表已经开始扩容了 丁 公 狼 众
+grow(minCapacity);
+}
+微 叩 信 丁 公
+/**
+* 要分配的最大数组大小
+微 叩 信
+*/
+private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+微
+/**
+* ArrayList扩容的核心方法。
+*/
+private void grow(int minCapacity) {
+// oldCapacity为旧容量，newCapacity为新容量
+int oldCapacity = elementData.length;
+//将oldCapacity 右移一位，其效果相当于oldCapacity /2，
+//我们知道位运算的速度远远快于整除运算，整句运算式的结果就是将新容量更新为旧容量的1.5
+倍，
+int newCapacity = oldCapacity + (oldCapacity >> 1);
+//然后检查新容量是否大于最小需要容量，若还是小于最小需要容量，那么就把最小需要容量当作
+数组的新容量，
+if (newCapacity - minCapacity < 0)
+newCapacity = minCapacity;
+//再检查新容量是否超出了ArrayList所定义的最大容量，
+//若超出了，则调用hugeCapacity()来比较minCapacity和 MAX_ARRAY_SIZE，
+//如果minCapacity大于MAX_ARRAY_SIZE，则新容量则为Interger.MAX_VALUE，否则，新
+容量大小则为 MAX_ARRAY_SIZE。
+n if (newCapacity - MAX_ARRAY_SIZE > 0)
+newCapacity = hugeCapacity(minCapacity);
+c
+// minCapacity is usually close to size, so this is a win:
+e elementData = Arrays.cnopyOf(elementData, newCapacity);
+d } c
+//比较minCapacity和 MAX_ARRAY_SIZE
+o e n
+private static int hugeCapacity(int minCapacity) {
+c if (minCapadcity < 0) // overflow c
+throw new OutOfMemoryError();
+理 f o e n
+return (minCapacity > MAX_ARRAY_SIZE) ?
+l cInteger.MAX_VALUE : d c
+MAX_ARRAY_SIZE;
+整 o 理 f o e n
+}
+w l c d c
+育 ： 整 o /** 理 f o e
+*返回此列表中的元素数。
+w l c d
+*/
+教 号 育 ： public int size() { 整 o 理 f o
+return size;
+w l c
+}
+狼 众 教 号 育 ： 整 o 理 f
+/** w l
+* 如果此列表不包含元素，则返回 true 。
+丁 公 狼 众 教 号 育 ： 整 o
+*/
+public boolean isEmpty() { w
+//注意=和==的区别
+叩 信 丁 公 狼 众 教 号 育 ：
+return size == 0;
+}
+微 叩 信 丁 公 狼 众 教 号
+/**
+* 如果此列表包含指定的元素，则返回true 。
+微 叩 */ 信 丁 公 狼 众
+public boolean contains(Object o) {
+//indexOf()方法：返回此列表中指定元素的首次出现的索引，如果此列表不包含此元素，则
+为-1 微 叩 信 丁 公
+return indexOf(o) >= 0;
+}
+微 叩 信
+/**
+*返回此列表中指定元素的首次出现的索引，如果此列表不包含此元素，则为-1
+微
+*/
+public int indexOf(Object o) {
+if (o == null) {
+for (int i = 0; i < size; i++)
+if (elementData[i]==null)
+return i;
+} else {
+for (int i = 0; i < size; i++)
+//equals()方法比较
+if (o.equals(elementData[i]))
+return i;
+}
+return -1;
+}
+/**
+* 返回此列表中指定元素的最后一次出现的索引，如果此列表不包含元素，则返回-1。.
+*/
+n public int lastIndexOf(Object o) {
+if (o == null) {
+c
+for (int i = size-1; i >= 0; i--)
+e if (elementDatna[i]==null)
+d return ci;
+} else {
+o e n
+for (int i = size-1; i >= 0; i--)
+c if d(o.equals(elementData[i])) c
+return i;
+理 f o e n
+}
+l retucrn -1; d c
+}
+整 o 理 f o e n
+w l c d c
+/**
+育 ： 整 o * 返回此ArrayList实例的浅拷贝。 （元素本身不被理 复制。） f o e
+*/
+w l c d
+public Object clone() {
+教 号 育 ： try { 整 o 理 f o
+ArrayList<?> v = (ArrayList<?>) super.clone();
+w l c
+//Arrays.copyOf功能是实现数组的复制，返回复制后的数组。参数是被复制的数组和复制
+狼 众 教 号 的长度 育 ： 整 o 理 f
+v.elementData = Arrays.copyOf(elementData, size); w l
+v.modCount = 0;
+丁 公 狼 众 教 号 育 ： 整 o
+return v;
+} catch (CloneNotSupportedException e) { w
+// 这不应该发生，因为我们是可以克隆的
+叩 信 丁 公 狼 众 教 号 育 ：
+throw new InternalError(e);
+}
+}
+微 叩 信 丁 公 狼 众 教 号
+/**
+微 叩 *以正确的顺序信 （从第一个到最后一个元素）返回一个包含此列表中所有元丁素的数组。 公 狼 众
+*返回的数组将是“安全的”，因为该列表不保留对它的引用。 （换句话说，这个方法必须分配一个新的
+数组）。
+*因此微 ，调用者可以自由地修改返回的数组。 此方法充当基于阵叩列和基于集合的API信 之间的桥梁。 丁 公
+*/
+public Object[] toArray() {
+微 叩 信
+return Arrays.copyOf(elementData, size);
+}
+微
+/**
+* 以正确的顺序返回一个包含此列表中所有元素的数组（从第一个到最后一个元素）;
+*返回的数组的运行时类型是指定数组的运行时类型。 如果列表适合指定的数组，则返回其中。
+*否则，将为指定数组的运行时类型和此列表的大小分配一个新数组。
+*如果列表适用于指定的数组，其余空间（即数组的列表数量多于此元素），则紧跟在集合结束后的数
+组中的元素设置为null 。
+*（这仅在调用者知道列表不包含任何空元素的情况下才能确定列表的长度。）
+*/
+@SuppressWarnings("unchecked")
+public <T> T[] toArray(T[] a) {
+if (a.length < size)
+// 新建一个运行时类型的数组，但是ArrayList数组的内容
+return (T[]) Arrays.copyOf(elementData, size, a.getClass());
+//调用System提供的arraycopy()方法实现数组之间的复制
+System.arraycopy(elementData, 0, a, 0, size);
+if (a.length > size)
+a[size] = null;
+return a;
+n }
+c
+// Positional Access Operations
+e n
+d @SuppressWarnings("unchcecked")
+E elementData(int index) {
+o e n
+return (E) elementData[index];
+c } d c
+理 f o e n
+/**
+l * 返回此c列表中指定位置的元素。 d c
+*/
+整 o 理 f o e n
+public E get(int index) {
+w l c d c
+rangeCheck(index);
+育 ： 整 o 理 f o e
+return elementData(index);
+w l c d
+}
+教 号 育 ： 整 o 理 f o
+/**
+w l c
+* 用指定的元素替换此列表中指定位置的元素。
+狼 众 教 号 育 ： 整 o 理 f
+*/
+public E set(int index, E element) { w l
+//对index进行界限检查
+丁 公 狼 众 教 号 育 ： 整 o
+rangeCheck(index);
+w
+E oldValue = elementData(index);
+叩 信 丁 公 狼 众 教 号 育 ：
+elementData[index] = element;
+//返回原来在这个位置的元素
+return oldValue;
+微 叩 信 丁 公 狼 众 教 号
+}
+微 叩 /** 信 丁 公 狼 众
+* 将指定的元素追加到此列表的末尾。
+*/
+publi微 c boolean add(E e) { 叩 信 丁 公
+ensureCapacityInternal(size + 1); // Increments modCount!!
+//这里看到ArrayList添加元素的实质就相当于为数组赋值
+微 叩 信
+elementData[size++] = e;
+return true;
+}
+微
+/**
+* 在此列表中的指定位置插入指定的元素。
+*先调用 rangeCheckForAdd 对index进行界限检查；然后调用 ensureCapacityInternal 方
+法保证capacity足够大；
+*再将从index开始之后的所有成员后移一个位置；将element插入index位置；最后size加1。
+*/
+public void add(int index, E element) {
+rangeCheckForAdd(index);
+ensureCapacityInternal(size + 1); // Increments modCount!!
+//arraycopy()这个实现数组之间复制的方法一定要看一下，下面就用到了arraycopy()方法实
+现数组自己复制自己
+System.arraycopy(elementData, index, elementData, index + 1,
+size - index);
+elementData[index] = element;
+size++;
+}
+n
+/**
+c
+* 删除该列表中指定位置的元素。 将任何后续元素移动到左侧（从其索引中减去一个元素）。
+e */ n
+d public E remove(int indcex) {
+rangeCheck(index);
+o e n
+c modCount++;d c
+E oldValue = elementData(index);
+理 f o e n
+l int cnumMoved = size - index - 1; d c
+if (numMoved > 0)
+整 o 理 f o e n
+System.arraycopy(elementData, index+1, elementData, index,
+w l c d c
+numMoved);
+育 ： 整 o elementData[--size] = null; // clear 理 to let GC do ifts work o e
+//从列表中删除的元素
+w l c d
+return oldValue;
+教 号 育 ： } 整 o 理 f o
+w l c
+/**
+狼 众 教 号 * 从列表中删除指定元素的第一个育出现（如果存在）。： 如果列表不包含该元素，则它不会更改。 整 o 理 f
+*返回true，如果此列表包含指定的元素 w l
+*/
+丁 公 狼 众 教 号 育 ： 整 o
+public boolean remove(Object o) {
+if (o == null) { w
+for (int index = 0; index < size; index++)
+叩 信 丁 公 狼 众 教 号 育 ：
+if (elementData[index] == null) {
+fastRemove(index);
+return true;
+微 叩 信 丁 公 狼 众 教 号
+}
+} else {
+微 叩 for 信 (int index = 0; index < size; index++) 丁 公 狼 众
+if (o.equals(elementData[index])) {
+fastRemove(index);
+微 return true; 叩 信 丁 公
+}
+}
+微 叩 信
+return false;
+}
+微
+/*
+* Private remove method that skips bounds checking and does not
+* return the value removed.
+*/
+private void fastRemove(int index) {
+modCount++;
+int numMoved = size - index - 1;
+if (numMoved > 0)
+System.arraycopy(elementData, index+1, elementData, index,
+numMoved);
+elementData[--size] = null; // clear to let GC do its work
+}
+/**
+* 从列表中删除所有元素。
+*/
+public void clear() {
+modCount++;
+n
+// 把数组中所有的元素的值设为null
+c
+for (int i = 0; i < size; i++)
+e elementData[i] = nnull;
+d c
+size = 0;
+o e n
+}
+c d c
+/**
+理 f o e n
+* 按指定集合的Iterator返回的顺序将指定集合中的所有元素追加到此列表的末尾。
+l */ c d c
+public boolean addAll(Collection<? extends E> c) {
+整 o 理 f o e n
+Object[] a = c.toArray();
+w l c d c
+int numNew = a.length;
+育 ： 整 o ensureCapacityInternal(size + numNew)理 ; // Incremenfts modCount o e
+System.arraycopy(a, 0, elementData, size, numNew);
+w l c d
+size += numNew;
+教 号 育 ： return numNew != 0; 整 o 理 f o
+}
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+/**
+* 将指定集合中的所有元素插入到此列表中，从指定的位置开始。 w l
+*/
+丁 公 狼 众 教 号 育 ： 整 o
+public boolean addAll(int index, Collection<? extends E> c) {
+rangeCheckForAdd(index); w
+叩 信 丁 公 狼 众 教 号 育 ：
+Object[] a = c.toArray();
+int numNew = a.length;
+ensureCapacityInternal(size + numNew); // Increments modCount
+微 叩 信 丁 公 狼 众 教 号
+int numMoved = size - index;
+微 叩 if (numM信 oved > 0) 丁 公 狼 众
+System.arraycopy(elementData, index, elementData, index + numNew,
+numMoved);
+微 叩 信 丁 公
+System.arraycopy(a, 0, elementData, index, numNew);
+size += numNew;
+微 叩 信
+return numNew != 0;
+}
+微
+/**
+* 从此列表中删除所有索引为fromIndex （含）和toIndex之间的元素。
+*将任何后续元素移动到左侧（减少其索引）。
+*/
+protected void removeRange(int fromIndex, int toIndex) {
+modCount++;
+int numMoved = size - toIndex;
+System.arraycopy(elementData, toIndex, elementData, fromIndex,
+numMoved);
+// clear to let GC do its work
+int newSize = size - (toIndex-fromIndex);
+for (int i = newSize; i < size; i++) {
+elementData[i] = null;
+}
+size = newSize;
+}
+n /**
+* 检查给定的索引是否在范围内。
+c
+*/
+e private void rangeCheck(innt index) {
+d if (index >= size)c
+throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+o e n
+}
+c d c
+/**
+理 f o e n
+* add和addAll使用的rangeCheck的一个版本
+l */ c d c
+private void rangeCheckForAdd(int index) {
+整 o 理 f o e n
+if (index > size || index < 0)
+w l c d c
+throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+育 ： 整 o } 理 f o e
+w l c d
+/**
+教 号 育 ： * 返回IndexOutOfBoundsException细整节信息 o 理 f o
+*/
+w l c
+private String outOfBoundsMsg(int index) {
+狼 众 教 号 育 ： 整 o 理 f
+return "Index: "+index+", Size: "+size;
+} w l
+丁 公 狼 众 教 号 育 ： 整 o
+/**
+* 从此列表中删除指定集合中包含的所有元素。 w
+*/
+叩 信 丁 公 狼 众 教 号 育 ：
+public boolean removeAll(Collection<?> c) {
+Objects.requireNonNull(c);
+//如果此列表被修改则返回true
+微 叩 信 丁 公 狼 众 教 号
+return batchRemove(c, false);
+}
+微 叩 信 丁 公 狼 众
+/**
+* 仅保留此列表中包含在指定集合中的元素。
+*换句微 话说，从此列表中删除其中不包含在指定集合中的所有元素叩 。 信 丁 公
+*/
+public boolean retainAll(Collection<?> c) {
+微 叩 信
+Objects.requireNonNull(c);
+return batchRemove(c, true);
+}
+微
+/**
+* 从列表中的指定位置开始，返回列表中的元素（按正确顺序）的列表迭代器。
+*指定的索引表示初始调用将返回的第一个元素为next 。 初始调用previous将返回指定索引减1的
+元素。
+*返回的列表迭代器是fail-fast 。
+*/
+public ListIterator<E> listIterator(int index) {
+if (index < 0 || index > size)
+throw new IndexOutOfBoundsException("Index: "+index);
+return new ListItr(index);
+}
+/**
+*返回列表中的列表迭代器（按适当的顺序）。
+*返回的列表迭代器是fail-fast 。
+*/
+n public ListIterator<E> listIterator() {
+return new ListItr(0);
+c
+}
+e n
+d /** c
+*以正确的顺序返回该列表中的元素的迭代器。
+o e n
+*返回的迭代器是fail-fast 。
+c */ d c
+public Iterator<E> iterator() {
+理 f o e n
+return new Itr();
+l } c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+ArrayList源码分析
+w l c d
+System.arraycopy()和Arrays.copyOf()方法
+教 号 育 ： 整 o 理 f o
+通过上面源码我们发现这两个实现数组复制的方法被广泛w使用而且很多地方都特别巧妙。比如下面 l c
+狼 众 教 号 add(int index, E element)方法就很巧妙育 的用到了arrayco：py()方法让数组自己复制自己实现让index开始 整 o 理 f
+之后的所有成员后移一个位置:
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+/**
+* 在此列表中的指定位置插入指定的元素。 w
+*先调用 rangeCheckForAdd 对index进行界限检查；然后调用 ensureCapacityInternal 方
+叩 信 丁 公 狼 众 教 号 育 ：
+法保证capacity足够大；
+*再将从index开始之后的所有成员后移一个位置；将element插入index位置；最后size加1。
+微 叩 信 */ 丁 公 狼 众 教 号
+public void add(int index, E element) {
+rangeCheckForAdd(index);
+微 叩 信 丁 公 狼 众
+ensureCapacityInternal(size + 1); // Increments modCount!!
+//arraycopy()方法实现数组自己复制自己
+/微 /elementData:源数组;index:源数组中的起始位置;el叩ementData：目标信数组；index + 丁 公
+1：目标数组中的起始位置； size - index：要复制的数组元素的数量；
+System.arraycopy(elementData, index, elementData, index + 1, size -
+微 叩 信
+index);
+elementData[index] = element;
+size++;
+微
+}
+又如toArray()方法中用到了copyOf()方法
+/**
+*以正确的顺序（从第一个到最后一个元素）返回一个包含此列表中所有元素的数组。
+*返回的数组将是“安全的”，因为该列表不保留对它的引用。 （换句话说，这个方法必须分配一个新的
+数组）。
+*因此，调用者可以自由地修改返回的数组。 此方法充当基于阵列和基于集合的API之间的桥梁。
+*/
+public Object[] toArray() {
+//elementData：要复制的数组；size：要复制的长度
+n
+return Arrays.copyOf(elementData, size);
+c }
+e n
+两者联系与区别
+d c
+o 联系： 看两者源代码可以发现ecopyOf()内部调用了System.arraycopy()方法 区别： n
+c d c
+1. arraycopy()需要目标数组，将原数组拷贝到你自己定义的数组里，而且可以选择拷贝的起点和长
+理 f 度以及放入新数o组中的位置 e n
+2. copyOf()是系统自动在内部新建一个数组，并返回该数组。
+l c d c
+整 o 理 ArrayListf 核心扩容技术 o e n
+w l c d c
+//下面是ArrayList的扩容机制
+育 ： 整 o 理 f o e
+//ArrayList的扩容机制提高了性能，如果每次只扩充一个，
+w l c d
+//那么频繁的插入会导致频繁的拷贝，降低性能，而ArrayList的扩容机制避免了这种情况。
+教 号 育 ： /** 整 o 理 f o
+* 如有必要，增加此ArrayList实例的容量，以确保它至少能容纳元素的数量
+w l c
+* @param minCapacity 所需的最小容量
+狼 众 教 号 */ 育 ： 整 o 理 f
+public void ensureCapacity(int minCapacity) {
+w l
+int minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)
+丁 公 狼 众 // any size教 if not defaul号t element table 育 ： 整 o
+? 0 w
+// larger than default for default empty table. It's already
+叩 信 丁 公 狼 众 教 号 育 ：
+// supposed to be at default size.
+: DEFAULT_CAPACITY;
+微 叩 信 丁 公 狼 众 教 号
+if (minCapacity > minExpand) {
+ensureExplicitCapacity(minCapacity);
+}
+微 叩 信 丁 公 狼 众
+}
+//得到最小扩容量
+priva微 te void ensureCapacityInternal(int minCapac叩 ity) { 信 丁 公
+if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
+// 获取默认的容量和传入参数的较大值
+minCapacity = Math.max(DEFAULT_CAPACITY, minCap微acity); 叩 信
+}
+微
+ensureExplicitCapacity(minCapacity);
+}
+//判断是否需要扩容,上面两个方法都要调用
+private void ensureExplicitCapacity(int minCapacity) {
+modCount++;
+// 如果说minCapacity也就是所需的最小容量大于保存ArrayList数据的数组的长度的话，就
+需要调用grow(minCapacity)方法扩容。
+//这个minCapacity到底为多少呢？举个例子在添加元素(add)方法中这个minCapacity的大小
+就为现在数组的长度加1
+if (minCapacity - elementData.length > 0)
+//调用grow方法进行扩容，调用此方法代表已经开始扩容了
+grow(minCapacity);
+}
+/**
+* ArrayList扩容的核心方法。
+*/
+private void grow(int minCapacity) {
+n //elementData为保存ArrayList数据的数组
+///elementData.length求数组长度elementData.size是求数组中的元素个数
+c
+// oldCapacity为旧容量，newCapacity为新容量
+e int oldCapacity = elemnentData.length;
+//将oldCapacity 右移 c一位，其效果相当于oldCapacity /2，
+d
+//我们知道位运算的速度远远快于整除运算，整句运算式的结果就是将新容量更新为旧容量的1.5
+o e n
+倍，
+c int newCapadcity = oldCapacity + (oldCapacity >> 1); c
+//然后检查新容量是否大于最小需要容量，若还是小于最小需要容量，那么就把最小需要容量当作
+理 f o e n
+数组的新容量，
+l if (cnewCapacity - minCapacity < 0) d c
+newCapacity = minCapacity;
+整 o 理 f o e n
+//再检查新容量是否超出了ArrayList所定义的最大容量，
+w l c d c
+//若超出了，则调用hugeCapacity()来比较minCapacity和 MAX_ARRAY_SIZE，
+育 ： 整 o //如果minCapacity大于MAX_ARRAY_SIZE，则理 新容量则为Intergfer.MAX_VALUE，否则，新 o e
+容量大小则为 MAX_ARRAY_SIZE。
+w l c d
+if (newCapacity - MAX_ARRAY_SIZE > 0)
+教 号 育 ： newCapacity = hugeCapacit整y(minCapacity);o 理 f o
+// minCapacity is usually close to size, so this is a win:
+w l c
+elementData = Arrays.copyOf(elementData, newCapacity);
+狼 众 教 号 育 ： 整 o 理 f
+}
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+扩容机制代码已经做了详细的解释。另外值得注意的是大家很容易忽略的一个运算符：移位运算符
+w
+简介：移位运算符就是在二进制的基础上对数字进行平移。按照平移的方向和填充数字的规则分为
+叩 信 丁 公 三种:<<(左移)、>>(带狼符号右移)和>>>(无众 符号右移)。 作用：对于大数据的2进制运算,位移教 运算符比 号 育 ：
+那些普通运算符的运算要快很多,因为程序仅仅移动一下而已,不去计算,这样提高了效率,节省了资源
+比如这里：int newCapacity = oldCapacity + (oldCapacity >> 1); 右移一位相当于除2，右移n位相
+微 叩 信 丁 公 狼 众 教 号
+当于除以 2 的 n 次方。这里 oldCapacity 明显右移了1位所以相当于oldCapacity /2。
+另外需要注意的是：
+微 叩 信 丁 公 狼 众
+1. java 中的length 属性是针对数组说的,比如说你声明了一个数组,想知道这个数组的长度则用到了
+length 这个属性.
+微 叩 信 丁 公
+2. java 中的length()方法是针对字 符串String说的,如果想看这个字符串的长度则用到 length()这个
+方法.
+3. .java 中的size()方法是针对泛型集合说的,如果想看这个泛型有多少个元微 素,就调用此方法来查看! 叩 信
+内部类
+微
+(1)private class Itr implements Iterator<E>
+(2)private class ListItr extends Itr implements ListIterator<E>
+(3)private class SubList extends AbstractList<E> implements RandomAccess
+(4)static final class ArrayListSpliterator<E> implements Spliterator<E>
+ArrayList有四个内部类，其中的Itr是实现了Iterator接口，同时重写了里面的hasNext()，
+next()， remove() 等方法；其中的ListItr 继承 Itr，实现了ListIterator接口，同时重写了
+hasPrevious()， nextIndex()， previousIndex()， previous()， set(E e)， add(E e) 等方法，所以
+这也可以看出了 Iterator和ListIterator的区别: ListIterator在Iterator的基础上增加了添加对象，修改
+对象，逆向遍历等方法，这些是Iterator不能实现的。
+ArrayList经典Demo
+n
+package list;
+c
+import java.util.ArrayList;
+e n
+import java.util.Iterator;
+d c
+public class ArrayListDemo {
+o e n
+c public static vdoid main(String[] srgs){ c
+ArrayList<Integer> arrayList = new ArrayList<Integer>();
+理 f o e n
+l c d c
+System.out.printf("Before add:arrayList.size() =
+整 o 理 %d\n",arrfayList.size()); o e n
+w l c d c
+arrayList.add(1);
+育 ： 整 o arrayList.add(3); 理 f o e
+arrayList.add(5);
+w l c d
+arrayList.add(7);
+教 号 育 ： arrayList.add(9); 整 o 理 f o
+System.out.printf("After add:arrayList.size() =
+w l c
+%d\n",arrayList.size());
+狼 众 教 号 育 ： 整 o 理 f
+System.out.println("Printing elements of arrayList"); w l
+// 三种遍历方式打印元素
+丁 公 狼 众 教 号 育 ： 整 o
+// 第一种：通过迭代器遍历
+System.out.print("通过迭代器遍历:"); w
+Iterator<Integer> it = arrayList.iterator();
+叩 信 丁 公 狼 众 教 号 育 ：
+while(it.hasNext()){
+System.out.print(it.next() + " ");
+微 叩 信 丁 } 公 狼 众 教 号
+System.out.println();
+微 叩 // 第二信种：通过索引值遍历 丁 公 狼 众
+System.out.print("通过索引值遍历:");
+for(int i = 0; i < arrayList.size(); i++){
+微 叩 信 丁 公
+System.out.print(arrayList.get(i) + " ");
+}
+System.out.println();
+微 叩 信
+// 第三种：for循环遍历
+System.out.print("for循环遍历:");
+微
+for(Integer number : arrayList){
+System.out.print(number + " ");
+}
+// toArray用法
+// 第一种方式(最常用)
+Integer[] integer = arrayList.toArray(new Integer[0]);
+// 第二种方式(容易理解)
+Integer[] integer1 = new Integer[arrayList.size()];
+arrayList.toArray(integer1);
+// 抛出异常，java不支持向下转型
+//Integer[] integer2 = new Integer[arrayList.size()];
+//integer2 = arrayList.toArray();
+System.out.println();
+// 在指定位置添加元素
+n arrayList.add(2,2);
+// 删除指定位置上的元素
+c
+arrayList.remove(2);
+e // 删除指定元素 n
+d arrayList.remove((cObject)3);
+// 判断arrayList是否包含5
+o e n
+System.out.println("ArrayList contains 5 is: " +
+c arrayList.contains(d5)); c
+理 f o e n
+// 清空ArrayList
+l arrcayList.clear(); d c
+// 判断ArrayList是否为空
+整 o 理 f o e n
+System.out.println("ArrayList is empty: " + arrayList.isEmpty());
+w l c d c
+}
+育 ： 整 }o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微

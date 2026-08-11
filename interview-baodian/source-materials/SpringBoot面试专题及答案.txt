@@ -1,0 +1,261 @@
+问题一
+什么是Spring Boot？
+n 多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects
+页面，我们就会看到可以在我们的应用程序中使用的所有Spring项目的不同功能。如果必
+c
+须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程
+e n
+序服务器，添加spring配置。因此，开始一个新的spring项目需要很多努力，因为我们现
+d c
+在必须从头开始做所有事情。
+o e n
+c Spring Boot是解决这 d个问题的方法。Spring Boot已经建立在现有spring框架之上。使用 c
+spring启动，我们避免了之前我们必须做的所有样板代码和配置。因此，Spring Boot可以
+理 f o e n
+帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
+l c d c
+整 o 理 问题二 f o e n
+w l c d c
+Spring Boot有哪些优点？
+育 ： 整 o 理 f o e
+w l c d
+Spring Boot的优点有：
+教 号 育 ： 整 o 理 f o
+减少开发，测试时间和努力。 w l c
+使用JavaConfig有助于避免使用XM育 L。
+狼 众 教 号 ： 整 o 理 f
+避免大量的Maven导入和各种版本冲突。
+w l
+提供意见发展方法。
+丁 公 狼 众 教 号 育 ： 整 o
+通过提供默认值快速开始开发。
+没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东 w
+叩 信 丁 公 西。 狼 众 教 号 育 ：
+需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加
+用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将
+微 叩 信 丁 公 狼 众 教 号
+@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。
+基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-
+微 D叩 spring.profiles.ac信tive = {enviornment}。在加载主应用程序属丁 性文件后，Sprin公 g将在 狼 众
+（application{environment} .properties）中加载后续的应用程序属性文件。
+微 叩 信 丁 公
+问题三
+什么是JavaConfig？ 微 叩 信
+Spring JavaConfig是Spring社区的产品，它提供了配置Spring IoC容器的纯Java方法。因此
+微
+它有助于避免使用XML配置。使用JavaConfig的优点在于：
+面向对象的配置。由于配置被定义为JavaConfig中的类，因此用户可以充分利用Java中的
+面向对象功能。一个配置类可以继承另一个，重写它的@Bean方法等。
+减少或消除XML配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人
+员不希望在XML和Java之间来回切换。JavaConfig为开发人员提供了一种纯Java方法来配
+置与XML配置概念相似的Spring容器。从技术角度来讲，只使用JavaConfig配置类来配置
+容器是可行的，但实际上很多人认为将JavaConfig与XML混合匹配是理想的。
+类型安全和重构友好。JavaConfig提供了一种类型安全的方法来配置Spring容器。由于
+n Java 5.0对泛型的支持，现在可以按类型而不是按名称检索bean，不需要任何强制转换或
+基于字符串的查找。
+c
+e n
+问题四
+d c
+o 如何重新加载Spring Boote上的更改，而无需重新启动服务器？ n
+c d c
+这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat
+理 f o e n
+将重新启动。Spring Boot有一个开发工具（DevTools）模块，它有助于提高开发人员的生
+l c d c
+产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务
+整 o 理 器。开发f人员可以重新加载Spring Boot上的更改，而无需重新启动服务器。o这将消除每次 e n
+w 手动l部署更改的需要。Spring Boot在发布它的第一个版本时没有这个功c能。这是开发人员 d c
+最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。
+育 ： 整 o 理 f o e
+它还提供H2数据库控制台以更好地测试应用程序。
+w l c d
+教 号 育 ： 整 o 理 f o
+org.springframework.boot spring-boot-devtools true
+问题五 w l c
+狼 众 教 号 育 ： 整 o 理 f
+Spring Boot中的监视器是什么？
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访
+问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和 w
+叩 信 丁 公 监控。即使一些外狼 部应用程序可能众 正在使用这些服务来向相关人员触发警报消息。监教 视器 号 育 ：
+模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
+微 叩 信 丁 公 狼 众 教 号
+问题六
+微 如叩 何在Spring Boo信t中禁用Actuator端点安全性？ 丁 公 狼 众
+默认情况下，所有敏感的HTTP端点都是安全的，只有具有ACTUATOR角色的用户才能访
+微 叩 信 丁 公
+问它们。安全性是使用标准的HttpServletRequest.isUserInRole方法实施的。 我们可以使用
+management.security.enabled = false 微 叩 信
+来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
+微
+问题七
+如何在自定义端口上运行Spring Boot应用程序？
+为了在自定义端口上运行Spring Boot应用程序，您可以在application.properties中指定端
+口。
+server.port = 8090
+n 问题八
+c
+什么是YAML？
+e n
+d c
+YAML是一种人类可读的数据序列化语言。它通常用于配置文件。
+o e n
+与属性文件相比，如果 d我们想要在配置文件中添加复杂的属性，YAML文件就更加结构
+c c
+化，而且更少混淆。可以看出YAML具有分层配置数据。
+理 f o e n
+l c d c
+问题九
+整 o 理 f o e n
+w 如何l实现Spring Boot应用程序的安全性？ c d c
+育 ： 整 o 理 f o e
+为了实现Spring Boot的安全性，我们使用 spring-boot-starter-security依赖项，并且必须添
+w l c d
+加安全配置。它只需要很少的代码。配置类将必须扩展WebSecurityConfigurerAdapter并覆
+教 号 育 ： 整 o 理 f o
+盖其方法。
+w l c
+问题十
+狼 众 教 号 育 ： 整 o 理 f
+w l
+如何集成Spring Boot和ActiveMQ？
+丁 公 狼 众 教 号 育 ： 整 o
+对于集成Spring Boot和ActiveMQ，我们使用 w
+叩 信 丁 公 狼 众 教 号 育 ：
+spring-boot-starter-activemq
+依赖关系。 它只需要很少的配置，并且不需要样板代码。
+微 叩 信 丁 公 狼 众 教 号
+问题十一
+微 叩 信 丁 公 狼 众
+如何使用Spring Boot实现分页和排序？
+微 叩 信 丁 公
+使用Spring Boot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
+org.springframework.data.domain.Pageable 微 叩 信
+传递给存储库方法。
+微
+问题十二
+什么是Swagger？你用Spring Boot实现了它吗？
+Swagger广泛用于可视化API，使用Swagger UI为前端开发人员提供在线沙箱。Swagger是
+用于生成RESTful Web服务的可视化表示的工具，规范和完整框架实现。它使文档能够以
+与服务器相同的速度更新。当通过Swagger正确定义时，消费者可以使用最少量的实现逻
+辑来理解远程服务并与其进行交互。因此，Swagger消除了调用服务时的猜测。
+n 问题十三
+c
+什么是Spring Profiles？
+e n
+d c
+Spring Profiles允许用户根据配置文件（dev，test，prod等）来注册bean。因此，当应用
+o 程序在开发中运行时，只有e某些bean可以加载，而在PRODUCTION中，某些其他bean可 n
+以加载。假设我们的要 d求是Swagger文档仅适用于QA环境，并且禁用所有其他文档。这
+c c
+可以使用配置文件来完成。Spring Boot使得使用配置文件非常简单。
+理 f o e n
+l c d c
+问题十四
+整 o 理 f o e n
+w 什么l是Spring Batch？ c d c
+育 ： 整 o 理 f o e
+Spring Boot Batch提供可重用的函数，这些函数在处理大量记录时非常重要，包括日志/跟
+w l c d
+踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进
+教 号 育 ： 整 o 理 f o
+的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单
+以及复杂的大批量批处理作业可以高度可扩展的方式利w用框架处理重要大量的信息。 l c
+狼 众 教 号 育 ： 整 o 理 f
+问题十五
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+什么是FreeMarker模板？
+w
+叩 信 丁 公 FreeMarker是一个狼 基于Java的模板众 引擎，最初专注于使用MVC软件架构进行动态网教页生 号 育 ：
+成。使用Freemarker的主要优点是表示层和业务层的完全分离。程序员可以处理应用程序
+代码，而设计人员可以处理html页面设计。最后使用freemarker可以将这些结合起来，给
+微 叩 信 丁 公 狼 众 教 号
+出最终的输出页面。
+微 问叩 题十六 信 丁 公 狼 众
+如何使用Spring Boot实现异常处理？
+微 叩 信 丁 公
+Spring提供了一种使用ControllerAdvice处理异常的非常有用的方法。 我们通过实现一个
+ControlerAdvice类，来处理控制器类抛出的所有异常。 微 叩 信
+问题十七
+微
+您使用了哪些starter maven依赖项？
+使用了下面的一些依赖项
+spring-boot-starter-activemq
+spring-boot-starter-security
+spring-boot-starter-web
+这有助于增加更少的依赖关系，并减少版本的冲突。
+n
+问题十八
+c
+e n
+什么是CSRF攻击？
+d c
+o CSRF代表跨站请求伪造。e这是一种攻击，迫使最终用户在当前通过身份验证的Web应用 n
+程序上执行不需要的操 d作。CSRF攻击专门针对状态改变请求，而不是数据窃取，因为攻击
+c c
+者无法查看对伪造请求的响应。
+理 f o e n
+l c d c
+问题十九
+整 o 理 f o e n
+w 什么l是WebSockets？ c d c
+育 ： 整 o 理 f o e
+WebSocket是一种计算机通信协议，通过单个TCP连接提供全双工通信信道。
+w l c d
+教 号 育 ： 整 o 理 f o
+WebSocket是双向的 -使用WebSocket客户端或服务器可以发起消息发送。
+WebSocket是全双工的 -客户端和服务器通信是相互独立w的。 l c
+单个TCP连接 -初始连接使用HTT育 P，然后将此连接 升级到基于套接字的连接。然后这个单
+狼 众 教 号 ： 整 o 理 f
+一连接用于所有未来的通信
+w l
+Light -与http相比，WebSocket消息数据交换要轻得多。
+丁 公 狼 众 教 号 育 ： 整 o
+问题二十 w
+叩 信 丁 公 狼 众 教 号 育 ：
+什么是AOP？
+微 叩 信 丁 公 狼 众 教 号
+在软件开发过程中，跨越应用程序多个点的功能称为交叉问题。这些交叉问题与应用程序
+的主要业务逻辑不同。因此，将这些横切关注与业务逻辑分开是面向方面编程（AOP）的
+微 地叩 方。 信 丁 公 狼 众
+问题二十一
+微 叩 信 丁 公
+什么是Apache Kafka？
+微 叩 信
+Apache Kafka是一个分布式发布 - 订阅消息系统。它是一个可扩展的，容错的发布 - 订阅
+消息系统，它使我们能够构建分布式应用程序。这是一个Apache顶级项目。Kafka适合离
+微
+线和在线消息消费。
+问题二十二
+我们如何监视所有Spring Boot微服务？
+Spring Boot提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的
+信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但
+是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其
+n 状态或健康状况。想象一下涉及50个应用程序的微服务，管理员将不得不击中所有50个
+应用程序的执行终端。
+c
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微

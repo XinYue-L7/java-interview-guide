@@ -1,0 +1,227 @@
+去年我写过一个《阿里云Redis开发规范》，在网上转载很多，但其实说心里话，我并不认为写的多
+好，受制一些客观因素和篇幅，有些不够细致和深入，所以想在公众号里详细解析下，希望对大家有帮
+助。
+本篇是第一篇：由键名设计想到的SDS内存优化
+n
+原文
+c
+e 1. key名设计 n
+d c
+(1)【建议】: 可读性和可管理性
+o e n
+以业务名(或数据库名)为前缀(防止key冲突)，用冒号分隔，比如业务名:表名:id
+c d c
+理 f o e n
+ugc:video:1
+l c d c
+整 o 理 (2)【建f议】：简洁性 o e n
+w 保证语义l的前提下，控制key的长度，当key较多时，内存占用也不容忽视，例如c： d c
+育 ： 整 o 理 f o e
+user:{uid}:friends:messages:{mid}简化为u:{uid}:fr:m:{mid}。
+w l c d
+教 号 育 ： 整 o 理 f o
+(3)【强制】：不要包含特殊字符
+w l c
+反例：包含空格、换行、单双引号以及其他转义字符
+狼 众 教 号 育 ： 整 o 理 f
+解析 w l
+丁 公 狼 众 教 号 育 ： 整 o
+上面这些内容本来没什么好说的，但是这个就和做菜“放盐少许”一样，key多长才算最佳呢？我们从之前
+w
+遇到的一个问题讨论下。
+叩 信 丁 公 狼 众 教 号 育 ：
+一. 1个问题
+微 叩 信 丁 公 狼 众 教 号
+之前公司有个同事找我，说他申请两个集群，双写两个集群，但是写满后容量是这样的：
+微 遇到叩 此类问题，我还是信 习惯把老图翻出来： 丁 公 狼 众
+此类问题有很多种可能：
+微 叩 信 丁 公
+自身内存：没多少，几百KB
+Lua内存：没用
+微 叩 信
+缓冲内存：AOF和复制缓冲配置一致，客户端缓冲不存在，客户端已经停了。
+对象内存：
+键值个数：个数相同 微
+内部编码：都是字符串类型，而且ziplist,quicklist等配置一致
+那么问题出现在哪里呢？比较好的是，我们这边Redis的集群ID有一定含义的，比如12xxx开头的是
+Redis 3.0.x，以13xxx开头的是Redis 3.2.x，以14xxxx开头的是Redis 4.0.x
+这时候想到是了可能是SDS的问题，Redis 3.2开始SDS有个升级，https://raw.githubusercontent.co
+m/antirez/redis/3.2/00-RELEASENOTES
+* [NEW] SDS improvements for speed and maximum string length. This makes
+Redis more memory efficient in different use cases. (Design and
+implementation by Oran Agra, some additional work by Salvatore
+Sanfilippo)
+n
+二、一个实验
+c
+e n
+我做了一个简单试验，分别在Redis 3.0.7和Redis 4.0.12，写入10亿个44字节的key和value，代码如
+d 下： c
+o e n
+//Redis 3.0.7
+c d c
+int port = 6379;
+理 f //Redis 4.0.12 o e n
+int port = 6380;
+l c d c
+int byteCount = 44;
+整 o 理 f o e n
+Jedis jedis = new Jedis("127.0.0.1", port);
+w jedisl.flushAll(); c d c
+List<String> keyValueList = new ArrayList<String>();
+育 ： 整 o 理 f o e
+for (int i=0;i<1000000000;i++) {
+w //44个字节 l c d
+String str = (UUID.randomUUID().toString() +
+教 号 育 ： 整 o 理 f o
+UUID.randomUUID().toString()).substring(0, byteCount);
+keyValueList.add(str); w l c
+狼 众 教 号 keyValueList.add(str); 育 ： 整 o 理 f
+if (keyValueList.size() % 10000 == 0) {
+w l
+jedis.mset(keyValueList.toArray(new String[keyValueList.size()]));
+丁 公 狼 众 keyValueList.cl教ear(); 号 育 ： 整 o
+}
+w
+}
+叩 信 丁 公 狼 众 教 号 育 ：
+Redis 3.0.7的内存消耗：
+微 叩 信 丁 公 狼 众 教 号
+used_memory_human:177G
+微 叩 信 丁 公 狼 众
+Redis 4.0.12的内存消耗：
+微 叩 信 丁 公
+used_memory_human:147G
+微 叩 信
+可以看到Redis 4.0.12的内存消耗比Redis 3.0.7小了30G，几乎可以顶上一台小内存机器了。 微
+三. Redis的SDS
+下面来看看为什么选的是44字节：
+1. 内部编码
+Redis中的字符串类型，有三种内部编码：raw、embstr、int。当值小于44字节（Redis 3.2+），使用
+embstr，否则使用raw（这里不讨论int），例如
+#44个字节
+127.0.0.1:6379> set key1 4096c7a2-1ae8-4bdc-ada1-a0c705de0f982fbe4c30
+OK
+127.0.0.1:6379> strlen key1
+(integer) 44
+127.0.0.1:6379> object encoding key1
+"embstr"
+#45个字节
+n
+127.0.0.1:6379> set key2 4096c7a2-1ae8-4bdc-ada1-a0c705de0f982fbe4c30a
+c OK
+127.0.0.1:6379> strlen key2
+e n
+(integer) 45
+d 127.0.0.1:6379> object encocding key2
+"raw"
+o e n
+c d c
+下图展示了两者的区别，可以看到embstr将redisObject和SDS保存在连续的64字节空间内，这样可以
+理 f o e n
+只需要一次jemalloc分配，而对于raw来说，SDS和redisObject分离，需要两次jemalloc，而且占用更
+l 多的内存空间。 c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微
+n
+c
+e n
+d c
+o e n
+c d c
+理 f 回头来看内存不一致的o问题，实际不存在embstr和raw的区别，因为他们是双写，键值内容应e该是完全 n
+l 一致的。那肯定就c是SDS的变化： d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+可以看到embstr在3.2+中使用了叫sdshdr8的结构，在该结构下，元数据只需要3个字节，而Redis需要
+8个字节，所以总共64个字节，减去redisObject(16字节)，再减去SDS的原信息，最后的实际内容就变
+微 叩 信 丁 公 狼 众 教 号
+成了44字节和39字节。
+现在回过头来屡一下两个问题：
+微 叩 信 丁 公 狼 众
+1.
+字符串多短为好：其实就是要尽量使用embstr。
+微 叩 信 丁 公
+2. 微 叩 信
+Redis 3.0 和 Redis 3.2+的sds有很大不同，新版本的sds会根据字符串长度使用不同的原信息，下
+面来看一下
+微
+Redis 3.0
+struct sdshdr {
+unsigned int len;
+unsigned int free;
+char buf[];
+};
+Redis 3.2+ (3.2 4.0 5.0)：sdshdr5、sdshdr8、sdshdr16、sdshdr32、sdshdr64、
+struct __attribute__ ((__packed__)) sdshdr5 {
+unsigned char flags; /* 3 lsb of type, and 5 msb of string length */
+char buf[];
+};
+struct __attribute__ ((__packed__)) sdshdr8 {
+uint8_t len; /* used */
+n
+uint8_t alloc; /* excluding the header and null terminator */
+c unsigned char flags; /* 3 lsb of type, 5 unused bits */
+char buf[];
+e n
+};
+d c
+struct __attribute__ ((__packed__)) sdshdr16 {
+o uint16_t len; /* useed */ n
+uint16_t alloc; /* excluding the header and null terminator */
+c d c
+unsigned char flags; /* 3 lsb of type, 5 unused bits */
+理 f char buf[];o e n
+};
+l c d c
+struct __attribute__ ((__packed__)) sdshdr32 {
+整 o 理 uint3f2_t len; /* used */ o e n
+uint32_t alloc; /* excluding the header and null terminator */
+w l c d c
+unsigned char flags; /* 3 lsb of type, 5 unused bits */
+育 ： 整 o 理 f o e
+char buf[];
+w}; l c d
+struct __attribute__ ((__packed__)) sdshdr64 {
+教 号 育 ： 整 o 理 f o
+uint64_t len; /* used */
+uint64_t alloc; /* excluding the header and wnull terminator */ l c
+unsigned char flags; /* 3 lsb of type, 5 unused bits */
+狼 众 教 号 育 ： 整 o 理 f
+char buf[];
+w l
+};
+丁 公 狼 众 教 号 育 ： 整 o
+四、结论 w
+叩 信 丁 公 狼 众 教 号 育 ：
+1. SDS在Redis 3.2+有可能节省更多的空间，但3.2更像一个过渡版本，Redis 4更加适合（异步删
+除、psync2、碎片率整理），我已经在线上大量使用，“赶紧”去用吧。
+微 叩 信 2. embstr丁从Redis3 39字节-公>Redis3.2+ 44字节 狼 众 教 号
+3. 做个环保的程序员，小优化大效果。附图一张：
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微

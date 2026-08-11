@@ -1,0 +1,264 @@
+1 单机版消息中心
+一个消息中心，最基本的需要支持多生产者、多消费者，例如下：
+n class Scratch {
+c
+public static void main(String[] args) {
+e n
+// 实际中会有 nameserver 服务来找到 broker 具体位置以及 broker 主从信息
+d Broker broker = newc Broker();
+Producer producer1 = new Producer();
+o e n
+producer1.connectBroker(broker);
+c Producer prdoducer2 = new Producer(); c
+producer2.connectBroker(broker);
+理 f o e n
+l c d c
+Consumer consumer1 = new Consumer();
+整 o 理 cfonsumer1.connectBroker(broker); o e n
+Consumer consumer2 = new Consumer();
+w l c d c
+consumer2.connectBroker(broker);
+育 ： 整 o 理 f o e
+for (int i = 0; i < 2; i++) {
+w l c d
+producer1.asyncSendMsg("producer1 send msg" + i);
+教 号 育 ： 整 o 理 f o
+producer2.asyncSendMsg("producer2 send msg" + i);
+} w l c
+System.out.println("broker has msg:" + broker.getAllMagByDisk());
+狼 众 教 号 育 ： 整 o 理 f
+for (int i = 0; i < 1; i++) { w l
+System.out.println("consumer1 consume msg：" +
+丁 公 狼 众 教 号 育 ： 整 o
+consumer1.syncPullMsg());
+} w
+for (int i = 0; i < 3; i++) {
+叩 信 丁 公 狼 众 教 号 育 ：
+System.out.println("consumer2 consume msg：" +
+consumer2.syncPullMsg());
+微 叩 信 }丁 公 狼 众 教 号
+}
+微 }叩 信 丁 公 狼 众
+class Producer {
+微 叩 信 丁 公
+private Broker broker;
+微 叩 信
+public void connectBroker(Broker broker) {
+this.broker = broker;
+}
+微
+public void asyncSendMsg(String msg) {
+if (broker == null) {
+throw new RuntimeException("please connect broker first");
+}
+new Thread(() -> {
+broker.sendMsg(msg);
+}).start();
+}
+}
+class Consumer {
+private Broker broker;
+public void connectBroker(Broker broker) {
+this.broker = broker;
+}
+n
+public String syncPullMsg() {
+c
+return broker.getMsg();
+e } n
+d c
+}
+o e n
+c class Broker { d c
+理 f o e n
+// 对应 RocketMQ 中 MessageQueue，默认情况下 1 个 Topic 包含 4 个 MessageQueue
+l private cLinkedBlockingQueue<String> messageQueue = new d c
+LinkedBlockingQueue(Integer.MAX_VALUE);
+整 o 理 f o e n
+w l c d c
+// 实际发送消息到 broker 服务器使用 Netty 发送
+育 ： 整 o public void sendMsg(String msg) { 理 f o e
+try {
+w l c d
+messageQueue.put(msg);
+教 号 育 ： // 实际会同步或异步落盘，异步落整 盘使用的定时任务o定时扫描落盘 理 f o
+} catch (InterruptedException e) {
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+}
+} w l
+丁 公 狼 众 教 号 育 ： 整 o
+public String getMsg() {
+try { w
+return messageQueue.take();
+叩 信 丁 公 狼 众 教 号 育 ：
+} catch (InterruptedException e) {
+}
+微 叩 信 丁 公 狼 众 教 号
+return null;
+}
+微 叩 信 丁 公 狼 众
+public String getAllMagByDisk() {
+StringBuilder sb = new StringBuilder("\n");
+m微 essageQueue.iterator().forEachRemaining((ms叩 g) -> { 信 丁 公
+sb.append(msg + "\n");
+});
+微 叩 信
+return sb.toString();
+}
+}
+微
+问题：
+1. 没有实现真正执行消息存储落盘
+2. 没有实现 NameServer 去作为注册中心，定位服务
+3. 使用 LinkedBlockingQueue 作为消息队列，注意，参数是无限大，在真正 RocketMQ 也是如此是
+无限大，理论上不会出现对进来的数据进行抛弃，但是会有内存泄漏问题（阿里巴巴开发手册也因
+为这个问题，建议我们使用自制线程池）
+4. 没有使用多个队列（即多个 LinkedBlockingQueue），RocketMQ 的顺序消息是通过生产者和消
+费者同时使用同一个 MessageQueue 来实现，但是如果我们只有一个 MessageQueue，那我们
+天然就支持顺序消息
+5. 没有使用 MappedByteBuffer 来实现文件映射从而使消息数据落盘非常的快（实际 RocketMQ 使
+用的是 FileChannel+DirectBuffer）
+2 分布式消息中心
+n
+c
+2.1 问题与解决
+e n
+d 2.1.1 消息丢失的问题 c
+o e n
+1. 当你系统需要保证百分百消息不丢失，你可以使用生产者每发送一个消息，Broker 同步返回一个
+c d c
+消息发送成功的反馈消息
+理 f o e n
+2. 即每发送一个消息，同步落盘后才返回生产者消息发送成功，这样只要生产者得到了消息发送生成
+l 的返回，事后c除了硬盘损坏，都可以保证不会消息丢失 d c
+3. 但是这同时引入了一个问题，同步落盘怎么才能快？
+整 o 理 f o e n
+w l同步落盘怎么才能快 c d c
+2.1.2
+育 ： 整 o 理 f o e
+1. 使用 FileChannel + DirectBuffer 池，使用堆外内存，加快内存拷贝
+w l c d
+2. 使用数据和索引分离，当消息需要写入时，使用 commitlog 文件顺序写，当需要定位某个消息
+教 号 育 ： 整 o 理 f o
+时，查询index 文件来定位，从而减少文件IO随机读写的性能损耗
+w l c
+2.1.3 消息堆积的问题
+狼 众 教 号 育 ： 整 o 理 f
+1. 后台定时任务每隔72小时，删除旧的没有使用过的消息信息 w l
+丁 公 狼 众 2. 根据不同的业务实现不同教的丢弃任务，具体号参考线程池的 AbortPolicy，例如FIFO/LRU等 育 ： 整 o
+（RocketMQ没有此策略）
+w
+3. 消息定时转移，或者对某些重要的 TAG 型（支付型）消息真正落库
+叩 信 丁 公 狼 众 教 号 育 ：
+2.1.4 定时消息的实现
+微 叩 信 丁 公 狼 众 教 号
+1. 实际 RocketMQ 没有实现任意精度的定时消息，它只支持某些特定的时间精度的定时消息
+2. 实现定时消息的原理是：创建特定时间精度的 MessageQueue，例如生产者需要定时1s之后被消
+微 叩 费者消费，你只信需要将此消息发送到特定的 Topic，例如：MessageQ丁ueue-1 表示这个公 狼 众
+MessageQueue 里面的消息都会延迟一秒被消费，然后 Broker 会在 1s 后发送到消费者消费此消
+息，使用 newSingleThreadScheduledExecutor 实现
+微 叩 信 丁 公
+2.1.5 顺序消息的实现
+微 叩 信
+1. 与定时消息同原理，生产者生产消息时指定特定的 MessageQueue ，消费者消费消息时，消费特
+定的 MessageQueue，其实单机版的消息中心在一个 MessageQueue 就天然支持了顺序消息
+2. 注意：同一个 MessageQueue 保证里面的消息是顺序消费的前提是：消费者是串行的消费该 微
+MessageQueue，因为就算 MessageQueue 是顺序的，但是当并行消费时，还是会有顺序问题，
+但是串行消费也同时引入了两个问题：
+1. 引入锁来实现串行
+2. 前一个消费阻塞时后面都会被阻塞
+2.1.6 分布式消息的实现
+1. 需要前置知识：2PC
+2. RocketMQ4.3 起支持，原理为2PC，即两阶段提交，prepared->commit/rollback
+3. 生产者发送事务消息，假设该事务消息 Topic 为 Topic1-Trans，Broker 得到后首先更改该消息的
+Topic 为 Topic1-Prepared，该 Topic1-Prepared 对消费者不可见。然后定时回调生产者的本地事
+务A执行状态，根据本地事务A执行状态，来是否将该消息修改为 Topic1-Commit 或 Topic1-
+Rollback，消费者就可以正常找到该事务消息或者不执行等
+注意，就算是事务消息最后回滚了也不会物理删除，只会逻辑删除该消息
+n 2.1.7 消息的 push 实现
+c
+1. 注意，RocketMQ 已经说了自己会有低延迟问题，其中就包括这个消息的 push 延迟问题
+e n
+2. 因为这并不是真正的将消息主动的推送到消费者，而是 Broker 定时任务每5s将消息推送到消费者
+d c
+2.1.8 消息重复发送的避免
+o e n
+c d c
+1. RocketMQ 会出现消息重复发送的问题，因为在网络延迟的情况下，这种问题不可避免的发生，
+理 f 如果非要实现消o息不可重复发送，那基本太难，因为网络环境无法预知，还会使程序复杂e度加大， n
+l 因此默认允许c消息重复发送 d c
+2. RocketMQ 让使用者在消费者端去解决该问题，即需要消费者端在消费消息时支持幂等性的去消
+整 o 理 f o e n
+费消息
+w l c d c
+3. 最简单的解决方案是每条消费记录有个消费状态字段，根据这个消费状态字段来是否消费或者使用
+育 ： 整 o一个集中式的表，来存储所有消息的消费状态，从而理 避免重复消费 f o e
+4. 具体实现可以查询关于消息幂等消费的解决方案
+w l c d
+教 号 育 ： 整 o 理 f o
+2.1.9 广播消费与集群消费
+w l c
+1. 消息消费区别：广播消费，订阅该 Topic 的消息者们都会消费每个消息。集群消费，订阅该 Topic
+狼 众 教 号 育 ： 整 o 理 f
+的消息者们只会有一个去消费某个消息
+w l
+2. 消息落盘区别：具体表现在消息消费进度的保存上。广播消费，由于每个消费者都独立的去消费每
+丁 公 狼 众 个消息，因此每个消费者教各自保存自己的消号息消费进度。而集群消费下，订阅了某个 Topic，而旗育 ： 整 o
+下又有多个 MessageQueue，每个消费者都可能会去消费不同的 MessageQueue，因此总体的消
+w
+费进度保存在 Broker 上集中的管理
+叩 信 丁 公 狼 众 教 号 育 ：
+2.1.10 RocketMQ 不使用 ZooKeeper 作为注册中心的原因，以及
+微 叩 信 自制的 N丁 ameServe公r 优缺点？ 狼 众 教 号
+1. ZooKeeper 作为支持顺序一致性的中间件，在某些情况下，它为了满足一致性，会丢失一定时间
+微 叩 信 丁 公 狼 众
+内的可用性，RocketMQ 需要注册中心只是为了发现组件地址，在某些情况下，RocketMQ 的注
+册中心可以出现数据不一致性，这同时也是 NameServer 的缺点，因为 NameServer 集群间互不
+通信，它微 们之间的注册信息可能会不一致 叩 信 丁 公
+2. 另外，当有新的服务器加入时，NameServer 并不会立马通知到 Produer，而是由 Produer 定时
+去请求 NameServer 获取最新的 Broker/Consumer 信息（这种情况是通过 Producer 发送消息
+微 叩 信
+时，负载均衡解决）
+2.1.11 其它
+微
+n
+c
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+加分项咯
+w l c
+1. 包括组件通信间使用 Netty 的自定义协议
+狼 众 教 号 育 ： 整 o 理 f
+2. 消息重试负载均衡策略（具体参考 Dubbo 负载均衡策略）
+3. 消息过滤器（Producer 发送消息到 Broker，Broker 存储消息信息，Consumer 消费时请求 w l
+Broker 端从磁盘文件查询消息文件时,在 Broker 端就使用过滤服务器进行过滤）
+丁 公 狼 众 教 号 育 ： 整 o
+4. Broker 同步双写和异步双写中 Master 和 Slave 的交互
+w
+5. Broker 在 4.5.0 版本更新中引入了�基于 Raft 协议的多副本选举，之前这是商业版才有的特性
+叩 信 丁 公 ISSUE-1046 狼 众 教 号 育 ：
+3 参考
+微 叩 信 丁 公 狼 众 教 号
+1. 《RocketMQ技术内幕》：https://blog.csdn.net/prestigeding/article/details/85233529
+微 叩 信 丁 公 狼 众
+2. 关于 RocketMQ 对 MappedByteBuffer 的一点优化：
+https://lishoubo.github.io/2017/09/27/MappedByteBuffer%E7%9A%84%E4%B8%80%E7%82
+%B9%E微 4%BC%98%E5%8C%96/ 叩 信 丁 公
+3. 阿里中间件团队博客-十分钟入门RocketMQ：http://jm.taobao.org/2017/01/12/rocketmq-quick
+-start-in-10-minutes/
+微 叩 信
+4. 分布式事务的种类以及 RocketMQ 支持的分布式消息：https://www.infoq.cn/article/2018/08/ro
+cketmq-4.3-release
+5. 滴滴出行基于RocketMQ构建企业级消息队列服务的实践：https://yq.aliyun.com/articles/66460 微
+8
+6. 基于《RocketMQ技术内幕》源码注释：https://github.com/LiWenGu/awesome-rocketmq

@@ -1,0 +1,200 @@
+早上突然收到配置中心服务告警，Http check出现问题，赶紧访问下服务看看是否Cabot监控系统的误
+报，发现服务时而正常，时而出现500内部服务器错误，赶紧排查问题。
+1、问题定位
+首先看看当前配置中心的总体上报statsd请求量是否出现飙升：
+n
+c
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+确实负载上来了，先看看应用服务器有没有报错，再确定是应w用服务问题，还是数据库的问题： l c
+狼 众 教 号 育 ： 整 o 理 f
+tail -f logs/log.log
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+应用服务器出现了一堆”no reachable servers”的报错，那么说明要么是数据微 库挂掉了，要么是出于各 叩 信
+种原因无响应。
+那就登录到几台数据库服务器上面，看看Mongodb进程，发现进程都还在的，那么再看看master上面 微
+的数据库日志：
+ps -ef | grep mongo
+n
+c
+e n
+d c
+o 发现日志里面出现了一堆的tooe many open connections: 819这样的错误。 n
+c d c
+Mongodb默认的最大连接数是819，当连接数到达819后，就无法增加，那么新的请求就无法再连接上
+理 f 去了。 o e n
+l c d c
+OK，感觉问题很清晰了，时而正常时而出现500错误的原因，是因为请求量上来以后，旧的数据库连接
+整 o 理 还没有释放，f新的又创建了，导致触碰到Mongodb的最大连接数限制。 o e n
+w l c d c
+2、问题处理
+育 ： 整 o 理 f o e
+那么做两个方面的调整：
+w l c d
+1）Mongodb数据库的最大连接数改大到20000（Mongodb允许的最大的连接数是20000），避免再次
+教 号 育 ： 整 o 理 f o
+出现最大连接数限制：
+w l c
+狼 众 教 号 vim mongodb.conf 育 ： 整 o 理 f
+添加：
+w l
+maxConns=20000
+丁 公 狼 众 教 号 育 ： 整 o
+w
+2）在应用里面设置poolLimit，让mgo尽量多地复用现存的数据库连接，不要再无限制地增加
+叩 信 丁 公 Mongodb连接了，先狼设置为单个服务器众 最大200个连接。 教 号 育 ：
+Mgo里面，由于我的Mongodb集群是复制集，无法直接在mongodb的数据库连接uri里面像这样添
+微 叩 信 加： 丁 公 狼 众 教 号
+mongodb://xx:xx@10.xx.xx.xx:27017/index-config?maxPoolSize=10
+微 叩 信 丁 公 狼 众
+因为我的复制集连接是这样的：
+微 叩 信 丁 公
+mongodb://xx:xx@172.19.8.76:27017,172.19.8.77:27017,172.19.9.76:27017,172.19.9.7
+7:27017/index-config?replicaSet=configrs
+微 叩 信
+查下Mgo的官方文档，看看怎么设置最大连接池数量限制，找到一项SetPoolLimit：
+微
+http://godoc.org/gopkg.in/mgo.v2#Session.SetPoolLimit
+SetPoolLimit sets the maximum number of sockets in use in a single server before
+this session will block waiting for a socket to be available. The default limit
+is 4096.
+这里面写道，默认情况下，Mgo的最大连接数限制是4096，那么当然高过Mongodb默认的最大819限
+制了，添加限制，先设置为200：
+Session.SetPoolLimit(200)
+都改好，重启服务，感觉又要解决一个问题了~
+3、出现新的问题
+打包、重新部署服务，重新刷新服务，恢复正常。
+n 然而，没过1分钟，又收到告警邮件，看下服务，失败量比之前还多：
+c
+纳尼？！难道处理问题的姿势不对？赶紧看看Mongodb 的master服务日志：
+e n
+tail -f logs/mongodb.log
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+4、继续排查问题 w l c
+狼 众 教 号 育 ： 整 o 理 f
+看到日志里面频繁出现大量的Debug 跟Info级别的COMMAND，那么估计是我的日志级别开的不对，
+先调整下日志级别，关闭Debug级别的各项输出： w l
+丁 公 狼 众 教 号 育 ： 整 o
+/usr/local/mongodb/bin/mongo
+mongodb://xxx:xxx@172.19.8.76:27017,172.19.8.77:27017,172.19.9.76:27017,172.19.9.77:27017/ w
+叩 信 丁 公 admin?replicaSet=co狼nfigrs 众 教 号 育 ：
+db.setLogLevel(0)
+微 叩 信 丁 公 狼 众 教 号
+Mongodb里面，LogLevel分为0-5，其中0表示仅开启Info级别日志，1-5表示Debug级别日志的打印数
+量，数字越大，打印的越多。
+微 叩 信 丁 公 狼 众
+继续查问题。先看看服务器状态：
+top下看看CPU、负载、内存使用率，这不看不知道，一看吓了一大跳，CPU使用率居然高达96%，基
+微 叩 信 丁 公
+本都被Mongodb占用了，而服务器负载高达几百，内存使用率却还剩下许多（紧急地处理问题，没有
+截图，宝贵的Top结果已经找不到了），说明当前的服务瓶颈出现在CPU。
+微 叩 信
+首先分析是不是频繁的IO导致服务器CPU消耗过大：
+iostat
+微
+看到IO并不是CPU高占比的原因。
+重新分析一遍问题，先前是时而正常时而有问题，现在的问题比之前更频繁得多，那么跟第一次修复的
+连接数肯定有一定关系。
+用mongostat看看服务：
+/usr/local/mongodb/bin/mongostat --username=xxx --password=xxx --
+n authenticationDatabase=admin
+c
+e n
+d c
+o e n
+c d c
+访问情况基本是正常的。
+理 f o e n
+l 进入Mongodb看c看数据库连接数： d c
+整 o 理 f o e n
+db.serverStatus().connections
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 连接数也正常。 整 o 理 f o
+再看看网络状态，Establish状态的是否很多： w l c
+狼 众 教 号 育 ： 整 o 理 f
+netstat -anp | grep ESTABLISHED
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+看到应用服务器确实是有正在处理的连接请求，那么结合上下文，判断应该是由于限制了最大单台机器
+200个连接，而申请的速度比释放的速度快，导致了大量请求阻塞在连接释放的地方，导致超时报错。 w
+叩 信 丁 公 狼 众 教 号 育 ：
+开启数据库慢查询看看：
+微 叩 信 db.setPro丁 filingLevel(1,公200) 狼 众 教 号
+db.system.profile.find()
+微 叩 信 丁 公 狼 众
+打印出大量的慢查询请求，集中在直接查询用户信息的user_config集合上面。
+微 叩 信 丁 公
+配置中心的请求分为两种，一种是全局统一数据，通过用户的不同APP版本，IMEI等信息范围相应数据
+的灰度版本控制，或者APP配置信息等数据，一种是用户相关，每个用户各自读写信息的数据。
+微 叩 信
+前一种数据使用的是缓存机制，用户的请求命中的基本都是缓存；第二种数据太多，无法采用缓存，因
+此直接读写DB，当前来说，也即是user_config集合。
+微
+大量慢查询请求出现在user_config上，说明查询过慢，但IO明显不是瓶颈。
+这时候我突然想到原本计划上线时候需要做，但还没做的索引，赶紧补充上去：
+db.user_config.ensureIndex({"portal_id":1})
+因为每次用户查询的索引值都是portal_id，所以仅需要对portal_id做索引。
+为防止自己忘记，在代码里面也添加自动索引的内容：
+func init() {
+db := mongodb.ConnectMongo()
+defer db.Session.Close()
+index := mgo.Index{
+Key: []string{"portal_id"},
+}
+n
+db.C(CollectionUserConfig).EnsureIndex(index)
+c }
+e n
+d c
+o Mongodb里面，如果不添加索e引，对Mongodb数据表进行查询操作的时候，需要把数据都加载到内 n
+存。当数据的数量达到几十万乃至上百万的时候，这样的加载过程会对系统造成较大的冲击，并影响到
+c d c
+其他请求的处理过程。
+理 f o e n
+用户表当前的记录数量已经达到45万，每次都加载这么多数据，查询起来肯定是非常慢的。建立索引以
+l c d c
+后对索引字段进行查询时，仅会加载索引数据，能极大地提高查询速度。
+整 o 理 f o e n
+添加索引以后，很快收到了服务恢复的邮件：
+w l c d c
+育 ： 整 o 理 f o e
+配置中心 RECOVERY.
+w l c d
+教 号 育 ： 再访问服务，正常了！ 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微

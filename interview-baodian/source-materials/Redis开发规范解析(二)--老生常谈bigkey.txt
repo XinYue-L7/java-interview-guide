@@ -1,0 +1,518 @@
+去年我写过一个《阿里云Redis开发规范》，在网上转载很多，但其实说心里话，我并不认为写的多
+好，受制一些客观因素和篇幅，有些不够细致和深入，所以想在公众号里详细解析下，希望对大家有帮
+助。
+本篇是第二篇：老生常谈的bigkey
+n
+原文
+c
+e 【强制】：拒绝bigkey(防止网卡流量、n慢查询)
+d c
+string类型控制在10KB以内，hash、list、set、zset元素个数不要超过5000。
+o e n
+反例：一个包含200万个元素的list。
+c d c
+非字符串的bigkey，不要使用del删除，使用hscan、sscan、zscan方式渐进式删除，同时要注意防止
+理 f o e n
+bigkey过期时间自动删除问题(例如一个200万的zset设置1小时过期，会触发del操作，造成阻塞，而且
+l c d c
+该操作不会出现在慢查询中(latency可查))，
+整 o 理 f o e n
+解析
+w l c d c
+育 ： 整 o 理 f o e
+来看一段对话：这是之前公司同事问我的？他对我的答案很吃惊而且有点怀疑。
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+希望通过本篇文章能够解答他的疑问。
+丁 公 狼 众 教 号 育 ： 整 o
+一、什么是bigkey w
+叩 信 丁 公 狼 众 教 号 育 ：
+在Redis中，一个字符串最大512MB，一个二级数据结构（例如hash、list、set、zset）可以存储大约
+40亿个(2^32-1)个元素，但实际上中如果下面两种情况，我就会认为它是bigkey。
+微 叩 信 丁 公 狼 众 教 号
+1.
+字符串类型：它的big体现在单个value值很大，一般认为超过10KB就是bigkey。
+微 叩 信 丁 公 狼 众
+2.
+微 叩 信 丁 公
+非字符串类型：哈希、列表、集合、有序集合，它们的big体现在元素个数太多。
+微 叩 信
+提示：因为非字符串数据结构中，每个元素实际上也是一个字符串，这里不去讨论一个字符串元素是大字符串
+的情况。 微
+二、危害
+bigkey可以说就是Redis的老鼠屎，具体表现在：
+1.内存空间不均匀：这样会不利于集群对内存的统一管理，存在丢失数据的隐患，下图中的三个节点是
+同属于一个集群，键值个数也接近，但内存容量相差较多。
+n
+2.超时阻塞：由于Redis单线程的特性，操作bigkey的通常比较耗时，也就意味着阻塞Redis可能性越
+c 大，这样会造成客户端阻塞或者引起故障切换，它们通常出现在慢查询中。
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+例如，在Redis发现了这样的key，你就等着DBA找你吧。。
+w l c
+狼 众 教 号 127.0.0.1:6379> hlen big:hash 育 ： 整 o 理 f
+(integer) 2000000
+w l
+127.0.0.1:6379> hgetall big:hash
+丁 公 狼 众 教 号 育 ： 整 o
+1) "a"
+2) "1" w
+此处省略400万行
+叩 信 丁 公 狼 众 教 号 育 ：
+3.网络拥塞：
+微 叩 信 丁 公 狼 众 教 号
+bigkey也就意味着每次获取要产生的网络流量较大，假设一个bigkey为1MB，客户端每秒访问量为
+1000，那么每秒产生1000MB的流量，对于普通的千兆网卡(按照字节算是128MB/s)的服务器来说简直
+微 叩 信 丁 公 狼 众
+是灭顶之灾，而且一般服务器会采用单机多实例的方式来部署，也就是说一个bigkey可能会对其他实例
+造成影响，其后果不堪设想。
+微 叩 信 丁 公
+微 叩 信
+微
+4. 过期删除
+有个bigkey，它安分守己（只执行简单的命令，例如hget、lpop、zscore等），但它设置了过期时间，
+当它过期后，会被删除，如果没有使用Redis 4.0的过期异步删除(lazyfree-lazy-expire yes)，就会存在
+阻塞Redis的可能性，而且这个过期删除不会从主节点的慢查询发现（因为这个删除不是客户端产生
+的，是内部循环事件，可以从latency命令中获取或者从slave节点慢查询发现）。
+5. 迁移困难
+当需要对bigkey进行迁移（例如Redis cluster的迁移slot），实际上是通过migrate命令来完成的，
+n
+migrate实际上是通过dump + restore + del三个命令组合成原子命令完成，如果是bigkey，可能会使迁
+c 移失败，而且较慢的migrate会阻塞Redis。
+e n
+三、怎么产生的？
+d c
+o 一般来说，bigkey的产生都是由e于程序设计不当，或者对于数据规模预料不清楚造成的，来看几个 n
+🌰：
+c d c
+理 f (1) 社交类：粉丝列表o，如果某些明星或者大v不精心设计下，必是bigkey。 e n
+l (2) 统计类：例如c按天存储某项功能或者网站的用户集合，除非没几个人用，否则必是bigdkey。 c
+整 o 理 f o e n
+(3) 缓存类：将数据从数据库load出来序列化放到Redis里，这个方式非常常用，但有两个地方需要注
+w 意，第一l，是不是有必要把所有字段都缓存，第二，有没有相关关联的数据。 c d c
+育 ： 整 o 理 f o e
+例如我之前遇到过一个例子，该同学将某明星一个专辑下所有视频信息都缓存一个巨大的json中，造成
+w这个json达到6MB，后来这个明星发了一个官宣。。。这个我就不多说l了，领盒饭去吧。 c d
+教 号 育 ： 整 o 理 f o
+四、如何发现
+w l c
+狼 众 教 号 1. redis-cli --bigkeys 育 ： 整 o 理 f
+w l
+redis-cli提供了--bigkeys来查找bigkey，例如下面就是一次执行结果：
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+可以看到--bigkeys给出了每种数据结构的top 1 bigkey，同时给出了每种数据类型的键值个数以及平均
+微 叩 信
+大小。
+--bigkeys对问题的排查非常方便，但是在使用它时候也有几点需要注意。
+微
+1. 建议在从节点执行，因为--bigkeys也是通过scan完成的。
+2. 建议在节点本机执行，这样可以减少网络开销。
+3. 如果没有从节点，可以使用--i参数，例如(--i 0.1 代表100毫秒执行一次)
+4. --bigkeys只能计算每种数据结构的top1，如果有些数据结构非常多的bigkey，也搞不定，毕竟不是自
+己写的东西嘛
+2. debug object
+再来看一个场景：
+n
+c
+e n
+d c
+是不是发现用--bigkeys不行了（当然如果改源码也不是太难），但有没有更快捷的方法，Redis提供了
+o e n
+debug object ${key}命令获取键值的相关信息：
+c d c
+理 f o e n
+127.0.0.1:6379> hlen big:hash
+l (integer) 50c00000 d c
+127.0.0.1:6379> debug object big:hash
+整 o 理 f o e n
+Value at:0x7fda95b0cb20 refcount:1 encoding:hashtable serializedlength:87777785
+w lru:9l625559 lru_seconds_idle:2 c d c
+(1.08s)
+育 ： 整 o 理 f o e
+w l c d
+其中serializedlength表示key对应的value序列化之后的字节数，当然如果是字符串类型，完全看可以
+教 号 育 ： 整 o 理 f o
+执行strlen，例如：
+w l c
+127.0.0.1:6379> strlen key
+狼 众 教 号 育 ： 整 o 理 f
+(integer) 947394
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+这样你就可以用scan + debug object的方式遍历Redis所有的键值，找到你需要阈值的数据了。
+w
+但是在使用debug object时候一定要注意以下几点：
+叩 信 丁 公 狼 众 教 号 育 ：
+(1) debug object bigkey本身可能就会比较慢，它本身就会存在阻塞Redis的可能：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微
+类型 长度 每个item长度 耗时
+hash 100000 4字节 27毫秒
+hash 500000 4字节 137毫秒
+hash 1000000 4字节 255毫秒
+n list 100000 4字节 4毫秒
+c
+list 500000 4字节 8毫秒
+e n
+list 1000000 4字节 12毫秒
+d c
+o set 100000 e 4字节 16毫秒 n
+c set 5000d00 4字节 85毫秒 c
+理 f o e n
+set 1000000 4字节 181毫秒
+l c d c
+zset 100000 4字节 78毫秒
+整 o 理 f o e n
+w zset l 500000 4字节 c355毫秒 d c
+育 ： 整 o 理 f o e
+zset 1000000 4字节 733毫秒
+w l c d
+教 号 育 ： (2) 建议在从节点执行 (3) 建议在节点本地执行 (4整) 如果不关系具体字o节数，完全可以使用scan + 理 f o
+strlen|hlen|llen|scard|zcard替代，他们都是o(1)
+w l c
+狼 众 教 号 3 memory usage 育 ： 整 o 理 f
+w l
+上面的debug object可能会比较危险、而且不太准确（序列化后的长度），有没有更准确的呢？Redis
+丁 公 狼 众 教 号 育 ： 整 o
+4.0开始提供memory usage命令可以计算每个键值的字节数（自身、以及相关指针开销，具体的细节
+后面有文章会分析），例如下面是一次执行结果： w
+叩 信 丁 公 狼 众 教 号 育 ：
+127.0.0.1:6379> memory usage big:hash
+(integer) 318663444
+微 叩 信 丁 公 狼 众 教 号
+下面我们来对比就可以看出来，当前系统就一个key，总内存消耗是400MB左右，memory usage相比
+微 deb叩 ug object还是要精 信 确一些的。 丁 公 狼 众
+127.0.0.1:6379> dbsize
+微 叩 信 丁 公
+(integer) 1
+127.0.0.1:6379> hlen big:hash
+(integer) 5000000
+微 叩 信
+#约300MB
+127.0.0.1:6379> memory usage big:hash
+(integer) 318663444
+微
+#约85MB
+127.0.0.1:6379> debug object big:hash
+Value at:0x7fda95b0cb20 refcount:1 encoding:hashtable serializedlength:87777785
+lru:9625814 lru_seconds_idle:9
+(1.06s)
+127.0.0.1:6379> info memory
+# Memory
+used_memory_human:402.16M
+如果你使用Redis 4.0+，你就可以用scan + memory usage(pipeline)了，而且很好的一点是,memory
+不会执行很慢，当然依然是建议从节点 + 本地 。
+4.客户端
+上面三种方式都有一个问题，就是马后炮，如果想很实时的找到bigkey，一方面你可以试试修改Redis
+源码，还有一种方式就是可以修改客户端，以jedis为例，可以在关键的出入口加上对应的检测机制，例
+如以Jedis的获取结果为例子：
+n
+c
+protected Object readProtocolWithCheckingBroken() {
+e Object o = null; n
+try {
+d c
+o = Protocol.read(inputStream);
+o return o; e n
+c } catch (JedisdConnectionException exc) { c
+UsefulDataCollector.collectException(
+理 f o e n
+exc, getHostPort(), System.currentTimeMillis());
+l brocken = true; d c
+throw exc;
+整 o 理 f o e n
+} finally {
+w l if (o != null) { c d c
+if (o instanceof byte[]) {
+育 ： 整 o 理 f o e
+byte[] bytes = (byte[]) o;
+w l c d
+if (bytes.length > threshold) {
+教 号 育 ： //做很多事情，例如用整 ELK完成收集和展示o 理 f o
+}
+w l c
+}
+狼 众 教 号 } 育 ： 整 o 理 f
+}
+w l
+}
+丁 公 狼 众 教 号 育 ： 整 o
+例如下面就是两个功能： w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微
+5.监控报警
+bigkey的大操作，通常会引起客户端输入或者输出缓冲区的异常，Redis提供了info clients里面包含的
+客户端输入缓冲区的字节数以及输出缓冲区的队列长度，可以重点关注下：
+127.0.0.1:6379> info clients
+client_longest_output_list:xxxxx
+client_biggest_input_buf:xxxxx
+如果想知道具体的客户端，可以使用client list命令来查找
+redis-cli client list
+n id=3 addr=127.0.0.1:58500 fd=8 name= age=3978 idle=25 flags=N db=0 sub=0 psub=0
+c multi=-1 qbuf=0 qbuf-free=0 obl=0 oll=0 omem=26263554 events=r cmd=hgetall
+e n
+6.改源码
+d c
+o 这个其实也是能做的，但是各方e面成本比较高，对于一般公司来说不适用。 n
+c d c
+我个人的最佳实践就是：
+理 f o e n
+(1) Redis端与客户端相结合：--bigkeys临时用、scan长期做排除隐患（尽可能本地化）、客户端实时监
+l c d c
+控。
+整 o 理 f o e n
+(2) 监控报警要跟上
+w l c d c
+(3) debug object尽量少用
+育 ： 整 o 理 f o e
+w(4) 所有数据平台化 l c d
+教 号 育 ： 整 o 理 f o
+(5) 要和开发同学强调bigkey的危害
+w l c
+五、如何删除
+狼 众 教 号 育 ： 整 o 理 f
+如果发现了bigkey，而且确认是垃圾是不是直接del就可以了，来看一组数据： w l
+丁 公 狼 众 教 号 育 ： 整 o
+可以看到对于string类型，删除速度还是可以接受的。但对于二级数据结构，随着元素个数的增长以及 w
+叩 信 丁 公 每个元素字节数的增大狼 ，删除速度会越来众 越慢，存在阻塞Redis的隐患。所以在删除它们时候建教 议采用 号 育 ：
+渐进式的方式来完成：hscan、ltrim、sscan、zscan。
+微 叩 信 丁 公 狼 众 教 号
+如果你使用Redis 4.0+，一条异步删除unlink就解决，就可以忽略下面内容。
+微 1. 字叩 符串： 信 丁 公 狼 众
+一般来说，对于string类型使用del命令不会产生阻塞。
+微 叩 信 丁 公
+del bigkey
+微 叩 信
+2. hash
+使用hscan命令，每次获取部分(例如100个)field-value，在利用hdel删除每个field(为了快速可以使用 微
+pipeline)。
+public void delBigHash(String bigKey) {
+Jedis jedis = new Jedis("127.0.0.1", 6379);
+// 游标
+String cursor = "0";
+while (true) {
+ScanResult<Map.Entry<String, String>> scanResult = jedis.hscan(bigKey,
+cursor, new ScanParams().count(100));
+// 每次扫描后获取新的游标
+cursor = scanResult.getStringCursor();
+// 获取扫描结果
+List<Entry<String, String>> list = scanResult.getResult();
+if (list == null || list.size() == 0) {
+continue;
+}
+String[] fields = getFieldsFrom(list);
+n // 删除多个field
+jedis.hdel(bigKey, fields);
+c
+// 游标为0时停止
+e if (cursor.equals("0")n) {
+d break; c
+}
+o e n
+}
+c //最终删除key d c
+jedis.del(bigKey);
+理 f o e n
+}
+l /** * 获取fiecld数组 d c
+* @param list
+整 o 理 f o e n
+* @return */
+w l c d c
+private String[] getFieldsFrom(List<Entry<String, String>> list) {
+育 ： 整 o List<String> fields = new ArrayList<Strin理 g>(); f o e
+for(Entry<String, String> entry : list) {
+w l c d
+fields.add(entry.getKey());
+教 号 育 ： } 整 o 理 f o
+return fields.toArray(new String[fields.size()]);
+w l c
+}
+狼 众 教 号 育 ： 整 o 理 f
+3. list w l
+丁 公 狼 众 教 号 育 ： 整 o
+Redis并没有提供lscan这样的API来遍历列表类型，但是提供了ltrim这样的命令可以渐进式的删除列表
+w
+元素，直到把列表删除。
+叩 信 丁 公 狼 众 教 号 育 ：
+public void delBigList(String bigKey) {
+Jedis jedis = new Jedis("127.0.0.1", 6379);
+微 叩 信 丁 公 狼 众 教 号
+long llen = jedis.llen(bigKey);
+int counter = 0;
+int left = 100;
+微 叩 信 丁 公 狼 众
+while (counter < llen) {
+//每次从左侧截掉100个
+j微 edis.ltrim(bigKey, left, llen); 叩 信 丁 公
+counter += left;
+}
+//最终删除key 微 叩 信
+jedis.del(bigKey);
+}
+微
+4. set
+使用sscan命令，每次获取部分(例如100个)元素，在利用srem删除每个元素。
+public void delBigSet(String bigKey) {
+Jedis jedis = new Jedis("127.0.0.1", 6379);
+// 游标
+String cursor = "0";
+while (true) {
+ScanResult<String> scanResult = jedis.sscan(bigKey, cursor, new
+ScanParams().count(100));
+// 每次扫描后获取新的游标
+cursor = scanResult.getStringCursor();
+// 获取扫描结果
+List<String> list = scanResult.getResult();
+if (list == null || list.size() == 0) {
+n continue;
+}
+c
+jedis.srem(bigKey, list.toArray(new String[list.size()]));
+e // 游标为0时停止 n
+d if (cursor.equals("c0")) {
+break;
+o e n
+}
+c } d c
+//最终删除key
+理 f o e n
+jedis.del(bigKey);
+l } c d c
+整 o 理 f o e n
+5. sorted set
+w l c d c
+育 ： 整 使用o zscan命令，每次获取部分(例如100个)元素，在利用z理 remrangebyrankf删除元素。 o e
+w l c d
+/** * 137258ms * @param bigKey */
+教 号 育 ： 整 o 理 f o
+public void delBigSortedSet(String bigKey) {
+w l c
+long startTime = System.currentTimeMillis();
+狼 众 教 号 Jedis jedis = new Jedis(HO育ST, PORT); ： 整 o 理 f
+// 游标
+w l
+String cursor = "0";
+丁 公 狼 众 while (true) { 教 号 育 ： 整 o
+ScanResult<Tuple> scanResult = jedis.zscan(bigKey, cursor, new
+w
+ScanParams().count(100));
+叩 信 丁 公 // 每次扫狼 描后获取新的游标 众 教 号 育 ：
+cursor = scanResult.getStringCursor();
+// 获取扫描结果
+微 叩 信 丁 公 狼 众 教 号
+List<Tuple> list = scanResult.getResult();
+if (list == null || list.size() == 0) {
+continue;
+微 叩 信 丁 公 狼 众
+}
+String[] members = getMembers(list);
+jedis.zrem(bigKey, members);
+微 叩 信 丁 公
+// 游标为0时停止
+if (cursor.equals("0")) {
+break; 微 叩 信
+}
+}
+// 最终删除key 微
+jedis.del(bigKey);
+}
+/** * 60529ms * @param bigKey */
+public void delBigSortedSet2(String bigKey) {
+Jedis jedis = new Jedis(HOST, PORT);
+long zcard = jedis.zcard(bigKey);
+int counter = 0;
+int incr = 100;
+while (counter < zcard) {
+jedis.zremrangeByRank(bigKey, 0, 100);
+//每次从左侧截掉100个
+counter+=incr;
+}
+// 最终删除key
+jedis.del(bigKey);
+}
+n
+六、如何优化
+c
+e 1. 拆 n
+d c
+big list： list1、list2、...listN
+o e n
+big hash：可以做二次的hash，例如hash%100
+c d c
+日期类：key20190320、key20190321、key_20190322。
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+2. 本地缓存
+微 叩 信 丁 公 狼 众 教 号
+减少访问redis次数，降低危害，但是要注意这里有可能因此本地的一些开销（例如使用堆外内存会涉及
+序列化，bigkey对序列化的开销也不小）
+微 叩 信 丁 公 狼 众
+总结：
+由于开发人员微 对Redis的理解程度不同，在实际开发中出现bigkey在叩 所难免，重要的能信 通过合理的检测 丁 公
+机制及时找到它们，进行处理。作为开发人员应该在业务开发时不能将Redis简单暴力的使用，应该在
+数据结构的选择和设计上更加合理，例如出现了bigkey，要思考一下可不可以做一些优化(例如二级索
+微 叩 信
+引)尽量的让这些bigkey消失在业务中，如果bigkey不可避免，也要思考一下要不要每次把所有元素都取
+出来(例如有时候仅仅需要hmget，而不是hgetall)，删除也是一样，尽量使用优雅的方式来处理。
+微
+附图一张：
+n
+c
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微

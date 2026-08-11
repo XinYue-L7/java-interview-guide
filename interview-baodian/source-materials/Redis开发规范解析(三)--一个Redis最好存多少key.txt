@@ -1,0 +1,381 @@
+去年我写过一个《阿里云Redis开发规范》，在网上转载很多，但其实说心里话，我并不认为写的
+多好，受制一些客观因素和篇幅，有些不够细致和深入，所以想在公众号里详细解析下，希望对大
+家有帮助。
+本篇是第三篇：一个Redis实例存储多少个键值对比较合适。
+n
+无原文
+c
+e n
+这个在当时的文章里没有讨论，因为这个问题很难绝对化，但背后的知识还是很有讨论价值的，我
+d c
+们来看一段对话：
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+解析
+狼 众 教 号 育 ： 整 o 理 f
+w l
+一、存在哪？
+丁 公 狼 众 教 号 育 ： 整 o
+1. 哈希表(hashtable) w
+叩 信 丁 公 狼 众 教 号 育 ：
+要知道能存多少，首先要知道Redis的键值对存在哪？你可能已经猜到了哈希表，它是天然的键值
+对数据结构，各种语言都支持该数据结构，基本上是使用数组链表的形式实现的（JDK 8用的红黑
+微 叩 信 树），下丁 面是一个整体结公构。 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微
+dictEntry存储的是实际键值对，它的的结构定义如下所示:
+typedef struct dictEntry {
+void *key;
+union {
+void *val;
+uint64_t u64;
+int64_t s64;
+double d;
+} v;
+n
+struct dictEntry *next;
+c } dictEntry;
+e n
+dictht是哈希表，它的定义如下：
+d c
+o e n
+typedef struct dictht {
+c //dictEntryd数组链表 c
+dictEntry **table;
+理 f o e n
+//数组的长度
+l c d c
+unsigned long size;
+整 o 理 f//数组掩码，等于size-1 o e n
+unsigned long sizemask;
+w l c d c
+//键值个数
+育 ： 整 o unsigned long used; 理 f o e
+} dictht;
+w l c d
+教 号 育 ： 整 o 理 f o
+2.键值"路由"
+w l c
+对于一个key，首先会通过哈希算法（见下面提示）计算它的哈希值，然后与sizemask做&计算(等
+狼 众 教 号 育 ： 整 o 理 f
+价于与size做%计算)，算出所在的数组下标(index)，然后生成dictEntry插入其中。
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+index = dictHashKey(key) & sizemask = dictHashKey(key) % size
+w
+叩 信 丁 公 其中哈希算法在狼Redis版本中也有迭众 代： 教 号 育 ：
+提：提示：Redis 4开始使用siphash算法代替murmur2算法。
+微 叩 信 丁 公 狼 众 教 号
+murmur2算法已经证实会受到HashDos的攻击(可以简单理解为破坏哈希的均匀性)。 bug
+detail：
+https://paper.seebug.org/180/
+微 叩 信 丁 公 狼 众
+假如我向一个空的Redis执行了一条如下命令：
+微 叩 信 丁 公
+127.0.0.1:6379> set hello world
+OK
+微 叩 信
+首先Redis会使用siphash算法计算"hello"的哈希值，然后与sizemask做&计算。
+微
+siphashKey("hello") & 3 = 984616787 & 3 = 3
+计算出"hello"所对应的数组下标是3，如下所示：
+n
+c
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+注意kv里面不是直接存字符串，k是sds,v是redisObject。
+w l c d
+教 号 育 ： 3.冲突处理 整 o 理 f o
+w l c
+那么问题来了，如果一个新的key算出的数组下标已经包含了其他dictEntry，那么该如何处理呢？
+狼 众 教 号 育 ： 整 o 理 f
+这就要引出冲突处理问题，实际上这个问题的处理方式也很简单，因为每个数组下标对应的是一个
+w l
+链表，如果发生冲突，只需要把新的key对应dictEntry挂在链表的第一个位置即可（因为是新插入
+丁 公 狼 众 的，可能马上会用到），教例如插入两条数据号后： 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微
+4.扩缩容(rehash)
+接下来问题又来了，单纯依赖链表做冲突处理，链表会越来越长，读写效率会差，所以需要对哈希
+表做扩容，对于Redis来说，一个哈希数据结构内置了两个哈希表（dictht），一个用于使用，另
+一个平时闲置，待时机成熟，扩容一倍，然后将数据迁移到另一个哈希表内，如下图所示：
+n
+c
+e n
+d c
+o e n
+c d c
+typedef struct dict {
+理 f dictTypeo *type; e n
+void *privdata;
+l c d c
+dictht ht[2];
+整 o 理 f o e n
+long rehashidx; /* rehashing not in progress if rehashidx == -1 */
+w l unsigned long iterators; /* number of iterators currenctly running */ d c
+} dict;
+育 ： 整 o 理 f o e
+w l c d
+其中rehashidx用来标识当前dict是否正在做rehash，如果为-1表示没有做rehash。当used > 2^n
+教 号 育 ： 时候，就需要扩容了(rehashidx代表ht[0]在整 rehash时候所在的o索引值)，如下图所示。为了保证 理 f o
+Redis单线程的高效性，整个rehash是渐进式（一点点）w完成的，但全部迁移完成后，将 l c
+rehashidx置为-1，表示rehash结束了。
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+对于key的路由来说，它依然先从dict[0]去找，如果找到了，就顺便把它迁移到dict[1]。如果没找
+到就要从dict[1]去找。
+微
+二、能存多少呢？
+相信通过前面的介绍，你已经对Redis的dict有了一定的认识，如果现在有人问你一个Redis能存储
+多少个键值对，相信这个问题不难回答了吧，因为我们已经了解了Redis的哈希表实现方式，知道
+size定义了数组的长度，由于它是unsigned long类型（4个字节），所以Redis理论上可以存储
+2^32个元素（大约40亿个）。下面一段是官方的一段FAQ（引自：https://redis.io/topics/faq）
+What is the maximum number of keys a single Redis instance can hold? Redis
+can handle up to 2^32 keys, and was tested in practice to handle at least
+250 million keys per instance.
+从官方的回答可以看到，Redis虽然可以承担2^32个（大约40亿个）键值对，但是它建议你最佳实
+践是存放2.5亿个键值对，没有给出具体的原因。
+下面我们结合刚才介绍的内容大开脑洞想一下：键值个数的增加可能会引发什么问题呢？
+n
+c 三、可能引起的问题？
+e n
+1.rehash问题
+d c
+o 通过前面的介绍，相信你e也简单了解了Redis的扩容是需要通过rehash来完成的，也了解了扩容的n
+c 相关机制，但是一般d来说很多人对于Redis中的这类机制只是浅尝辄止，没有深层次的考虑。c现实
+是残酷的，下面我用一次我实际中遇到的问题来说明rehash可能带来的危险。
+理 f o e n
+那是我在阿里云的时候，有个客户反馈他的Redis内存突然涨了2GB，如下图所示：Redis实例的内
+l c d c
+存在一分钟内突然从7.46GB涨到9.46GB，并持续了一段时间。
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+对于此类问题，我们已经有了一套检测方式：各类缓冲区检测、键值增长趋势、大键值、Lua引擎
+狼 众 教 号 育 ： 整 o 理 f
+内存等等，但我们进行了一轮检测后，均未发现异常（注释：当时使用的Redis 3.0，内存统计信
+息不是很全）。经同事提醒后发现可能是rehash造成的，于是抱着尝试的心态做了试验。 w l
+丁 公 狼 众 如下面的代码所示，我向教一个空的Redis写入号 简单的键值对，2^n是rehash的临界点，在临界点附育 ： 整 o
+近放慢键值的写入速度。
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+public static void testRehash(int n) {
+//rehash的临界点
+微 叩 信 丁int rehashThres公 hold = (int) Math.pow(2, n); 狼 众 教 号
+//临界点左右的偏移量，用于观察数据
+int offset = 10;
+微 叩 for (int信 i = 0; i < rehashThreshold + offset; i++) 丁 { 公 狼 众
+jedis.set(String.valueOf(i), String.valueOf(i));
+//用于观察临界点内存的变化。
+微 if (i > rehashThreshold - offset) { 叩 信 丁 公
+TimeUnit.SECONDS.sleep(1);
+}
+微 叩 信
+}
+}
+微
+Redis的官方客户端redis-cli提供了一个简单的选项--stat用于定时观察Redis相关状态的变化。
+(1) 当n=15时，可以观察到：当keys超过32768（2^15）时，内存突然从3.45M涨到了3.70M。
+redis-cli -h 127.0.0.1 -p 6379 --stat
+keys mem clients blocked requests connections
+32767 3.45M 2 0 1230010 (+2) 13
+32768 3.45M 2 0 1230012 (+2) 13
+32769 3.70M 2 0 1230014 (+2) 13
+32770 3.70M 2 0 1230016 (+2) 13
+32771 3.70M 2 0 1230018 (+2) 13
+32772 3.70M 2 0 1230020 (+2) 13
+n
+c
+(2) 当n=20时，可以观察到：当keys超过1048576(2^20)时，内存突然从88.70M涨到了
+e 104.70M。 n
+d c
+keys mem clients blocked requests connections
+o e n
+1048574 88.70M 2 0 2278689 (+2) 16
+c d c
+1048575 88.70M 2 0 2278691 (+2) 16
+理 f 1048576 8o8.70M 2 0 2278693 (+2) 16 e n
+1048577 104.70M 2 0 2278695 (+2) 16
+l c d c
+1048578 104.70M 2 0 2278697 (+2) 16
+整 o 理 1048f579 104.70M 2 0 2278699 (+2) 16 o e n
+w l c d c
+(3) 当n=26时，效果更加明显，当keys超过67108864(2^26)后，内存直接从5.50G增长到6.50G。
+育 ： 整 o 理 f o e
+w l c d
+keys mem clients blocked requests connections
+教 号 育 ： 67108862 5.50G 2 0 整 2574533 (+2)o 23 理 f o
+67108863 5.50G 2 0 2574535 (+2) 23
+w l c
+67108864 5.50G 2 0 2574537 (+2) 23
+狼 众 教 号 67108865 6.50G 2 育 0 2574：539 (+2) 23 整 o 理 f
+67108866 6.50G 2 0 2574541 (+2) 23 w l
+67108867 6.50G 2 0 2574543 (+2) 23
+丁 公 狼 众 教 号 育 ： 整 o
+w
+再结合一下当时客户Redis的键值变化，基本可以确定是由rehash造成的内存异常增长。至此我们
+叩 信 丁 公 已经分析出内存狼突然增长的原因。众（过期键值的dictht也有1G的消耗） 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+dict微: 67108864 * 16字节(dictEntry) = 1G 叩 信 丁 公
+Bexpires: 67108864 * 16字节(dictEntry) = 1GB
+微 叩 信
+但是还有更糟糕的情况，如果内存暴增的一瞬间超过了Redis设置的最大内存，不仅会产生大量的
+数据逐，而且会造成客户端产生大量的超时。下面我们用一个例子来具体说明。
+现在我们将Redis设置最大使用内存为6GB，并设置最大内存淘汰策略是allkeys-lru。 微
+127.0.0.1:6379> config set maxmemory 6GB
+OK
+127.0.0.1:6379> config set maxmemory-policy allkeys-lru
+OK
+127.0.0.1:6379> config rewrite
+OK
+我们继续设置n=26运行上述程序，会发现在rehash临界点瞬间（67108864），redis-cli --stat会
+卡住，过一段时间后内存虽然也增长了，但是发现key大量丢失（rehash完成，但是rehash一瞬间
+内存的使用已经超过maxmemory，触发了maxmemory-policy），而且又长时间的卡顿，如果放
+在生产环境，如果对QPS要求很高的核心业务，很可能就是一次事故。
+67108862 5.50G 2 0 2710190 (+2) 26
+67108863 5.50G 2 0 2710192 (+2) 26
+n 67108864 5.50G 2 0 2710194 (+2) 26
+======================这里redis-cli --stat停顿======================
+c
+61202597 5.56G 2 0 2710196 (+2) 26
+e 61202598 5.56G 1 n 0 2710198 (+2) 26
+61202598 5.56G 1 0 2710199 (+1) 26
+d c
+61202598 5.56G 1 0 2710200 (+1) 26
+o e n
+c 下表是每个n对应的键d值个数和rehash瞬间的内存额外开销： c
+理 f o e n
+n 键值个数 rehash容量
+l c d c
+整 o 理 20 f 1048576(百万) 16MB o e n
+w l c d c
+26 67108864(千万) 1GB
+育 ： 整 o 理 f o e
+27 134217728(亿) 2GB
+w l c d
+教 号 育 ： 28 268435456(亿) 整 o4GB 理 f o
+w l c
+2.小键值和分片过大问题
+狼 众 教 号 育 ： 整 o 理 f
+w l
+你可能经常听到一个建议，Redis的分片(maxmemory)不要设置过大，一般建议最大不要超过8G,
+丁 公 狼 众 这里面原因很多： 教 号 育 ： 整 o
+(1) bgsave和bgrewriteaof要在主线程执行fork操作，分片越大，执行时间越长，阻塞Redis可能 w
+性越大。
+叩 信 丁 公 狼 众 教 号 育 ：
+(2) 分片越大，RDB落盘、网络传输、加载时间都是会较长，对于CPU、网络、磁盘IO的开销也会
+越大。
+微 叩 信 丁 公 狼 众 教 号
+这些内容在后面的持久化文章中都会有介绍，那我们来看一下在不同键值个数、value字节数大小
+下，内存的开销总和，所以键值个数自己可以掂量下
+微 叩 信 丁 公 狼 众
+类型 8字节 50字节 100字节 500字节 1KB
+微 叩 信 丁 公
+10万 8.7MB 12MB 18MB 56MB 105MB
+100万 78MB 116MB 169MB 550MB 1.01GB
+微 叩 信
+500万 448M 667MB 980MB 3.1G 5.75GB
+微
+1000万 790MB 1.2GB 1.7GB 5.5GB 10GB
+1亿 8GB 12GB 17GB 55GB 100GB
+3.死键问题
+Redis将所有键值对保存dict中，除此之外还有一个dict *expires用来保存过期键，用于标记设置
+了过期时间的键值，整个定义如下：
+typedef struct redisDb {
+dict *dict;/* The keyspace for this DB */
+dict *expires;/* Timeout of keys with a timeout set */
+......
+} redisDb;
+Redis有两种过期键值处理机制：
+n
+(1) 主动过期：访问key时，先去expires表访问，如果发现已经过期就删除掉。 (2) 被动过期：通
+c 过某种机制定期抽样扫描expires表，如果发现过期就删除。
+e 其中详细的机制这里就不多做介绍n了，而这个定时任务也是在Redis的单线程中完成的。也就是
+d 说，如果执行过于频繁，会影c响Redis的性能；但是如果执行不频繁的话，会使得大量该过期的数
+据没有过期，造成内存浪费。这种现象被称为“死键问题”。
+o e n
+如果键值数量过多，并设置了过期时间，很可能出现类似问题。从我的实际经验来看，一旦键值个
+c d c
+数超过千万级别，就会有这样的情况发生，下图中的下面两个节点是经过scan后的Redis实例，可
+理 f o e n
+以发现内存量和键值个数急剧减少。
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+4.数据剔除问题 w l
+丁 公 狼 众 教 号 育 ： 整 o
+Redis有最大内存淘汰机制(maxmemory-policy)，如果键值个数过多，那么可能逐出的就会更
+w
+多，也就意味段时间内有大量的删除操作，甚至会造成Redis段时间不可用，如下图所示：
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+总结：
+微 叩 信 丁 公
+本文首先通过Redis到底能存储多少个键值对，引出Redis的Hash表实现方式（数组链表）、扩缩
+微 叩 信
+容等原理，最后通过一个开脑洞的思考探讨，分析了各种利弊，最终讨论Redis到底存储多少个键
+值对会比较好（最多千万级别）。
+附图一张： 微
+n
+c
+e n
+d c
+o e n
+c d c
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+微 叩 信
+微

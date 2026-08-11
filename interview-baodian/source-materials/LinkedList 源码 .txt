@@ -1,0 +1,600 @@
+简介
+LinkedList是一个实现了List接口和Deque接口的双端链表。 LinkedList底层的链表结构使它支持高效的
+插入和删除操作，另外它实现了Deque接口，使得LinkedList类也具有队列的特性; LinkedList不是线程
+安全的，如果想使LinkedList变成线程安全的，可以调用静态类Collections类中的synchronizedList方
+n
+法：
+c
+e List list=Collections.synchronnizedList(new LinkedList(...));
+d c
+内部结构分析
+o e n
+c d c
+如下图所示：
+理 f o e n
+l c d c
+整 o 理 f o e n
+w l c d c
+育 ： 整 o 理 f o e
+w l c d
+教 号 育 ： 整 o 理 f o
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+w
+叩 信 丁 公 狼 众 教 号 育 ：
+微 叩 信 丁 公 狼 众 教 号
+微 叩 信 丁 公 狼 众
+微 叩 信 丁 公
+看完了图之后，我们再看LinkedList类中的一个内部私有类Node就很好理解了：
+微 叩 信
+private static class Node<E> {
+E item;//节点值
+Node<E> next;//后继节点 微
+Node<E> prev;//前驱节点
+Node(Node<E> prev, E element, Node<E> next) {
+this.item = element;
+this.next = next;
+this.prev = prev;
+}
+}
+这个类就代表双端链表的节点Node。这个类有三个属性，分别是前驱节点，本节点的值，后继结点。
+LinkedList源码分析
+构造方法
+空构造方法：
+n
+c public LinkedList() {
+}
+e n
+d c
+用已有的集合创建链表的构造方法：
+o e n
+c public LinkedLidst(Collection<? extends E> c) { c
+this();
+理 f o e n
+addAll(c);
+l } c d c
+整 o 理 f o e n
+add方法
+w l c d c
+育 ： 整 o 理 f o e
+add(E e) 方法：将元素添加到链表尾部
+w l c d
+教 号 育 ： public boolean add(E e) { 整 o 理 f o
+linkLast(e);//这里就只调用了这一个方法
+w l c
+return true;
+狼 众 教 号 } 育 ： 整 o 理 f
+/**
+w l
+* 链接使e作为最后一个元素。
+丁 公 狼 众 */ 教 号 育 ： 整 o
+void linkLast(E e) {
+w
+final Node<E> l = last;
+叩 信 丁 公 狼 众 教 号 育 ：
+final Node<E> newNode = new Node<>(l, e, null);
+last = newNode;//新建节点
+if (l == null)
+微 叩 信 丁 公 狼 众 教 号
+first = newNode;
+else
+l.next = newNode;//指向后继元素也就是指向下一个元素
+微 叩 信 丁 公 狼 众
+size++;
+modCount++;
+} 微 叩 信 丁 公
+add(int index,E e)：在指定位置添加元素
+微 叩 信
+public void add(int index, E element) {
+checkPositionIndex(index); //检查索引是否处于[0-size]之间 微
+if (index == size)//添加在链表尾部
+linkLast(element);
+else//添加在链表中间
+linkBefore(element, node(index));
+}
+linkBefore方法需要给定两个参数，一个插入节点的值，一个指定的node，所以我们又调用了
+Node(index)去找到index对应的node
+addAll(Collection c )：将集合插入到链表尾部
+public boolean addAll(Collection<? extends E> c) {
+return addAll(size, c);
+}
+addAll(int index, Collection c)： 将集合从指定位置开始插入
+n
+public boolean addAll(int index, Collection<? extends E> c) {
+c
+//1:检查index范围是否在size之内
+e n
+checkPositionIndex(index);
+d c
+//2:toArray()方法把集合的数据存到对象数组中
+o e n
+Object[] a = c.toArray();
+c int numNew d= a.length; c
+if (numNew == 0)
+理 f o e n
+return false;
+l c d c
+整 o 理 /f/3：得到插入位置的前驱节点和后继节点 o e n
+Node<E> pred, succ;
+w l c d c
+//如果插入位置为尾部，前驱节点为last，后继节点为null
+育 ： 整 o if (index == size) { 理 f o e
+succ = null;
+w l c d
+pred = last;
+教 号 育 ： } 整 o 理 f o
+//否则，调用node()方法得到后继节点，再得到前驱节点
+w l c
+else {
+狼 众 教 号 育 ： 整 o 理 f
+succ = node(index);
+pred = succ.prev; w l
+}
+丁 公 狼 众 教 号 育 ： 整 o
+// 4：遍历数据将数据插入 w
+for (Object o : a) {
+叩 信 丁 公 狼 众 教 号 育 ：
+@SuppressWarnings("unchecked") E e = (E) o;
+//创建新节点
+微 叩 信 丁 Node<E> new公Node = new Node<>(pred, e, null); 狼 众 教 号
+//如果插入位置在链表头部
+if (pred == null)
+微 叩 信 first = newNode; 丁 公 狼 众
+else
+pred.next = newNode;
+微 叩 信 丁 公
+pred = newNode;
+}
+微 叩 信
+//如果插入位置在尾部，重置last节点
+if (succ == null) {
+last = pred;
+微
+}
+//否则，将插入的链表与先前链表连接起来
+else {
+pred.next = succ;
+succ.prev = pred;
+}
+size += numNew;
+modCount++;
+return true;
+}
+上面可以看出addAll方法通常包括下面四个步骤：
+1. 检查index范围是否在size之内
+2. toArray()方法把集合的数据存到对象数组中
+3. 得到插入位置的前驱和后继节点
+4. 遍历数据，将数据插入到指定位置
+n
+addFirst(E e)： 将元素添加到链表头部
+c
+e n
+public void addFirst(E e) {
+d linkFirst(e); c
+}
+o e n
+private void linkFirst(E e) {
+c d c
+final Node<E> f = first;
+理 f final Noode<E> newNode = new Node<>(null, e, f);//新建节点，以头节点为e后继节点 n
+first = newNode;
+l c d c
+//如果链表为空，last节点也指向该节点
+整 o 理 iff (f == null) o e n
+last = newNode;
+w l c d c
+//否则，将头节点的前驱指针指向新节点，也就是指向前一个元素
+育 ： 整 o 理 f o e
+else
+w f.prev = newNode; l c d
+size++;
+教 号 育 ： 整 o 理 f o
+modCount++;
+} w l c
+狼 众 教 号 育 ： 整 o 理 f
+addLast(E e)： 将元素添加到链表尾部，与 add(E e) 方法一样
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+public void addLast(E e) {
+linkLast(e); w
+}
+叩 信 丁 公 狼 众 教 号 育 ：
+根据位置取数据的方法
+微 叩 信 丁 公 狼 众 教 号
+get(int index)： 根据指定索引返回数据
+微 叩 信 丁 公 狼 众
+public E get(int index) {
+//检查index范围是否在size之内
+c微 heckElementIndex(index); 叩 信 丁 公
+//调用Node(index)去找到index对应的node然后返回它的值
+return node(index).item;
+微 叩 信
+}
+获取头节点（index=0）数据方法:
+微
+public E getFirst() {
+final Node<E> f = first;
+if (f == null)
+throw new NoSuchElementException();
+return f.item;
+}
+public E element() {
+return getFirst();
+}
+public E peek() {
+final Node<E> f = first;
+return (f == null) ? null : f.item;
+}
+public E peekFirst() {
+final Node<E> f = first;
+n return (f == null) ? null : f.item;
+}
+c
+e n
+区别： getFirst(),element(),peek(),peekFirst() 这四个获取头结点方法的区别在于对链表为空时的处
+d c
+理，是抛出异常还是返回null，其中getFirst() 和element() 方法将会在链表为空时，抛出异常
+o e n
+element()方法的内部就是使用getFirst()实现的。它们会在链表为空时，抛出
+c d c
+NoSuchElementException 获取尾节点（index=-1）数据方法:
+理 f o e n
+public E getLast() {
+l c d c
+final Node<E> l = last;
+整 o 理 f o e n
+if (l == null)
+w l throw new NoSuchElementException(); c d c
+return l.item;
+育 ： 整 o 理 f o e
+}
+w public E peekLast() { l c d
+final Node<E> l = last;
+教 号 育 ： 整 o 理 f o
+return (l == null) ? null : l.item;
+} w l c
+狼 众 教 号 育 ： 整 o 理 f
+两者区别： getLast() 方法在链表为空时，会抛出NoSuchElementException，而peekLast() 则不 w l
+会，只是会返回 null。
+丁 公 狼 众 教 号 育 ： 整 o
+根据对象得到索引的方法 w
+叩 信 丁 公 狼 众 教 号 育 ：
+int indexOf(Object o)： 从头遍历找
+微 叩 信 public in丁 t indexOf(Obje公ct o) { 狼 众 教 号
+int index = 0;
+if (o == null) {
+微 叩 信 丁 公 狼 众
+//从头遍历
+for (Node<E> x = first; x != null; x = x.next) {
+if (x.item == null)
+微 叩 信 丁 公
+return index;
+index++;
+}
+微 叩 信
+} else {
+//从头遍历
+for (Node<E> x = first; x != null; x = x.next) { 微
+if (o.equals(x.item))
+return index;
+index++;
+}
+}
+return -1;
+}
+int lastIndexOf(Object o)： 从尾遍历找
+public int lastIndexOf(Object o) {
+int index = size;
+if (o == null) {
+//从尾遍历
+for (Node<E> x = last; x != null; x = x.prev) {
+index--;
+if (x.item == null)
+return index;
+n
+}
+c } else {
+//从尾遍历
+e n
+for (Node<E> x = last; x != null; x = x.prev) {
+d c
+index--;
+o if (o.eequals(x.item)) n
+return index;
+c d c
+}
+理 f } o e n
+return -1;
+l c d c
+}
+整 o 理 f o e n
+w l c d c
+检查链表是否包含某对象的方法：
+育 ： 整 o 理 f o e
+contains(Object o)： 检查对象o是否存在于链表中
+w l c d
+教 号 育 ： 整 o 理 f o
+public boolean contains(Object o) {
+return indexOf(o) != -1; w l c
+}
+狼 众 教 号 育 ： 整 o 理 f
+w l
+删除方法
+丁 公 狼 众 教 号 育 ： 整 o
+remove() ,removeFirst(),pop(): 删除头节点 w
+叩 信 丁 公 狼 众 教 号 育 ：
+public E pop() {
+return removeFirst();
+微 叩 信 } 丁 公 狼 众 教 号
+public E remove() {
+return removeFirst();
+微 叩 } 信 丁 公 狼 众
+public E removeFirst() {
+final Node<E> f = first;
+微 叩 信 丁 公
+if (f == null)
+throw new NoSuchElementException();
+return unlinkFirst(f);
+微 叩 信
+}
+removeLast(),pollLast(): 删除尾节点 微
+public E removeLast() {
+final Node<E> l = last;
+if (l == null)
+throw new NoSuchElementException();
+return unlinkLast(l);
+}
+public E pollLast() {
+final Node<E> l = last;
+n
+return (l == null) ? null : unlinkLast(l);
+c }
+e n
+区别： removeLast()在链表为空时将抛出NoSuchElementException，而pollLast()方法返回null。
+d c
+o remove(Object o): 删除指定元e素 n
+c d c
+public boolean remove(Object o) {
+理 f o e n
+//如果删除对象为null
+l if (co == null) { d c
+//从头开始遍历
+整 o 理 f o e n
+for (Node<E> x = first; x != null; x = x.next) {
+w l //找到元素 c d c
+if (x.item == null) {
+育 ： 整 o 理 f o e
+//从链表中移除找到的元素
+w l c d
+unlink(x);
+教 号 育 ： return true; 整 o 理 f o
+}
+w l c
+}
+狼 众 教 号 } else { 育 ： 整 o 理 f
+//从头开始遍历
+w l
+for (Node<E> x = first; x != null; x = x.next) {
+丁 公 狼 众 //找到元教素 号 育 ： 整 o
+if (o.equals(x.item)) { w
+//从链表中移除找到的元素
+叩 信 丁 公 狼 众 教 号 育 ：
+unlink(x);
+return true;
+}
+微 叩 信 丁 公 狼 众 教 号
+}
+}
+return false;
+微 叩 信 丁 公 狼 众
+}
+微 叩 信 丁 公
+当删除指定对象时，只需调用remove(Object o)即可，不过该方法一次只会删除一个匹配的对象，如果
+删除了匹配对象，返回true，否则false。
+微 叩 信
+unlink(Node x) 方法：
+E unlink(Node<E> x) { 微
+// assert x != null;
+final E element = x.item;
+final Node<E> next = x.next;//得到后继节点
+final Node<E> prev = x.prev;//得到前驱节点
+//删除前驱指针
+if (prev == null) {
+first = next;//如果删除的节点是头节点,令头节点指向该节点的后继节点
+} else {
+prev.next = next;//将前驱节点的后继节点指向后继节点
+x.prev = null;
+}
+//删除后继指针
+if (next == null) {
+last = prev;//如果删除的节点是尾节点,令尾节点指向该节点的前驱节点
+} else {
+n next.prev = prev;
+x.next = null;
+c
+}
+e n
+d x.item = null; c
+size--;
+o e n
+modCount++;
+c return elemdent; c
+}
+理 f o e n
+l c d c
+remove(int index)：删除指定位置的元素
+整 o 理 f o e n
+w publilc E remove(int index) { c d c
+//检查index范围
+育 ： 整 o 理 f o e
+checkElementIndex(index);
+w //将节点删除 l c d
+return unlink(node(index));
+教 号 育 ： 整 o 理 f o
+}
+w l c
+狼 众 教 号 育 ： 整 o 理 f
+LinkedList类常用方法测试
+w l
+丁 公 狼 众 教 号 育 ： 整 o
+package list;
+w
+import java.util.Iterator;
+叩 信 丁 公 狼 众 教 号 育 ：
+import java.util.LinkedList;
+微 叩 信 public cl丁 ass LinkedList公Demo { 狼 众 教 号
+public static void main(String[] srgs) {
+//创建存放int类型的linkedList
+微 叩 LinkedLi信 st<Integer> linkedList = new LinkedList<>()丁; 公 狼 众
+/************************** linkedList的基本操作 ************************/
+linkedList.addFirst(0); // 添加元素到列表开头
+微 叩 信 丁 公
+linkedList.add(1); // 在列表结尾添加元素
+linkedList.add(2, 2); // 在指定位置添加元素
+linkedList.addLast(3); // 添加元素到列表结尾
+微 叩 信
+System.out.println("LinkedList（直接输出的）: " + linkedList);
+微
+System.out.println("getFirst()获得第一个元素: " + linkedList.getFirst());
+// 返回此列表的第一个元素
+System.out.println("getLast()获得第最后一个元素: " + linkedList.getLast());
+// 返回此列表的最后一个元素
+System.out.println("removeFirst()删除第一个元素并返回: " +
+linkedList.removeFirst()); // 移除并返回此列表的第一个元素
+System.out.println("removeLast()删除最后一个元素并返回: " +
+linkedList.removeLast()); // 移除并返回此列表的最后一个元素
+System.out.println("After remove:" + linkedList);
+System.out.println("contains()方法判断列表是否包含1这个元素:" +
+linkedList.contains(1)); // 判断此列表包含指定元素，如果是，则返回true
+System.out.println("该linkedList的大小 : " + linkedList.size()); // 返回此
+列表的元素个数
+/************************** 位置访问操作 ************************/
+System.out.println("-----------------------------------------");
+linkedList.set(1, 3); // 将此列表中指定位置的元素替换为指定的元素
+n System.out.println("After set(1, 3):" + linkedList);
+System.out.println("get(1)获得指定位置（这里为1）的元素: " +
+c
+linkedList.get(1)); // 返回此列表中指定位置处的元素
+e n
+d /******************c******** Search操作 ************************/
+System.out.println("-----------------------------------------");
+o e n
+linkedList.add(3);
+c System.out.dprintln("indexOf(3): " + linkedList.indexOf(3)); // 返回此列c表
+中首次出现的指定元素的索引
+理 f o e n
+System.out.println("lastIndexOf(3): " + linkedList.lastIndexOf(3));// 返
+l 回此列表中最后出c现的指定元素的索引 d c
+整 o 理 f o e n
+/************************** Queue操作 ************************/
+w l c d c
+System.out.println("-----------------------------------------");
+育 ： 整 o System.out.println("peek(): " + linke理 dList.peek());f // 获取但不移除此列表的 o e
+头
+w l c d
+System.out.println("element(): " + linkedList.element()); // 获取但不移除
+教 号 育 ： 此列表的头 整 o 理 f o
+linkedList.poll(); // 获取并移除此列表的头
+w l c
+System.out.println("After poll():" + linkedList);
+狼 众 教 号 育 ： 整 o 理 f
+linkedList.remove();
+System.out.println("After remove():" + linkedList); // 获取并移除此列表的头 w l
+linkedList.offer(4);
+丁 公 狼 众 教 号 育 ： 整 o
+System.out.println("After offer(4):" + linkedList); // 将指定元素添加到此列
+表的末尾 w
+叩 信 丁 公 狼 众 教 号 育 ：
+/************************** Deque操作 ************************/
+System.out.println("-----------------------------------------");
+linkedList.offerFirst(2); // 在此列表的开头插入指定的元素
+微 叩 信 丁 公 狼 众 教 号
+System.out.println("After offerFirst(2):" + linkedList);
+linkedList.offerLast(5); // 在此列表末尾插入指定的元素
+微 叩 System.o信 ut.println("After offerLast(5):" + linkedLi丁st); 公 狼 众
+System.out.println("peekFirst(): " + linkedList.peekFirst()); // 获取但不
+移除此列表的第一个元素
+S微 ystem.out.println("peekLast(): " + linkedLi叩 st.peekLast())信; // 获取但不移 丁 公
+除此列表的第一个元素
+linkedList.pollFirst(); // 获取并移除此列表的第一个元素
+微 叩 信
+System.out.println("After pollFirst():" + linkedList);
+linkedList.pollLast(); // 获取并移除此列表的最后一个元素
+System.out.println("After pollLast():" + linkedList);
+微
+linkedList.push(2); // 将元素推入此列表所表示的堆栈（插入到列表的头）
+System.out.println("After push(2):" + linkedList);
+linkedList.pop(); // 从此列表所表示的堆栈处弹出一个元素（获取并移除列表第一个元
+素）
+System.out.println("After pop():" + linkedList);
+linkedList.add(3);
+linkedList.removeFirstOccurrence(3); // 从此列表中移除第一次出现的指定元素（从
+头部到尾部遍历列表）
+System.out.println("After removeFirstOccurrence(3):" + linkedList);
+linkedList.removeLastOccurrence(3); // 从此列表中移除最后一次出现的指定元素（从
+尾部到头部遍历列表）
+System.out.println("After removeFirstOccurrence(3):" + linkedList);
+/************************** 遍历操作 ************************/
+System.out.println("-----------------------------------------");
+linkedList.clear();
+for (int i = 0; i < 100000; i++) {
+n linkedList.add(i);
+}
+c
+// 迭代器遍历
+e long start = System.cunrrentTimeMillis();
+d Iterator<Integer> icterator = linkedList.iterator();
+while (iterator.hasNext()) {
+o e n
+iterator.next();
+c } d c
+long end = System.currentTimeMillis();
+理 f o e n
+System.out.println("Iterator：" + (end - start) + " ms");
+l c d c
+// 顺序遍历(随机遍历)
+整 o 理 f o e n
+start = System.currentTimeMillis();
+w l c d c
+for (int i = 0; i < linkedList.size(); i++) {
+育 ： 整 o linkedList.get(i); 理 f o e
+}
+w l c d
+end = System.currentTimeMillis();
+教 号 育 ： System.out.println("for：" + (整 end - start) +o " ms"); 理 f o
+w l c
+// 另一种for循环遍历
+狼 众 教 号 育 ： 整 o 理 f
+start = System.currentTimeMillis();
+for (Integer i : linkedList) w l
+;
+丁 公 狼 众 教 号 育 ： 整 o
+end = System.currentTimeMillis();
+System.out.println("for2：" + (end - start) + " ms"); w
+叩 信 丁 公 狼 众 教 号 育 ：
+// 通过pollFirst()或pollLast()来遍历LinkedList
+LinkedList<Integer> temp1 = new LinkedList<>();
+temp1.addAll(linkedList);
+微 叩 信 丁 公 狼 众 教 号
+start = System.currentTimeMillis();
+while (temp1.size() != 0) {
+微 叩 temp信 1.pollFirst(); 丁 公 狼 众
+}
+end = System.currentTimeMillis();
+S微 ystem.out.println("pollFirst()或pollLast()：叩 " + (end - sta信rt) + " ms"); 丁 公
+// 通过removeFirst()或removeLast()来遍历LinkedList
+微 叩 信
+LinkedList<Integer> temp2 = new LinkedList<>();
+temp2.addAll(linkedList);
+start = System.currentTimeMillis();
+微
+while (temp2.size() != 0) {
+temp2.removeFirst();
+}
+end = System.currentTimeMillis();
+System.out.println("removeFirst()或removeLast()：" + (end - start) + "
+ms");
+}
+}
