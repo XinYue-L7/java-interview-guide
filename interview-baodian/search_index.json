@@ -1,4697 +1,3281 @@
 [
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 1,
-    "title": "JDK、JRE、JVM 的区别与联系？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 2,
-    "title": "== 和 equals() 的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 3,
-    "title": "String、StringBuilder、StringBuffer 的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 4,
-    "title": "重载（Overload）和重写（Override）的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 5,
-    "title": "接口（interface）和抽象类（abstract class）的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 6,
-    "title": "final、finally、finalize 的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 7,
-    "title": "Java 中的异常体系是怎样的？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 8,
-    "title": "什么是反射？反射的优缺点？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 9,
-    "title": "Java 中基本类型和包装类型的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 10,
-    "title": "Java 是值传递还是引用传递？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 11,
-    "title": "深拷贝和浅拷贝的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 12,
-    "title": "static 关键字的作用？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 13,
-    "title": "Java 中 IO 流分为哪几种？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 14,
-    "title": "什么是序列化？serialVersionUID 有什么用？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 15,
-    "title": "Object 类有哪些常用方法？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 16,
-    "title": "Java 是值传递还是引用传递？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 17,
-    "title": "String 常量池（String Pool）是什么？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 18,
-    "title": "try-catch-finally 的执行顺序？finally 一定会执行吗？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 19,
-    "title": "throw 和 throws 的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 20,
-    "title": "什么是泛型擦除？泛型的上下界是什么？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 21,
-    "title": "Java 中有哪几种内部类？各自特点？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 22,
-    "title": "反射机制原理和应用场景？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 23,
-    "title": "Class.forName 和 ClassLoader.loadClass 的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 24,
-    "title": "动态代理有哪几种实现方式？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 25,
-    "title": "Integer 的缓存机制是怎样的？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 26,
-    "title": "自动装箱和自动拆箱的原理及注意事项？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 27,
-    "title": "BigDecimal 使用有哪些坑？如何正确比较？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 28,
-    "title": "this 和 super 关键字有哪些使用场景？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 29,
-    "title": "Java 8 主要新特性有哪些？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 30,
-    "title": "Lambda 表达式的原理是什么？有什么限制？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 31,
-    "title": "Stream 流的中间操作和终端操作有哪些？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 32,
-    "title": "Optional 类的主要用法是什么？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 33,
-    "title": "Java 中如何实现不可变类？String 为什么被设计为不可变？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 34,
-    "title": "Java 的 SPI 机制是什么？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 35,
-    "title": "语法糖有哪些？内部实现原理是什么？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 36,
-    "title": "Comparable 和 Comparator 的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 37,
-    "title": "Java 中如何创建对象？（5种方式）",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 38,
-    "title": "Error 和 Exception 的区别？常见有哪些？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 39,
-    "title": "switch 支持哪些数据类型？原理是什么？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 基础面试题",
-    "file": "Java面试宝典_01_Java基础.html",
-    "num": 40,
-    "title": "transient、volatile、synchronized 关键字的区别？",
-    "tags": [
-      "基础",
-      "面向对象",
-      "String",
-      "异常",
-      "反射",
-      "IO",
-      "泛型",
-      "注解"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 1,
-    "title": "ArrayList 和 LinkedList 的区别？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 2,
-    "title": "HashMap 底层实现原理（JDK 1.8）？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 3,
-    "title": "HashMap 的 put 方法流程？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 4,
-    "title": "HashMap 为什么线程不安全？如何解决？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 5,
-    "title": "ConcurrentHashMap 实现原理（JDK 1.8）？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 6,
-    "title": "HashMap 和 Hashtable 的区别？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 7,
-    "title": "HashSet 的实现原理？如何保证元素不重复？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 8,
-    "title": "TreeMap 的实现原理？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 9,
-    "title": "LinkedHashMap 的实现原理？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 10,
-    "title": "为什么重写 equals 必须重写 hashCode？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 11,
-    "title": "CopyOnWriteArrayList 的实现原理？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 12,
-    "title": "Java 集合框架的体系结构是怎样的？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 13,
-    "title": "TreeMap 的底层原理和使用场景？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 14,
-    "title": "LinkedHashMap 的原理和应用？如何实现LRU？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 15,
-    "title": "Hashtable 和 HashMap 的区别？为什么废弃Hashtable？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 16,
-    "title": "CopyOnWriteArrayList 的原理和适用场景？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 17,
-    "title": "Collections.synchronizedList 和 CopyOnWriteArrayList 怎么选？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 18,
-    "title": "ConcurrentHashMap JDK7 和 JDK8 实现有什么区别？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 19,
-    "title": "ConcurrentHashMap 的 put 流程是怎样的？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 20,
-    "title": "ConcurrentHashMap 的 size() 如何计算？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 21,
-    "title": "Collections 工具类常用方法有哪些？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 22,
-    "title": "Arrays.asList() 有哪些坑？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 23,
-    "title": "fail-fast 和 fail-safe 机制是什么？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 24,
-    "title": "Iterator 和 ListIterator 的区别？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 25,
-    "title": "HashSet 底层如何实现？为什么能保证不重复？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 26,
-    "title": "TreeSet 和 HashSet 的区别？LinkedHashSet 又是什么？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 27,
-    "title": "ArrayDeque 和 LinkedList 作为队列有什么区别？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 28,
-    "title": "PriorityQueue 的底层原理？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 29,
-    "title": "WeakHashMap 和 IdentityHashMap 是什么？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "Java 集合容器",
-    "file": "Java面试宝典_02_集合容器.html",
-    "num": 30,
-    "title": "BlockingQueue 有哪些实现？各自特点？",
-    "tags": [
-      "集合",
-      "List",
-      "Map",
-      "Set",
-      "ArrayList",
-      "HashMap",
-      "ConcurrentHashMap",
-      "红黑树"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 1,
-    "title": "JVM 内存区域是如何划分的？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 2,
-    "title": "堆内存的结构是怎样的？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 3,
-    "title": "对象创建的完整流程是怎样的？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 4,
-    "title": "如何判断对象是否已死？（GC Roots）",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 5,
-    "title": "强引用、软引用、弱引用、虚引用的区别？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 6,
-    "title": "垃圾回收算法有哪些？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 7,
-    "title": "常见的垃圾收集器有哪些？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 8,
-    "title": "CMS 和 G1 的区别？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 9,
-    "title": "Minor GC、Major GC、Full GC 的区别？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 10,
-    "title": "类加载的过程是怎样的？双亲委派模型是什么？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 11,
-    "title": "如何排查 OOM 问题？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 12,
-    "title": "JVM 常用调优参数有哪些？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 13,
-    "title": "对象的访问定位有哪两种方式？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 14,
-    "title": "什么情况下会出现 StackOverflowError？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 15,
-    "title": "GC Roots 有哪些？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 16,
-    "title": "引用类型有哪几种？各自特点？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 17,
-    "title": "CMS 收集器的流程和优缺点？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 18,
-    "title": "G1 收集器的核心特点和原理？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 19,
-    "title": "ZGC 和 Shenandoah 的特点？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 20,
-    "title": "类加载器的双亲委派模型是什么？为什么破坏它？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 21,
-    "title": "Tomcat 为什么要打破双亲委派？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 22,
-    "title": "对象分配内存的过程是怎样的？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 23,
-    "title": "对象晋升老年代的几种情况？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 24,
-    "title": "JVM 调优常用参数有哪些？如何查看GC日志？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 25,
-    "title": "OOM 有哪些类型？如何排查？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 26,
-    "title": "JDK 自带监控工具有哪些？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 27,
-    "title": "CPU 飙高如何排查？（JVM层面）",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 28,
-    "title": "full GC 频繁如何排查和优化？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 29,
-    "title": "类的生命周期（加载过程）是怎样的？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 30,
-    "title": "什么情况下会触发类初始化？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 31,
-    "title": "Tlab 是什么？有什么作用？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 32,
-    "title": "逃逸分析是什么？有什么作用？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 33,
-    "title": "JVM 中哪些区域会发生 OOM？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 34,
-    "title": "什么是直接内存？和堆内存有什么区别？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "JVM 虚拟机",
-    "file": "Java面试宝典_03_JVM.html",
-    "num": 35,
-    "title": "JVM 如何判断一个类是否可以被卸载？",
-    "tags": [
-      "JVM",
-      "垃圾回收",
-      "GC",
-      "类加载",
-      "内存模型",
-      "OOM",
-      "调优"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 1,
-    "title": "创建线程有哪几种方式？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 2,
-    "title": "线程的生命周期（6种状态）？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 3,
-    "title": "synchronized 的实现原理？锁升级过程？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 4,
-    "title": "volatile 关键字的作用和原理？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 5,
-    "title": "synchronized 和 Lock 的区别？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 6,
-    "title": "AQS（AbstractQueuedSynchronizer）原理？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 7,
-    "title": "ReentrantLock 如何实现可重入？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 8,
-    "title": "线程池的核心参数有哪些？工作流程？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 9,
-    "title": "Executors 创建线程池有什么问题？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 10,
-    "title": "如何合理配置线程池大小？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 11,
-    "title": "CountDownLatch 和 CyclicBarrier 的区别？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 12,
-    "title": "ThreadLocal 的原理和内存泄漏问题？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 13,
-    "title": "CAS 是什么？有什么问题？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 14,
-    "title": "乐观锁和悲观锁的区别？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 15,
-    "title": "死锁的4个必要条件？如何预防？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 16,
-    "title": "wait() 和 sleep() 的区别？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 17,
-    "title": "ThreadLocal 原理和内存泄漏问题？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 18,
-    "title": "Atomic 原子类实现原理？CAS 的 ABA 问题？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 19,
-    "title": "CountDownLatch 和 CyclicBarrier 的区别？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 20,
-    "title": "Semaphore 的原理和应用场景？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 21,
-    "title": "Exchanger 是什么？怎么用？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 22,
-    "title": "synchronized 锁升级过程是怎样的？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 23,
-    "title": "LockSupport.park() 和 unpark() 原理？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 24,
-    "title": "读写锁 ReentrantReadWriteLock 原理和锁降级？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 25,
-    "title": "StampedLock 和 ReentrantReadWriteLock 的区别？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 26,
-    "title": "CompletableFuture 的使用场景和方法？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 27,
-    "title": "Java 内存模型（JMM）是什么？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 28,
-    "title": "Happens-Before 规则有哪些？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 29,
-    "title": "synchronized 底层的 monitorenter/monitorexit 是什么？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 30,
-    "title": "volatile 如何保证可见性和有序性？（内存屏障）",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 31,
-    "title": "Fork/Join 框架的 Work-Stealing 算法？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 32,
-    "title": "中断机制：interrupt()/isInterrupted()/interrupted() 的区别？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 33,
-    "title": "线程的生命周期（6种状态）？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 34,
-    "title": "如何实现一个生产者-消费者模型？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 35,
-    "title": "如何让多个线程顺序执行？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 36,
-    "title": "线程池如何监控？常用监控指标？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 37,
-    "title": "线程池出现死锁如何排查？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 38,
-    "title": "Future 和 CompletableFuture 对比？Future 的局限性？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 39,
-    "title": "并行流 parallelStream 的陷阱？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "Java 并发编程",
-    "file": "Java面试宝典_04_并发编程.html",
-    "num": 40,
-    "title": "InheritableThreadLocal 是什么？如何实现线程池上下文传递？",
-    "tags": [
-      "并发",
-      "多线程",
-      "线程",
-      "锁",
-      "线程池",
-      "JUC",
-      "volatile",
-      "CAS",
-      "死锁"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 1,
-    "title": "一条SQL语句的执行流程是怎样的？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 2,
-    "title": "InnoDB 的索引数据结构是什么？为什么用 B+ 树？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 3,
-    "title": "聚集索引和非聚集索引的区别？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 4,
-    "title": "什么是覆盖索引？索引最左前缀原则？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 5,
-    "title": "事务的四大特性（ACID）？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 6,
-    "title": "事务的隔离级别有哪些？解决了什么问题？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 7,
-    "title": "MVCC 的实现原理？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 8,
-    "title": "redo log、undo log、binlog 的区别？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 9,
-    "title": "MySQL 的锁有哪些类型？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 10,
-    "title": "索引失效的场景有哪些？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 11,
-    "title": "EXPLAIN 的关键字段含义？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 12,
-    "title": "SQL 优化有哪些思路？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 13,
-    "title": "分库分表的方案有哪些？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 14,
-    "title": "MyISAM 和 InnoDB 的区别？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 15,
-    "title": "MySQL 主从复制的原理？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 16,
-    "title": "什么是SQL注入？如何防止？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 17,
-    "title": "MySQL 主从复制原理和流程？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 18,
-    "title": "主从延迟的原因和解决方案？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 19,
-    "title": "MySQL 分库分表方案有哪些？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 20,
-    "title": "分布式ID 生成方案有哪些？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 21,
-    "title": "SQL 执行慢如何排查和优化？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 22,
-    "title": "MySQL 大表如何优化？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 23,
-    "title": "深度分页问题如何解决？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 24,
-    "title": "MySQL 连接池参数如何配置？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 25,
-    "title": "B+Tree 的插入和查询过程是怎样的？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 26,
-    "title": "MySQL 隐式类型转换的坑？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 27,
-    "title": "CHAR 和 VARCHAR 如何选择？TEXT 类型注意事项？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 28,
-    "title": "EXPLAIN 中 type 字段有哪些？如何判断效率？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 29,
-    "title": "MySQL redo log、undo log、binlog 的区别？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 30,
-    "title": "索引下推（ICP）是什么？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 31,
-    "title": "联合索引匹配原则和索引长度限制？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 32,
-    "title": "SQL 注入原理和防范？MyBatis 中 #{} 和 ${} 的区别？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 33,
-    "title": "子查询和 JOIN 哪个效率高？为什么？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 34,
-    "title": "分布式事务解决方案有哪些？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 35,
-    "title": "count(*)、count(1)、count(列名) 的区别？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 36,
-    "title": "MVCC 读提交(RC)和可重复读(RR)下 ReadView 生成时机有何不同？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 37,
-    "title": "AUTO_INCREMENT 自增主键的坑？自增ID用完了怎么办？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 38,
-    "title": "MySQL 中 EXPLAIN 的 Extra 字段 Using filesort 和 Using temporary 是什么意思？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 39,
-    "title": "MySQL 8.0 有哪些重要新特性？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "MySQL 数据库",
-    "file": "Java面试宝典_05_MySQL.html",
-    "num": 40,
-    "title": "什么是回表？如何避免回表？",
-    "tags": [
-      "MySQL",
-      "SQL",
-      "索引",
-      "事务",
-      "锁",
-      "优化",
-      "B+树",
-      "InnoDB"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 1,
-    "title": "Redis 有哪些数据类型？各自使用场景？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 2,
-    "title": "Redis 的持久化机制？RDB 和 AOF 的区别？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 3,
-    "title": "缓存穿透、缓存击穿、缓存雪崩是什么？如何解决？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 4,
-    "title": "如何用 Redis 实现分布式锁？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 5,
-    "title": "Redis 的内存淘汰策略有哪些？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 6,
-    "title": "Redis 主从复制的原理？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 7,
-    "title": "Redis 哨兵（Sentinel）机制？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 8,
-    "title": "Redis Cluster（集群模式）原理？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 9,
-    "title": "Redis 为什么这么快？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 10,
-    "title": "Redis 过期键删除策略？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 11,
-    "title": "布隆过滤器（Bloom Filter）的原理和应用？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 12,
-    "title": "Redis 和 Memcached 的区别？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 13,
-    "title": "Redis 如何保证数据一致？（缓存和数据库一致性）",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 14,
-    "title": "Redis 的 pipeline 是什么？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 15,
-    "title": "Redis 分布式锁如何实现？有哪些问题？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 16,
-    "title": "RedLock 算法的原理和争议？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 17,
-    "title": "Redis 哨兵（Sentinel）模式原理？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 18,
-    "title": "Redis Cluster 原理和槽位分配？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 19,
-    "title": "Redis 主从复制原理和过程？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 20,
-    "title": "Redis 持久化 AOF 和 RDB 的区别和选择？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 21,
-    "title": "Redis 删除策略和内存淘汰策略？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 22,
-    "title": "Redis 单线程为什么还这么快？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 23,
-    "title": "Redis Pipeline 原理和注意事项？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 24,
-    "title": "Lua 脚本在 Redis 中的使用和原子性？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 25,
-    "title": "缓存穿透、缓存击穿、缓存雪崩是什么？如何解决？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 26,
-    "title": "如何保证缓存与数据库一致性？（Cache Aside）",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 27,
-    "title": "Redis 的 Bitmap 和 HyperLogLog 应用场景？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 28,
-    "title": "GEO 地理位置的应用原理？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 29,
-    "title": "Redis Stream 是什么？和传统MQ有什么区别？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 30,
-    "title": "Redis 事务（MULTI/EXEC）的特点和局限性？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 31,
-    "title": "Redis 热点Key问题如何解决？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 32,
-    "title": "Redis 大Key问题如何排查和优化？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 33,
-    "title": "Redis 6.0/7.0 有哪些重要新特性？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 34,
-    "title": "Redis 延时队列如何实现？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "Redis",
-    "file": "Java面试宝典_06_Redis.html",
-    "num": 35,
-    "title": "什么是 Redis 多级缓存架构？",
-    "tags": [
-      "Redis",
-      "缓存",
-      "分布式锁",
-      "持久化",
-      "数据结构",
-      "集群"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 1,
-    "title": "Spring IOC 的实现原理？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 2,
-    "title": "Spring AOP 的实现原理？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 3,
-    "title": "Spring Bean 的生命周期？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 4,
-    "title": "Spring 的 Bean 作用域有哪些？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 5,
-    "title": "Spring 事务的实现原理和传播行为？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 6,
-    "title": "Spring 事务失效的场景有哪些？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 7,
-    "title": "SpringBoot 自动配置原理？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 8,
-    "title": "SpringBoot 启动流程？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 9,
-    "title": "Spring 中 @Autowired 和 @Resource 的区别？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 10,
-    "title": "MyBatis 中 #{} 和 ${} 的区别？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 11,
-    "title": "MyBatis 的一级缓存和二级缓存？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 12,
-    "title": "Dubbo 的工作流程和核心组件？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 13,
-    "title": "Zookeeper 的核心概念和应用场景？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 14,
-    "title": "Spring 的循环依赖是如何解决的？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 15,
-    "title": "Spring MVC 的请求处理流程？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 16,
-    "title": "Spring 循环依赖是如何解决的？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 17,
-    "title": "Spring Boot 自动配置原理？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 18,
-    "title": "Spring Bean 的生命周期？（详细版）",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 19,
-    "title": "FactoryBean 和 BeanFactory 的区别？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 20,
-    "title": "Spring 事务传播行为有哪些？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 21,
-    "title": "Spring 事务失效的常见场景？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 22,
-    "title": "MyBatis 的 #{} 和 ${} 区别？底层原理？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 23,
-    "title": "MyBatis 一级缓存和二级缓存的区别？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 24,
-    "title": "MyBatis 插件（Interceptor）原理？分页插件怎么实现的？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 25,
-    "title": "Dubbo 的核心原理和调用流程？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 26,
-    "title": "Dubbo 负载均衡策略有哪些？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 27,
-    "title": "Dubbo 的集群容错策略有哪些？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 28,
-    "title": "Netty 的线程模型和零拷贝？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 29,
-    "title": "@Autowired 和 @Resource 的区别？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 30,
-    "title": "Spring MVC 处理请求的完整流程？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 31,
-    "title": "@SpringBootApplication 注解包含哪些注解？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 32,
-    "title": "Spring 事件监听机制？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 33,
-    "title": "MyBatis 的执行流程？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 34,
-    "title": "Spring Boot Starter 原理？如何自定义Starter？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 35,
-    "title": "Spring 中的设计模式有哪些？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 36,
-    "title": "Spring AOP 的原理？JDK代理和CGLIB代理的区别？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 37,
-    "title": "Dubbo 服务暴露和服务引入流程？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 38,
-    "title": "Spring Boot 如何实现优雅停机？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 39,
-    "title": "Netty 解决 TCP 粘包/拆包方案？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "框架 &amp; 中间件",
-    "file": "Java面试宝典_07_框架.html",
-    "num": 40,
-    "title": "@Configuration 和 @Component 的区别？full模式和lite模式？",
-    "tags": [
-      "Spring",
-      "SpringBoot",
-      "SpringMVC",
-      "MyBatis",
-      "框架",
-      "中间件",
-      "IOC",
-      "AOP"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 1,
-    "title": "CAP 理论是什么？BASE 理论呢？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 2,
-    "title": "什么是分布式事务？解决方案有哪些？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 3,
-    "title": "分布式 ID 生成方案有哪些？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 4,
-    "title": "消息队列的作用？如何保证消息不丢失？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 5,
-    "title": "如何保证消息不重复消费？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 6,
-    "title": "Kafka、RocketMQ、RabbitMQ 的区别？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 7,
-    "title": "常见的设计模式有哪些？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 8,
-    "title": "单例模式有哪几种实现方式？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 9,
-    "title": "TCP 三次握手和四次挥手？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 10,
-    "title": "HTTP 和 HTTPS 的区别？HTTPS 加密过程？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 11,
-    "title": "如何设计一个秒杀系统？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 12,
-    "title": "限流算法有哪些？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 13,
-    "title": "什么是服务雪崩？如何解决？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 14,
-    "title": "Sentinel 和 Hystrix 的对比？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 15,
-    "title": "Nacos 的 CAP 模型是怎样的？如何实现？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 16,
-    "title": "分布式锁的实现方案对比？（Redis vs ZK vs Etcd）",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 17,
-    "title": "ZooKeeper 的选举机制（ZAB协议）？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 18,
-    "title": "分布式Session如何解决？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 19,
-    "title": "Kafka 如何保证消息不丢失？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 20,
-    "title": "Kafka 如何保证消息不重复消费？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 21,
-    "title": "Kafka ISR 是什么？min.insync.replicas的作用？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 22,
-    "title": "RabbitMQ 如何保证消息不丢失？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 23,
-    "title": "RabbitMQ 死信队列和延迟队列？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 24,
-    "title": "ES 写入数据和搜索数据的流程？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 25,
-    "title": "ES 倒排索引原理？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 26,
-    "title": "TCP 三次握手和四次挥手？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 27,
-    "title": "HTTP 和 HTTPS 的区别？HTTPS 握手流程？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 28,
-    "title": "Cookie、Session、Token（JWT）的区别？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 29,
-    "title": "设计模式六大原则（SOLID）是什么？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 30,
-    "title": "单例模式的多种实现及优缺点？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 31,
-    "title": "工厂模式和抽象工厂模式的区别？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 32,
-    "title": "观察者模式和发布-订阅模式的区别？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 33,
-    "title": "策略模式和模板方法模式的区别？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 34,
-    "title": "Seata 分布式事务的几种模式？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 35,
-    "title": "API 网关的作用和常见选型？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 36,
-    "title": "Linux 常用命令有哪些？（排查问题相关）",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 37,
-    "title": "OAuth 2.0 和 SSO 单点登录原理？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 38,
-    "title": "Git 常用操作和常见问题？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 39,
-    "title": "DDD 领域驱动设计核心概念？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  },
-  {
-    "module": "分布式 &amp; 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 40,
-    "title": "Maven 依赖传递和冲突解决？",
-    "tags": [
-      "分布式",
-      "微服务",
-      "消息队列",
-      "RocketMQ",
-      "Kafka",
-      "Zookeeper",
-      "Dubbo"
-    ]
-  }
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 1,
+  "title": "JDK、JRE、JVM 的区别与联系？",
+  "tags": [
+   "JVM基础",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 2,
+  "title": "== 和 equals() 的区别？",
+  "tags": [
+   "基础语法",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 3,
+  "title": "String、StringBuilder、StringBuffer 的区别？",
+  "tags": [
+   "字符串",
+   "线程安全",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 4,
+  "title": "重载（Overload）和重写（Override）的区别？",
+  "tags": [
+   "面向对象",
+   "多态",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 5,
+  "title": "接口（interface）和抽象类（abstract class）的区别？",
+  "tags": [
+   "面向对象",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 6,
+  "title": "final、finally、finalize 的区别？",
+  "tags": [
+   "关键字",
+   "经典"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 7,
+  "title": "Java 中的异常体系是怎样的？",
+  "tags": [
+   "异常处理",
+   "经典"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 8,
+  "title": "什么是反射？反射的优缺点？",
+  "tags": [
+   "反射",
+   "框架核心"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 9,
+  "title": "Java 中基本类型和包装类型的区别？",
+  "tags": [
+   "基础语法",
+   "自动装箱"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 10,
+  "title": "Java 是值传递还是引用传递？",
+  "tags": [
+   "基础语法",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 11,
+  "title": "深拷贝和浅拷贝的区别？",
+  "tags": [
+   "基础语法",
+   "Cloneable"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 12,
+  "title": "static 关键字的作用？",
+  "tags": [
+   "关键字",
+   "内存模型"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 13,
+  "title": "Java 中 IO 流分为哪几种？",
+  "tags": [
+   "IO流",
+   "基础"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 14,
+  "title": "什么是序列化？serialVersionUID 有什么用？",
+  "tags": [
+   "序列化",
+   "IO"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 15,
+  "title": "Object 类有哪些常用方法？",
+  "tags": [
+   "基础",
+   "Object"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 16,
+  "title": "Java 是值传递还是引用传递？",
+  "tags": [
+   "基础语法",
+   "高频"
+  ],
+  "content": "Java 只有值传递 ，没有引用传递。 基本类型： 传递值的副本，修改不影响原变量。 引用类型： 传递的是 引用地址的副本 ，形参和实参指向同一对象，修改对象内容会生效，但修改引用本身（如指向新对象）不生效。 💡 容易误解：能修改对象内容≠引用传递，这是共享对象引用而非传递引用本身。 public void swap(Integer a, Integer b) { Integer t=a; a=b; b=t; } // 不生效 public void modify(User u) { u.setName(\"new\"); } // 生效"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 17,
+  "title": "String 常量池（String Pool）是什么？",
+  "tags": [
+   "String",
+   "JVM"
+  ],
+  "content": "String常量池是JVM在 堆内存中 维护的一个字符串缓存区域（JDK7+ 移到堆中）。 字面量赋值： String s=\"abc\" 先去常量池找，有则复用，无则创建。 new String(\"abc\")： 堆中创建对象，再检查常量池（无则创建），共创建1-2个对象。 intern()： 手动将字符串加入常量池，返回池中引用。 + 拼接： 字面量拼接→编译期优化；变量拼接→StringBuilder→new String。 String s1=\"a\"+\"b\"; // 编译优化→\"ab\"，常量池 String s2=new String(\"a\")+new String(\"b\"); // 堆中新建 String s3=s2.intern(); // 将s2放入常量池，返回池中引用 System.out.println(s1==s3); // true"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 18,
+  "title": "try-catch-finally 的执行顺序？finally 一定会执行吗？",
+  "tags": [
+   "异常处理",
+   "高频"
+  ],
+  "content": "执行顺序：try (异常→catch) finally (正常后续代码)。 finally不执行的情况： try之前 System.exit(0) 退出JVM。 守护线程退出时finally可能不执行。 try/catch中执行 System.exit() 。 JVM崩溃或断电等不可恢复错误。 return 与 finally： try有return值时，先计算return表达式，再执行finally，最后返回。 finally中有return会覆盖try的return！ public int test() { try { return 1; } finally { return 2; } } // 返回2！"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 19,
+  "title": "throw 和 throws 的区别？",
+  "tags": [
+   "异常处理"
+  ],
+  "content": "对比 throw throws 位置 方法体内 方法签名上 数量 一次抛一个 可声明多个 作用 实际抛出异常对象 声明该方法可能抛出的异常 后续 throw所在代码不执行 由调用方处理 💡 运行时异常(RuntimeException)不需要throws声明也可以抛出，检查异常(Checked Exception)必须声明或try-catch处理。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 20,
+  "title": "什么是泛型擦除？泛型的上下界是什么？",
+  "tags": [
+   "泛型",
+   "高频"
+  ],
+  "content": "泛型擦除： 编译后泛型信息被擦除， List<String> 和 List<Integer> 在运行时都是 List 。 上界 extends： T extends Number 擦除后上界为Number。 下界 super： T super Integer 擦除后下界为Integer（PECS原则：Producer Extends, Consumer Super）。 注意事项： 不能new泛型数组 T[] 。 不能用基本类型作泛型参数。 不能 instanceof 泛型类型。 静态方法中不能用类的泛型参数。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 21,
+  "title": "Java 中有哪几种内部类？各自特点？",
+  "tags": [
+   "内部类",
+   "基础"
+  ],
+  "content": "成员内部类： 作为外部类成员，可访问外部类所有成员。创建需外部类实例： outer.new Inner() 。 静态内部类： static修饰，不依赖外部类实例，只能访问外部类静态成员。 局部内部类： 定义在方法中，仅方法内可见，访问的局部变量需final。 匿名内部类： 无类名，一次性使用，常用于接口/抽象类实例化。必须实现所有抽象方法。 💡 内部类编译后生成独立class文件： Outer$Inner.class 。匿名内部类生成 Outer$1.class 。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 22,
+  "title": "反射机制原理和应用场景？",
+  "tags": [
+   "反射",
+   "高频"
+  ],
+  "content": "原理： 类加载时JVM在方法区生成Class对象，反射通过Class对象获取类信息（构造器、方法、字段），并在运行时动态调用。 获取Class的方式： Class.forName(\"全限定名\") — 静态方法，会初始化类。 对象.getClass() — 实例方法。 类名.class — 不会触发类初始化。 应用场景： Spring IOC、动态代理、JDBC驱动加载、注解解析、框架配置注入。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 23,
+  "title": "Class.forName 和 ClassLoader.loadClass 的区别？",
+  "tags": [
+   "反射",
+   "类加载"
+  ],
+  "content": "对比 Class.forName ClassLoader.loadClass 初始化 执行静态代码块 不执行（只加载到JVM） 参数 只需全限定名 需要指定类加载器 典型场景 JDBC驱动加载 Spring IOC延迟加载 💡 JDBC中 Class.forName(\"com.mysql.jdbc.Driver\") 触发静态代码块注册驱动；Spring用ClassLoader延迟加载以支持懒初始化。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 24,
+  "title": "动态代理有哪几种实现方式？",
+  "tags": [
+   "代理",
+   "AOP"
+  ],
+  "content": "1. JDK动态代理（接口代理）： 基于反射，要求目标类 必须实现接口 。 核心类： Proxy.newProxyInstance() + InvocationHandler 。 运行时动态生成代理类$Proxy0。 2. CGLIB动态代理（子类代理）： 基于ASM字节码生成，通过 继承 目标类生成子类。 不需要接口，但目标类不能是final。 核心类： Enhancer + MethodInterceptor 。 Spring选择策略： 有接口→JDK代理；无接口→CGLIB。Spring Boot 2.x 默认使用CGLIB。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 25,
+  "title": "Integer 的缓存机制是怎样的？",
+  "tags": [
+   "包装类",
+   "高频"
+  ],
+  "content": "Integer内部维护了 IntegerCache ，默认缓存 -128 ~ 127 之间的Integer对象。 自动装箱 Integer i=100 从缓存取，返回同一对象。 new Integer(100) 强制创建新对象，不在缓存中。 最大值可通过 -XX:AutoBoxCacheMax= 调整。 Integer a=100, b=100; System.out.println(a==b); // true (缓存) Integer c=200, d=200; System.out.println(c==d); // false (超出缓存) 💡 同样有缓存的包装类：Byte/Short/Long(-128~127)、Character(0~127)、Boolean(TRUE/FALSE)。Double/Float没有缓存。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 26,
+  "title": "自动装箱和自动拆箱的原理及注意事项？",
+  "tags": [
+   "包装类",
+   "语法糖"
+  ],
+  "content": "自动装箱： 基本类型→包装类，编译器调用 Integer.valueOf(int) 。 自动拆箱： 包装类→基本类型，编译器调用 Integer.intValue() 。 注意事项（坑）： NPE风险： 包装类为null时自动拆箱抛NullPointerException。 == 比较： 包装类 == 是比较地址，应使用 equals() 。 三目运算符： flag ? 1 : new Integer(2) 结果自动拆箱为int。 性能开销： 循环中大量自动装箱/拆箱产生大量临时对象，应避免。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 27,
+  "title": "BigDecimal 使用有哪些坑？如何正确比较？",
+  "tags": [
+   "精度",
+   "高频"
+  ],
+  "content": "常见坑： 构造方式： new BigDecimal(0.1) 不精确！浮点数本身不精确。应使用 new BigDecimal(\"0.1\") 或 BigDecimal.valueOf(0.1) 。 equals比较： BigDecimal(1.0)!=BigDecimal(1.00) ，因为scale不同。应使用 compareTo() 。 除法： 必须指定精度，否则无限小数抛异常： divide(bd, 2, RoundingMode.HALF_UP) 。 不可变性： 所有运算返回新对象，原对象不变。 BigDecimal a=new BigDecimal(\"1.0\"), b=new BigDecimal(\"1.00\"); System.out.println(a.equals(b)); // false System.out.println(a.compareTo(b)); // 0 (相等)"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 28,
+  "title": "this 和 super 关键字有哪些使用场景？",
+  "tags": [
+   "关键字",
+   "基础"
+  ],
+  "content": "this： 区分成员变量和局部变量： this.name = name 。 调用本类构造方法： this() ，必须放构造器首行。 返回当前对象： return this （链式调用）。 作为参数传递： method(this) 。 super： 访问父类成员： super.name 。 调用父类构造方法： super() ，必须放构造器首行（不写时默认调用无参）。 调用父类方法： super.method() 。 💡 this() 和 super() 不能同时出现，且必须放在构造器第一行。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 29,
+  "title": "Java 8 主要新特性有哪些？",
+  "tags": [
+   "Java8",
+   "高频"
+  ],
+  "content": "Lambda表达式： (params)->expression ，替代匿名内部类。 函数式接口： 只有一个抽象方法的接口， @FunctionalInterface 。 Stream API： 集合的流式操作，filter/map/reduce/collect。 Optional： 解决NullPointerException，优雅处理null。 新日期API： LocalDate/LocalTime/LocalDateTime，线程安全、不可变。 接口默认方法与静态方法： 接口可以有default方法实现。 方法引用： String::length 、 System.out::println 。 CompletableFuture： 异步编程增强。 PermGen移除： 改为Metaspace（元空间）。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 30,
+  "title": "Lambda 表达式的原理是什么？有什么限制？",
+  "tags": [
+   "Java8",
+   "Lambda"
+  ],
+  "content": "原理： Lambda不是匿名内部类的语法糖，编译后 不会生成新的class文件 ，而是通过 invokedynamic 指令在运行时动态生成方法句柄。JVM在首次调用时通过 LambdaMetafactory 生成一个函数式接口的实现类。 相比匿名内部类： 不会生成额外的class文件，减少Jar包大小。 不创建新对象（无捕获时），性能更好。 this指向外层类而非匿名内部类自身。 限制： 只能用于函数式接口；不能修改外部局部变量（需effectively final）；不能抛出受检异常（除非接口声明）。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 31,
+  "title": "Stream 流的中间操作和终端操作有哪些？",
+  "tags": [
+   "Java8",
+   "Stream"
+  ],
+  "content": "中间操作（惰性）： 返回Stream，不触发计算。 筛选： filter()、distinct()、limit()、skip()。 映射： map()、flatMap()。 排序： sorted()。 窥视： peek()。 终端操作（触发计算）： 收集： collect(Collectors.toList())、toArray()。 聚合： count()、max()、min()、reduce()。 遍历： forEach()、forEachOrdered()。 匹配： anyMatch()、allMatch()、noneMatch()。 查找： findFirst()、findAny()。 💡 Stream只能消费一次，终端操作后流关闭，再使用抛IllegalStateException。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 32,
+  "title": "Optional 类的主要用法是什么？",
+  "tags": [
+   "Java8",
+   "Optional"
+  ],
+  "content": "Optional是 容器对象 ，解决null判断问题，避免NPE。 创建： Optional.of(T) — 值不能为null。 Optional.ofNullable(T) — 值可为null。 Optional.empty() — 创建空Optional。 使用： isPresent() — 是否有值。 ifPresent(Consumer) — 有值时执行。 orElse(T) — 为空返回默认值（注意：orElse一定会执行参数！）。 orElseGet(Supplier) — 为空时懒加载默认值（推荐）。 orElseThrow() — 为空抛异常。 map()/flatMap() — 值转换。 filter() — 条件过滤。 💡 不要用Optional作字段类型或方法参数，主要用于返回值。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 33,
+  "title": "Java 中如何实现不可变类？String 为什么被设计为不可变？",
+  "tags": [
+   "不可变类",
+   "String"
+  ],
+  "content": "实现不可变类步骤： 类声明为final，防止继承。 所有字段private final。 不提供setter方法。 构造方法中防御性拷贝（引用类型字段）。 getter返回引用类型时返回拷贝而非原引用。 String不可变的原因： 字符串常量池： 可共享，节省内存。 安全性： 避免被篡改（如类加载、网络连接参数）。 线程安全： 天生不可变→多线程安全。 Hash缓存： hashCode可缓存，HashMap key性能高。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 34,
+  "title": "Java 的 SPI 机制是什么？",
+  "tags": [
+   "SPI",
+   "设计模式"
+  ],
+  "content": "SPI（Service Provider Interface）是Java内置的 服务发现机制 ，用于解耦接口与实现。 核心思想： 在 META-INF/services/ 下创建以接口全限定名命名的文件，内容为实现类全限定名。 ServiceLoader 自动加载所有实现。 典型应用： JDBC驱动（java.sql.Driver）、SLF4J日志门面、Spring Boot自动配置（spring.factories）、Dubbo扩展点加载。 缺点： 会加载所有实现类，无法按需加载；不支持懒加载；ServiceLoader不是线程安全的。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 35,
+  "title": "语法糖有哪些？内部实现原理是什么？",
+  "tags": [
+   "语法糖",
+   "编译原理"
+  ],
+  "content": "泛型擦除： 编译时检查，运行时擦除为原始类型。 自动装箱/拆箱： 编译时调用 valueOf() / xxxValue() 。 增强for循环： 编译为Iterator遍历。 可变参数： 编译为数组 T[] 。 枚举： 编译为继承Enum的final类。 switch支持String： 编译为 hashCode()+equals() 两轮switch。 try-with-resources： 编译为try-finally，自动调用close()。 Lambda： 通过 invokedynamic 实现。 内部类： 编译为独立class文件。 断言assert： 默认关闭，需 -ea 开启。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 36,
+  "title": "Comparable 和 Comparator 的区别？",
+  "tags": [
+   "排序",
+   "接口"
+  ],
+  "content": "对比 Comparable Comparator 包 java.lang java.util 方法 compareTo(obj) compare(o1, o2) 位置 类内部实现（内比较器） 外部独立定义（外比较器） 耦合度 与类耦合 解耦，可多个 使用 Collections.sort(list) Collections.sort(list, comparator) 💡 TreeMap/TreeSet 可传Comparator构造，用于自定义排序规则。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 37,
+  "title": "Java 中如何创建对象？（5种方式）",
+  "tags": [
+   "基础",
+   "对象创建"
+  ],
+  "content": "new关键字： new ClassName() ，最常用。 反射newInstance： Class.forName().newInstance() （Java9已废弃），或 Constructor.newInstance() 。 clone()： 需实现Cloneable接口，浅拷贝。 反序列化： 从文件/网络流中 ObjectInputStream.readObject() 。 Unsafe类： Unsafe.allocateInstance() ，只分配内存不调用构造器。 💡 反序列化和Unsafe创建对象时不调用构造方法，可能导致字段未初始化。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 38,
+  "title": "Error 和 Exception 的区别？常见有哪些？",
+  "tags": [
+   "异常",
+   "基础"
+  ],
+  "content": "Error： 程序无法处理的严重错误，JVM层面问题，不要求捕获。 OutOfMemoryError、StackOverflowError、NoClassDefFoundError。 Exception： 程序可以处理的异常。 检查异常(Checked)： 编译时强制处理，如IOException、SQLException、ClassNotFoundException。 运行时异常(Runtime)： 可选处理，如NullPointerException、ArrayIndexOutOfBoundsException、IllegalArgumentException、ClassCastException。 💡 try-catch处理不了Error（如OOM），应避免而非捕获。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 39,
+  "title": "switch 支持哪些数据类型？原理是什么？",
+  "tags": [
+   "基础语法",
+   "switch"
+  ],
+  "content": "switch支持的参数类型： 基本类型： byte、short、char、int（以及对应的包装类）。 JDK 7+： String。 JDK 14+： 增强switch表达式，支持 case -> 语法和yield返回值。 枚举类型： enum。 String实现原理： 编译后分为两个switch——先switch(hashCode)，case匹配字符串哈希值；哈希冲突分支再switch(equals)精确匹配。即 先hashCode再equals 。"
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
+  "num": 40,
+  "title": "transient、volatile、synchronized 关键字的区别？",
+  "tags": [
+   "关键字",
+   "综合"
+  ],
+  "content": "关键字 作用 场景 transient 修饰字段，序列化时忽略该字段 敏感信息不序列化、不可序列化对象 volatile 保证变量可见性和禁止指令重排序，不保证原子性 状态标志位、DCL单例 synchronized 保证原子性、可见性、有序性（加锁） 多线程同步、线程安全 💡 关键区别： transient是序列化关键字，volatile是轻量级同步（仅可见性），synchronized是重量级同步（原子性+可见性+有序性）。volatile不保证原子性，i++操作仍需synchronized或AtomicInteger。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 1,
+  "title": "ArrayList 和 LinkedList 的区别？",
+  "tags": [
+   "List",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 2,
+  "title": "HashMap 底层实现原理（JDK 1.8）？",
+  "tags": [
+   "HashMap",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 3,
+  "title": "HashMap 的 put 方法流程？",
+  "tags": [
+   "HashMap",
+   "源码"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 4,
+  "title": "HashMap 为什么线程不安全？如何解决？",
+  "tags": [
+   "HashMap",
+   "并发"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 5,
+  "title": "ConcurrentHashMap 实现原理（JDK 1.8）？",
+  "tags": [
+   "并发容器",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 6,
+  "title": "HashMap 和 Hashtable 的区别？",
+  "tags": [
+   "HashMap",
+   "基础"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 7,
+  "title": "HashSet 的实现原理？如何保证元素不重复？",
+  "tags": [
+   "Set",
+   "源码"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 8,
+  "title": "TreeMap 的实现原理？",
+  "tags": [
+   "Map",
+   "红黑树"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 9,
+  "title": "LinkedHashMap 的实现原理？",
+  "tags": [
+   "Map",
+   "LRU"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 10,
+  "title": "为什么重写 equals 必须重写 hashCode？",
+  "tags": [
+   "基础",
+   "HashMap"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 11,
+  "title": "CopyOnWriteArrayList 的实现原理？",
+  "tags": [
+   "并发容器",
+   "COW"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 12,
+  "title": "Java 集合框架的体系结构是怎样的？",
+  "tags": [
+   "体系",
+   "总结"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 13,
+  "title": "TreeMap 的底层原理和使用场景？",
+  "tags": [
+   "TreeMap",
+   "红黑树"
+  ],
+  "content": "TreeMap基于 红黑树 实现，key必须可比较（实现Comparable或传Comparator）。 有序性： 按key的自然顺序或Comparator排序，遍历时有序。 时间复杂度： get/put/remove都是 O(log n)。 非线程安全： 需用Collections.synchronizedSortedMap或ConcurrentSkipListMap替代。 使用场景： 需要key排序、范围查找（subMap/tailMap/headMap）、获取最值（firstKey/lastKey）。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 14,
+  "title": "LinkedHashMap 的原理和应用？如何实现LRU？",
+  "tags": [
+   "LRU",
+   "高频"
+  ],
+  "content": "LinkedHashMap = HashMap + 双向链表，维护插入顺序或访问顺序。 accessOrder=false： 按插入顺序（默认）。 accessOrder=true： 按访问顺序，适合LRU缓存。 实现LRU缓存： class LRUCache<K,V> extends LinkedHashMap<K,V> { private final int capacity; public LRUCache(int capacity) { super(capacity, 0.75f, true); // accessOrder=true this.capacity = capacity; } @Override protected boolean removeEldestEntry(Map.Entry e) { return size() > capacity; // 超过容量删除最老元素 } }"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 15,
+  "title": "Hashtable 和 HashMap 的区别？为什么废弃Hashtable？",
+  "tags": [
+   "HashMap",
+   "Hashtable"
+  ],
+  "content": "对比 HashMap Hashtable 线程安全 否 是（synchronized全表锁） null支持 key和value都可为null key和value都不能为null 效率 高 低 继承 AbstractMap Dictionary 迭代器 Iterator(fail-fast) Enumerator(非fail-fast) 💡 废弃原因：Hashtable用synchronized全表锁，并发性能差。替代方案：ConcurrentHashMap（分段锁/CAS）、Collections.synchronizedMap。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 16,
+  "title": "CopyOnWriteArrayList 的原理和适用场景？",
+  "tags": [
+   "JUC",
+   "COW"
+  ],
+  "content": "原理： 写时复制。写操作（add/set/remove）时会 复制底层数组 ，在新数组上修改，然后替换旧数组引用。读操作不加锁，直接读旧数组。 优点： 读并发无锁，读写分离。 缺点： 写操作每次复制整个数组，内存消耗大；数据实时性差（读到旧数据）。 适用场景： 读多写极少（如白名单、黑名单、监听器列表），迭代时不需要担心并发修改。 💡 CopyOnWriteArraySet同理，基于CopyOnWriteArrayList实现。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 17,
+  "title": "Collections.synchronizedList 和 CopyOnWriteArrayList 怎么选？",
+  "tags": [
+   "并发",
+   "对比"
+  ],
+  "content": "对比 synchronizedList CopyOnWriteArrayList 读性能 需竞争锁 无锁，极快 写性能 加锁修改原数组 复制+加锁，内存开销大 数据一致性 强一致 最终一致 遍历修改 遍历需手动加锁 天然支持 适用场景 读写均衡 读多写极少 💡 遍历synchronizedList时仍需要手动加锁，否则并发修改抛ConcurrentModificationException。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 18,
+  "title": "ConcurrentHashMap JDK7 和 JDK8 实现有什么区别？",
+  "tags": [
+   "高频",
+   "JUC"
+  ],
+  "content": "JDK7（分段锁 Segment）： 维护一个Segment数组，每个Segment继承ReentrantLock，锁定单个Segment，默认16段，并发度16。写操作锁Segment，读volatile不加锁。 JDK8（CAS + synchronized）： 结构与HashMap一致（Node数组+链表+红黑树）。 put：CAS尝试（桶为空时）→失败后synchronized锁住桶头节点。 get：不加锁，Node的val和next用volatile保证可见性。 扩容：支持多线程协同迁移（helpTransfer）。 💡 JDK8锁粒度更细（桶级别），扩容支持并发，性能大大优于JDK7。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 19,
+  "title": "ConcurrentHashMap 的 put 流程是怎样的？",
+  "tags": [
+   "JUC",
+   "高频"
+  ],
+  "content": "计算hash： spread()让高位参与运算，减少冲突。 空桶CAS： 若桶为空，CAS放入Node，成功则结束。 MOVED检测： 若hash==MOVED(-1)，说明正在扩容，帮助迁移。 synchronized加锁： 锁住桶头节点。 链表/红黑树插入： 遍历链表equals判断，覆盖或尾插；红黑树putTreeVal。 检查树化： 链表长度≥8 且总容量≥64 时转红黑树。 addCount： CAS+CounterCell方式更新size，检查是否需要扩容。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 20,
+  "title": "ConcurrentHashMap 的 size() 如何计算？",
+  "tags": [
+   "JUC",
+   "深入"
+  ],
+  "content": "使用 分段计数 避免竞争： baseCount： 基础计数，CAS更新。 CounterCell数组： CAS失败时，在线程probe对应的CounterCell中累加（类似LongAdder）。 size()计算： sum = baseCount + 所有CounterCell.value。不是精确值（并发中可能略小），但大致准确。 mappingCount()： 返回long类型（size()返回int，最大值Integer.MAX_VALUE）。推荐用mappingCount()。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 21,
+  "title": "Collections 工具类常用方法有哪些？",
+  "tags": [
+   "工具类",
+   "基础"
+  ],
+  "content": "排序： sort()、reverse()、shuffle()、swap()。 查找： binarySearch()、max()、min()、frequency()。 同步包装： synchronizedList/Map/Set()返回线程安全集合。 不可变集合： unmodifiableList/Map/Set()返回只读集合。 填充替换： fill()、replaceAll()、copy()。 单元素集合： singletonList/Map/Set()。 空集合： emptyList/Map/Set()。 旋转： rotate()。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 22,
+  "title": "Arrays.asList() 有哪些坑？",
+  "tags": [
+   "Arrays",
+   "高频"
+  ],
+  "content": "不可增删： 返回的是Arrays内部类ArrayList（非java.util.ArrayList），固定大小，add/remove抛UnsupportedOperationException。 视图关联： 修改原数组会影响List（反之亦然），因为底层共用数组。 基本类型陷阱： Arrays.asList(new int[]{1,2}) 结果是List<int[]>而非List<Integer>！应用 Arrays.asList(1,2) 或Integer数组。 int[] arr = {1, 2, 3}; List list = Arrays.asList(arr); System.out.println(list.size()); // 1！只有整个数组一个元素 // 正确做法：List<Integer> list = Arrays.asList(1, 2, 3);"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 23,
+  "title": "fail-fast 和 fail-safe 机制是什么？",
+  "tags": [
+   "迭代器",
+   "高频"
+  ],
+  "content": "fail-fast（快速失败）： 迭代时检测 modCount ，若发现其他线程修改了集合，立即抛ConcurrentModificationException。 典型：ArrayList、HashMap 的Iterator。 单线程中迭代时修改也会触发！ fail-safe（安全失败）： 迭代时操作集合的 快照 ，不影响原集合。 典型：CopyOnWriteArrayList、ConcurrentHashMap（弱一致性迭代）。 不抛异常，但可能读取到过期数据。 💡 如何避免fail-fast？使用Iterator.remove()而非list.remove()；或用CopyOnWriteArrayList。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 24,
+  "title": "Iterator 和 ListIterator 的区别？",
+  "tags": [
+   "迭代器"
+  ],
+  "content": "对比 Iterator ListIterator 适用范围 所有Collection 仅List 遍历方向 单向（向后） 双向（向前/向后） 操作 remove add、set、remove 索引 无 nextIndex()、previousIndex()"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 25,
+  "title": "HashSet 底层如何实现？为什么能保证不重复？",
+  "tags": [
+   "Set",
+   "HashSet"
+  ],
+  "content": "HashSet底层就是 HashMap ，元素作为HashMap的key，value是一个固定的PRESENT对象。 去重逻辑： add(E e) map.put(e, PRESENT)==null。 利用HashMap的key唯一性：hashCode不同→直接放入；hashCode相同→equals比较→true则覆盖（不增加），false则链表/红黑树插入。 💡 自定义对象放入HashSet必须重写 hashCode()和equals() ，否则无法正确去重。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 26,
+  "title": "TreeSet 和 HashSet 的区别？LinkedHashSet 又是什么？",
+  "tags": [
+   "Set",
+   "对比"
+  ],
+  "content": "对比 HashSet TreeSet LinkedHashSet 底层 HashMap TreeMap(红黑树) LinkedHashMap 有序性 无序 排序(自然/比较器) 插入顺序 null 允许1个null 不允许null 允许1个null 操作复杂度 O(1) O(log n) O(1)"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 27,
+  "title": "ArrayDeque 和 LinkedList 作为队列有什么区别？",
+  "tags": [
+   "Queue",
+   "Deque"
+  ],
+  "content": "ArrayDeque： 循环数组实现的双端队列。 不能存null值。 容量动态扩展（翻倍），O(1)均摊。 无内存节点开销，比LinkedList省内存。 LinkedList： 双向链表实现，也实现了Deque接口。 允许null。 每个元素有Node开销（prev/next引用）。 💡 作队列/栈时 推荐ArrayDeque （性能更好）。Vector/Stack已过时，用ArrayDeque替代栈，用ArrayDeque或LinkedList替代队列。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 28,
+  "title": "PriorityQueue 的底层原理？",
+  "tags": [
+   "堆",
+   "PriorityQueue"
+  ],
+  "content": "PriorityQueue基于 二叉小顶堆 （数组实现），默认最小堆。 入队：尾部追加→上浮(siftUp)，O(log n)。 出队：取堆顶→尾部元素替换堆顶→下沉(siftDown)，O(log n)。 查堆顶：peek() O(1)。 不允许null元素。 无序遍历（堆序不等于遍历序），只有出队按优先级。 自定义优先级： 构造时传入Comparator，可实现大顶堆。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 29,
+  "title": "WeakHashMap 和 IdentityHashMap 是什么？",
+  "tags": [
+   "Map",
+   "特殊"
+  ],
+  "content": "WeakHashMap： Key为 弱引用 ，只有WeakReference指向key时，GC就会回收。 Entry在每次操作时自动清除已被回收的key。 适用场景：缓存，不希望影响GC。 IdentityHashMap： 用 == 而非equals()比较key（比较引用地址而非内容）。 允许key重复（不同地址的对象可以是不同key）。 底层用Object[]数组，相邻位置存key和value（非链表）。 适用场景：序列化框架、需要区分对象实例的场景。"
+ },
+ {
+  "module": "Java 集合容器",
+  "file": "Java面试宝典_02_集合容器.html",
+  "num": 30,
+  "title": "BlockingQueue 有哪些实现？各自特点？",
+  "tags": [
+   "BlockingQueue",
+   "JUC"
+  ],
+  "content": "BlockingQueue是线程安全的阻塞队列，常用于生产者-消费者模式： 实现 特点 ArrayBlockingQueue 有界数组，一把锁两个Condition，必须指定容量 LinkedBlockingQueue 可选有界（默认Integer.MAX_VALUE），两把锁(putLock/takeLock) PriorityBlockingQueue 无界，堆排序，take时阻塞等元素 SynchronousQueue 容量0，必须配对生产/消费线程，CachedThreadPool使用 DelayQueue 延迟队列，元素需实现Delayed接口 LinkedTransferQueue transfer()方法，生产者可等待消费者接收 💡 LinkedBlockingQueue默认无界可能OOM，生产环境建议指定容量。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 1,
+  "title": "JVM 内存区域是如何划分的？",
+  "tags": [
+   "内存模型",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 2,
+  "title": "堆内存的结构是怎样的？",
+  "tags": [
+   "堆",
+   "分代"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 3,
+  "title": "对象创建的完整流程是怎样的？",
+  "tags": [
+   "对象",
+   "内存分配"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 4,
+  "title": "如何判断对象是否已死？（GC Roots）",
+  "tags": [
+   "GC",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 5,
+  "title": "强引用、软引用、弱引用、虚引用的区别？",
+  "tags": [
+   "引用",
+   "GC"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 6,
+  "title": "垃圾回收算法有哪些？",
+  "tags": [
+   "GC算法",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 7,
+  "title": "常见的垃圾收集器有哪些？",
+  "tags": [
+   "GC收集器",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 8,
+  "title": "CMS 和 G1 的区别？",
+  "tags": [
+   "GC",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 9,
+  "title": "Minor GC、Major GC、Full GC 的区别？",
+  "tags": [
+   "GC",
+   "基础"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 10,
+  "title": "类加载的过程是怎样的？双亲委派模型是什么？",
+  "tags": [
+   "类加载",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 11,
+  "title": "如何排查 OOM 问题？",
+  "tags": [
+   "OOM",
+   "实战"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 12,
+  "title": "JVM 常用调优参数有哪些？",
+  "tags": [
+   "调优",
+   "参数"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 13,
+  "title": "对象的访问定位有哪两种方式？",
+  "tags": [
+   "对象",
+   "底层"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 14,
+  "title": "什么情况下会出现 StackOverflowError？",
+  "tags": [
+   "异常",
+   "栈"
+  ],
+  "content": ""
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 15,
+  "title": "GC Roots 有哪些？",
+  "tags": [
+   "GC",
+   "高频"
+  ],
+  "content": "GC Roots是可达性分析算法的起点： 虚拟机栈 中引用的对象（局部变量表）。 方法区 静态属性引用的对象。 方法区 常量池 引用的对象。 本地方法栈中JNI引用的对象。 Java虚拟机内部的引用（Class对象、异常对象等）。 所有被 synchronized 持有的对象。 内部引用（如StringTable、ClassLoader等）。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 16,
+  "title": "引用类型有哪几种？各自特点？",
+  "tags": [
+   "引用",
+   "GC"
+  ],
+  "content": "类型 回收时机 用途 强引用 永不回收 new对象 软引用(SoftReference) 内存不足时回收 缓存、图片缓存 弱引用(WeakReference) 下次GC必定回收 ThreadLocal、WeakHashMap 虚引用(PhantomReference) 随时，配合ReferenceQueue 跟踪对象回收、堆外内存管理 💡 面试高频：ThreadLocal的key是弱引用，但value是强引用，使用完必须remove()。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 17,
+  "title": "CMS 收集器的流程和优缺点？",
+  "tags": [
+   "CMS",
+   "GC"
+  ],
+  "content": "CMS（Concurrent Mark Sweep）是 老年代 并发收集器，目标：最短停顿时间。 流程4步： 初始标记(STW)： 标记GC Roots直接关联对象，快。 并发标记： GC Roots Tracing，耗时长但并发。 重新标记(STW)： 修正并发标记变化，比初始标记长。 并发清除： 清理垃圾，并发。 缺点： 产生浮动垃圾（并发标记中产生的新垃圾）、标记-清除算法有碎片、对CPU敏感、预留空间不足时退化为Serial Old。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 18,
+  "title": "G1 收集器的核心特点和原理？",
+  "tags": [
+   "G1",
+   "高频"
+  ],
+  "content": "G1（Garbage First）是 JDK9+默认 收集器，面向服务端大堆内存。 设计思想： 将堆分为2048个Region，各Region可动态扮演Eden、Survivor、Old、Humongous。 混合回收(Mixed GC)： 不光回收新生代，还回收部分老年代Region（垃圾最多的Region优先→Garbage First）。 核心特点： 可预测停顿：通过-XX:MaxGCPauseMillis设置目标。 标记-整理+复制算法，无内存碎片。 Remembered Set解决跨Region引用。 SATB(Snapshot-At-The-Beginning)解决并发标记问题。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 19,
+  "title": "ZGC 和 Shenandoah 的特点？",
+  "tags": [
+   "ZGC",
+   "低延迟"
+  ],
+  "content": "ZGC： JDK11引入，JDK15生产可用。目标： 亚毫秒级停顿 ，支持TB级堆。 基于 染色指针 （Colored Pointers）和读屏障。 并发标记、并发整理（Compacting时短暂停顿）。 停顿时间 Shenandoah： JDK12引入，类似G1但 并发整理 （移动对象与用户线程并发）。 用Brooks Pointer转发指针实现并发整理。 回收阶段几乎全并发。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 20,
+  "title": "类加载器的双亲委派模型是什么？为什么破坏它？",
+  "tags": [
+   "类加载",
+   "高频"
+  ],
+  "content": "三层类加载器： Bootstrap ClassLoader（C++，加载rt.jar）Extension ClassLoader（加载ext）Application ClassLoader（加载classpath）。 双亲委派流程： 加载→先委托父加载器→父找不到才自己加载。保证核心类安全（如自定义String不会覆盖核心String）。 破坏场景： JDBC：Bootstrap加载的类需调用SPI实现类（Application加载），通过 线程上下文类加载器 绕开。 Tomcat：WebApp类加载器优先加载应用自己的类，打破委派。 OSGi：网状类加载器结构。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 21,
+  "title": "Tomcat 为什么要打破双亲委派？",
+  "tags": [
+   "类加载",
+   "Tomcat"
+  ],
+  "content": "Tomcat的WebappClassLoader 优先加载应用自己的类 ，原因： 隔离性： 不同Web应用各自类加载器，同名类互不干扰。 灵活性： 应用可加载自己的Spring版本覆盖Tomcat提供的。 热部署： 单独卸载某个WebappClassLoader即可重载应用。 加载顺序： 先查本地缓存→避免JVM核心类→先自己加载→自己找不到才委托父加载器。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 22,
+  "title": "对象分配内存的过程是怎样的？",
+  "tags": [
+   "内存分配",
+   "高频"
+  ],
+  "content": "优先TLAB（线程本地分配缓冲区）： 先在栈上分配（逃逸分析+标量替换），分配在栈上。 栈上不行→尝试TLAB（Eden区的线程私有区域），CAS分配。 TLAB不够→Eden区CAS分配。 Eden不够→触发Minor GC。 大对象（如长数组）→直接进老年代。 年龄够了→晋升老年代。 栈上分配条件： 逃逸分析判定对象不会逃出方法+可以被标量替换。 -XX:+DoEscapeAnalysis 默认开启。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 23,
+  "title": "对象晋升老年代的几种情况？",
+  "tags": [
+   "GC",
+   "晋升"
+  ],
+  "content": "年龄达标： 默认15岁（-XX:MaxTenuringThreshold）。 动态年龄判断： Survivor区中同龄对象总大小 > Survivor空间的50%→直接晋升。 大对象： 超过-XX:PretenureSizeThreshold直接进老年代。 空间担保： Minor GC时Survivor放不下→通过空间分配担保进老年代。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 24,
+  "title": "JVM 调优常用参数有哪些？如何查看GC日志？",
+  "tags": [
+   "调优",
+   "参数"
+  ],
+  "content": "常用参数： -Xms / -Xmx — 初始/最大堆内存。 -Xss — 线程栈大小。 -XX:NewRatio — 老年代:新生代比例。 -XX:SurvivorRatio — Eden:Survivor比例。 -XX:+UseG1GC — 使用G1收集器。 -XX:MaxGCPauseMillis=200 — G1目标停顿。 -XX:+PrintGCDetails — 打印GC详情。 -XX:+PrintGCDateStamps — GC发生时间。 -Xloggc:gc.log — GC日志输出路径。 -XX:+HeapDumpOnOutOfMemoryError — OOM时dump堆快照。 -XX:MetaspaceSize — 元空间初始大小。 -XX:MaxMetaspaceSize — 元空间最大。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 25,
+  "title": "OOM 有哪些类型？如何排查？",
+  "tags": [
+   "OOM",
+   "高频"
+  ],
+  "content": "常见OOM类型： Java heap space： 堆溢出，大对象或内存泄漏。 GC overhead limit exceeded： GC时间超过98%但只回收 Metaspace： 加载过多类或类加载器泄漏。 Direct buffer memory： 堆外内存溢出(NIO)。 unable to create new native thread： 线程数达到上限。 排查步骤： 留现场： -XX:+HeapDumpOnOutOfMemoryError 分析dump：MAT/JProfiler查看大对象和GC Root链。 查日志：GC日志分析频率和效果。 监控：jstat查看各区域使用情况。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 26,
+  "title": "JDK 自带监控工具有哪些？",
+  "tags": [
+   "工具",
+   "监控"
+  ],
+  "content": "jps — 查看Java进程PID。 jstat — JVM统计信息（GC、类加载、编译）: jstat -gc pid 1000 10 。 jinfo — 查看/修改JVM参数。 jmap — 生成堆dump: jmap -dump:format=b,file=heap.hprof pid 。 jhat — 堆dump分析（已过时，用MAT/VisualVM）。 jstack — 打印线程栈，排查死锁、CPU高。 jstack -l pid 。 jcmd — 多功能命令（JDK7+）。 jconsole/jvisualvm — 图形化监控。 Arthas（阿里）： 线上诊断神器，watch/trace/monitor。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 27,
+  "title": "CPU 飙高如何排查？（JVM层面）",
+  "tags": [
+   "排查",
+   "高频"
+  ],
+  "content": "找进程： top 找到高CPU的Java进程PID。 找线程： top -Hp PID 找到具体线程TID。 转十六进制： printf '%x\\n' TID 查栈： jstack PID | grep 十六进制tid -A30 定位到具体代码行。 分析原因： 死循环、频繁GC、大量计算、锁竞争。 💡 也可用Arthas： thread -n 3 直接看最忙的3个线程。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 28,
+  "title": "full GC 频繁如何排查和优化？",
+  "tags": [
+   "调优",
+   "高频"
+  ],
+  "content": "排查方向： 内存泄漏： jmap dump后MAT分析大对象引用链。 堆太小： 增大-Xmx。 晋升过快： 增大新生代(Xmn)或调整晋升阈值。 System.gc()： 使用-XX:+DisableExplicitGC禁用手动GC。 元空间不足： 增大-XX:MaxMetaspaceSize。 大对象多： 调整PretenureSizeThreshold。 优化手段： 扩大堆内存、换G1收集器、调整Region大小、减少对象创建。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 29,
+  "title": "类的生命周期（加载过程）是怎样的？",
+  "tags": [
+   "类加载",
+   "高频"
+  ],
+  "content": "类从加载到卸载共 7个阶段 ： 加载： 通过全限定名获取二进制字节流→方法区生成Class对象。 验证： 文件格式、元数据、字节码、符号引用验证。 准备： 为static变量分配内存并赋零值（final static赋实际值）。 解析： 符号引用→直接引用（可延迟到初始化后）。 初始化： 执行类构造器 <clinit>() （static块+static变量赋值）。 使用。 卸载。 💡 验证-准备-解析统称 链接 阶段。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 30,
+  "title": "什么情况下会触发类初始化？",
+  "tags": [
+   "类加载"
+  ],
+  "content": "主动引用（触发初始化）： new、getstatic、putstatic、invokestatic指令。 反射：Class.forName()（initialize=true）。 子类初始化先触发父类初始化。 启动类（main方法所在类）。 JDK7+ MethodHandle REF_getStatic等。 被动引用（不触发初始化）： 子类引用父类静态字段（只初始化父类）。 数组定义： MyClass[] arr = new MyClass[10] 。 引用常量（编译期存入常量池）。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 31,
+  "title": "Tlab 是什么？有什么作用？",
+  "tags": [
+   "TLAB",
+   "内存"
+  ],
+  "content": "TLAB（Thread Local Allocation Buffer）是Eden区中为 每个线程预留 的一小块内存区域。 作用： 线程分配对象时优先在自己的TLAB中分配， 无需加锁 （CAS仅在线程创建TLAB时）。 极大提升对象分配效率，避免多线程竞争。 相关参数： -XX:+UseTLAB — 默认开启。 -XX:TLABSize — TLAB大小。 -XX:+PrintTLAB — 打印TLAB使用情况。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 32,
+  "title": "逃逸分析是什么？有什么作用？",
+  "tags": [
+   "逃逸分析",
+   "优化"
+  ],
+  "content": "逃逸分析：分析对象动态作用域，判断对象是否 逃逸出方法或线程 。 优化手段： 栈上分配： 不逃逸的对象直接在栈帧中分配，随方法结束自动销毁（减少GC）。 标量替换： 将对象拆解为基本类型成员变量，分别分配。 锁消除： 检测到锁只被一个线程使用，消除同步代码。 JDK6u23+默认开启逃逸分析。可通过 -XX:-DoEscapeAnalysis 关闭。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 33,
+  "title": "JVM 中哪些区域会发生 OOM？",
+  "tags": [
+   "OOM",
+   "内存"
+  ],
+  "content": "JVM几乎每个内存区域都可能OOM： 堆： 对象太多→Java heap space。 虚拟机栈： 递归过深→StackOverflowError；线程太多→unable to create new native thread。 方法区/元空间： 类太多、动态代理→Metaspace OOM。 直接内存： NIO分配过大→Direct buffer memory。 GC overhead： 频繁GC但仍内存不足。 💡 元空间默认无上限（受限于物理内存），生产环境建议设置 -XX:MaxMetaspaceSize 。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 34,
+  "title": "什么是直接内存？和堆内存有什么区别？",
+  "tags": [
+   "直接内存",
+   "NIO"
+  ],
+  "content": "直接内存是 堆外内存 ，不属于JVM运行时数据区，通过 ByteBuffer.allocateDirect() 或 Unsafe.allocateMemory() 分配。 特点： 减少Java堆和Native堆之间的数据拷贝，零拷贝→ NIO性能高 。 不受-Xmx限制，但受物理内存限制。 GC不直接管理，需手动释放或用Cleaner机制。 分配和回收成本高（系统调用）。 用 -XX:MaxDirectMemorySize 限制直接内存大小。"
+ },
+ {
+  "module": "JVM",
+  "file": "Java面试宝典_03_JVM.html",
+  "num": 35,
+  "title": "JVM 如何判断一个类是否可以被卸载？",
+  "tags": [
+   "类卸载"
+  ],
+  "content": "类卸载需要 同时满足3个条件 ： 该类的 所有实例 已被回收。 加载该类的 ClassLoader 已被回收。 该类的 Class对象 没有被引用。 Bootstrap加载的核心类不会被卸载。通常只在动态代理、JSP热部署、OSGi等场景下才可能卸载类。 💡 -Xnoclassgc 可禁止类卸载。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 1,
+  "title": "创建线程有哪几种方式？",
+  "tags": [
+   "线程",
+   "基础"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 2,
+  "title": "线程的生命周期（6种状态）？",
+  "tags": [
+   "线程",
+   "基础"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 3,
+  "title": "synchronized 的实现原理？锁升级过程？",
+  "tags": [
+   "锁",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 4,
+  "title": "volatile 关键字的作用和原理？",
+  "tags": [
+   "volatile",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 5,
+  "title": "synchronized 和 Lock 的区别？",
+  "tags": [
+   "锁",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 6,
+  "title": "AQS（AbstractQueuedSynchronizer）原理？",
+  "tags": [
+   "AQS",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 7,
+  "title": "ReentrantLock 如何实现可重入？",
+  "tags": [
+   "Lock",
+   "源码"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 8,
+  "title": "线程池的核心参数有哪些？工作流程？",
+  "tags": [
+   "线程池",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 9,
+  "title": "Executors 创建线程池有什么问题？",
+  "tags": [
+   "线程池",
+   "阿里规约"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 10,
+  "title": "如何合理配置线程池大小？",
+  "tags": [
+   "线程池",
+   "实战"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 11,
+  "title": "CountDownLatch 和 CyclicBarrier 的区别？",
+  "tags": [
+   "JUC",
+   "工具"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 12,
+  "title": "ThreadLocal 的原理和内存泄漏问题？",
+  "tags": [
+   "ThreadLocal",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 13,
+  "title": "CAS 是什么？有什么问题？",
+  "tags": [
+   "CAS",
+   "无锁"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 14,
+  "title": "乐观锁和悲观锁的区别？",
+  "tags": [
+   "锁",
+   "概念"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 15,
+  "title": "死锁的4个必要条件？如何预防？",
+  "tags": [
+   "死锁",
+   "经典"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 16,
+  "title": "wait() 和 sleep() 的区别？",
+  "tags": [
+   "基础",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 17,
+  "title": "ThreadLocal 原理和内存泄漏问题？",
+  "tags": [
+   "ThreadLocal",
+   "高频"
+  ],
+  "content": "每个Thread内部维护一个 ThreadLocalMap ，Key是ThreadLocal的 弱引用 ，value是强引用。 内存泄漏原因： ThreadLocal被回收→key变为null→但value仍被Thread引用→无法回收。 解决方案： 使用完必须 remove() ！ ThreadLocalMap的set/get/remove会检测key==null并清理。 使用场景： 数据库连接、Session管理、日期格式化（SimpleDateFormat非线程安全）。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 18,
+  "title": "Atomic 原子类实现原理？CAS 的 ABA 问题？",
+  "tags": [
+   "CAS",
+   "Atomic"
+  ],
+  "content": "原子类基于 CAS（Compare And Swap）+ volatile 实现，底层调用 Unsafe.compareAndSwapInt 等native方法，由CPU的cmpxchg指令保证原子性。 ABA问题： 变量从A→B→A，CAS无法感知变化。 解决方案： 版本号： AtomicStampedReference维护stamp。 AtomicMarkableReference： 维护布尔标记。 LongAdder： JDK8引入，高并发下优于AtomicLong。分段累加（base+Cell数组），最终求和。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 19,
+  "title": "CountDownLatch 和 CyclicBarrier 的区别？",
+  "tags": [
+   "JUC",
+   "高频"
+  ],
+  "content": "对比 CountDownLatch CyclicBarrier 计数 递减到0 递增到目标值 重用 一次性 可reset重复使用 线程关系 一个/多个线程等其他线程 多个线程互相等待 回调 无 构造时可传Runnable 场景 主线程等子线程完成 多线程分阶段并行"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 20,
+  "title": "Semaphore 的原理和应用场景？",
+  "tags": [
+   "Semaphore",
+   "JUC"
+  ],
+  "content": "Semaphore（信号量）基于 AQS共享模式 ，维护一组许可证permits。 acquire() ：获取许可，无则阻塞。 release() ：释放许可。 公平/非公平： 构造时指定，默认非公平。 应用场景： 限流：限制同时访问某资源的线程数。 数据库连接池：控制连接数。 只有有限停车位的停车场。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 21,
+  "title": "Exchanger 是什么？怎么用？",
+  "tags": [
+   "JUC",
+   "Exchanger"
+  ],
+  "content": "Exchanger用于 两个线程之间交换数据 的同步点。 线程调用 exchange(V data) 后阻塞，直到另一个线程也调用exchange。 两个线程的数据安全交换。 应用场景： 遗传算法中交换染色体、校对工作（两个线程交换缓冲区数据）、流水线数据处理。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 22,
+  "title": "synchronized 锁升级过程是怎样的？",
+  "tags": [
+   "高频",
+   "锁升级"
+  ],
+  "content": "synchronized锁升级是JDK6的优化： 无锁→偏向锁→轻量级锁→重量级锁 ，只能升级不能降级。 偏向锁： 第一个获取锁的线程，CAS设置ThreadID，后续该线程无需同步操作直接进入。 轻量级锁（自旋锁）： 有竞争时，撤销偏向锁。线程CAS尝试获取锁，失败则自旋等待（自适应自旋）。 重量级锁： 自旋超限或竞争激烈，膨胀为重量级锁（monitor互斥），未获取锁的线程阻塞。 💡 偏向锁默认延迟4秒启动（可通过-XX:BiasedLockingStartupDelay=0关闭延迟）。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 23,
+  "title": "LockSupport.park() 和 unpark() 原理？",
+  "tags": [
+   "LockSupport",
+   "AQS"
+  ],
+  "content": "LockSupport是 最基本的线程阻塞原语 ，AQS的基石。 park()： 阻塞当前线程，直到unpark()或中断。基于Unsafe.park()（C++的Parker::park）。 unpark(thread)： 唤醒指定线程。即使unpark先于park执行，park也会立即返回（permit机制，最多1个）。 相比wait/notify的优势： 不需要在synchronized块中。 unpark可以先于park调用。 可以精确唤醒指定线程。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 24,
+  "title": "读写锁 ReentrantReadWriteLock 原理和锁降级？",
+  "tags": [
+   "读写锁",
+   "高频"
+  ],
+  "content": "基于AQS，state高16位=读锁计数，低16位=写锁重入次数。 读锁共享： 多个线程可同时获取读锁。 写锁互斥： 写锁独占，读写互斥。 锁降级： 写锁→读锁（先获取读锁再释放写锁）。 锁降级场景： 写完后需要立即读，保证数据可见性。 rwLock.writeLock().lock(); // 写操作 rwLock.readLock().lock(); // 先获取读锁 rwLock.writeLock().unlock(); // 再释放写锁 = 降级为读锁 💡 不支持锁升级（读→写），会死锁。JDK8引入StampedLock，支持乐观读。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 25,
+  "title": "StampedLock 和 ReentrantReadWriteLock 的区别？",
+  "tags": [
+   "StampedLock",
+   "JDK8"
+  ],
+  "content": "对比 StampedLock RRWLock 可重入 不可重入 可重入 模式 写/悲观读/乐观读 读/写 乐观读 支持(tryOptimisticRead) 不支持 Condition 不支持 支持 性能 更高 一般 乐观读模式： 读前获取stamp→读数据→validate(stamp)校验是否被修改→被修改则升级为悲观读。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 26,
+  "title": "CompletableFuture 的使用场景和方法？",
+  "tags": [
+   "异步",
+   "JDK8"
+  ],
+  "content": "CompletableFuture是JDK8 异步编排 利器，实现了Future和CompletionStage。 核心方法： 创建： supplyAsync()、runAsync()。 转换： thenApply()、thenAccept()、thenRun()。 组合： thenCombine()、thenCompose()。 聚合： allOf()（全完成）、anyOf()（任一完成）。 异常： exceptionally()、handle()。 回调： whenComplete()。 应用场景： 多服务并行调用后聚合结果、异步数据预处理、多数据源查询合并。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 27,
+  "title": "Java 内存模型（JMM）是什么？",
+  "tags": [
+   "JMM",
+   "高频"
+  ],
+  "content": "JMM（Java Memory Model）是 规范 ，定义多线程下共享变量的访问规则： 主内存： 所有线程共享，存共享变量。 工作内存： 线程私有，存主内存中变量的副本。 线程不能直接读写主内存，必须通过工作内存。 三大特性： 原子性： synchronized、Lock、Atomic类。 可见性： volatile、synchronized、final。 有序性： volatile、synchronized、happens-before原则。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 28,
+  "title": "Happens-Before 规则有哪些？",
+  "tags": [
+   "JMM",
+   "高频"
+  ],
+  "content": "Happens-Before规定操作间的 偏序关系 ，保证前操作的结果对后操作可见： 程序次序： 单线程中前面的操作hb后面的。（控制流而非程序顺序）。 volatile： volatile写hb于后续读。 锁： unlock hb于后续lock。 传递性： A hb B, B hb C A hb C。 start()： 线程start() hb于线程内所有操作。 join()： 线程所有操作 hb于join()返回。 中断： interrupt() hb于被中断线程检测到中断。 finalize： 构造结束 hb于finalize()。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 29,
+  "title": "synchronized 底层的 monitorenter/monitorexit 是什么？",
+  "tags": [
+   "底层",
+   "字节码"
+  ],
+  "content": "synchronized编译后在字节码中对应 monitorenter 和 monitorexit 指令。 monitorenter： 尝试获取对象的monitor锁，计数器+1。 monitorexit： 释放monitor锁，计数器-1，为0时释放。 每个对象有一个monitor，基于ObjectMonitor（C++实现）。 重入性：同一线程重复进入，计数器累加。 synchronized方法的区别： 方法标志位ACC_SYNCHRONIZED，不需要monitorenter/exit指令。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 30,
+  "title": "volatile 如何保证可见性和有序性？（内存屏障）",
+  "tags": [
+   "volatile",
+   "底层"
+  ],
+  "content": "volatile通过 内存屏障 实现： volatile写： 前插StoreStore屏障，后插StoreLoad屏障→写完后 立即刷回主内存 并 使其他CPU缓存行失效 。 volatile读： 前插LoadLoad屏障，后插LoadStore屏障→每次读都从主内存重新加载。 禁止指令重排序： 屏障确保volatile操作前后的指令不越界。 DCL单例为什么必须volatile： 防止指令重排序导致半初始化对象被其他线程读到。不加volatile可能 instance!=null 但构造未完成。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 31,
+  "title": "Fork/Join 框架的 Work-Stealing 算法？",
+  "tags": [
+   "ForkJoin"
+  ],
+  "content": "Fork/Join是将大任务 递归拆分 为小任务并行执行的框架。 Work-Stealing（工作窃取）： 每个工作线程有一个 双端队列 。 自己产生的任务放入队列底部，自己从 顶部取（LIFO） 。 自己队列空时， 从其他队列尾部窃取（FIFO） 。 减少线程竞争，提高CPU利用率。 ForkJoinPool默认线程数=CPU核心数，适合CPU密集型任务。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 32,
+  "title": "中断机制：interrupt()/isInterrupted()/interrupted() 的区别？",
+  "tags": [
+   "中断"
+  ],
+  "content": "方法 中断标志 静态 interrupt() 设置中断标志为true 否 isInterrupted() 返回标志，不清除 否 interrupted() 返回标志并 清除 为false 是(当前线程) 中断不是立刻停止线程 ，而是协作机制： Object.wait()/Thread.sleep()/BlockingQueue.take()等方法抛出InterruptedException后 清除中断标志 。 线程应检查中断标志并自行退出。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 33,
+  "title": "线程的生命周期（6种状态）？",
+  "tags": [
+   "基础",
+   "线程状态"
+  ],
+  "content": "Thread.State定义了6种状态： NEW： 创建但未start()。 RUNNABLE： 运行中（包括就绪和运行，因为JVM不区分）。 BLOCKED： 等待synchronized锁。 WAITING： wait()/join()/park()，等待其他线程通知。 TIMED_WAITING： sleep(time)/wait(time)/join(time)。 TERMINATED： 执行完毕。 💡 操作系统层面的线程状态与Java不同（多了就绪状态）。注意BLOCKED只是等synchronized锁，等Lock锁是WAITING状态。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 34,
+  "title": "如何实现一个生产者-消费者模型？",
+  "tags": [
+   "模式",
+   "实战"
+  ],
+  "content": "实现方式（4种）： wait/notify： 经典方式，需手动处理生产满/消费空的阻塞。 BlockingQueue： 最简单，ArrayBlockingQueue或LinkedBlockingQueue，自动阻塞。 Lock + Condition： 两个Condition（notFull/notEmpty），更精确唤醒。 Semaphore： 两个信号量控制生产和消费速率。 // BlockingQueue 最简单 BlockingQueue<Task> queue = new LinkedBlockingQueue<>(100); // 生产者: queue.put(task); // 满则阻塞 // 消费者: Task t = queue.take(); // 空则阻塞"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 35,
+  "title": "如何让多个线程顺序执行？",
+  "tags": [
+   "实战",
+   "顺序"
+  ],
+  "content": "4种实现方式： join()： t1.start(); t1.join(); t2.start(); t2.join(); t3.start(); 单线程池： Executors.newSingleThreadExecutor()，任务按序执行。 CountDownLatch： 每个线程完成后countDown，下一个线程await。 Semaphore： 用一个信号量，每个线程acquire后执行再release给下一个。 Lock + Condition： 精确控制线程唤醒顺序。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 36,
+  "title": "线程池如何监控？常用监控指标？",
+  "tags": [
+   "监控",
+   "线程池"
+  ],
+  "content": "监控指标： corePoolSize / maximumPoolSize： 核心/最大线程数。 activeCount： 活跃线程数。 poolSize： 当前线程数。 queue.size()： 队列中等待的任务数。 completedTaskCount： 已完成任务数。 largestPoolSize： 历史最大线程数。 拒绝次数： 自定义RejectedExecutionHandler统计。 💡 可通过继承ThreadPoolExecutor，在beforeExecute/afterExecute中记录耗时、异常等。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 37,
+  "title": "线程池出现死锁如何排查？",
+  "tags": [
+   "排查",
+   "死锁"
+  ],
+  "content": "线程池死锁常见原因： 任务A等待任务B完成，任务B等待线程释放 互相等待。 父子任务都提交到同一线程池 父任务占线程等子任务。 排查： jstack -l PID： 查看线程状态，JVM会自动检测死锁（Found one Java-level deadlock）。 查看BLOCKED和WAITING的线程。 Arthas： thread -b 找死锁。 解决： 避免嵌套提交、用不同线程池执行父子任务、增加超时机制。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 38,
+  "title": "Future 和 CompletableFuture 对比？Future 的局限性？",
+  "tags": [
+   "异步",
+   "对比"
+  ],
+  "content": "Future 局限性： get()方法阻塞，不支持回调。 不能手动完成任务。 不能组合编排（A完成→B→聚合C和D）。 异常处理不友好。 CompletableFuture 优势： 支持回调（thenApply/thenAccept）。 支持组合编排。 支持异常恢复（exceptionally/handle）。 可手动完成（complete）。 allOf/anyOf多任务聚合。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 39,
+  "title": "并行流 parallelStream 的陷阱？",
+  "tags": [
+   "Stream",
+   "并发"
+  ],
+  "content": "共用ForkJoinPool： 默认用公共线程池，阻塞操作会耗尽线程→影响其他并行流。 数据量小反而慢： 拆分和合并有开销，数据量小时串行更快。 线程不安全操作： 并行流中的副作用操作可能导致数据错乱。 顺序依赖： forEach不保证顺序，需用forEachOrdered。 安全使用： 无状态、无副作用、可拆分的大数据集才适合parallelStream。"
+ },
+ {
+  "module": "并发编程",
+  "file": "Java面试宝典_04_并发编程.html",
+  "num": 40,
+  "title": "InheritableThreadLocal 是什么？如何实现线程池上下文传递？",
+  "tags": [
+   "ThreadLocal",
+   "上下文"
+  ],
+  "content": "InheritableThreadLocal： 子线程会 继承父线程的ThreadLocal值 （fork时拷贝）。但线程池中线程复用后，不会重新复制。 线程池上下文传递方案： 手动传递： Runnable包装，run()前设置上下文，finally清理。 线程池Hook： beforeExecute设置，afterExecute清理。 Alibaba TransmittableThreadLocal(TTL)： 完美解决线程池上下文传递。 Hystrix： HystrixRequestContext。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 1,
+  "title": "一条SQL语句的执行流程是怎样的？",
+  "tags": [
+   "架构",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 2,
+  "title": "InnoDB 的索引数据结构是什么？为什么用 B+ 树？",
+  "tags": [
+   "索引",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 3,
+  "title": "聚集索引和非聚集索引的区别？",
+  "tags": [
+   "索引",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 4,
+  "title": "什么是覆盖索引？索引最左前缀原则？",
+  "tags": [
+   "索引",
+   "优化"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 5,
+  "title": "事务的四大特性（ACID）？",
+  "tags": [
+   "事务",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 6,
+  "title": "事务的隔离级别有哪些？解决了什么问题？",
+  "tags": [
+   "事务",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 7,
+  "title": "MVCC 的实现原理？",
+  "tags": [
+   "MVCC",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 8,
+  "title": "redo log、undo log、binlog 的区别？",
+  "tags": [
+   "日志",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 9,
+  "title": "MySQL 的锁有哪些类型？",
+  "tags": [
+   "锁",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 10,
+  "title": "索引失效的场景有哪些？",
+  "tags": [
+   "索引",
+   "优化"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 11,
+  "title": "EXPLAIN 的关键字段含义？",
+  "tags": [
+   "优化",
+   "实战"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 12,
+  "title": "SQL 优化有哪些思路？",
+  "tags": [
+   "优化",
+   "实战"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 13,
+  "title": "分库分表的方案有哪些？",
+  "tags": [
+   "分库分表",
+   "架构"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 14,
+  "title": "MyISAM 和 InnoDB 的区别？",
+  "tags": [
+   "引擎",
+   "基础"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 15,
+  "title": "MySQL 主从复制的原理？",
+  "tags": [
+   "主从",
+   "架构"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 16,
+  "title": "什么是SQL注入？如何防止？",
+  "tags": [
+   "安全",
+   "基础"
+  ],
+  "content": ""
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 17,
+  "title": "MySQL 主从复制原理和流程？",
+  "tags": [
+   "主从复制",
+   "高频"
+  ],
+  "content": "三个线程协作完成： Master Binlog Dump Thread： 主库binlog变化→通知从库。 Slave I/O Thread： 连接主库，接收binlog→写入relay log。 Slave SQL Thread： 读取relay log→重放SQL→完成复制。 复制模式： STATEMENT（语句）、ROW（行）、MIXED（混合，默认）。ROW模式更安全，但日志量大。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 18,
+  "title": "主从延迟的原因和解决方案？",
+  "tags": [
+   "主从延迟",
+   "高频"
+  ],
+  "content": "延迟原因： 从库性能差/配置低。 从库并发写入压力大（大事务、大量DML）。 网络延迟。 主库写并发高。 解决方案： 并行复制（MySQL 5.7+）：slave_parallel_workers。 分库分表降低单库压力。 升级硬件和网络。 读写分离时，核心写后读走主库。 缓存层降低读压力。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 19,
+  "title": "MySQL 分库分表方案有哪些？",
+  "tags": [
+   "分库分表",
+   "高频"
+  ],
+  "content": "垂直拆分： 垂直分库： 按业务（用户库、订单库）。 垂直分表： 按字段（常用字段和不常用字段分开）。 水平拆分： 范围分片： 按时间范围（按月分表）。 Hash分片： 按key取模（userId%N）。 一致性Hash： 减少扩缩容时数据迁移。 地理分片： 按地区。 中间件： ShardingSphere（Sharding-JDBC/Proxy）、MyCat。 问题： 跨库JOIN、分布式事务、全局ID、数据迁移。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 20,
+  "title": "分布式ID 生成方案有哪些？",
+  "tags": [
+   "分布式ID",
+   "高频"
+  ],
+  "content": "UUID： 简单但无序，索引性能差。 数据库自增ID： 单点瓶颈，适合小规模。 数据库号段模式： 一次取一段ID（如Leaf），减少DB访问。 Redis incr： 性能高，需持久化。 Snowflake（雪花算法）： 64位，1位符号+41位时间戳+10位机器ID+12位序列号。高性能、趋势递增。 美团Leaf： 号段+Snowflake双模式。 百度UidGenerator： 基于Snowflake改进。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 21,
+  "title": "SQL 执行慢如何排查和优化？",
+  "tags": [
+   "慢查询",
+   "高频"
+  ],
+  "content": "开启慢查询日志： slow_query_log，long_query_time设置阈值。 EXPLAIN分析： 查看type（ALL最差→index→range→ref→const最好）、key（是否走索引）、rows（扫描行数）、Extra。 检查索引： 是否缺失索引、是否索引失效（函数/类型转换/前导模糊查询）。 SQL改写： 避免SELECT *、避免大offset分页、子查询改JOIN。 表结构优化： 字段类型合理、适当冗余减少JOIN。 profiling： SHOW PROFILE查看SQL各阶段耗时。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 22,
+  "title": "MySQL 大表如何优化？",
+  "tags": [
+   "大表优化",
+   "高频"
+  ],
+  "content": "数据归档： 历史数据迁移到归档表或冷存储。 分库分表： 水平拆分（Sharding）。 读写分离： 主库写、从库读。 优化索引： 避免冗余索引，使用覆盖索引。 字段优化： IP用INT存（INET_ATON），用更小的数据类型。 垂直拆分： 不常用字段拆到扩展表。 分区表： 按时间RANGE分区（不过分区表维护成本高）。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 23,
+  "title": "深度分页问题如何解决？",
+  "tags": [
+   "分页",
+   "优化"
+  ],
+  "content": "LIMIT 100000,20 会扫描10万条数据，越往后越慢。 解决方案： 延迟关联： 先用覆盖索引查主键，再关联原表。 SELECT * FROM t INNER JOIN (SELECT id FROM t LIMIT 100000,20) AS tmp USING(id) 游标分页： 用上次查询的最大ID作为条件 WHERE id > lastId LIMIT 20 ，配合索引。 ES等搜索引擎： 搜索场景走ES。 禁止跳页： 只允许上一页/下一页。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 24,
+  "title": "MySQL 连接池参数如何配置？",
+  "tags": [
+   "连接池",
+   "配置"
+  ],
+  "content": "以HikariCP为例： maximumPoolSize： 最大连接数，一般=(CPU核心数*2)+磁盘数。 minimumIdle： 最小空闲连接（默认等于maximumPoolSize）。 connectionTimeout： 获取连接超时（默认30s）。 idleTimeout： 空闲超时（10min）。 maxLifetime： 连接最大存活时间（30min，比数据库wait_timeout短）。 leakDetectionThreshold： 连接泄漏检测。 💡 连接数公式：connections = ((core_count * 2) + effective_spindle_count)。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 25,
+  "title": "B+Tree 的插入和查询过程是怎样的？",
+  "tags": [
+   "B+Tree",
+   "深入"
+  ],
+  "content": "查询： 从根节点开始，每层二分查找确定下一层子节点，直到叶子节点。IO次数=树高度。千万级数据只需3-4层。 插入： 找到叶子节点插入。 若节点满（达到页大小/2），则 分裂 ，将中间key提升到父节点。 若父节点满，递归向上分裂。 分裂可能导致树高度增加。 删除： 删除后若节点元素少于阈值，从兄弟节点借调或合并。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 26,
+  "title": "MySQL 隐式类型转换的坑？",
+  "tags": [
+   "类型转换",
+   "索引失效"
+  ],
+  "content": "字符串与数字比较： 字符串转为数字，索引失效。 规则： 字符串和数字→字符串转数字。一方是浮点→都转浮点。日期与数字→看作数字。 -- phone是varchar，有索引 SELECT * FROM t WHERE phone = 13800138000; -- 索引失效！ SELECT * FROM t WHERE phone = '13800138000'; -- 走索引"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 27,
+  "title": "CHAR 和 VARCHAR 如何选择？TEXT 类型注意事项？",
+  "tags": [
+   "数据类型"
+  ],
+  "content": "CHAR： 定长，适合固定长度（MD5、手机号、身份证）。查询速度快，不用计算长度。 VARCHAR： 变长，适合长度波动大的（名字、描述）。节省空间但需存储长度信息。 TEXT： 大文本，不能有默认值，不能全索引（需指定前缀长度）。 BLOB： 二进制大对象（图片），建议只存路径。 💡 字段尽量NOT NULL，NULL值会额外占用空间且索引统计不准。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 28,
+  "title": "EXPLAIN 中 type 字段有哪些？如何判断效率？",
+  "tags": [
+   "EXPLAIN",
+   "高频"
+  ],
+  "content": "type表示访问类型， 从好到差 ： const： 主键/唯一索引等值查询（最优）。 eq_ref： 联表查询时用主键/唯一索引关联。 ref： 非唯一索引等值查询。 range： 索引范围扫描（BETWEEN、>、<、IN）。 index： 全索引扫描（比ALL好）。 ALL： 全表扫描（最差，必须优化）。 Extra关键值： Using index（覆盖索引）→最好；Using filesort（额外排序）→需优化；Using temporary（临时表）→差。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 29,
+  "title": "MySQL redo log、undo log、binlog 的区别？",
+  "tags": [
+   "日志",
+   "高频"
+  ],
+  "content": "日志 层级 作用 格式 redo log InnoDB引擎层 崩溃恢复，保证持久性 物理日志(页修改) undo log InnoDB引擎层 回滚/MVCC，保证原子性 逻辑日志(相反操作) binlog Server层 主从复制/数据恢复 逻辑日志(SQL语句/行) 两阶段提交： 保证redo log和binlog一致性。prepare→写binlog→commit。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 30,
+  "title": "索引下推（ICP）是什么？",
+  "tags": [
+   "索引优化",
+   "ICP"
+  ],
+  "content": "Index Condition Pushdown（MySQL 5.6+）。将WHERE中部分条件 下推到存储引擎层过滤 ，减少回表次数。 -- 联合索引 (name, age) SELECT * FROM t WHERE name LIKE '张%' AND age = 25; -- 没有ICP: 回表取所有name LIKE '张%'的行，再Server层过滤age -- 有ICP: 存储引擎直接在索引中过滤age=25，减少回表"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 31,
+  "title": "联合索引匹配原则和索引长度限制？",
+  "tags": [
+   "联合索引",
+   "优化"
+  ],
+  "content": "索引长度限制： InnoDB单列索引最大767字节（某些字符集达3072字节）。前缀索引可减少长度。 联合索引设计： 区分度高的在前（等值查询字段优先）。 范围查询字段放最后（范围查询后的列不走索引）。 常用查询字段覆盖。 ORDER BY / GROUP BY 字段可考虑加在联合索引中。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 32,
+  "title": "SQL 注入原理和防范？MyBatis 中 #{} 和 ${} 的区别？",
+  "tags": [
+   "SQL注入",
+   "安全"
+  ],
+  "content": "SQL注入： 拼接SQL时恶意输入如 ' OR 1=1 -- 。 防范： 预编译（PreparedStatement）参数化查询、输入校验过滤、最小权限原则。 MyBatis中： #{}： 预编译占位符，安全。SELECT * FROM t WHERE name=#{name} WHERE name=?。 ${}： 字符串直接替换，有注入风险。仅用于动态表名/列名/ORDER BY等无法预编译的场景，且需白名单校验。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 33,
+  "title": "子查询和 JOIN 哪个效率高？为什么？",
+  "tags": [
+   "SQL优化"
+  ],
+  "content": "大多数情况 JOIN优于子查询 ，原因： 子查询可能产生临时表和多次查询。 MySQL优化器对JOIN的优化更成熟（Nested Loop Join/Block Nested Loop）。 NOT IN子查询有NULL陷阱且性能差，应改写为NOT EXISTS或LEFT JOIN ... IS NULL。 MySQL 5.6+对子查询优化有所改善（半连接优化），但JOIN仍更可控。 💡 某些场景子查询更清晰（如EXISTS），优先可读性，再考虑性能。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 34,
+  "title": "分布式事务解决方案有哪些？",
+  "tags": [
+   "分布式事务",
+   "高频"
+  ],
+  "content": "1. 2PC（两阶段提交）： 协调者→prepare（预提交）→所有参与者yes→commit。XA协议，同步阻塞、单点故障。 2. TCC（Try-Confirm-Cancel）： 业务层面补偿。Try预留资源→Confirm确认→失败则Cancel释放。Seata支持。 3. 本地消息表： 本地事务+消息表+MQ+定时任务补偿。最终一致性。 4. 可靠消息最终一致性： RocketMQ事务消息。 5. 最大努力通知： 重复通知+对账。 6. Saga： 长事务分解为子事务，正向执行+反向补偿。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 35,
+  "title": "count(*)、count(1)、count(列名) 的区别？",
+  "tags": [
+   "高频",
+   "聚合"
+  ],
+  "content": "count(*)： 统计所有行数（包括NULL），MySQL优化器专门优化，效率最高。 count(1)： 同count(*)，每行填充1再统计。 count(列名)： 统计该列 非NULL 的行数。 count(distinct 列)： 去重计数。 💡 MyISAM中count(*)没有WHERE条件时O(1)（行数存在表头），InnoDB必须全表/全索引扫描。推荐count(*)。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 36,
+  "title": "MVCC 读提交(RC)和可重复读(RR)下 ReadView 生成时机有何不同？",
+  "tags": [
+   "MVCC",
+   "深入"
+  ],
+  "content": "RC： 每次快照读都生成新的ReadView 能读到其他事务已提交的修改 不可重复读。 RR： 事务中第一次快照读生成ReadView，后续复用 读到的数据始终一致 可重复读。 💡 这就是为什么RR能避免不可重复读的原因——ReadView复用了。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 37,
+  "title": "AUTO_INCREMENT 自增主键的坑？自增ID用完了怎么办？",
+  "tags": [
+   "自增",
+   "主键"
+  ],
+  "content": "自增ID不一定连续（回滚/删除后不回收）。 insert...select等批量插入可能导致ID分配不均。 自增ID用完后INSERT会报主键冲突错误。 Int自增上限： 有符号21.47亿，无符号42.94亿。单表日增百万，几年就用完。 解决方案： 提前用BIGINT（9.22*10^18）、分库分表、业务主键替代自增。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 38,
+  "title": "MySQL 中 EXPLAIN 的 Extra 字段 Using filesort 和 Using temporary 是什么意思？",
+  "tags": [
+   "EXPLAIN",
+   "优化"
+  ],
+  "content": "Using filesort： 无法用索引排序，需要额外排序操作（内存sort_buffer或磁盘临时文件）。优化方向：让ORDER BY也走索引。 Using temporary： 创建临时表处理查询（GROUP BY、DISTINCT、UNION）。优化方向：加索引避免临时表。 Using index： 覆盖索引，无需回表（最好）。 Using where： Server层过滤（存储引擎返回后在Server层再过滤）。 Using index condition： 使用了索引下推（ICP）。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 39,
+  "title": "MySQL 8.0 有哪些重要新特性？",
+  "tags": [
+   "MySQL8"
+  ],
+  "content": "默认字符集utf8mb4： 支持emoji。 窗口函数： ROW_NUMBER()、RANK()等。 CTE（公用表表达式）： WITH语句，递归查询。 降序索引： 真正支持DESC索引。 不可见索引： 测试删除索引的影响。 直方图： 优化器统计信息更准确。 hash join： 替代部分BNL。 JSON增强： JSON_TABLE等函数。 角色管理： 支持role。 原子DDL： DDL原子性。"
+ },
+ {
+  "module": "MySQL 数据库",
+  "file": "Java面试宝典_05_MySQL.html",
+  "num": 40,
+  "title": "什么是回表？如何避免回表？",
+  "tags": [
+   "回表",
+   "优化"
+  ],
+  "content": "回表： 通过二级索引找到主键→再到聚簇索引中查完整行数据的操作。 -- name有普通索引，非主键 SELECT * FROM t WHERE name='test'; -- 需要回表 SELECT id, name FROM t WHERE name='test'; -- 覆盖索引，无需回表 避免回表： 覆盖索引： 索引包含所有查询字段。 减少SELECT *： 只查需要的列。 联合索引： 把常用查询字段加入联合索引。 索引下推(ICP)： 减少不必要的回表。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 1,
+  "title": "Redis 有哪些数据类型？各自使用场景？",
+  "tags": [
+   "数据类型",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 2,
+  "title": "Redis 的持久化机制？RDB 和 AOF 的区别？",
+  "tags": [
+   "持久化",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 3,
+  "title": "缓存穿透、缓存击穿、缓存雪崩是什么？如何解决？",
+  "tags": [
+   "缓存问题",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 4,
+  "title": "如何用 Redis 实现分布式锁？",
+  "tags": [
+   "分布式锁",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 5,
+  "title": "Redis 的内存淘汰策略有哪些？",
+  "tags": [
+   "内存",
+   "淘汰"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 6,
+  "title": "Redis 主从复制的原理？",
+  "tags": [
+   "主从",
+   "集群"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 7,
+  "title": "Redis 哨兵（Sentinel）机制？",
+  "tags": [
+   "哨兵",
+   "高可用"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 8,
+  "title": "Redis Cluster（集群模式）原理？",
+  "tags": [
+   "集群",
+   "分片"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 9,
+  "title": "Redis 为什么这么快？",
+  "tags": [
+   "性能",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 10,
+  "title": "Redis 过期键删除策略？",
+  "tags": [
+   "过期",
+   "内存"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 11,
+  "title": "布隆过滤器（Bloom Filter）的原理和应用？",
+  "tags": [
+   "布隆过滤器",
+   "高级"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 12,
+  "title": "Redis 和 Memcached 的区别？",
+  "tags": [
+   "对比",
+   "基础"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 13,
+  "title": "Redis 如何保证数据一致？（缓存和数据库一致性）",
+  "tags": [
+   "一致性",
+   "实战"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 14,
+  "title": "Redis 的 pipeline 是什么？",
+  "tags": [
+   "优化",
+   "基础"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 15,
+  "title": "Redis 分布式锁如何实现？有哪些问题？",
+  "tags": [
+   "分布式锁",
+   "高频"
+  ],
+  "content": "SETNX + EXPIRE： 原子设置锁和过期时间。 SET lock_key value NX EX 30 。 Redisson方案（RedLock）： 自动续期看门狗（watch dog），每10s续期到30s。 核心问题： 锁释放： 只能释放自己的锁（value用UUID校验，Lua脚本原子释放）。 锁续期： 业务执行超时，锁被自动释放→其他线程获取锁→并发问题。 主从切换： 主宕机，锁数据未同步到从→新主上有两个线程持有锁。RedLock方案缓解。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 16,
+  "title": "RedLock 算法的原理和争议？",
+  "tags": [
+   "RedLock",
+   "深入"
+  ],
+  "content": "RedLock（Redis官方分布式锁算法）： 客户端向 N个独立Redis节点 （通常5个）依次请求加锁。 若在超时时间内 超过半数(N/2+1) 节点成功→获取锁。 锁有效时间 = 初始TTL - 获取锁耗时。 失败则向所有节点发起释放。 争议（Martin Kleppmann）： GC pause、时钟跳跃、网络延迟可能导致两个客户端同时认为持有锁。Redis作者Antirez回应：实际场景中极低概率。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 17,
+  "title": "Redis 哨兵（Sentinel）模式原理？",
+  "tags": [
+   "Sentinel",
+   "高频"
+  ],
+  "content": "Sentinel是Redis 高可用 方案，监控+通知+自动故障转移。 功能： 监控： 持续检查Master和Slave是否正常（PING）。 通知： 节点故障时告警。 自动故障转移： Master宕机→选出新Master→其他Slave切换复制新Master→通知客户端。 选主过程： 多个Sentinel选举一个Leader（Raft共识）→Leader选择最优Slave（优先级→复制偏移量→runid）→提升为Master。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 18,
+  "title": "Redis Cluster 原理和槽位分配？",
+  "tags": [
+   "Cluster",
+   "高频"
+  ],
+  "content": "Redis Cluster是 去中心化 的分布式方案， 16384个哈希槽 。 槽位分配： CRC16(key)%16384 映射到对应节点的槽位。 去中心化： 节点间Gossip协议互通状态。 MOVED重定向： key不在当前节点，返回目标节点地址，客户端请求新节点。 ASK重定向： 槽正在迁移中，临时重定向。 hash_tag： {user:1}:name，只计算{}内的CRC16，实现多key同槽。 限制： 不支持多key跨槽操作、Lua脚本涉及key必须在同一节点。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 19,
+  "title": "Redis 主从复制原理和过程？",
+  "tags": [
+   "主从复制",
+   "高频"
+  ],
+  "content": "全量同步（SYNC/PSYNC）： 从节点发送PSYNC。 主节点执行BGSAVE生成RDB，同时缓存写命令。 主节点发送RDB给从节点。 从节点载入RDB。 主节点发送缓冲区中的写命令。 增量同步： 主节点维护 replication backlog 缓冲区，从节点断开重连后根据offset增量同步。若offset不在backlog中，则全量同步。 💡 主从同步过程是 异步 的。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 20,
+  "title": "Redis 持久化 AOF 和 RDB 的区别和选择？",
+  "tags": [
+   "持久化",
+   "高频"
+  ],
+  "content": "对比 RDB AOF 原理 快照(内存全量dump) 追加写命令日志 数据完整性 可能丢失最后一次快照后的数据 最多丢1s/1个命令 恢复速度 快 慢（重放命令） 文件大小 小（压缩二进制） 大，需定期rewrite 子进程 BGSAVE fork子进程 rewrite fork子进程 💡 生产环境建议 两者都开启 ：RDB做冷备，AOF保数据完整性。Redis4.0+支持混合持久化（RDB+AOF追加）。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 21,
+  "title": "Redis 删除策略和内存淘汰策略？",
+  "tags": [
+   "过期删除",
+   "内存淘汰"
+  ],
+  "content": "过期键删除策略（惰性+定期）： 惰性删除： 访问key时检查是否过期，过期则删除。 定期删除： 每秒10次，随机抽20个key检查，过期>25%则继续清理。 内存淘汰策略（maxmemory-policy）： noeviction： 不淘汰，写报错（默认）。 allkeys-lru/lfu： 所有key中LRU/LFU淘汰。 volatile-lru/lfu： 仅过期key中淘汰。 allkeys-random： 随机。 volatile-ttl： 淘汰TTL最短的。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 22,
+  "title": "Redis 单线程为什么还这么快？",
+  "tags": [
+   "性能",
+   "高频"
+  ],
+  "content": "纯内存操作： 数据都在内存，读写速度极快。 单线程避免上下文切换： 无锁竞争，无死锁。 IO多路复用： epoll/kqueue模型，一个线程处理多个连接。 高效数据结构： SDS（简单动态字符串）、ziplist(7.0已移除)、quicklist等。 💡 Redis 6.0+引入 多线程IO （只是网络读写多线程，命令执行仍单线程），进一步提升性能。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 23,
+  "title": "Redis Pipeline 原理和注意事项？",
+  "tags": [
+   "Pipeline"
+  ],
+  "content": "Pipeline将 多个命令打包 一次发送，减少RTT（往返时间）。 原理： 客户端批量发送→Redis批量执行→批量返回结果。 注意事项： Pipeline中命令不保证原子性（不是事务）。 一次Pipeline命令不宜过多（内存压力），建议拆分为小批次。 Cluster模式下，Pipeline命令必须同一节点。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 24,
+  "title": "Lua 脚本在 Redis 中的使用和原子性？",
+  "tags": [
+   "Lua",
+   "原子操作"
+  ],
+  "content": "Redis通过 EVAL / EVALSHA 执行Lua脚本， 脚本执行期间其他命令被阻塞 →原子性。 使用场景： 原子性校验+操作（如库存扣减）。 分布式锁释放（get+del原子化）。 复杂计算避免多次网络往返。 注意事项： 脚本不要执行太久（阻塞），建议拆分。 Cluster模式下脚本涉及的key必须在同一节点（用hash_tag）。 脚本中写操作会引起主从复制。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 25,
+  "title": "缓存穿透、缓存击穿、缓存雪崩是什么？如何解决？",
+  "tags": [
+   "缓存问题",
+   "超高频"
+  ],
+  "content": "缓存穿透： 查询不存在的数据→缓存无→直接打到DB。 方案：布隆过滤器过滤、缓存空值（短TTL）、接口层校验。 缓存击穿： 热点key过期→大量请求同时打到DB。 方案：互斥锁（一个线程查DB更新缓存）、永不过期（逻辑过期+异步更新）。 缓存雪崩： 大量key同时过期或Redis宕机→DB压力激增。 方案：过期时间加随机值、限流降级、Redis高可用（集群/哨兵）、多级缓存。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 26,
+  "title": "如何保证缓存与数据库一致性？（Cache Aside）",
+  "tags": [
+   "缓存一致性",
+   "超高频"
+  ],
+  "content": "Cache Aside Pattern（旁路缓存）： 读： 先读缓存→缓存有则返回→无则读DB→写缓存。 写： 先更新DB→再删除缓存 （不是更新缓存！）。 为什么不更新缓存而是删除？ 并发写可能导致缓存和DB不一致，删除缓存最安全。 延迟双删： 先删缓存→更新DB→延迟再删缓存。应对读写并发问题。 兜底方案： Canal监听binlog→异步同步缓存。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 27,
+  "title": "Redis 的 Bitmap 和 HyperLogLog 应用场景？",
+  "tags": [
+   "高级结构"
+  ],
+  "content": "Bitmap（位图）： 按位存储，极省内存。 签到打卡：SETBIT sign:2024:uid 1→SETBIT sign:2024:uid 356 1。 统计在线用户、活跃用户。 布隆过滤器底层。 HyperLogLog： 基数统计（去重计数），标准误差0.81%，12KB固定内存。 UV统计：PFADD uv:page user_id PFCOUNT uv:page。 日/月活统计。 💡 数据量大且对精度要求不高时用HyperLogLog，精确去重用Set或Bitmap。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 28,
+  "title": "GEO 地理位置的应用原理？",
+  "tags": [
+   "GEO"
+  ],
+  "content": "Redis GEO基于 Sorted Set（ZSet）+ GeoHash 实现。 经纬度→GeoHash编码（字符串）→作为ZSet的score。 GEOADD cities 116.40 39.90 beijing 添加地理位置。 GEORADIUS 指定半径内查询。 GEODIST 计算两点距离。 应用： 附近的人、附近的商家、配送范围计算。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 29,
+  "title": "Redis Stream 是什么？和传统MQ有什么区别？",
+  "tags": [
+   "Stream",
+   "消息队列"
+  ],
+  "content": "Redis 5.0+引入的 持久化消息队列 ，类似Kafka。 特点： 支持消费者组（Consumer Group），类似Kafka的消费组。 消息持久化（AOF/RDB）。 支持ACK和Pending List（确认机制）。 支持范围查询和历史消息回溯。 vs Kafka： Redis Stream更轻量，适合小规模消息。 Kafka吞吐量更高、分区机制更强、适合大数据流。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 30,
+  "title": "Redis 事务（MULTI/EXEC）的特点和局限性？",
+  "tags": [
+   "事务"
+  ],
+  "content": "Redis事务（MULTI→命令队列→EXEC）： 命令 顺序执行 ，中间不插入其他命令（隔离性）。 不支持回滚 ：某条命令语法错误则不执行，运行时错误只影响该命令。 不支持ACID 中的原子性和持久性保证。 WATCH实现乐观锁（CAS版本号校验）。 💡 需要真正原子性操作用Lua脚本，或分布式锁+业务逻辑。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 31,
+  "title": "Redis 热点Key问题如何解决？",
+  "tags": [
+   "热点Key",
+   "高频"
+  ],
+  "content": "发现： 客户端统计、Redis --hotkeys 命令、Proxy层统计。 解决方案： 读写分离： 热点Key分散到多个从节点读取。 本地缓存： 热点数据缓存到JVM本地（Caffeine/Guava）+推模式更新。 Key拆分（二级缓存）： hotkey_1→hotkey_1_1, hotkey_1_2...随机读取，分摊压力。 业务降级： 限流+熔断+兜底数据。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 32,
+  "title": "Redis 大Key问题如何排查和优化？",
+  "tags": [
+   "大Key",
+   "高频"
+  ],
+  "content": "大Key定义： String>10KB，集合元素>1万个。 危害： 网络阻塞、慢查询、内存不均、主从同步慢、扩容迁移困难。 排查： redis-cli --bigkeys 、 MEMORY USAGE key 、scan+debug object。 优化： String：压缩（GZIP）或拆分。 Hash：拆分多个小Hash，按field取模。 List：拆分为多个小List。 大Set/ZSet：用SSCAN/ZSCAN分批处理。 删除时用 UNLINK 异步删除（Redis 4.0+）。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 33,
+  "title": "Redis 6.0/7.0 有哪些重要新特性？",
+  "tags": [
+   "新版本"
+  ],
+  "content": "Redis 6.0： 多线程IO（网络读写多线程）。 ACL（访问控制列表），精细化权限管理。 RESP3协议，支持更丰富的数据类型返回。 SSL/TLS加密通信。 客户端缓存（tracking）。 Redis 7.0： Redis Functions（Lua脚本替代，函数式管理）。 ACL改进（key/command权限粒度更细）。 Sharded Pub/Sub（分片发布订阅，Cluster下真正分布式）。 AOF改进（多部分AOF，RDB时间戳更精确）。 MP-MP（多线程分流）改进。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 34,
+  "title": "Redis 延时队列如何实现？",
+  "tags": [
+   "延时队列"
+  ],
+  "content": "1. ZSet方式： score=执行时间戳，定时任务ZRANGEBYSCORE获取到期任务。 优点：简单可靠。 缺点：定时轮询有时间间隔。 2. Keyspace Notifications + 过期键： 监听key过期事件。 限制：过期事件不一定准时触发（惰性删除+定期删除）。 3. Redisson DelayedQueue： 基于ZSet+订阅通知，封装完善的延时队列。 💡 真正的消息延时推荐RocketMQ（支持18个延迟级别）或RabbitMQ DLX。"
+ },
+ {
+  "module": "Redis 缓存",
+  "file": "Java面试宝典_06_Redis.html",
+  "num": 35,
+  "title": "什么是 Redis 多级缓存架构？",
+  "tags": [
+   "多级缓存",
+   "架构"
+  ],
+  "content": "多级缓存架构从近到远： L1 本地缓存： Caffeine/Guava Cache，毫秒级，JVM内。 L2 分布式缓存： Redis，毫秒~微秒级。 L3 数据库： MySQL，毫秒~秒级。 更新策略： 推模式（DB更新→MQ/Canal→更新Redis→通知应用更新本地缓存）或拉模式（TTL过期后重新加载）。 💡 适合读多写少的场景，写操作多反而增加复杂度。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 1,
+  "title": "Spring IOC 的实现原理？",
+  "tags": [
+   "Spring",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 2,
+  "title": "Spring AOP 的实现原理？",
+  "tags": [
+   "Spring",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 3,
+  "title": "Spring Bean 的生命周期？",
+  "tags": [
+   "Spring",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 4,
+  "title": "Spring 的 Bean 作用域有哪些？",
+  "tags": [
+   "Spring",
+   "基础"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 5,
+  "title": "Spring 事务的实现原理和传播行为？",
+  "tags": [
+   "Spring",
+   "事务"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 6,
+  "title": "Spring 事务失效的场景有哪些？",
+  "tags": [
+   "Spring",
+   "实战"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 7,
+  "title": "SpringBoot 自动配置原理？",
+  "tags": [
+   "SpringBoot",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 8,
+  "title": "SpringBoot 启动流程？",
+  "tags": [
+   "SpringBoot",
+   "源码"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 9,
+  "title": "Spring 中 @Autowired 和 @Resource 的区别？",
+  "tags": [
+   "Spring",
+   "注解"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 10,
+  "title": "MyBatis 中 #{} 和 ${} 的区别？",
+  "tags": [
+   "MyBatis",
+   "安全"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 11,
+  "title": "MyBatis 的一级缓存和二级缓存？",
+  "tags": [
+   "MyBatis",
+   "缓存"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 12,
+  "title": "Dubbo 的工作流程和核心组件？",
+  "tags": [
+   "Dubbo",
+   "RPC"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 13,
+  "title": "Zookeeper 的核心概念和应用场景？",
+  "tags": [
+   "Zookeeper",
+   "分布式协调"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 14,
+  "title": "Spring 的循环依赖是如何解决的？",
+  "tags": [
+   "Spring",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 15,
+  "title": "Spring MVC 的请求处理流程？",
+  "tags": [
+   "SpringMVC",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 16,
+  "title": "Spring 循环依赖是如何解决的？",
+  "tags": [
+   "循环依赖",
+   "高频"
+  ],
+  "content": "Spring通过 三级缓存 解决单例setter注入的循环依赖： singletonObjects（一级）： 完全初始化好的Bean。 earlySingletonObjects（二级）： 早期暴露的半成品Bean。 singletonFactories（三级）： ObjectFactory，可生成Bean的早期引用。 流程： A创建→实例化→放入三级缓存→填充属性发现需要B→B创建→填充属性需要A→从三级缓存获取A的早期引用→B完成→A拿到B完成。 💡 不能解决构造器注入的循环依赖（因为实例化阶段就需要依赖）。Prototype作用域也不支持。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 17,
+  "title": "Spring Boot 自动配置原理？",
+  "tags": [
+   "SpringBoot",
+   "高频"
+  ],
+  "content": "核心注解 @SpringBootApplication 包含三个关键注解： @EnableAutoConfiguration： 通过 @Import(AutoConfigurationImportSelector.class) 加载 META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports （Spring Boot 2.7+）或 spring.factories 中的配置类。 根据 @Conditional 系列注解（如@ConditionalOnClass、@ConditionalOnMissingBean）决定是否生效。 💡 自定义Starter：创建autoconfigure模块→编写配置类→在imports文件中注册。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 18,
+  "title": "Spring Bean 的生命周期？（详细版）",
+  "tags": [
+   "生命周期",
+   "高频"
+  ],
+  "content": "实例化（构造函数/工厂方法）。 属性填充（依赖注入）。 BeanNameAware.setBeanName()。 BeanFactoryAware.setBeanFactory()。 ApplicationContextAware.setApplicationContext()。 BeanPostProcessor.postProcessBeforeInitialization()。 @PostConstruct / InitializingBean.afterPropertiesSet()。 自定义init-method。 BeanPostProcessor.postProcessAfterInitialization()（AOP在此生成代理）。 Bean就绪，可使用。 @PreDestroy / DisposableBean.destroy()。 自定义destroy-method。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 19,
+  "title": "FactoryBean 和 BeanFactory 的区别？",
+  "tags": [
+   "Spring"
+  ],
+  "content": "对比 BeanFactory FactoryBean 角色 IOC容器，管理Bean 创建复杂Bean的工厂 方法 getBean()获取Bean getObject()返回Bean实例 典型 DefaultListableBeanFactory SqlSessionFactoryBean、MyBatis MapperProxy 💡 &factoryBeanName 获取FactoryBean本身， factoryBeanName 获取getObject()产生的Bean。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 20,
+  "title": "Spring 事务传播行为有哪些？",
+  "tags": [
+   "事务",
+   "高频"
+  ],
+  "content": "7种传播行为（Propagation）： REQUIRED（默认）： 有则加入，无则新建。最常用。 REQUIRES_NEW： 挂起当前，新建事务。内部和外部事务独立。 SUPPORTS： 有则加入，无则非事务运行。 NOT_SUPPORTED： 非事务运行，挂起当前事务。 MANDATORY： 必须有事务，无则抛异常。 NEVER： 必须非事务，有则抛异常。 NESTED： 嵌套事务，内部事务依赖外部事务（savepoint回滚）。 💡 REQUIRES_NEW完全独立，外部回滚不影响内部；NESTED外部回滚会回滚内部。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 21,
+  "title": "Spring 事务失效的常见场景？",
+  "tags": [
+   "事务",
+   "超高频"
+  ],
+  "content": "自调用： 同类中方法A（无事务）调方法B（有事务），B的事务不生效→因为是this调用不走代理。解决：AopContext.currentProxy()或注入自己。 非public方法： 默认CGLIB/JDK只能代理public方法。 异常被吞： catch后未抛出，事务不回滚。 非RuntimeException： 默认只回滚RuntimeException和Error，受检异常需 @Transactional(rollbackFor = Exception.class) 。 数据库引擎不支持： MyISAM不支持事务。 多线程： 不同线程不在同一事务上下文。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 22,
+  "title": "MyBatis 的 #{} 和 ${} 区别？底层原理？",
+  "tags": [
+   "MyBatis",
+   "高频"
+  ],
+  "content": "#{}： 预编译占位符 ? ，底层是PreparedStatement 参数化查询 防SQL注入。类型处理器(TypeHandler)做参数映射。 ${}： 字符串拼接，直接替换到SQL中 有注入风险。仅用于动态表名、列名、ORDER BY等无法预编译场景。 💡 #{}替换为?由JDBC驱动最终处理，${}直接由MyBatis替换。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 23,
+  "title": "MyBatis 一级缓存和二级缓存的区别？",
+  "tags": [
+   "MyBatis",
+   "缓存"
+  ],
+  "content": "对比 一级缓存 二级缓存 范围 SqlSession级别 Mapper(Namespace)级别 默认 开启（不可关） 需手动配置 共享 同一SqlSession内 跨SqlSession 数据一致性 SqlSession关闭/更新后清空 commit后更新，脏读风险 💡 二级缓存有 脏读风险 （其他namespace更新了同一张表），生产环境慎用！推荐用Redis等分布式缓存替代。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 24,
+  "title": "MyBatis 插件（Interceptor）原理？分页插件怎么实现的？",
+  "tags": [
+   "MyBatis",
+   "插件"
+  ],
+  "content": "MyBatis插件基于 动态代理（JDK Proxy） ，拦截4大对象： Executor（执行器，CRUD）。 ParameterHandler（参数处理）。 ResultSetHandler（结果集处理）。 StatementHandler（SQL构建）。 PageHelper分页原理： 拦截Executor.query()。 ThreadLocal获取分页参数。 先执行 SELECT COUNT(*) 查总数。 再拼接 LIMIT offset, size 查分页数据。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 25,
+  "title": "Dubbo 的核心原理和调用流程？",
+  "tags": [
+   "Dubbo",
+   "RPC"
+  ],
+  "content": "Dubbo是高性能RPC框架，核心流程： 注册： Provider向Registry注册服务。 订阅： Consumer从Registry订阅服务（拉取+监听变更）。 调用： Consumer通过动态代理（Proxy）发起远程调用→经过Filter链→负载均衡选择Provider→Netty网络传输→Provider反序列化→执行→返回。 监控： Monitor统计调用次数和耗时。 注册中心： ZooKeeper（默认）、Nacos、Redis、Consul。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 26,
+  "title": "Dubbo 负载均衡策略有哪些？",
+  "tags": [
+   "Dubbo",
+   "负载均衡"
+  ],
+  "content": "Random（默认）： 加权随机，按权重随机。 RoundRobin： 加权轮询。 LeastActive： 最少活跃调用数（处理快的节点分配更多）。 ConsistentHash： 一致性Hash，相同参数的请求始终发到同一Provider。 ShortestResponse： 最短响应时间（Dubbo 2.7+）。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 27,
+  "title": "Dubbo 的集群容错策略有哪些？",
+  "tags": [
+   "Dubbo",
+   "容错"
+  ],
+  "content": "Failfast： 快速失败，立即抛异常。适合非幂等写操作。 Failsafe： 失败安全，忽略异常。适合写入日志。 Failover（默认）： 失败自动切换重试（默认2次+本机1次=3次）。适合幂等读操作。 Failback： 失败自动恢复，后台定时重发。 Forking： 并行调用多个Provider，一个成功即返回。 Broadcast： 广播调用所有Provider，一个失败即失败。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 28,
+  "title": "Netty 的线程模型和零拷贝？",
+  "tags": [
+   "Netty",
+   "高频"
+  ],
+  "content": "Reactor主从模型： Boss Group（1个NioEventLoop）： 接收连接，注册Channel到Worker。 Worker Group（CPU*2个NioEventLoop）： 处理读写IO和业务逻辑。 每个NioEventLoop绑定一个Selector和一条线程。 零拷贝（Zero Copy）： FileRegion： transferTo()操作系统级零拷贝（DMA拷贝）。 CompositeByteBuf： 逻辑组合多个ByteBuf，无物理拷贝。 Unpooled.wrappedBuffer： 包装字节数组，不拷贝。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 29,
+  "title": "@Autowired 和 @Resource 的区别？",
+  "tags": [
+   "Spring",
+   "依赖注入"
+  ],
+  "content": "对比 @Autowired @Resource 来源 Spring JSR-250（JDK标准） 注入方式 默认byType 默认byName 配合 +@Qualifier指定名称 name属性指定 位置 构造器/字段/setter 字段/setter（不支持构造器）"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 30,
+  "title": "Spring MVC 处理请求的完整流程？",
+  "tags": [
+   "SpringMVC",
+   "高频"
+  ],
+  "content": "请求到达 DispatcherServlet 。 HandlerMapping找到对应 Handler（Controller+方法） 。 HandlerAdapter适配调用Handler。 Handler执行前：拦截器preHandle()→参数解析（HandlerMethodArgumentResolver）→反射调用Controller方法。 返回值处理（HandlerMethodReturnValueHandler），如@ResponseBody→HttpMessageConverter序列化。 拦截器postHandle()→afterCompletion()。 响应返回。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 31,
+  "title": "@SpringBootApplication 注解包含哪些注解？",
+  "tags": [
+   "SpringBoot"
+  ],
+  "content": "@SpringBootApplication是复合注解，包含： @SpringBootConfiguration： 标识为配置类（含@Configuration）。 @EnableAutoConfiguration： 自动配置核心。 @ComponentScan： 组件扫描（扫描启动类所在包及子包下的@Component等）。 这3个注解的组合封装，简化了Spring Boot应用的启动配置。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 32,
+  "title": "Spring 事件监听机制？",
+  "tags": [
+   "Spring",
+   "事件"
+  ],
+  "content": "基于 观察者模式 ，三个核心角色： 事件： ApplicationEvent（如ContextRefreshedEvent）。 发布者： ApplicationEventPublisher（ApplicationContext实现了）。 监听者： ApplicationListener（或用@EventListener注解）。 默认同步执行 ，可通过 @Async + @EnableAsync 实现异步事件。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 33,
+  "title": "MyBatis 的执行流程？",
+  "tags": [
+   "MyBatis",
+   "高频"
+  ],
+  "content": "加载mybatis-config.xml和Mapper.xml→SqlSessionFactoryBuilder→SqlSessionFactory。 SqlSessionFactory.openSession()→SqlSession。 SqlSession.getMapper()→动态代理（MapperProxy）。 调用Mapper方法→MapperProxy拦截→查找MappedStatement。 Executor执行（经过一级/二级缓存→插件拦截→StatementHandler→ParameterHandler→JDBC执行）。 ResultSetHandler处理结果集→返回。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 34,
+  "title": "Spring Boot Starter 原理？如何自定义Starter？",
+  "tags": [
+   "Starter"
+  ],
+  "content": "原理： Spring Boot通过@EnableAutoConfiguration扫描引入的Starter，Conditional条件判断，自动装配Bean。 自定义Starter步骤： 创建autoconfigure模块：写配置类+Properties类。 在 META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports 中注册配置类。 创建starter模块：只含pom.xml，引入autoconfigure模块。 使用者只需引入starter依赖，配置yml即可自动装配。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 35,
+  "title": "Spring 中的设计模式有哪些？",
+  "tags": [
+   "设计模式",
+   "Spring"
+  ],
+  "content": "单例模式： Spring Bean默认单例。 工厂模式： BeanFactory/ApplicationContext。 代理模式： AOP（JDK/CGLIB代理）。 模板方法： JdbcTemplate、RestTemplate。 观察者模式： ApplicationListener事件监听。 适配器模式： HandlerAdapter、AdvisorAdapter。 策略模式： InstantiationStrategy、Resource实现。 装饰器模式： BeanWrapper、ServerHttpRequestDecorator。 责任链模式： Filter Chain、AOP通知链。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 36,
+  "title": "Spring AOP 的原理？JDK代理和CGLIB代理的区别？",
+  "tags": [
+   "AOP",
+   "高频"
+  ],
+  "content": "AOP基于 动态代理 ，在BeanPostProcessor.postProcessAfterInitialization中创建代理。 JDK动态代理： 目标类必须实现接口。 基于反射+接口，生成Proxy$类。 性能略低（反射调用）。 CGLIB代理： 基于ASM字节码，生成子类。 不需要接口，但不能代理final类/方法。 性能略高（直接方法调用）。 💡 Spring Boot 2.x默认使用CGLIB。@EnableAspectJAutoProxy(proxyTargetClass=true)强制CGLIB。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 37,
+  "title": "Dubbo 服务暴露和服务引入流程？",
+  "tags": [
+   "Dubbo",
+   "深入"
+  ],
+  "content": "服务暴露： Spring容器刷新→ServiceBean.onApplicationEvent→export()。 服务配置转URL→适配协议(dubbo/http等)→开启Netty服务器监听端口。 注册到注册中心(ZooKeeper/Nacos)。 服务引入： ReferenceBean.getObject()→init()。 连接注册中心→订阅服务→获取Provider列表。 动态代理生成接口实现类（InvokerInvocationHandler）。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 38,
+  "title": "Spring Boot 如何实现优雅停机？",
+  "tags": [
+   "SpringBoot",
+   "运维"
+  ],
+  "content": "Spring Boot 2.3+支持优雅停机： server.shutdown=graceful spring.lifecycle.timeout-per-shutdown-phase=30s 原理： 收到SIGTERM→不再接受新请求→等待现有请求处理完→关闭容器。 配合K8s的preStop hook，实现滚动更新不丢流量。 Spring Boot Actuator的 /actuator/shutdown 端点也可管理。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 39,
+  "title": "Netty 解决 TCP 粘包/拆包方案？",
+  "tags": [
+   "Netty",
+   "粘包"
+  ],
+  "content": "Netty提供多种 解码器 解决粘包/拆包： FixedLengthFrameDecoder： 定长消息。 LineBasedFrameDecoder： 换行符分隔。 DelimiterBasedFrameDecoder： 自定义分隔符。 LengthFieldBasedFrameDecoder： 消息头包含长度字段（最常用）。 自定义协议： 魔数+长度+数据+校验。"
+ },
+ {
+  "module": "框架",
+  "file": "Java面试宝典_07_框架.html",
+  "num": 40,
+  "title": "@Configuration 和 @Component 的区别？full模式和lite模式？",
+  "tags": [
+   "Spring",
+   "Bean"
+  ],
+  "content": "@Configuration（full模式）： 通过CGLIB增强，确保 @Bean方法内部调用 仍然走容器（单例）。 @Component（lite模式）： 不走CGLIB代理，内部调用@Bean方法会创建新实例。 @Configuration // full模式 public class Config { @Bean A a() { return new A(b()); } // b()走代理，同一实例 @Bean B b() { return new B(); } } @Component // lite模式 // a()中b()不会走代理，new新B()"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 1,
+  "title": "CAP 理论是什么？BASE 理论呢？",
+  "tags": [
+   "分布式",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 2,
+  "title": "什么是分布式事务？解决方案有哪些？",
+  "tags": [
+   "分布式",
+   "事务"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 3,
+  "title": "分布式 ID 生成方案有哪些？",
+  "tags": [
+   "分布式",
+   "实战"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 4,
+  "title": "消息队列的作用？如何保证消息不丢失？",
+  "tags": [
+   "MQ",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 5,
+  "title": "如何保证消息不重复消费？",
+  "tags": [
+   "MQ",
+   "幂等"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 6,
+  "title": "Kafka、RocketMQ、RabbitMQ 的区别？",
+  "tags": [
+   "MQ",
+   "对比"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 7,
+  "title": "常见的设计模式有哪些？",
+  "tags": [
+   "设计模式",
+   "经典"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 8,
+  "title": "单例模式有哪几种实现方式？",
+  "tags": [
+   "设计模式",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 9,
+  "title": "TCP 三次握手和四次挥手？",
+  "tags": [
+   "网络",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 10,
+  "title": "HTTP 和 HTTPS 的区别？HTTPS 加密过程？",
+  "tags": [
+   "网络",
+   "安全"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 11,
+  "title": "如何设计一个秒杀系统？",
+  "tags": [
+   "系统设计",
+   "实战"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 12,
+  "title": "限流算法有哪些？",
+  "tags": [
+   "限流",
+   "算法"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 13,
+  "title": "什么是服务雪崩？如何解决？",
+  "tags": [
+   "微服务",
+   "高频"
+  ],
+  "content": "服务雪崩： 一个服务故障→调用方阻塞等待→调用方资源耗尽→级联故障→整个系统崩溃。 解决方案（Hystrix/Sentinel/Resilience4j）： 熔断（Circuit Breaker）： 错误率达标→快速失败→定期探测恢复。 降级（Fallback）： 备用逻辑（返回默认值/缓存/提示）。 限流（Rate Limiter）： 控制请求速率，超过则拒绝。 隔离： 线程池隔离/信号量隔离，避免资源争抢。 超时： 设置合理超时，快速释放资源。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 14,
+  "title": "Sentinel 和 Hystrix 的对比？",
+  "tags": [
+   "限流",
+   "熔断"
+  ],
+  "content": "对比 Sentinel Hystrix 来源 阿里巴巴 Netflix（已停更） 限流 直接支持QPS/线程数/关联/链路 信号量/线程池 规则 动态配置，实时生效 需代码配置 控制台 功能强大的Dashboard Hystrix Dashboard 自适应 系统自适应保护 不支持 💡 国内主流选Sentinel，配合Spring Cloud Alibaba生态。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 15,
+  "title": "Nacos 的 CAP 模型是怎样的？如何实现？",
+  "tags": [
+   "Nacos",
+   "CAP"
+  ],
+  "content": "Nacos同时作为 注册中心和配置中心 ，支持 AP 和 CP 切换： 注册中心： 临时实例(live=true)：AP（Distro协议），宕机自动剔除。 持久化实例(live=false)：CP（Raft协议），数据一致性优先。 配置中心： CP（强一致），数据不能错。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 16,
+  "title": "分布式锁的实现方案对比？（Redis vs ZK vs Etcd）",
+  "tags": [
+   "分布式锁",
+   "高频"
+  ],
+  "content": "方案 原理 优点 缺点 Redis SETNX+EXPIRE 性能高 主从切换可能丢锁 ZooKeeper 临时顺序节点 强一致、自动释放 性能较差、羊群效应 Etcd Lease+事务 强一致、Watch机制 生态较小 MySQL 行锁+唯一索引 简单 性能差 💡 高并发选Redis，强一致选ZK/Etcd。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 17,
+  "title": "ZooKeeper 的选举机制（ZAB协议）？",
+  "tags": [
+   "ZK",
+   "选举"
+  ],
+  "content": "ZAB（ZooKeeper Atomic Broadcast）实现一致性： Leader选举： 节点状态：LOOKING→LEADING/FOLLOWING。 比较规则：先比 Epoch（任期） →再比 ZXID（事务ID） →最后比 SID（节点ID） 。 超过半数投票即当选。 数据同步： Leader将提案Proposal发给Followers→过半ACK→提交。 💡 ZK集群建议奇数台（3/5/7）。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 18,
+  "title": "分布式Session如何解决？",
+  "tags": [
+   "分布式",
+   "Session"
+  ],
+  "content": "Session粘性（IP Hash）： Nginx ip_hash，同一用户固定到同一服务器（不推荐）。 Session复制： Tomcat Cluster，间节点复制（内存开销大）。 集中存储（推荐）： Redis存储Session，Spring Session统一管理。 无状态JWT： 用Token替代Session（推荐）。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 19,
+  "title": "Kafka 如何保证消息不丢失？",
+  "tags": [
+   "Kafka",
+   "消息队列"
+  ],
+  "content": "三端保证： Producer： acks=all（所有副本确认）+ retries>0 + 幂等性enable.idempotence=true。 Broker： replication.factor≥3 + min.insync.replicas≥2 + unclean.leader.election.enable=false。 Consumer： 手动提交offset（处理完再commit）+ 关闭自动提交enable.auto.commit=false。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 20,
+  "title": "Kafka 如何保证消息不重复消费？",
+  "tags": [
+   "Kafka",
+   "幂等"
+  ],
+  "content": "消费者幂等处理（核心）： 业务层唯一键（订单号+业务类型）去重→Redis/DB记录已处理消息。 Producer幂等： enable.idempotence=true（PID+SequenceNumber去重）。 事务消息： Kafka事务（但实际上不解决消费端重复）。 💡 重点：Kafka只能保证至少一次（at least once），消费端自己实现幂等！"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 21,
+  "title": "Kafka ISR 是什么？min.insync.replicas的作用？",
+  "tags": [
+   "Kafka",
+   "ISR"
+  ],
+  "content": "ISR（In-Sync Replicas）： 与Leader保持同步的副本集合。同步条件是replica.lag.time.max.ms内追上Leader。 min.insync.replicas： 最少同步副本数。 配合acks=all使用，确保消息至少写入ISR中这么多副本。 设为≥2可保证Leader宕机不丢数据。 ISR数量"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 22,
+  "title": "RabbitMQ 如何保证消息不丢失？",
+  "tags": [
+   "RabbitMQ"
+  ],
+  "content": "Producer→Exchange： Publisher Confirm机制（confirmCallback）。 Exchange→Queue： mandatory=true + returnCallback（消息退回处理）。 Queue→Broker持久化： Queue、Message都持久化（delivery_mode=2）。 Consumer： 手动ACK（acknowledge-mode: manual），处理完再ack。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 23,
+  "title": "RabbitMQ 死信队列和延迟队列？",
+  "tags": [
+   "RabbitMQ"
+  ],
+  "content": "死信（DLX Dead Letter Exchange）： 消息被拒绝+NACK+不重回队列、消息TTL过期、队列满时进入DLX。 延迟队列： 设置消息TTL+死信队列实现。消息发到设置了TTL的队列→过期后→进入DLX→消费者监听DLX绑定的队列。 注意： 不同TTL的消息可能不按预期顺序消费（队列头消息TTL最长会阻塞后面的）。可用插件 rabbitmq_delayed_message_exchange 精确延迟。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 24,
+  "title": "ES 写入数据和搜索数据的流程？",
+  "tags": [
+   "ES",
+   "深入"
+  ],
+  "content": "写入流程： 请求到协调节点→路由到目标分片（hash(routing/doc_id) % num_primary_shards）。 写入主分片→主分片同步到副本分片→客户端确认。 先写translog→再写内存buffer→refresh(默认1s)后生成segment→可搜索。 translog大到阈值→flush到磁盘→清空translog。 搜索流程（两阶段）： Query Phase： 协调节点广播到所有分片→各分片返回(size+from)条文档ID+排序值。 Fetch Phase： 协调节点排序后，根据ID去对应分片获取完整文档。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 25,
+  "title": "ES 倒排索引原理？",
+  "tags": [
+   "ES",
+   "高频"
+  ],
+  "content": "倒排索引： 词项(Term)→文档列表 的映射。 结构： Term Dictionary： 排序的词项目录（B-Tree/Trie，快速定位）。 Posting List： 每个Term对应的文档ID列表（跳跃表Skip List加速交集/并集运算）。 Term Index： Term Dictionary的索引（FST有限状态转换器，压缩高效查找前缀）。 搜索\"Java框架\"→分词为Java+框架→分别查倒排索引→取文档ID交集→返回结果。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 26,
+  "title": "TCP 三次握手和四次挥手？",
+  "tags": [
+   "网络",
+   "基础"
+  ],
+  "content": "三次握手： 客户端→SYN=1, seq=x →服务器（SYN_SENT）。 服务器→SYN=1, ACK=1, seq=y, ack=x+1 →客户端（SYN_RCVD）。 客户端→ACK=1, seq=x+1, ack=y+1 →服务器（ESTABLISHED）。 为什么是三次？ 防止已失效的连接请求到达服务器（历史SYN）。 四次挥手： 客户端→FIN→服务器（FIN_WAIT1）。 服务器→ACK→客户端（CLOSE_WAIT）。 服务器→FIN→客户端（LAST_ACK）。 客户端→ACK→服务器（TIME_WAIT, 2MSL后CLOSE）。 💡 TIME_WAIT=2MSL，确保最后的ACK能重传到对端。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 27,
+  "title": "HTTP 和 HTTPS 的区别？HTTPS 握手流程？",
+  "tags": [
+   "网络",
+   "HTTPS"
+  ],
+  "content": "区别： HTTPS = HTTP + SSL/TLS，加密传输。端口443（HTTP为80）。需要CA证书。 TLS 1.2握手（简化）： Client Hello：支持的加密套件+随机数。 Server Hello：选定的加密套件+随机数+证书。 客户端验证证书，生成PreMasterSecret（公钥加密）。 双方从3个随机数生成会话密钥（对称加密）。 Finished确认握手完成。 💡 TLS 1.3只需1-RTT，比1.2少一轮。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 28,
+  "title": "Cookie、Session、Token（JWT）的区别？",
+  "tags": [
+   "认证",
+   "高频"
+  ],
+  "content": "Cookie： 存客户端浏览器，每次请求自动带上，有跨域限制，4KB限制。 Session： 存服务端，Cookie存SessionID关联。分布式需共享存储。 Token（JWT）： 无状态，客户端存储（localStorage/header），服务端无存储压力，适合分布式和移动端。 💡 JWT注意：Payload不加密（base64），敏感信息不存。设置合理过期时间+refreshToken机制。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 29,
+  "title": "设计模式六大原则（SOLID）是什么？",
+  "tags": [
+   "设计模式",
+   "基础"
+  ],
+  "content": "S 单一职责： 一个类只负责一件事。 O 开闭原则： 对扩展开放，对修改关闭。 L 里氏替换： 子类可以替换父类（子类不改变父类行为）。 I 接口隔离： 接口尽量小，不强迫实现不需要的方法。 D 依赖倒置： 依赖抽象而非具体实现（面向接口编程）。 💡 还有：迪米特法则（最少知识）、合成复用原则（组合优于继承）。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 30,
+  "title": "单例模式的多种实现及优缺点？",
+  "tags": [
+   "设计模式",
+   "高频"
+  ],
+  "content": "饿汉式： 类加载时就创建。线程安全，但可能浪费内存。 懒汉式（加锁）： synchronized getInstance()。线程安全但效率低。 DCL（双重检查锁）： volatile+两次null检查。高效、推荐。 静态内部类： 利用JVM类加载机制，延迟加载+线程安全。最优雅。 枚举： 天然单例、防反射、防反序列化。Effective Java推荐。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 31,
+  "title": "工厂模式和抽象工厂模式的区别？",
+  "tags": [
+   "设计模式"
+  ],
+  "content": "对比 工厂方法 抽象工厂 产品 单一产品 产品族（多个相关产品） 层级 一个工厂接口 工厂的工厂 扩展 增加产品=加具体工厂 增加产品族=加具体工厂 💡 工厂方法：BeanFactory。抽象工厂：Swing的LookAndFeel（一套按钮+文本框+菜单风格）。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 32,
+  "title": "观察者模式和发布-订阅模式的区别？",
+  "tags": [
+   "设计模式"
+  ],
+  "content": "观察者模式： Subject直接维护Observer列表，Subject和Observer松耦合。同步直接调用。 发布-订阅模式： Publisher和Subscriber通过 Broker/EventBus 解耦，互不知道对方。异步间接通信。 💡 MQ是典型的发布-订阅模式。Spring的ApplicationListener是观察者模式。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 33,
+  "title": "策略模式和模板方法模式的区别？",
+  "tags": [
+   "设计模式"
+  ],
+  "content": "策略模式： 定义一系列算法，可 互相替换 。客户端选择策略。如支付方式（微信/支付宝）。 模板方法： 定义算法 骨架 ，子类实现具体步骤。父类控制流程。如JdbcTemplate、AbstractList。 💡 策略重在选择（多选一），模板方法重在流程（固定流程+可变步骤）。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 34,
+  "title": "Seata 分布式事务的几种模式？",
+  "tags": [
+   "Seata",
+   "分布式事务"
+  ],
+  "content": "AT模式（默认）： 自动补偿，无侵入。需要undo_log表。基于全局锁+数据库本地事务隔离。 TCC模式： 手动定义Try-Confirm-Cancel，性能高但编码复杂。 Saga模式： 长事务，正向执行+反向补偿。适合老系统。 XA模式： 数据库层面2PC，需数据库支持XA协议。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 35,
+  "title": "API 网关的作用和常见选型？",
+  "tags": [
+   "网关",
+   "微服务"
+  ],
+  "content": "作用： 统一入口、路由转发、鉴权认证、限流熔断、日志监控、灰度发布、协议转换。 常见选型： Spring Cloud Gateway： 响应式、非阻塞、Spring生态好。国内首选。 Zuul 2： Netflix，非阻塞。 Kong： 基于OpenResty/Nginx，插件丰富。 Nginx+Lua/OpenResty： 高性能、灵活。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 36,
+  "title": "Linux 常用命令有哪些？（排查问题相关）",
+  "tags": [
+   "Linux",
+   "运维"
+  ],
+  "content": "系统： top、free -h、df -h、uname -a、uptime。 进程： ps -ef、lsof -p pid、netstat -tlnp、ss -tlnp。 文件： tail -f、less、grep、find、du -sh。 磁盘IO： iostat -x 1、vmstat 1。 网络： curl、ping、traceroute、telnet、nc。 日志排查： grep 'ERROR' app.log | tail -50、awk、sed。 权限： chmod、chown、ls -la。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 37,
+  "title": "OAuth 2.0 和 SSO 单点登录原理？",
+  "tags": [
+   "认证",
+   "OAuth2"
+  ],
+  "content": "OAuth 2.0四种授权模式： 授权码模式（最安全）： 第三方→授权服务器→获取授权码→换AccessToken。适用于有后端的应用。 隐式模式： 直接返回Token（已不推荐）。 密码模式： 用户直接把密码给第三方（内部系统登录）。 客户端凭证： 服务器间调用。 SSO原理： 多个系统共用认证中心（CAS）。A系统登录→认证中心建Session+发Ticket→B系统校验Ticket→免登录。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 38,
+  "title": "Git 常用操作和常见问题？",
+  "tags": [
+   "Git",
+   "工具"
+  ],
+  "content": "常用操作： clone、pull、push、branch、checkout、merge、rebase、stash、cherry-pick、reset、revert。 合并冲突： 冲突标记解决→git add→git merge --continue。 代码回滚： git revert（安全，新建commit）vs git reset（重置指针，慎用--hard）。 分支策略： Git Flow（main/develop/feature/release/hotfix）、GitHub Flow（main+feature分支）、Trunk-Based。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 39,
+  "title": "DDD 领域驱动设计核心概念？",
+  "tags": [
+   "DDD",
+   "架构"
+  ],
+  "content": "核心概念： 实体(Entity)： 有唯一标识，可变。 值对象(Value Object)： 无唯一标识，不可变（如地址、金额）。 聚合(Aggregate)： 一组相关对象的集合，聚合根是入口。 仓储(Repository)： 领域对象的持久化接口。 领域服务： 不适合放在实体/值对象中的业务逻辑。 领域事件： 领域内发生的有意义事件。 限界上下文(Bounded Context)： 领域模型的边界，微服务拆分的依据。"
+ },
+ {
+  "module": "分布式 & 其他",
+  "file": "Java面试宝典_08_分布式&其他.html",
+  "num": 40,
+  "title": "Maven 依赖传递和冲突解决？",
+  "tags": [
+   "Maven",
+   "构建"
+  ],
+  "content": "依赖传递： 引入A→A依赖B→B也被引入。scope影响传递（compile可传，provided/test不传）。 冲突解决： 最短路径优先： A→B→C(1.0) > A→D→E→C(2.0) →选C(1.0)。 第一声明优先： 同路径深度，先声明的依赖优先。 手动排除： <exclusions><exclusion> 排除不需要的传递依赖。 指定版本： <dependencyManagement> 统一管理版本。 mvn dependency:tree 查看依赖树，定位冲突。"
+ }
 ]

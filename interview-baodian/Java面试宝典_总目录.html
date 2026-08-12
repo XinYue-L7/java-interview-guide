@@ -264,12 +264,28 @@ function doSearch(q){
   if(!q){showHistory();return;}
   if(!searchReady){dd.innerHTML='<div class="search-empty">搜索索引加载中，请稍候...</div>';dd.classList.add('show');return;}
   var keywords=q.split(/\s+/).filter(function(x){return x.length>0;});
-  function match(item,term){
-    var t=item.title.toLowerCase();
-    var m=item.module.toLowerCase();
-    var g=(item.tags||[]).join(' ').toLowerCase();
-    return t.indexOf(term)!==-1 || m.indexOf(term)!==-1 || g.indexOf(term)!==-1;
-  }
+function match(item,term){
+  var t=item.title.toLowerCase();
+  var m=item.module.toLowerCase();
+  var g=(item.tags||[]).join(' ').toLowerCase();
+  var c=(item.content||'').toLowerCase();
+  return t.indexOf(term)!==-1 || m.indexOf(term)!==-1 || g.indexOf(term)!==-1 || c.indexOf(term)!==-1;
+}
+// 计算每条结果的相关度分数（标题>标签>内容）
+function score(item,keywords){
+  var t=item.title.toLowerCase();
+  var m=item.module.toLowerCase();
+  var g=(item.tags||[]).join(' ').toLowerCase();
+  var c=(item.content||'').toLowerCase();
+  var s=0;
+  keywords.forEach(function(k){
+    if(t.indexOf(k)!==-1)s+=10;
+    if(g.indexOf(k)!==-1)s+=5;
+    if(c.indexOf(k)!==-1)s+=2;
+    if(m.indexOf(k)!==-1)s+=1;
+  });
+  return s;
+}
   // 1. 精确 AND 匹配（每个关键词都要命中）
   var results=searchIndex.filter(function(item){
     return keywords.every(function(term){return match(item,term);});
@@ -288,12 +304,18 @@ function doSearch(q){
     });
   }
   if(!results.length){dd.innerHTML='<div class="search-empty">未找到相关题目</div>';dd.classList.add('show');return;}
+  // 4. 按相关度排序（标题命中优先），然后按题号
+  results.sort(function(a,b){
+    var sa=score(a,keywords),sb=score(b,keywords);
+    if(sa!==sb)return sb-sa;
+    return a.num-b.num;
+  });
   dd.innerHTML=results.slice(0,20).map(function(item){
     return '<a class="search-item" href="'+item.file+'?q='+item.num+'" target="_blank"><div class="search-item-title">'+escapeHtml(item.title)+'</div><div class="search-item-module">'+escapeHtml(item.module)+' · 第 '+item.num+' 题</div></a>';
   }).join('');
   dd.classList.add('show');
 }
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=4')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=5')}</script>
 </body>
 </html>

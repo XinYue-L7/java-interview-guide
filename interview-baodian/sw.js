@@ -2,7 +2,7 @@
 // 策略：运行时缓存（不预缓存），避免中文URL编码不一致问题
 // 配合服务器 Cache-Control 头，双重保障离线可用
 
-var CACHE_NAME = 'interview-baodian-v4';
+var CACHE_NAME = 'interview-baodian-v5';
 
 // 安装：立即接管，不等待旧SW
 self.addEventListener('install', function(e) {
