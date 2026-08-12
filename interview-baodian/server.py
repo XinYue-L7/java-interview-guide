@@ -10,8 +10,10 @@ import sys
 PORT = 9876
 DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 需要长期缓存的静态文件扩展名
-CACHE_EXTS = {'.html', '.js', '.json', '.css', '.svg', '.png', '.jpg', '.ico', '.woff2', '.woff', '.ttf'}
+# 静态资源（可长期缓存）：图标、图片、样式
+STATIC_EXTS = {'.css', '.svg', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', '.ttf'}
+# 代码/数据（短缓存，确保 SW + 浏览器拿到最新版）
+LIVE_EXTS = {'.html', '.js', '.json'}
 
 class CachingHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -22,9 +24,12 @@ class CachingHandler(http.server.SimpleHTTPRequestHandler):
         _, ext = os.path.splitext(path)
         ext = ext.lower()
 
-        if ext in CACHE_EXTS:
-            # 静态资源缓存24小时（离线可用）
-            self.send_header('Cache-Control', 'max-age=86400, public, immutable')
+        if ext in STATIC_EXTS:
+            # 图标/字体等静态资源：缓存24小时（离线用）
+            self.send_header('Cache-Control', 'max-age=86400, public')
+        elif ext in LIVE_EXTS:
+            # HTML/JS/JSON：不缓存，确保浏览器总是拿到最新代码（SW 兜底离线）
+            self.send_header('Cache-Control', 'no-cache, must-revalidate')
         else:
             self.send_header('Cache-Control', 'no-cache')
 
