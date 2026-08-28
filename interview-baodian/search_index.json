@@ -2407,441 +2407,6 @@
     "content": "多级缓存架构从近到远： L1 本地缓存： Caffeine/Guava Cache，毫秒级，JVM内。 L2 分布式缓存： Redis，毫秒~微秒级。 L3 数据库： MySQL，毫秒~秒级。 更新策略： 推模式（DB更新→MQ/Canal→更新Redis→通知应用更新本地缓存）或拉模式（TTL过期后重新加载）。 💡 适合读多写少的场景，写操作多反而增加复杂度。"
   },
   {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 1,
-    "title": "CAP 理论是什么？BASE 理论呢？",
-    "tags": [
-      "分布式",
-      "高频"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 2,
-    "title": "什么是分布式事务？解决方案有哪些？",
-    "tags": [
-      "分布式",
-      "事务"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 3,
-    "title": "分布式 ID 生成方案有哪些？",
-    "tags": [
-      "分布式",
-      "实战"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 4,
-    "title": "消息队列的作用？如何保证消息不丢失？",
-    "tags": [
-      "MQ",
-      "高频"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 5,
-    "title": "如何保证消息不重复消费？",
-    "tags": [
-      "MQ",
-      "幂等"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 6,
-    "title": "Kafka、RocketMQ、RabbitMQ 的区别？",
-    "tags": [
-      "MQ",
-      "对比"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 7,
-    "title": "常见的设计模式有哪些？",
-    "tags": [
-      "设计模式",
-      "经典"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 8,
-    "title": "单例模式有哪几种实现方式？",
-    "tags": [
-      "设计模式",
-      "高频"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 9,
-    "title": "TCP 三次握手和四次挥手？",
-    "tags": [
-      "网络",
-      "高频"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 10,
-    "title": "HTTP 和 HTTPS 的区别？HTTPS 加密过程？",
-    "tags": [
-      "网络",
-      "安全"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 11,
-    "title": "如何设计一个秒杀系统？",
-    "tags": [
-      "系统设计",
-      "实战"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 12,
-    "title": "限流算法有哪些？",
-    "tags": [
-      "限流",
-      "算法"
-    ],
-    "content": ""
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 13,
-    "title": "什么是服务雪崩？如何解决？",
-    "tags": [
-      "微服务",
-      "高频"
-    ],
-    "content": "服务雪崩： 一个服务故障→调用方阻塞等待→调用方资源耗尽→级联故障→整个系统崩溃。 解决方案（Hystrix/Sentinel/Resilience4j）： 熔断（Circuit Breaker）： 错误率达标→快速失败→定期探测恢复。 降级（Fallback）： 备用逻辑（返回默认值/缓存/提示）。 限流（Rate Limiter）： 控制请求速率，超过则拒绝。 隔离： 线程池隔离/信号量隔离，避免资源争抢。 超时： 设置合理超时，快速释放资源。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 14,
-    "title": "Sentinel 和 Hystrix 的对比？",
-    "tags": [
-      "限流",
-      "熔断"
-    ],
-    "content": "对比 Sentinel Hystrix 来源 阿里巴巴 Netflix（已停更） 限流 直接支持QPS/线程数/关联/链路 信号量/线程池 规则 动态配置，实时生效 需代码配置 控制台 功能强大的Dashboard Hystrix Dashboard 自适应 系统自适应保护 不支持 💡 国内主流选Sentinel，配合Spring Cloud Alibaba生态。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 15,
-    "title": "Nacos 的 CAP 模型是怎样的？如何实现？",
-    "tags": [
-      "Nacos",
-      "CAP"
-    ],
-    "content": "Nacos同时作为 注册中心和配置中心 ，支持 AP 和 CP 切换： 注册中心： 临时实例(live=true)：AP（Distro协议），宕机自动剔除。 持久化实例(live=false)：CP（Raft协议），数据一致性优先。 配置中心： CP（强一致），数据不能错。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 16,
-    "title": "分布式锁的实现方案对比？（Redis vs ZK vs Etcd）",
-    "tags": [
-      "分布式锁",
-      "高频"
-    ],
-    "content": "方案 原理 优点 缺点 Redis SETNX+EXPIRE 性能高 主从切换可能丢锁 ZooKeeper 临时顺序节点 强一致、自动释放 性能较差、羊群效应 Etcd Lease+事务 强一致、Watch机制 生态较小 MySQL 行锁+唯一索引 简单 性能差 💡 高并发选Redis，强一致选ZK/Etcd。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 17,
-    "title": "ZooKeeper 的选举机制（ZAB协议）？",
-    "tags": [
-      "ZK",
-      "选举"
-    ],
-    "content": "ZAB（ZooKeeper Atomic Broadcast）实现一致性： Leader选举： 节点状态：LOOKING→LEADING/FOLLOWING。 比较规则：先比 Epoch（任期） →再比 ZXID（事务ID） →最后比 SID（节点ID） 。 超过半数投票即当选。 数据同步： Leader将提案Proposal发给Followers→过半ACK→提交。 💡 ZK集群建议奇数台（3/5/7）。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 18,
-    "title": "分布式Session如何解决？",
-    "tags": [
-      "分布式",
-      "Session"
-    ],
-    "content": "Session粘性（IP Hash）： Nginx ip_hash，同一用户固定到同一服务器（不推荐）。 Session复制： Tomcat Cluster，间节点复制（内存开销大）。 集中存储（推荐）： Redis存储Session，Spring Session统一管理。 无状态JWT： 用Token替代Session（推荐）。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 19,
-    "title": "Kafka 如何保证消息不丢失？",
-    "tags": [
-      "Kafka",
-      "消息队列"
-    ],
-    "content": "三端保证： Producer： acks=all（所有副本确认）+ retries>0 + 幂等性enable.idempotence=true。 Broker： replication.factor≥3 + min.insync.replicas≥2 + unclean.leader.election.enable=false。 Consumer： 手动提交offset（处理完再commit）+ 关闭自动提交enable.auto.commit=false。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 20,
-    "title": "Kafka 如何保证消息不重复消费？",
-    "tags": [
-      "Kafka",
-      "幂等"
-    ],
-    "content": "消费者幂等处理（核心）： 业务层唯一键（订单号+业务类型）去重→Redis/DB记录已处理消息。 Producer幂等： enable.idempotence=true（PID+SequenceNumber去重）。 事务消息： Kafka事务（但实际上不解决消费端重复）。 💡 重点：Kafka只能保证至少一次（at least once），消费端自己实现幂等！"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 21,
-    "title": "Kafka ISR 是什么？min.insync.replicas的作用？",
-    "tags": [
-      "Kafka",
-      "ISR"
-    ],
-    "content": "ISR（In-Sync Replicas）： 与Leader保持同步的副本集合。同步条件是replica.lag.time.max.ms内追上Leader。 min.insync.replicas： 最少同步副本数。 配合acks=all使用，确保消息至少写入ISR中这么多副本。 设为≥2可保证Leader宕机不丢数据。 ISR数量"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 22,
-    "title": "RabbitMQ 如何保证消息不丢失？",
-    "tags": [
-      "RabbitMQ"
-    ],
-    "content": "Producer→Exchange： Publisher Confirm机制（confirmCallback）。 Exchange→Queue： mandatory=true + returnCallback（消息退回处理）。 Queue→Broker持久化： Queue、Message都持久化（delivery_mode=2）。 Consumer： 手动ACK（acknowledge-mode: manual），处理完再ack。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 23,
-    "title": "RabbitMQ 死信队列和延迟队列？",
-    "tags": [
-      "RabbitMQ"
-    ],
-    "content": "死信（DLX Dead Letter Exchange）： 消息被拒绝+NACK+不重回队列、消息TTL过期、队列满时进入DLX。 延迟队列： 设置消息TTL+死信队列实现。消息发到设置了TTL的队列→过期后→进入DLX→消费者监听DLX绑定的队列。 注意： 不同TTL的消息可能不按预期顺序消费（队列头消息TTL最长会阻塞后面的）。可用插件 rabbitmq_delayed_message_exchange 精确延迟。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 24,
-    "title": "ES 写入数据和搜索数据的流程？",
-    "tags": [
-      "ES",
-      "深入"
-    ],
-    "content": "写入流程： 请求到协调节点→路由到目标分片（hash(routing/doc_id) % num_primary_shards）。 写入主分片→主分片同步到副本分片→客户端确认。 先写translog→再写内存buffer→refresh(默认1s)后生成segment→可搜索。 translog大到阈值→flush到磁盘→清空translog。 搜索流程（两阶段）： Query Phase： 协调节点广播到所有分片→各分片返回(size+from)条文档ID+排序值。 Fetch Phase： 协调节点排序后，根据ID去对应分片获取完整文档。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 25,
-    "title": "ES 倒排索引原理？",
-    "tags": [
-      "ES",
-      "高频"
-    ],
-    "content": "倒排索引： 词项(Term)→文档列表 的映射。 结构： Term Dictionary： 排序的词项目录（B-Tree/Trie，快速定位）。 Posting List： 每个Term对应的文档ID列表（跳跃表Skip List加速交集/并集运算）。 Term Index： Term Dictionary的索引（FST有限状态转换器，压缩高效查找前缀）。 搜索\"Java框架\"→分词为Java+框架→分别查倒排索引→取文档ID交集→返回结果。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 26,
-    "title": "TCP 三次握手和四次挥手？",
-    "tags": [
-      "网络",
-      "基础"
-    ],
-    "content": "三次握手： 客户端→SYN=1, seq=x →服务器（SYN_SENT）。 服务器→SYN=1, ACK=1, seq=y, ack=x+1 →客户端（SYN_RCVD）。 客户端→ACK=1, seq=x+1, ack=y+1 →服务器（ESTABLISHED）。 为什么是三次？ 防止已失效的连接请求到达服务器（历史SYN）。 四次挥手： 客户端→FIN→服务器（FIN_WAIT1）。 服务器→ACK→客户端（CLOSE_WAIT）。 服务器→FIN→客户端（LAST_ACK）。 客户端→ACK→服务器（TIME_WAIT, 2MSL后CLOSE）。 💡 TIME_WAIT=2MSL，确保最后的ACK能重传到对端。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 27,
-    "title": "HTTP 和 HTTPS 的区别？HTTPS 握手流程？",
-    "tags": [
-      "网络",
-      "HTTPS"
-    ],
-    "content": "区别： HTTPS = HTTP + SSL/TLS，加密传输。端口443（HTTP为80）。需要CA证书。 TLS 1.2握手（简化）： Client Hello：支持的加密套件+随机数。 Server Hello：选定的加密套件+随机数+证书。 客户端验证证书，生成PreMasterSecret（公钥加密）。 双方从3个随机数生成会话密钥（对称加密）。 Finished确认握手完成。 💡 TLS 1.3只需1-RTT，比1.2少一轮。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 28,
-    "title": "Cookie、Session、Token（JWT）的区别？",
-    "tags": [
-      "认证",
-      "高频"
-    ],
-    "content": "Cookie： 存客户端浏览器，每次请求自动带上，有跨域限制，4KB限制。 Session： 存服务端，Cookie存SessionID关联。分布式需共享存储。 Token（JWT）： 无状态，客户端存储（localStorage/header），服务端无存储压力，适合分布式和移动端。 💡 JWT注意：Payload不加密（base64），敏感信息不存。设置合理过期时间+refreshToken机制。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 29,
-    "title": "设计模式六大原则（SOLID）是什么？",
-    "tags": [
-      "设计模式",
-      "基础"
-    ],
-    "content": "S 单一职责： 一个类只负责一件事。 O 开闭原则： 对扩展开放，对修改关闭。 L 里氏替换： 子类可以替换父类（子类不改变父类行为）。 I 接口隔离： 接口尽量小，不强迫实现不需要的方法。 D 依赖倒置： 依赖抽象而非具体实现（面向接口编程）。 💡 还有：迪米特法则（最少知识）、合成复用原则（组合优于继承）。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 30,
-    "title": "单例模式的多种实现及优缺点？",
-    "tags": [
-      "设计模式",
-      "高频"
-    ],
-    "content": "饿汉式： 类加载时就创建。线程安全，但可能浪费内存。 懒汉式（加锁）： synchronized getInstance()。线程安全但效率低。 DCL（双重检查锁）： volatile+两次null检查。高效、推荐。 静态内部类： 利用JVM类加载机制，延迟加载+线程安全。最优雅。 枚举： 天然单例、防反射、防反序列化。Effective Java推荐。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 31,
-    "title": "工厂模式和抽象工厂模式的区别？",
-    "tags": [
-      "设计模式"
-    ],
-    "content": "对比 工厂方法 抽象工厂 产品 单一产品 产品族（多个相关产品） 层级 一个工厂接口 工厂的工厂 扩展 增加产品=加具体工厂 增加产品族=加具体工厂 💡 工厂方法：BeanFactory。抽象工厂：Swing的LookAndFeel（一套按钮+文本框+菜单风格）。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 32,
-    "title": "观察者模式和发布-订阅模式的区别？",
-    "tags": [
-      "设计模式"
-    ],
-    "content": "观察者模式： Subject直接维护Observer列表，Subject和Observer松耦合。同步直接调用。 发布-订阅模式： Publisher和Subscriber通过 Broker/EventBus 解耦，互不知道对方。异步间接通信。 💡 MQ是典型的发布-订阅模式。Spring的ApplicationListener是观察者模式。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 33,
-    "title": "策略模式和模板方法模式的区别？",
-    "tags": [
-      "设计模式"
-    ],
-    "content": "策略模式： 定义一系列算法，可 互相替换 。客户端选择策略。如支付方式（微信/支付宝）。 模板方法： 定义算法 骨架 ，子类实现具体步骤。父类控制流程。如JdbcTemplate、AbstractList。 💡 策略重在选择（多选一），模板方法重在流程（固定流程+可变步骤）。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 34,
-    "title": "Seata 分布式事务的几种模式？",
-    "tags": [
-      "Seata",
-      "分布式事务"
-    ],
-    "content": "AT模式（默认）： 自动补偿，无侵入。需要undo_log表。基于全局锁+数据库本地事务隔离。 TCC模式： 手动定义Try-Confirm-Cancel，性能高但编码复杂。 Saga模式： 长事务，正向执行+反向补偿。适合老系统。 XA模式： 数据库层面2PC，需数据库支持XA协议。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 35,
-    "title": "API 网关的作用和常见选型？",
-    "tags": [
-      "网关",
-      "微服务"
-    ],
-    "content": "作用： 统一入口、路由转发、鉴权认证、限流熔断、日志监控、灰度发布、协议转换。 常见选型： Spring Cloud Gateway： 响应式、非阻塞、Spring生态好。国内首选。 Zuul 2： Netflix，非阻塞。 Kong： 基于OpenResty/Nginx，插件丰富。 Nginx+Lua/OpenResty： 高性能、灵活。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 36,
-    "title": "Linux 常用命令有哪些？（排查问题相关）",
-    "tags": [
-      "Linux",
-      "运维"
-    ],
-    "content": "系统： top、free -h、df -h、uname -a、uptime。 进程： ps -ef、lsof -p pid、netstat -tlnp、ss -tlnp。 文件： tail -f、less、grep、find、du -sh。 磁盘IO： iostat -x 1、vmstat 1。 网络： curl、ping、traceroute、telnet、nc。 日志排查： grep 'ERROR' app.log | tail -50、awk、sed。 权限： chmod、chown、ls -la。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 37,
-    "title": "OAuth 2.0 和 SSO 单点登录原理？",
-    "tags": [
-      "认证",
-      "OAuth2"
-    ],
-    "content": "OAuth 2.0四种授权模式： 授权码模式（最安全）： 第三方→授权服务器→获取授权码→换AccessToken。适用于有后端的应用。 隐式模式： 直接返回Token（已不推荐）。 密码模式： 用户直接把密码给第三方（内部系统登录）。 客户端凭证： 服务器间调用。 SSO原理： 多个系统共用认证中心（CAS）。A系统登录→认证中心建Session+发Ticket→B系统校验Ticket→免登录。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 38,
-    "title": "Git 常用操作和常见问题？",
-    "tags": [
-      "Git",
-      "工具"
-    ],
-    "content": "常用操作： clone、pull、push、branch、checkout、merge、rebase、stash、cherry-pick、reset、revert。 合并冲突： 冲突标记解决→git add→git merge --continue。 代码回滚： git revert（安全，新建commit）vs git reset（重置指针，慎用--hard）。 分支策略： Git Flow（main/develop/feature/release/hotfix）、GitHub Flow（main+feature分支）、Trunk-Based。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 39,
-    "title": "DDD 领域驱动设计核心概念？",
-    "tags": [
-      "DDD",
-      "架构"
-    ],
-    "content": "核心概念： 实体(Entity)： 有唯一标识，可变。 值对象(Value Object)： 无唯一标识，不可变（如地址、金额）。 聚合(Aggregate)： 一组相关对象的集合，聚合根是入口。 仓储(Repository)： 领域对象的持久化接口。 领域服务： 不适合放在实体/值对象中的业务逻辑。 领域事件： 领域内发生的有意义事件。 限界上下文(Bounded Context)： 领域模型的边界，微服务拆分的依据。"
-  },
-  {
-    "module": "分布式 & 其他",
-    "file": "Java面试宝典_08_分布式&其他.html",
-    "num": 40,
-    "title": "Maven 依赖传递和冲突解决？",
-    "tags": [
-      "Maven",
-      "构建"
-    ],
-    "content": "依赖传递： 引入A→A依赖B→B也被引入。scope影响传递（compile可传，provided/test不传）。 冲突解决： 最短路径优先： A→B→C(1.0) > A→D→E→C(2.0) →选C(1.0)。 第一声明优先： 同路径深度，先声明的依赖优先。 手动排除： <exclusions><exclusion> 排除不需要的传递依赖。 指定版本： <dependencyManagement> 统一管理版本。 mvn dependency:tree 查看依赖树，定位冲突。"
-  },
-  {
     "num": 1,
     "title": "Spring IOC 的实现原理？",
     "module": "Spring",
@@ -3080,5 +2645,396 @@
     "title": "Zookeeper 的核心概念和应用场景？",
     "module": "Zookeeper",
     "file": "Java面试宝典_Zookeeper.html"
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 1,
+    "title": "CAP 理论是什么？BASE 理论呢？",
+    "tags": [
+      "分布式",
+      "高频"
+    ],
+    "content": ""
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 2,
+    "title": "什么是分布式事务？解决方案有哪些？",
+    "tags": [
+      "分布式",
+      "事务"
+    ],
+    "content": ""
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 3,
+    "title": "分布式 ID 生成方案有哪些？",
+    "tags": [
+      "分布式",
+      "实战"
+    ],
+    "content": ""
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 4,
+    "title": "什么是服务雪崩？如何解决？",
+    "tags": [
+      "微服务",
+      "高频"
+    ],
+    "content": ""
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 5,
+    "title": "Sentinel 和 Hystrix 的对比？",
+    "tags": [
+      "限流",
+      "熔断"
+    ],
+    "content": ""
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 6,
+    "title": "Nacos 的 CAP 模型是怎样的？如何实现？",
+    "tags": [
+      "Nacos",
+      "CAP"
+    ],
+    "content": ""
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 7,
+    "title": "分布式锁的实现方案对比？（Redis vs ZK vs Etcd）",
+    "tags": [
+      "分布式锁",
+      "高频"
+    ],
+    "content": ""
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 8,
+    "title": "ZooKeeper 的选举机制（ZAB协议）？",
+    "tags": [
+      "ZK",
+      "选举"
+    ],
+    "content": ""
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 9,
+    "title": "分布式Session如何解决？",
+    "tags": [
+      "分布式",
+      "Session"
+    ],
+    "content": ""
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 10,
+    "title": "Seata 分布式事务的几种模式？",
+    "tags": [
+      "Seata",
+      "分布式事务"
+    ],
+    "content": ""
+  },
+  {
+    "module": "分布式理论",
+    "file": "Java面试宝典_分布式理论.html",
+    "num": 11,
+    "title": "API 网关的作用和常见选型？",
+    "tags": [
+      "网关",
+      "微服务"
+    ],
+    "content": ""
+  },
+  {
+    "module": "消息队列",
+    "file": "Java面试宝典_消息队列.html",
+    "num": 1,
+    "title": "消息队列的作用？如何保证消息不丢失？",
+    "tags": [
+      "MQ",
+      "高频"
+    ],
+    "content": ""
+  },
+  {
+    "module": "消息队列",
+    "file": "Java面试宝典_消息队列.html",
+    "num": 2,
+    "title": "如何保证消息不重复消费？",
+    "tags": [
+      "MQ",
+      "幂等"
+    ],
+    "content": ""
+  },
+  {
+    "module": "消息队列",
+    "file": "Java面试宝典_消息队列.html",
+    "num": 3,
+    "title": "Kafka、RocketMQ、RabbitMQ 的区别？",
+    "tags": [
+      "MQ",
+      "对比"
+    ],
+    "content": ""
+  },
+  {
+    "module": "消息队列",
+    "file": "Java面试宝典_消息队列.html",
+    "num": 4,
+    "title": "Kafka 如何保证消息不丢失？",
+    "tags": [
+      "Kafka",
+      "消息队列"
+    ],
+    "content": ""
+  },
+  {
+    "module": "消息队列",
+    "file": "Java面试宝典_消息队列.html",
+    "num": 5,
+    "title": "Kafka 如何保证消息不重复消费？",
+    "tags": [
+      "Kafka",
+      "幂等"
+    ],
+    "content": ""
+  },
+  {
+    "module": "消息队列",
+    "file": "Java面试宝典_消息队列.html",
+    "num": 6,
+    "title": "Kafka ISR 是什么？min.insync.replicas的作用？",
+    "tags": [
+      "Kafka",
+      "ISR"
+    ],
+    "content": ""
+  },
+  {
+    "module": "消息队列",
+    "file": "Java面试宝典_消息队列.html",
+    "num": 7,
+    "title": "RabbitMQ 如何保证消息不丢失？",
+    "tags": [
+      "RabbitMQ"
+    ],
+    "content": ""
+  },
+  {
+    "module": "消息队列",
+    "file": "Java面试宝典_消息队列.html",
+    "num": 8,
+    "title": "RabbitMQ 死信队列和延迟队列？",
+    "tags": [
+      "RabbitMQ"
+    ],
+    "content": ""
+  },
+  {
+    "module": "设计模式",
+    "file": "Java面试宝典_设计模式.html",
+    "num": 1,
+    "title": "常见的设计模式有哪些？",
+    "tags": [
+      "设计模式",
+      "经典"
+    ],
+    "content": ""
+  },
+  {
+    "module": "设计模式",
+    "file": "Java面试宝典_设计模式.html",
+    "num": 2,
+    "title": "单例模式有哪几种实现方式？",
+    "tags": [
+      "设计模式",
+      "高频"
+    ],
+    "content": ""
+  },
+  {
+    "module": "设计模式",
+    "file": "Java面试宝典_设计模式.html",
+    "num": 3,
+    "title": "设计模式六大原则（SOLID）是什么？",
+    "tags": [
+      "设计模式",
+      "基础"
+    ],
+    "content": ""
+  },
+  {
+    "module": "设计模式",
+    "file": "Java面试宝典_设计模式.html",
+    "num": 4,
+    "title": "单例模式的多种实现及优缺点？",
+    "tags": [
+      "设计模式",
+      "高频"
+    ],
+    "content": ""
+  },
+  {
+    "module": "设计模式",
+    "file": "Java面试宝典_设计模式.html",
+    "num": 5,
+    "title": "工厂模式和抽象工厂模式的区别？",
+    "tags": [
+      "设计模式"
+    ],
+    "content": ""
+  },
+  {
+    "module": "设计模式",
+    "file": "Java面试宝典_设计模式.html",
+    "num": 6,
+    "title": "观察者模式和发布-订阅模式的区别？",
+    "tags": [
+      "设计模式"
+    ],
+    "content": ""
+  },
+  {
+    "module": "设计模式",
+    "file": "Java面试宝典_设计模式.html",
+    "num": 7,
+    "title": "策略模式和模板方法模式的区别？",
+    "tags": [
+      "设计模式"
+    ],
+    "content": ""
+  },
+  {
+    "module": "网络协议",
+    "file": "Java面试宝典_网络协议.html",
+    "num": 1,
+    "title": "TCP 三次握手和四次挥手？",
+    "tags": [
+      "网络",
+      "基础"
+    ],
+    "content": ""
+  },
+  {
+    "module": "网络协议",
+    "file": "Java面试宝典_网络协议.html",
+    "num": 2,
+    "title": "HTTP 和 HTTPS 的区别？HTTPS 握手流程？",
+    "tags": [
+      "网络",
+      "HTTPS"
+    ],
+    "content": ""
+  },
+  {
+    "module": "网络协议",
+    "file": "Java面试宝典_网络协议.html",
+    "num": 3,
+    "title": "Cookie、Session、Token（JWT）的区别？",
+    "tags": [
+      "认证",
+      "高频"
+    ],
+    "content": ""
+  },
+  {
+    "module": "系统设计",
+    "file": "Java面试宝典_系统设计.html",
+    "num": 1,
+    "title": "如何设计一个秒杀系统？",
+    "tags": [
+      "系统设计",
+      "实战"
+    ],
+    "content": ""
+  },
+  {
+    "module": "系统设计",
+    "file": "Java面试宝典_系统设计.html",
+    "num": 2,
+    "title": "限流算法有哪些？",
+    "tags": [
+      "限流",
+      "算法"
+    ],
+    "content": ""
+  },
+  {
+    "module": "系统设计",
+    "file": "Java面试宝典_系统设计.html",
+    "num": 3,
+    "title": "Linux 常用命令有哪些？（排查问题相关）",
+    "tags": [
+      "Linux",
+      "运维"
+    ],
+    "content": ""
+  },
+  {
+    "module": "系统设计",
+    "file": "Java面试宝典_系统设计.html",
+    "num": 4,
+    "title": "OAuth 2.0 和 SSO 单点登录原理？",
+    "tags": [
+      "认证",
+      "OAuth2"
+    ],
+    "content": ""
+  },
+  {
+    "module": "系统设计",
+    "file": "Java面试宝典_系统设计.html",
+    "num": 5,
+    "title": "Git 常用操作和常见问题？",
+    "tags": [
+      "Git",
+      "工具"
+    ],
+    "content": ""
+  },
+  {
+    "module": "系统设计",
+    "file": "Java面试宝典_系统设计.html",
+    "num": 6,
+    "title": "DDD 领域驱动设计核心概念？",
+    "tags": [
+      "DDD",
+      "架构"
+    ],
+    "content": ""
+  },
+  {
+    "module": "系统设计",
+    "file": "Java面试宝典_系统设计.html",
+    "num": 7,
+    "title": "Maven 依赖传递和冲突解决？",
+    "tags": [
+      "Maven",
+      "构建"
+    ],
+    "content": ""
   }
 ]

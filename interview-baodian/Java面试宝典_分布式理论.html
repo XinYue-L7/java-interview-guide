@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 分布式理论</title>
+<style>
+::root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.card-body{padding:12px 18px 16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+</head>
+<body data-section="08">
+<div class="hero">
+  <h1>分布式理论</h1>
+  <p>11道高频题 · CAP · 分布式事务 · 分布式锁 · 一致性协议</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_Zookeeper.html">← Zookeeper</a>
+    <a href="Java面试宝典_消息队列.html">消息队列 →</a>
+  </div>
+</div>
+<div class="container">
+
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">CAP 理论是什么？BASE 理论呢？</div><div class="q-tags"><span class="q-tag">分布式</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>CAP：三者最多满足两个</strong></p>
+      <ul>
+        <li><strong>C(Consistency)：</strong>一致性，所有节点同一时刻数据相同。</li>
+        <li><strong>A(Availability)：</strong>可用性，非故障节点正常响应。</li>
+        <li><strong>P(Partition Tolerance)：</strong>分区容错性，网络分区时系统仍可工作。</li>
+      </ul>
+      <p>P必须保证，所以实际是CP或AP的选择。Zookeeper→CP，Eureka→AP。</p>
+      <p><strong>BASE：AP方案的补充</strong></p>
+      <ul>
+        <li><strong>BA(Basically Available)：</strong>基本可用。</li>
+        <li><strong>S(Soft State)：</strong>软状态，允许中间状态。</li>
+        <li><strong>E(Eventually Consistent)：</strong>最终一致性。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">什么是分布式事务？解决方案有哪些？</div><div class="q-tags"><span class="q-tag">分布式</span><span class="q-tag">事务</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>分布式事务</strong>是指事务的参与者、资源服务器、事务管理器分别位于不同分布式节点上。简单说，一个业务操作需要跨多个服务/数据库完成，且要保证数据一致性。例如：下单（订单服务）扣库存（库存服务）扣余额（账户服务），三步要么全成功、要么全回滚。</p>
+      <p>与单机事务的<strong>核心区别</strong>：单机事务靠数据库的 ACID 机制保证；分布式事务中网络不可靠、各节点独立，无法简单套用 ACID，需要额外的协调协议。</p>
+      <p><strong>常见解决方案：</strong></p>
+      <ul>
+        <li><strong>2PC(两阶段提交)：</strong>准备阶段→提交阶段。强一致但性能差、协调者单点。</li>
+        <li><strong>TCC(Try-Confirm-Cancel)：</strong>Try预留→Confirm确认→Cancel回滚。最终一致。</li>
+        <li><strong>本地消息表：</strong>本地事务+消息表，定时重试。最终一致。</li>
+        <li><strong>RocketMQ事务消息：</strong>半消息+本地事务+回查。最终一致。</li>
+        <li><strong>Seata：</strong>阿里分布式事务中间件，支持AT/TCC/Saga模式。</li>
+      </ul>
+      <p>💡 大部分场景用<strong>最终一致性方案</strong>即可，强一致代价太高。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">分布式 ID 生成方案有哪些？</div><div class="q-tags"><span class="q-tag">分布式</span><span class="q-tag">实战</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>UUID：</strong>简单但无序，作为主键时B+树分裂严重。</li>
+        <li><strong>数据库自增ID：</strong>单点瓶颈。</li>
+        <li><strong>数据库号段模式：</strong>一次获取一批ID，减少DB压力。</li>
+        <li><strong>雪花算法(Snowflake)：</strong>64位ID=时间戳+机器ID+序列号。趋势递增，最常用。</li>
+        <li><strong>美团Leaf、百度UidGenerator。</strong></li>
+      </ul>
+      <p>💡 雪花算法需注意时钟回拨问题。</p>
+    </div>
+  </div>
+</div>
+<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">什么是服务雪崩？如何解决？</div><div class="q-tags"><span class="q-tag">微服务</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>服务雪崩：</strong>一个服务故障→调用方阻塞等待→调用方资源耗尽→级联故障→整个系统崩溃。</p><p><strong>解决方案（Hystrix/Sentinel/Resilience4j）：</strong></p><ul><li><strong>熔断（Circuit Breaker）：</strong>错误率达标→快速失败→定期探测恢复。</li><li><strong>降级（Fallback）：</strong>备用逻辑（返回默认值/缓存/提示）。</li><li><strong>限流（Rate Limiter）：</strong>控制请求速率，超过则拒绝。</li><li><strong>隔离：</strong>线程池隔离/信号量隔离，避免资源争抢。</li><li><strong>超时：</strong>设置合理超时，快速释放资源。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Sentinel 和 Hystrix 的对比？</div><div class="q-tags"><span class="q-tag">限流</span><span class="q-tag">熔断</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>Sentinel</th><th>Hystrix</th></tr></thead><tbody><tr><td>来源</td><td>阿里巴巴</td><td>Netflix（已停更）</td></tr><tr><td>限流</td><td>直接支持QPS/线程数/关联/链路</td><td>信号量/线程池</td></tr><tr><td>规则</td><td>动态配置，实时生效</td><td>需代码配置</td></tr><tr><td>控制台</td><td>功能强大的Dashboard</td><td>Hystrix Dashboard</td></tr><tr><td>自适应</td><td>系统自适应保护</td><td>不支持</td></tr></tbody></table></div><p>💡 国内主流选Sentinel，配合Spring Cloud Alibaba生态。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">Nacos 的 CAP 模型是怎样的？如何实现？</div><div class="q-tags"><span class="q-tag">Nacos</span><span class="q-tag">CAP</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Nacos同时作为<strong>注册中心和配置中心</strong>，支持<strong>AP</strong>和<strong>CP</strong>切换：</p><ul><li><strong>注册中心：</strong></li><li>临时实例(live=true)：AP（Distro协议），宕机自动剔除。</li><li>持久化实例(live=false)：CP（Raft协议），数据一致性优先。</li><li><strong>配置中心：</strong>CP（强一致），数据不能错。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">分布式锁的实现方案对比？（Redis vs ZK vs Etcd）</div><div class="q-tags"><span class="q-tag">分布式锁</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>方案</th><th>原理</th><th>优点</th><th>缺点</th></tr></thead><tbody><tr><td>Redis</td><td>SETNX+EXPIRE</td><td>性能高</td><td>主从切换可能丢锁</td></tr><tr><td>ZooKeeper</td><td>临时顺序节点</td><td>强一致、自动释放</td><td>性能较差、羊群效应</td></tr><tr><td>Etcd</td><td>Lease+事务</td><td>强一致、Watch机制</td><td>生态较小</td></tr><tr><td>MySQL</td><td>行锁+唯一索引</td><td>简单</td><td>性能差</td></tr></tbody></table></div><p>💡 高并发选Redis，强一致选ZK/Etcd。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">ZooKeeper 的选举机制（ZAB协议）？</div><div class="q-tags"><span class="q-tag">ZK</span><span class="q-tag">选举</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>ZAB（ZooKeeper Atomic Broadcast）实现一致性：</p><p><strong>Leader选举：</strong></p><ul><li>节点状态：LOOKING→LEADING/FOLLOWING。</li><li>比较规则：先比<strong>Epoch（任期）</strong>→再比<strong>ZXID（事务ID）</strong>→最后比<strong>SID（节点ID）</strong>。</li><li>超过半数投票即当选。</li></ul><p><strong>数据同步：</strong>Leader将提案Proposal发给Followers→过半ACK→提交。</p><p>💡 ZK集群建议奇数台（3/5/7）。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">分布式Session如何解决？</div><div class="q-tags"><span class="q-tag">分布式</span><span class="q-tag">Session</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Session粘性（IP Hash）：</strong>Nginx ip_hash，同一用户固定到同一服务器（不推荐）。</li><li><strong>Session复制：</strong>Tomcat Cluster，间节点复制（内存开销大）。</li><li><strong>集中存储（推荐）：</strong>Redis存储Session，Spring Session统一管理。</li><li><strong>无状态JWT：</strong>用Token替代Session（推荐）。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">Seata 分布式事务的几种模式？</div><div class="q-tags"><span class="q-tag">Seata</span><span class="q-tag">分布式事务</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>AT模式（默认）：</strong>自动补偿，无侵入。需要undo_log表。基于全局锁+数据库本地事务隔离。</li><li><strong>TCC模式：</strong>手动定义Try-Confirm-Cancel，性能高但编码复杂。</li><li><strong>Saga模式：</strong>长事务，正向执行+反向补偿。适合老系统。</li><li><strong>XA模式：</strong>数据库层面2PC，需数据库支持XA协议。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">API 网关的作用和常见选型？</div><div class="q-tags"><span class="q-tag">网关</span><span class="q-tag">微服务</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>作用：</strong>统一入口、路由转发、鉴权认证、限流熔断、日志监控、灰度发布、协议转换。</p><p><strong>常见选型：</strong></p><ul><li><strong>Spring Cloud Gateway：</strong>响应式、非阻塞、Spring生态好。国内首选。</li><li><strong>Zuul 2：</strong>Netflix，非阻塞。</li><li><strong>Kong：</strong>基于OpenResty/Nginx，插件丰富。</li><li><strong>Nginx+Lua/OpenResty：</strong>高性能、灵活。</li></ul></div></div></div>
+
+<div class="footer">
+  📌 分布式理论 · 共11题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a>
+</div>
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
+</body>
+</html>
