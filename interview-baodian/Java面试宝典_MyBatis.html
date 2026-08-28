@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · MyBatis</title>
+<style>
+:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.card-body{padding:12px 18px 16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+</head>
+<body>
+<div class="hero">
+  <h1>MyBatis</h1>
+  <p>6道高频题 · MyBatis核心考点</p>
+<div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_06_Redis.html">← Redis</a>
+    <a href="Java面试宝典_08_分布式&其他.html">分布式&其他 →</a>
+  </div>
+<main class="container">
+<div class="card">class="card">class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">MyBatis 中 #{} 和 ${} 的区别？</div><div class="q-tags"><span class="q-tag">MyBatis</span><span class="q-tag">安全</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>#{}：</strong>预编译占位符，生成?，安全防注入。用于参数值。</li>
+        <li><strong>${}：</strong>字符串替换，直接拼接SQL。有注入风险。</li>
+      </ul>
+      <p>💡 ${}仅用于动态表名/列名/排序字段等必须拼接的场景，并做好输入校验。</p>
+    </div>
+  </div>
+</div>
+
+<div </div>
+<div class="card">class="card">class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">MyBatis 的一级缓存和二级缓存？</div><div class="q-tags"><span class="q-tag">MyBatis</span><span class="q-tag">缓存</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>一级缓存(SqlSession级别)：</strong>默认开启，同一SqlSession内相同查询只查一次DB。执行增删改/commit/close会清空。</li>
+        <li><strong>二级缓存(Namespace级别)：</strong>默认关闭，需手动开启。多个SqlSession共享。适合不常变更的数据。</li>
+      </ul>
+      <p>💡 生产环境通常不用MyBatis二级缓存，用Redis等分布式缓存替代。</p>
+    </div>
+  </div>
+</div>
+
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">MyBatis 的 #{} 和 ${} 区别？底层原理？</div><div class="q-tags"><span class="q-tag">MyBatis</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>#{}：</strong>预编译占位符<code>?</code>，底层是PreparedStatement 参数化查询 防SQL注入。类型处理器(TypeHandler)做参数映射。</li><li><strong>${}：</strong>字符串拼接，直接替换到SQL中 有注入风险。仅用于动态表名、列名、ORDER BY等无法预编译场景。</li></ul><p>💡 #{}替换为?由JDBC驱动最终处理，${}直接由MyBatis替换。</p></div></div></div>
+
+<!-- Q23 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">MyBatis 一级缓存和二级缓存的区别？</div><div class="q-tags"><span class="q-tag">MyBatis</span><span class="q-tag">缓存</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>一级缓存</th><th>二级缓存</th></tr></thead><tbody><tr><td>范围</td><td>SqlSession级别</td><td>Mapper(Namespace)级别</td></tr><tr><td>默认</td><td>开启（不可关）</td><td>需手动配置</td></tr><tr><td>共享</td><td>同一SqlSession内</td><td>跨SqlSession</td></tr><tr><td>数据一致性</td><td>SqlSession关闭/更新后清空</td><td>commit后更新，脏读风险</td></tr></tbody></table></div><p>💡 二级缓存有<strong>脏读风险</strong>（其他namespace更新了同一张表），生产环境慎用！推荐用Redis等分布式缓存替代。</p></div></div></div>
+
+<!-- Q24 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">MyBatis 插件（Interceptor）原理？分页插件怎么实现的？</div><div class="q-tags"><span class="q-tag">MyBatis</span><span class="q-tag">插件</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>MyBatis插件基于<strong>动态代理（JDK Proxy）</strong>，拦截4大对象：</p><ul><li>Executor（执行器，CRUD）。</li><li>ParameterHandler（参数处理）。</li><li>ResultSetHandler（结果集处理）。</li><li>StatementHandler（SQL构建）。</li></ul><p><strong>PageHelper分页原理：</strong></p><ul><li>拦截Executor.query()。</li><li>ThreadLocal获取分页参数。</li><li>先执行<code>SELECT COUNT(*)</code>查总数。</li><li>再拼接<code>LIMIT offset, size</code>查分页数据。</li></ul></div></div></div>
+
+<!-- Q25 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">MyBatis 的执行流程？</div><div class="q-tags"><span class="q-tag">MyBatis</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ol><li>加载mybatis-config.xml和Mapper.xml→SqlSessionFactoryBuilder→SqlSessionFactory。</li><li>SqlSessionFactory.openSession()→SqlSession。</li><li>SqlSession.getMapper()→动态代理（MapperProxy）。</li><li>调用Mapper方法→MapperProxy拦截→查找MappedStatement。</li><li>Executor执行（经过一级/二级缓存→插件拦截→StatementHandler→ParameterHandler→JDBC执行）。</li><li>ResultSetHandler处理结果集→返回。</li></ol></div></div></div>
+
+<!-- Q34 -->
+<div </div>
+
+</main>
+
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=4')}</script>
+</body>
+</html>

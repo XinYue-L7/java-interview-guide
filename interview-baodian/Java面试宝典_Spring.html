@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · Spring</title>
+<style>
+:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.card-body{padding:12px 18px 16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+</head>
+<body>
+<div class="hero">
+  <h1>Spring</h1>
+  <p>19道高频题 · Spring核心考点</p>
+<div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_06_Redis.html">← Redis</a>
+    <a href="Java面试宝典_08_分布式&其他.html">分布式&其他 →</a>
+  </div>
+<main class="container">
+<div class="card">class="card">class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Spring IOC 的实现原理？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>IOC(Inversion of Control)控制反转：</strong>将对象创建和依赖关系的管理交给Spring容器。</p>
+      <p><strong>核心：BeanFactory + 反射</strong></p>
+      <ol>
+        <li><strong>资源定位：</strong>加载XML/注解配置。</li>
+        <li><strong>BeanDefinition解析：</strong>将配置解析为BeanDefinition。</li>
+        <li><strong>Bean注册：</strong>注册到BeanDefinitionRegistry(Map)。</li>
+        <li><strong>Bean创建(DI)：</strong>反射创建实例→填充属性→初始化。</li>
+      </ol>
+      <p>💡 ApplicationContext是BeanFactory的子接口，功能更丰富(国际化、事件发布等)。</p>
+    </div>
+  </div>
+</div>
+
+<div </div>
+<div class="card">class="card">class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Spring AOP 的实现原理？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>AOP(Aspect Oriented Programming)面向切面编程：</strong>将横切关注点(日志/事务/权限)与业务逻辑分离。</p>
+      <p><strong>两种实现：</strong></p>
+      <ul>
+        <li><strong>JDK动态代理：</strong>基于接口，Proxy+InvocationHandler。目标类必须实现接口。</li>
+        <li><strong>CGLIB代理：</strong>基于继承，ASM字节码生成子类。不能代理final类/方法。</li>
+      </ul>
+      <p>💡 Spring默认：有接口用JDK代理，无接口用CGLIB。SpringBoot 2.0+默认使用CGLIB。</p>
+    </div>
+  </div>
+</div>
+
+<div </div>
+<div class="card">class="card">class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Spring Bean 的生命周期？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>实例化 属性赋值 初始化 使用 销毁</strong></p>
+      <ol>
+        <li>实例化Bean对象（反射）。</li>
+        <li>设置属性值（依赖注入）。</li>
+        <li>检查Aware接口(BeanNameAware/BeanFactoryAware/ApplicationContextAware)。</li>
+        <li>BeanPostProcessor前置处理。</li>
+        <li>InitializingBean.afterPropertiesSet()。</li>
+        <li>自定义init-method。</li>
+        <li>BeanPostProcessor后置处理（AOP在这里生成代理）。</li>
+        <li>使用Bean。</li>
+        <li>DisposableBean.destroy() + 自定义destroy-method。</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div </div>
+<div class="card">class="card">class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Spring 的 Bean 作用域有哪些？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">基础</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>singleton：</strong>单例，IOC容器中只有一个实例（默认）。</li>
+        <li><strong>prototype：</strong>原型，每次获取创建新实例。</li>
+        <li><strong>request：</strong>每次HTTP请求创建一个实例（Web）。</li>
+        <li><strong>session：</strong>每个HTTP Session创建一个实例（Web）。</li>
+        <li><strong>application：</strong>ServletContext级别单例（Web）。</li>
+        <li><strong>websocket：</strong>WebSocket级别单例。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div </div>
+<div class="card">class="card">class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Spring 事务的实现原理和传播行为？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">事务</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>原理：AOP代理 + ThreadLocal</strong></p>
+      <p><strong>7种传播行为：</strong></p>
+      <ul>
+        <li><strong>REQUIRED：</strong>有事务则加入，无则新建（默认）。</li>
+        <li><strong>REQUIRES_NEW：</strong>总是新建事务，挂起当前事务。</li>
+        <li><strong>SUPPORTS：</strong>有事务则加入，无则以非事务运行。</li>
+        <li><strong>NOT_SUPPORTED：</strong>非事务运行，挂起当前事务。</li>
+        <li><strong>MANDATORY：</strong>必须在事务中，无则抛异常。</li>
+        <li><strong>NEVER：</strong>必须非事务，有则抛异常。</li>
+        <li><strong>NESTED：</strong>嵌套事务，有savepoint可部分回滚。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div </div>
+<div class="card">class="card">class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">Spring 事务失效的场景有哪些？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">实战</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li>数据库引擎不支持事务(MyISAM)。</li>
+        <li>方法非public（AOP代理只能拦截public方法）。</li>
+        <li>类内部调用(this.method())，绕过了代理对象。</li>
+        <li>异常被try-catch吞掉，没有抛出。</li>
+        <li>rollbackFor设置错误(默认只回滚RuntimeException和Error)。</li>
+        <li>多线程中调用事务方法。</li>
+      </ul>
+      <p>💡 解决内部调用：注入自身或使用AopContext.currentProxy()。</p>
+    </div>
+  </div>
+</div>
+
+<div </div>
+<div class="card">class="card">class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">Spring 中 @Autowired 和 @Resource 的区别？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">注解</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>@Autowired</th><th>@Resource</th></tr>
+        <tr><td>来源</td><td>Spring</td><td>JDK(JSR-250)</td></tr>
+        <tr><td>注入方式</td><td>默认byType</td><td>默认byName</td></tr>
+        <tr><td>配合</td><td>@Qualifier指定name</td><td>name属性指定</td></tr>
+        <tr><td>required</td><td>支持(默认true)</td><td>不支持</td></tr>
+      </table></div>
+      <p>💡 推荐使用构造器注入，避免循环依赖和空指针。</p>
+    </div>
+  </div>
+</div>
+
+<div </div>
+<div class="card">class="card">class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">Spring 的循环依赖是如何解决的？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>三级缓存解决单例Bean的循环依赖：</strong></p>
+      <ul>
+        <li><strong>一级缓存(singletonObjects)：</strong>完全初始化好的Bean。</li>
+        <li><strong>二级缓存(earlySingletonObjects)：</strong>早期暴露的Bean(已实例化但未注入属性)。</li>
+        <li><strong>三级缓存(singletonFactories)：</strong>Bean工厂，可生成代理对象。</li>
+      </ul>
+      <p>流程：A创建→提前暴露到三级缓存→A填充B→触发B创建→B填充A→从三级缓存获取A的早期引用→B完成→A完成。</p>
+      <p>💡 <strong>限制：</strong>只能解决单例setter注入的循环依赖，构造器注入不行。</p>
+    </div>
+  </div>
+</div>
+
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">Spring 循环依赖是如何解决的？</div><div class="q-tags"><span class="q-tag">循环依赖</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Spring通过<strong>三级缓存</strong>解决单例setter注入的循环依赖：</p><ul><li><strong>singletonObjects（一级）：</strong>完全初始化好的Bean。</li><li><strong>earlySingletonObjects（二级）：</strong>早期暴露的半成品Bean。</li><li><strong>singletonFactories（三级）：</strong>ObjectFactory，可生成Bean的早期引用。</li></ul><p><strong>流程：</strong>A创建→实例化→放入三级缓存→填充属性发现需要B→B创建→填充属性需要A→从三级缓存获取A的早期引用→B完成→A拿到B完成。</p><p>💡 不能解决构造器注入的循环依赖（因为实例化阶段就需要依赖）。Prototype作用域也不支持。</p></div></div></div>
+
+<!-- Q17 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">Spring Bean 的生命周期？（详细版）</div><div class="q-tags"><span class="q-tag">生命周期</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ol><li>实例化（构造函数/工厂方法）。</li><li>属性填充（依赖注入）。</li><li>BeanNameAware.setBeanName()。</li><li>BeanFactoryAware.setBeanFactory()。</li><li>ApplicationContextAware.setApplicationContext()。</li><li>BeanPostProcessor.postProcessBeforeInitialization()。</li><li>@PostConstruct / InitializingBean.afterPropertiesSet()。</li><li>自定义init-method。</li><li>BeanPostProcessor.postProcessAfterInitialization()（AOP在此生成代理）。</li><li>Bean就绪，可使用。</li><li>@PreDestroy / DisposableBean.destroy()。</li><li>自定义destroy-method。</li></ol></div></div></div>
+
+<!-- Q19 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">FactoryBean 和 BeanFactory 的区别？</div><div class="q-tags"><span class="q-tag">Spring</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>BeanFactory</th><th>FactoryBean</th></tr></thead><tbody><tr><td>角色</td><td>IOC容器，管理Bean</td><td>创建复杂Bean的工厂</td></tr><tr><td>方法</td><td>getBean()获取Bean</td><td>getObject()返回Bean实例</td></tr><tr><td>典型</td><td>DefaultListableBeanFactory</td><td>SqlSessionFactoryBean、MyBatis MapperProxy</td></tr></tbody></table></div><p>💡 <code>&factoryBeanName</code>获取FactoryBean本身，<code>factoryBeanName</code>获取getObject()产生的Bean。</p></div></div></div>
+
+<!-- Q20 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">Spring 事务传播行为有哪些？</div><div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>7种传播行为（Propagation）：</p><ol><li><strong>REQUIRED（默认）：</strong>有则加入，无则新建。最常用。</li><li><strong>REQUIRES_NEW：</strong>挂起当前，新建事务。内部和外部事务独立。</li><li><strong>SUPPORTS：</strong>有则加入，无则非事务运行。</li><li><strong>NOT_SUPPORTED：</strong>非事务运行，挂起当前事务。</li><li><strong>MANDATORY：</strong>必须有事务，无则抛异常。</li><li><strong>NEVER：</strong>必须非事务，有则抛异常。</li><li><strong>NESTED：</strong>嵌套事务，内部事务依赖外部事务（savepoint回滚）。</li></ol><p>💡 REQUIRES_NEW完全独立，外部回滚不影响内部；NESTED外部回滚会回滚内部。</p></div></div></div>
+
+<!-- Q21 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">Spring 事务失效的常见场景？</div><div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">超高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>自调用：</strong>同类中方法A（无事务）调方法B（有事务），B的事务不生效→因为是this调用不走代理。解决：AopContext.currentProxy()或注入自己。</li><li><strong>非public方法：</strong>默认CGLIB/JDK只能代理public方法。</li><li><strong>异常被吞：</strong>catch后未抛出，事务不回滚。</li><li><strong>非RuntimeException：</strong>默认只回滚RuntimeException和Error，受检异常需<code>@Transactional(rollbackFor = Exception.class)</code>。</li><li><strong>数据库引擎不支持：</strong>MyISAM不支持事务。</li><li><strong>多线程：</strong>不同线程不在同一事务上下文。</li></ul></div></div></div>
+
+<!-- Q22 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">@Autowired 和 @Resource 的区别？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">依赖注入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>@Autowired</th><th>@Resource</th></tr></thead><tbody><tr><td>来源</td><td>Spring</td><td>JSR-250（JDK标准）</td></tr><tr><td>注入方式</td><td>默认byType</td><td>默认byName</td></tr><tr><td>配合</td><td>+@Qualifier指定名称</td><td>name属性指定</td></tr><tr><td>位置</td><td>构造器/字段/setter</td><td>字段/setter（不支持构造器）</td></tr></tbody></table></div></div></div></div>
+
+<!-- Q30 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">Spring 事件监听机制？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">事件</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>基于<strong>观察者模式</strong>，三个核心角色：</p><ul><li><strong>事件：</strong>ApplicationEvent（如ContextRefreshedEvent）。</li><li><strong>发布者：</strong>ApplicationEventPublisher（ApplicationContext实现了）。</li><li><strong>监听者：</strong>ApplicationListener（或用@EventListener注解）。</li></ul><p><strong>默认同步执行</strong>，可通过<code>@Async</code>+<code>@EnableAsync</code>实现异步事件。</p></div></div></div>
+
+<!-- Q33 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">Spring Boot Starter 原理？如何自定义Starter？</div><div class="q-tags"><span class="q-tag">Starter</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>原理：</strong>Spring Boot通过@EnableAutoConfiguration扫描引入的Starter，Conditional条件判断，自动装配Bean。</p><p><strong>自定义Starter步骤：</strong></p><ol><li>创建autoconfigure模块：写配置类+Properties类。</li><li>在<code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>中注册配置类。</li><li>创建starter模块：只含pom.xml，引入autoconfigure模块。</li><li>使用者只需引入starter依赖，配置yml即可自动装配。</li></ol></div></div></div>
+
+<!-- Q35 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">Spring 中的设计模式有哪些？</div><div class="q-tags"><span class="q-tag">设计模式</span><span class="q-tag">Spring</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>单例模式：</strong>Spring Bean默认单例。</li><li><strong>工厂模式：</strong>BeanFactory/ApplicationContext。</li><li><strong>代理模式：</strong>AOP（JDK/CGLIB代理）。</li><li><strong>模板方法：</strong>JdbcTemplate、RestTemplate。</li><li><strong>观察者模式：</strong>ApplicationListener事件监听。</li><li><strong>适配器模式：</strong>HandlerAdapter、AdvisorAdapter。</li><li><strong>策略模式：</strong>InstantiationStrategy、Resource实现。</li><li><strong>装饰器模式：</strong>BeanWrapper、ServerHttpRequestDecorator。</li><li><strong>责任链模式：</strong>Filter Chain、AOP通知链。</li></ul></div></div></div>
+
+<!-- Q36 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">Spring AOP 的原理？JDK代理和CGLIB代理的区别？</div><div class="q-tags"><span class="q-tag">AOP</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>AOP基于<strong>动态代理</strong>，在BeanPostProcessor.postProcessAfterInitialization中创建代理。</p><p><strong>JDK动态代理：</strong></p><ul><li>目标类必须实现接口。</li><li>基于反射+接口，生成Proxy$类。</li><li>性能略低（反射调用）。</li></ul><p><strong>CGLIB代理：</strong></p><ul><li>基于ASM字节码，生成子类。</li><li>不需要接口，但不能代理final类/方法。</li><li>性能略高（直接方法调用）。</li></ul><p>💡 Spring Boot 2.x默认使用CGLIB。@EnableAspectJAutoProxy(proxyTargetClass=true)强制CGLIB。</p></div></div></div>
+
+<!-- Q37 -->
+<div </div>
+<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">@Configuration 和 @Component 的区别？full模式和lite模式？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">Bean</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>@Configuration（full模式）：</strong>通过CGLIB增强，确保<strong>@Bean方法内部调用</strong>仍然走容器（单例）。</p><p><strong>@Component（lite模式）：</strong>不走CGLIB代理，内部调用@Bean方法会创建新实例。</p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">@Configuration // full模式<br>public class Config {<br>    @Bean A a() { return new A(b()); } // b()走代理，同一实例<br>    @Bean B b() { return new B(); }<br>}<br>@Component // lite模式<br>// a()中b()不会走代理，new新B()</pre></div></div></div>
+
+<div class="footer">
+  📌 07 · 框架 &amp; 中间件 · 共40题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_08_分布式&其他.html" style="color:var(--primary)">下一板块 →</a>
+</div>
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+
+document.addEventListener('click',function(e){
+  var sd=document.getElementById('searchDropdown');
+  var si=document.getElementById('searchInput');
+  if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
+});
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=4')}</script>
+</body>
+</html></div>
+
+</main>
+
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=4')}</script>
+</body>
+</html>

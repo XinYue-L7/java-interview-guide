@@ -455,7 +455,42 @@ Class clz3 = user.getClass();</div>
 <div class="card"><div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">Java 8 主要新特性有哪些？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Lambda表达式：</strong><code>(params)->expression</code>，替代匿名内部类。</li><li><strong>函数式接口：</strong>只有一个抽象方法的接口，<code>@FunctionalInterface</code>。</li><li><strong>Stream API：</strong>集合的流式操作，filter/map/reduce/collect。</li><li><strong>Optional：</strong>解决NullPointerException，优雅处理null。</li><li><strong>新日期API：</strong>LocalDate/LocalTime/LocalDateTime，线程安全、不可变。</li><li><strong>接口默认方法与静态方法：</strong>接口可以有default方法实现。</li><li><strong>方法引用：</strong><code>String::length</code>、<code>System.out::println</code>。</li><li><strong>CompletableFuture：</strong>异步编程增强。</li><li><strong>PermGen移除：</strong>改为Metaspace（元空间）。</li></ul></div></div></div>
 
 <!-- Q30 -->
-<div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">Lambda 表达式的原理是什么？有什么限制？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">Lambda</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>原理：</strong>Lambda不是匿名内部类的语法糖，编译后<strong>不会生成新的class文件</strong>，而是通过<code>invokedynamic</code>指令在运行时动态生成方法句柄。JVM在首次调用时通过<code>LambdaMetafactory</code>生成一个函数式接口的实现类。</p><p><strong>相比匿名内部类：</strong></p><ul><li>不会生成额外的class文件，减少Jar包大小。</li><li>不创建新对象（无捕获时），性能更好。</li><li>this指向外层类而非匿名内部类自身。</li></ul><p><strong>限制：</strong>只能用于函数式接口；不能修改外部局部变量（需effectively final）；不能抛出受检异常（除非接口声明）。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">Lambda 表达式的原理是什么？有什么限制？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">Lambda</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>什么是 Lambda 表达式？</strong></p>
+<p>Lambda 表达式是一种<strong>匿名函数的简洁写法</strong>，允许将函数作为参数传递，是函数式编程在 Java 中的核心体现。</p>
+<p><strong>作用：</strong></p>
+<ul>
+<li>替代冗长的匿名内部类写法，使代码更简洁、可读性更高。</li>
+<li>尤其适用于集合遍历、事件监听、Stream 操作等场景。</li>
+</ul>
+<p><strong>原理：</strong></p>
+<p>编译器将 Lambda 体转换为类的<strong>私有方法</strong>，通过 <code>invokedynamic</code> 指令在运行时由 <code>LambdaMetafactory</code> 生成对应的函数式接口实现对象，避免了每次编译都生成匿名类的字节码膨胀问题。</p>
+<p><strong>相比匿名内部类：</strong></p>
+<ul>
+<li>不会生成额外的 class 文件，减少 Jar 包大小。</li>
+<li>不创建新对象（无捕获时），性能更好。</li>
+<li>this 指向外层类而非匿名内部类自身。</li>
+</ul>
+<p><strong>限制：</strong></p>
+<ul>
+<li>只能用于<strong>函数式接口</strong>（只有一个抽象方法）。</li>
+<li>不能修改外部局部变量（需 <code>effectively final</code>）。</li>
+<li>不能抛出受检异常（除非接口声明）。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<pre class="code-block"><code class="language-java">// 遍历集合
+list.forEach(o -> System.out.println(o));
+
+// 排序
+list.sort((a, b) -> a.getAge() - b.getAge());
+
+// Stream 过滤 + 映射
+list.stream()
+    .filter(e -> e.getSalary() > 5000)
+    .map(e -> e.getName())
+    .collect(Collectors.toList());
+
+// Runnable 线程
+new Thread(() -> System.out.println("Running")).start();</code></pre></div></div></div>
 
 <!-- Q31 -->
 <div class="card"><div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">Stream 流的中间操作和终端操作有哪些？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">Stream</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>中间操作（惰性）：</strong>返回Stream，不触发计算。</p><ul><li><strong>筛选：</strong>filter()、distinct()、limit()、skip()。</li><li><strong>映射：</strong>map()、flatMap()。</li><li><strong>排序：</strong>sorted()。</li><li><strong>窥视：</strong>peek()。</li></ul><p><strong>终端操作（触发计算）：</strong></p><ul><li><strong>收集：</strong>collect(Collectors.toList())、toArray()。</li><li><strong>聚合：</strong>count()、max()、min()、reduce()。</li><li><strong>遍历：</strong>forEach()、forEachOrdered()。</li><li><strong>匹配：</strong>anyMatch()、allMatch()、noneMatch()。</li><li><strong>查找：</strong>findFirst()、findAny()。</li></ul><p>💡 Stream只能消费一次，终端操作后流关闭，再使用抛IllegalStateException。</p></div></div></div>
