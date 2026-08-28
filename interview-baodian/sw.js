@@ -1,9 +1,9 @@
-// Service Worker v6 - Java面试宝典 PWA 离线缓存
+// Service Worker v7 - Java面试宝典 PWA 离线缓存
 // 策略：网络优先（避免缓存旧版本JS/JSON导致搜索不匹配），失败时用缓存兜底
 // 这样保证用户总能拿到最新的搜索索引和代码
 
-var CACHE_NAME = 'interview-baodian-v6';
-var RUNTIME_CACHE = 'interview-baodian-runtime-v6';
+var CACHE_NAME = 'interview-baodian-v7';
+var RUNTIME_CACHE = 'interview-baodian-runtime-v7';
 
 // 需要缓存的关键静态资源（运行时按需缓存）
 var ESSENTIAL_FILES = [];

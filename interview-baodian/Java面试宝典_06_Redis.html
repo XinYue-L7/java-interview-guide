@@ -52,6 +52,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 .back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
 .back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
 .back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
@@ -367,10 +370,12 @@ function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
 
 
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
-function onScroll(){if(window.scrollY>300){bt.classList.add('show');}else{bt.classList.remove('show');}}
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
 window.addEventListener('scroll',onScroll);onScroll();
 </script>
 
@@ -393,6 +398,13 @@ window.addEventListener('scroll',onScroll);onScroll();
       found.style.transition='box-shadow .3s';
       found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
       setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
     }
   }
 })();

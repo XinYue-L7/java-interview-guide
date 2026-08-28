@@ -32,23 +32,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 [data-theme="light"] .hero{color:#fff;border-bottom:none}
 .hero h1{font-size:30px;font-weight:800;margin-bottom:6px}
 .hero p{opacity:.85;font-size:14px}
-.search-wrap{position:relative;max-width:480px;margin:16px auto 0}
-.search-input{width:100%;padding:10px 40px 10px 16px;border-radius:24px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font-size:14px;outline:none;transition:.2s}
+.search-wrap{position:relative;display:inline-block;min-width:280px;max-width:90vw;margin:16px auto 0;vertical-align:top}
+.search-input{width:100%;padding:10px 40px 10px 16px;border-radius:24px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font-size:14px;outline:none;transition:.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .search-input::placeholder{color:rgba(255,255,255,.6)}
 .search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
 .search-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.2);color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.2s}
 .search-btn:hover{background:rgba(255,255,255,.35)}
-.search-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);max-height:360px;overflow-y:auto;z-index:150;display:none;text-align:left}
+.search-dropdown{position:absolute;top:calc(100% + 6px);left:0;width:100%;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);max-height:360px;overflow-y:auto;z-index:150;display:none;text-align:left}
 .search-dropdown.show{display:block}
 .search-item{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:.15s;color:var(--text);text-decoration:none;display:block}
 .search-item:hover{background:var(--tag-bg)}
 .search-item:last-child{border-bottom:none}
 .search-item-title{font-size:13px;font-weight:600;margin-bottom:2px}
 .search-item-module{font-size:11px;color:var(--muted)}
-.search-history{padding:6px 14px;font-size:11px;color:var(--muted);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.search-history .clear-btn{cursor:pointer;font-size:11px;color:var(--link)}
+.search-history{padding:10px 14px 6px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+.search-history .clear-btn{cursor:pointer;font-size:12px;color:var(--link)}
 .search-history .clear-btn:hover{text-decoration:underline}
 .search-empty{padding:16px;text-align:center;color:var(--muted);font-size:13px}
+.search-tags{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 12px}
+.search-tag{display:inline-block;padding:5px 12px;border-radius:14px;background:var(--tag-bg);border:1px solid var(--border);font-size:13px;color:var(--text);cursor:pointer;transition:.15s;white-space:nowrap}
+.search-tag:hover{background:var(--link);color:#fff;border-color:var(--link)}
 
 .container{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
 
@@ -80,10 +83,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <h1>Java 面试宝典</h1>
   <p>8 大板块 · 300 道面试题 · 覆盖全栈知识点</p>
   <p><strong>103 道高频面试题</strong></p>
-  <div class="search-wrap">
-    <input type="text" class="search-input" id="searchInput" placeholder="搜索面试题..." oninput="doSearch(this.value)" onkeydown="if(event.key==='Enter'){addHistory(this.value);doSearch(this.value)}" onfocus="showHistory()" autocomplete="off">
-    <button class="search-btn" onclick="addHistory(document.getElementById('searchInput').value);doSearch(document.getElementById('searchInput').value)">🔍</button>
-    <div class="search-dropdown" id="searchDropdown"></div>
+  <div class="search-wrap" id="searchWrap">
+  <input type="text" class="search-input" id="searchInput" placeholder="搜索面试题..." oninput="doSearch(this.value);resizeSearch();recordHistoryDebounced()" onkeydown="if(event.key==='Enter'){addHistory(this.value);doSearch(this.value)}" onfocus="showHistory()" autocomplete="off">
+  <button class="search-btn" onclick="addHistory(document.getElementById('searchInput').value);doSearch(document.getElementById('searchInput').value)">🔍</button>
+  <div class="search-dropdown" id="searchDropdown"></div>
+  <span id="searchMeasure" style="position:absolute;visibility:hidden;white-space:nowrap;font-size:14px;font-family:inherit;padding:0 40px 0 16px;pointer-events:none;"></span>
   </div>
   <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()">⚙️ 设置</button>
   <div class="settings-dropdown" id="settingsDropdown">
@@ -224,7 +228,7 @@ function setTheme(t){
   localStorage.setItem('theme',t);
   document.getElementById('settingsDropdown').classList.remove('show');
 }
-(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+(function(){try{var t=localStorage.getItem('theme');if(t)setTheme(t);}catch(e){}resizeSearch();})();
 function toggleSettings(){
   document.getElementById('settingsDropdown').classList.toggle('show');
 }
@@ -266,21 +270,49 @@ function score(item,keywords){
   return s;
 }
 
-function getHistory(){var h=localStorage.getItem('search_history');return h?JSON.parse(h):[];}
-function addHistory(q){if(!q)return;var h=getHistory();h=h.filter(x=>x!==q);h.unshift(q);if(h.length>10)h.pop();localStorage.setItem('search_history',JSON.stringify(h));}
-function clearHistory(){localStorage.removeItem('search_history');showHistory();}
+function getHistory(){try{var h=localStorage.getItem('search_history');return h?JSON.parse(h):[];}catch(e){return [];}}
+function addHistory(q){if(!q)return;console.log('addHistory called with:',q);var h=getHistory();console.log('current history:',h);h=h.filter(x=>x!==q);h.unshift(q);if(h.length>10)h.pop();try{localStorage.setItem('search_history',JSON.stringify(h));console.log('saved history:',h);}catch(e){console.error('save failed:',e);}}
+function clearHistory(){try{localStorage.removeItem('search_history');}catch(e){}showHistory();}
 
 function showHistory(){
   var dd=document.getElementById('searchDropdown');
   var h=getHistory();
-  if(!h.length){dd.classList.remove('show');return;}
+  if(!h.length){
+    dd.innerHTML='<div class="search-empty">暂无搜索历史，输入关键词开始搜索</div>';
+    dd.classList.add('show');
+    return;
+  }
   dd.innerHTML='<div class="search-history">搜索历史 <span class="clear-btn" onclick="clearHistory()">清空</span></div>'+
-    h.map(function(x){return '<span class="search-item" onclick="pickHistory(this.textContent)"><div class="search-item-title">'+escapeHtml(x)+'</div></span>';}).join('');
+    '<div class="search-tags">'+h.map(function(x){return '<span class="search-tag" onclick="pickHistory(this.textContent)">'+escapeHtml(x)+'</span>';}).join('')+'</div>';
   dd.classList.add('show');
 }
-function pickHistory(q){var inp=document.getElementById('searchInput');inp.value=q;addHistory(q);inp.focus();setTimeout(function(){doSearch(inp.value);},50);}
+function pickHistory(q){var inp=document.getElementById('searchInput');inp.value=q;addHistory(q);inp.focus();resizeSearch();setTimeout(function(){doSearch(inp.value);},50);}
 
 function escapeHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+var searchTimer=null;
+function recordHistoryDebounced(){
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(function(){
+    var q=document.getElementById('searchInput').value.trim();
+    console.log('debounced, q=',q);
+    if(q)addHistory(q);
+  },1200);
+}
+
+function resizeSearch(){
+  var inp=document.getElementById('searchInput');
+  var wrap=document.getElementById('searchWrap');
+  var measure=document.getElementById('searchMeasure');
+  if(!inp||!wrap||!measure)return;
+  var text=inp.value || inp.placeholder;
+  measure.textContent=text;
+  var w=measure.offsetWidth;
+  var minW=280,maxW=Math.min(window.innerWidth*0.9,720);
+  if(w<minW)w=minW;
+  if(w>maxW)w=maxW;
+  wrap.style.width=w+'px';
+}
 
 function doSearch(q){
   q=q.trim().toLowerCase();
@@ -313,11 +345,11 @@ function doSearch(q){
     return a.num-b.num;
   });
   dd.innerHTML=results.slice(0,20).map(function(item){
-    return '<a class="search-item" href="'+item.file+'?q='+item.num+'" target="_blank"><div class="search-item-title">'+escapeHtml(item.title)+'</div><div class="search-item-module">'+escapeHtml(item.module)+' · 第 '+item.num+' 题</div></a>';
+    return '<a class="search-item" href="'+item.file+'?q='+item.num+'" onclick="addHistory(document.getElementById(\'searchInput\').value.trim())"><div class="search-item-title">'+escapeHtml(item.title)+'</div><div class="search-item-module">'+escapeHtml(item.module)+' · 第 '+item.num+' 题</div></a>';
   }).join('');
   dd.classList.add('show');
 }
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=6')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=7')}</script>
 </body>
 </html>
