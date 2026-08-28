@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 消息队列</title>
+<style>
+::root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.card-body{padding:12px 18px 16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+</head>
+<body data-section="08">
+<div class="hero">
+  <h1>消息队列</h1>
+  <p>8道高频题 · Kafka · RocketMQ · RabbitMQ · 消息可靠性</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_分布式理论.html">← 分布式理论</a>
+    <a href="Java面试宝典_设计模式.html">设计模式 →</a>
+  </div>
+</div>
+<div class="container">
+
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">消息队列的作用？如何保证消息不丢失？</div><div class="q-tags"><span class="q-tag">MQ</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>作用：</strong>异步解耦、削峰填谷、最终一致性。</p>
+      <p><strong>保证不丢失（全链路）：</strong></p>
+      <ul>
+        <li><strong>生产端：</strong>同步发送+确认回调/事务消息。</li>
+        <li><strong>Broker端：</strong>同步刷盘+多副本(ISR)。</li>
+        <li><strong>消费端：</strong>手动ACK，处理完再提交offset。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">如何保证消息不重复消费？</div><div class="q-tags"><span class="q-tag">MQ</span><span class="q-tag">幂等</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>幂等性方案：</strong></p>
+      <ul>
+        <li><strong>数据库唯一键：</strong>用消息ID(或业务唯一键)建唯一索引，insert去重。</li>
+        <li><strong>Redis Set：</strong>消费前SETNX判断是否已处理。</li>
+        <li><strong>状态机：</strong>业务状态流转(如订单：待支付→已支付)，更新时加条件。</li>
+      </ul>
+      <p>💡 MQ本身只能保证at least once，幂等靠业务层实现。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Kafka、RocketMQ、RabbitMQ 的区别？</div><div class="q-tags"><span class="q-tag">MQ</span><span class="q-tag">对比</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>Kafka</th><th>RocketMQ</th><th>RabbitMQ</th></tr>
+        <tr><td>吞吐量</td><td>极高(百万级)</td><td>高(十万级)</td><td>一般(万级)</td></tr>
+        <tr><td>事务消息</td><td>支持</td><td>支持(分布式事务)</td><td>不支持</td></tr>
+        <tr><td>延时消息</td><td>不支持</td><td>支持(18级)</td><td>插件支持</td></tr>
+        <tr><td>协议</td><td>自定义</td><td>自定义</td><td>AMQP</td></tr>
+        <tr><td>适用</td><td>大数据/日志</td><td>电商/金融</td><td>企业集成</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Kafka 如何保证消息不丢失？</div><div class="q-tags"><span class="q-tag">Kafka</span><span class="q-tag">消息队列</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>三端保证：</strong></p><ul><li><strong>Producer：</strong>acks=all（所有副本确认）+ retries>0 + 幂等性enable.idempotence=true。</li><li><strong>Broker：</strong>replication.factor≥3 + min.insync.replicas≥2 + unclean.leader.election.enable=false。</li><li><strong>Consumer：</strong>手动提交offset（处理完再commit）+ 关闭自动提交enable.auto.commit=false。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Kafka 如何保证消息不重复消费？</div><div class="q-tags"><span class="q-tag">Kafka</span><span class="q-tag">幂等</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>消费者幂等处理（核心）：</strong>业务层唯一键（订单号+业务类型）去重→Redis/DB记录已处理消息。</li><li><strong>Producer幂等：</strong>enable.idempotence=true（PID+SequenceNumber去重）。</li><li><strong>事务消息：</strong>Kafka事务（但实际上不解决消费端重复）。</li></ul><p>💡 重点：Kafka只能保证至少一次（at least once），消费端自己实现幂等！</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">Kafka ISR 是什么？min.insync.replicas的作用？</div><div class="q-tags"><span class="q-tag">Kafka</span><span class="q-tag">ISR</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>ISR（In-Sync Replicas）：</strong>与Leader保持同步的副本集合。同步条件是replica.lag.time.max.ms内追上Leader。</p><p><strong>min.insync.replicas：</strong>最少同步副本数。</p><ul><li>配合acks=all使用，确保消息至少写入ISR中这么多副本。</li><li>设为≥2可保证Leader宕机不丢数据。</li><li>ISR数量 < min.insync.replicas时，生产者写入失败→不丢数据。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">RabbitMQ 如何保证消息不丢失？</div><div class="q-tags"><span class="q-tag">RabbitMQ</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Producer→Exchange：</strong>Publisher Confirm机制（confirmCallback）。</li><li><strong>Exchange→Queue：</strong>mandatory=true + returnCallback（消息退回处理）。</li><li><strong>Queue→Broker持久化：</strong>Queue、Message都持久化（delivery_mode=2）。</li><li><strong>Consumer：</strong>手动ACK（acknowledge-mode: manual），处理完再ack。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">RabbitMQ 死信队列和延迟队列？</div><div class="q-tags"><span class="q-tag">RabbitMQ</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>死信（DLX Dead Letter Exchange）：</strong>消息被拒绝+NACK+不重回队列、消息TTL过期、队列满时进入DLX。</p><p><strong>延迟队列：</strong>设置消息TTL+死信队列实现。消息发到设置了TTL的队列→过期后→进入DLX→消费者监听DLX绑定的队列。</p><p><strong>注意：</strong>不同TTL的消息可能不按预期顺序消费（队列头消息TTL最长会阻塞后面的）。可用插件<strong>rabbitmq_delayed_message_exchange</strong>精确延迟。</p></div></div></div>
+
+<div class="footer">
+  📌 消息队列 · 共8题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a>
+</div>
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
+</body>
+</html>

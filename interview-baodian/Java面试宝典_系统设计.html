@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 系统设计</title>
+<style>
+::root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.card-body{padding:12px 18px 16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+</head>
+<body data-section="08">
+<div class="hero">
+  <h1>系统设计</h1>
+  <p>7道高频题 · 秒杀 · 限流 · 运维 · 架构</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_网络协议.html">← 网络协议</a>
+    <a href="Java面试宝典_总目录.html">总目录 →</a>
+  </div>
+</div>
+<div class="container">
+
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">如何设计一个秒杀系统？</div><div class="q-tags"><span class="q-tag">系统设计</span><span class="q-tag">实战</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ol>
+        <li><strong>前端：</strong>静态化+CDN，按钮防重复点击。</li>
+        <li><strong>网关：</strong>限流(Sentinel/令牌桶)，恶意请求拦截。</li>
+        <li><strong>业务：</strong>Redis预减库存→消息队列异步下单→DB扣库存。</li>
+        <li><strong>防超卖：</strong>Redis Lua脚本原子扣减 + DB乐观锁(version/条件update)。</li>
+        <li><strong>削峰：</strong>验证码/答题→消息队列平滑流量。</li>
+        <li><strong>隔离：</strong>秒杀独立部署，不影响主业务。</li>
+      </ol>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">限流算法有哪些？</div><div class="q-tags"><span class="q-tag">限流</span><span class="q-tag">算法</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>计数器固定窗口：</strong>固定时间窗口内计数，边界突刺问题。</li>
+        <li><strong>计数器滑动窗口：</strong>将窗口细分，解决边界问题。</li>
+        <li><strong>漏桶(Leaky Bucket)：</strong>恒定速率处理，超出入桶排队/丢弃。平滑但无法应对突发。</li>
+        <li><strong>令牌桶(Token Bucket)：</strong>恒定速率生成令牌，可应对一定突发。最常用(Sentinel/Guava RateLimiter)。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Linux 常用命令有哪些？（排查问题相关）</div><div class="q-tags"><span class="q-tag">Linux</span><span class="q-tag">运维</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>系统：</strong>top、free -h、df -h、uname -a、uptime。</li><li><strong>进程：</strong>ps -ef、lsof -p pid、netstat -tlnp、ss -tlnp。</li><li><strong>文件：</strong>tail -f、less、grep、find、du -sh。</li><li><strong>磁盘IO：</strong>iostat -x 1、vmstat 1。</li><li><strong>网络：</strong>curl、ping、traceroute、telnet、nc。</li><li><strong>日志排查：</strong>grep 'ERROR' app.log | tail -50、awk、sed。</li><li><strong>权限：</strong>chmod、chown、ls -la。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">OAuth 2.0 和 SSO 单点登录原理？</div><div class="q-tags"><span class="q-tag">认证</span><span class="q-tag">OAuth2</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>OAuth 2.0四种授权模式：</strong></p><ul><li><strong>授权码模式（最安全）：</strong>第三方→授权服务器→获取授权码→换AccessToken。适用于有后端的应用。</li><li><strong>隐式模式：</strong>直接返回Token（已不推荐）。</li><li><strong>密码模式：</strong>用户直接把密码给第三方（内部系统登录）。</li><li><strong>客户端凭证：</strong>服务器间调用。</li></ul><p><strong>SSO原理：</strong>多个系统共用认证中心（CAS）。A系统登录→认证中心建Session+发Ticket→B系统校验Ticket→免登录。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Git 常用操作和常见问题？</div><div class="q-tags"><span class="q-tag">Git</span><span class="q-tag">工具</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>常用操作：</strong>clone、pull、push、branch、checkout、merge、rebase、stash、cherry-pick、reset、revert。</li><li><strong>合并冲突：</strong>冲突标记解决→git add→git merge --continue。</li><li><strong>代码回滚：</strong>git revert（安全，新建commit）vs git reset（重置指针，慎用--hard）。</li><li><strong>分支策略：</strong>Git Flow（main/develop/feature/release/hotfix）、GitHub Flow（main+feature分支）、Trunk-Based。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">DDD 领域驱动设计核心概念？</div><div class="q-tags"><span class="q-tag">DDD</span><span class="q-tag">架构</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>核心概念：</strong></p><ul><li><strong>实体(Entity)：</strong>有唯一标识，可变。</li><li><strong>值对象(Value Object)：</strong>无唯一标识，不可变（如地址、金额）。</li><li><strong>聚合(Aggregate)：</strong>一组相关对象的集合，聚合根是入口。</li><li><strong>仓储(Repository)：</strong>领域对象的持久化接口。</li><li><strong>领域服务：</strong>不适合放在实体/值对象中的业务逻辑。</li><li><strong>领域事件：</strong>领域内发生的有意义事件。</li><li><strong>限界上下文(Bounded Context)：</strong>领域模型的边界，微服务拆分的依据。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">Maven 依赖传递和冲突解决？</div><div class="q-tags"><span class="q-tag">Maven</span><span class="q-tag">构建</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>依赖传递：</strong>引入A→A依赖B→B也被引入。scope影响传递（compile可传，provided/test不传）。</p><p><strong>冲突解决：</strong></p><ul><li><strong>最短路径优先：</strong>A→B→C(1.0) &gt; A→D→E→C(2.0) →选C(1.0)。</li><li><strong>第一声明优先：</strong>同路径深度，先声明的依赖优先。</li><li><strong>手动排除：</strong><code>&lt;exclusions&gt;&lt;exclusion&gt;</code>排除不需要的传递依赖。</li><li><strong>指定版本：</strong><code>&lt;dependencyManagement&gt;</code>统一管理版本。</li><li><strong>mvn dependency:tree</strong>查看依赖树，定位冲突。</li></ul></div></div></div>
+
+<div class="footer">
+  📌 系统设计 · 共7题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a>
+</div>
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
+</body>
+</html>
