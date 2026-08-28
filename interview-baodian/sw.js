@@ -1,61 +1,58 @@
-// Service Worker v7 - Java面试宝典 PWA 离线缓存
-// 策略：网络优先（避免缓存旧版本JS/JSON导致搜索不匹配），失败时用缓存兜底
-// 这样保证用户总能拿到最新的搜索索引和代码
+// Service Worker v22 - Java面试宝典 PWA 离线缓存
+// 策略：安装时预缓存全部页面（首访后完全离线可用），网络优先 + 缓存兜底
+var CACHE_NAME = 'interview-baodian-v22';
+var RUNTIME_CACHE = 'interview-baodian-runtime-v22';
 
-var CACHE_NAME = 'interview-baodian-v8';
-var RUNTIME_CACHE = 'interview-baodian-runtime-v8';
+// 预缓存清单（安装时下载）
+var PAGES = ["Java面试宝典_01_Java基础.html", "Java面试宝典_02_集合容器.html", "Java面试宝典_03_JVM.html", "Java面试宝典_04_并发编程.html", "Java面试宝典_05_MySQL.html", "Java面试宝典_06_Redis.html", "Java面试宝典_07_MongoDB.html", "Java面试宝典_08_Elasticsearch.html", "Java面试宝典_Dubbo.html", "Java面试宝典_MyBatis.html", "Java面试宝典_Netty.html", "Java面试宝典_Spring.html", "Java面试宝典_SpringBoot.html", "Java面试宝典_SpringMVC.html", "Java面试宝典_Zookeeper.html", "Java面试宝典_分布式理论.html", "Java面试宝典_总目录.html", "Java面试宝典_汇丰银行面试题2026年8月.html", "Java面试宝典_消息队列.html", "Java面试宝典_系统设计.html", "Java面试宝典_网络协议.html", "Java面试宝典_设计模式.html"];
 
-// 需要缓存的关键静态资源（运行时按需缓存）
-var ESSENTIAL_FILES = [];
+var EXTRA_FILES = ['manifest.json', 'search_index.json', 'icon.svg', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'qrcode.min.js'];
 
-// 安装：跳过等待，立即接管
+// 生成绝对 URL 列表（相对 sw.js 所在目录）
+var baseUrl = new URL('./', self.location.href);
+function abs(f) { return new URL(f, baseUrl).href; }
+
 self.addEventListener('install', function(e) {
-  self.skipWaiting();
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(function(cache) {
+      return Promise.all(
+        PAGES.map(function(p) { return cache.add(abs(p)); })
+          .concat(EXTRA_FILES.map(function(f) { return cache.add(abs(f)); }))
+      );
+    }).then(function() { self.skipWaiting(); })
+  );
 });
 
-// 激活：清理所有旧版本缓存
 self.addEventListener('activate', function(e) {
   e.waitUntil(
     caches.keys().then(function(keys) {
       return Promise.all(
         keys.filter(function(k) {
           return k !== CACHE_NAME && k !== RUNTIME_CACHE;
-        }).map(function(k) {
-          return caches.delete(k);
-        })
+        }).map(function(k) { return caches.delete(k); })
       );
-    })
+    }).then(function() { self.clients.claim(); })
   );
-  self.clients.claim();
 });
 
-// 请求拦截：网络优先策略
+// 请求拦截：网络优先，失败用缓存兜底（离线场景）
 self.addEventListener('fetch', function(e) {
-  // 只处理同源 GET 请求
   if (e.request.method !== 'GET') return;
   if (!e.request.url.startsWith(self.location.origin)) return;
 
-  var url = new URL(e.request.url);
-
   e.respondWith(
-    // 1. 先尝试网络（拿最新版本）
     fetch(e.request).then(function(resp) {
-      // 网络成功，缓存后返回
       if (resp && resp.status === 200) {
         var clone = resp.clone();
-        // 只缓存 HTML 和 JSON 数据
+        var url = new URL(e.request.url);
         if (url.pathname.endsWith('.html') || url.pathname.endsWith('.json')) {
-          caches.open(RUNTIME_CACHE).then(function(cache) {
-            cache.put(e.request, clone);
-          });
+          caches.open(RUNTIME_CACHE).then(function(cache) { cache.put(e.request, clone); });
         }
       }
       return resp;
     }).catch(function() {
-      // 2. 网络失败，使用缓存兜底（离线场景）
       return caches.match(e.request).then(function(cached) {
         if (cached) return cached;
-        // 没有缓存的 HTML 请求 → 返回离线提示
         var accept = e.request.headers.get('accept') || '';
         if (accept.indexOf('text/html') !== -1 || e.request.mode === 'navigate') {
           return offlinePage();
@@ -66,7 +63,7 @@ self.addEventListener('fetch', function(e) {
   );
 });
 
-// 离线提示页面
+// 离线提示页面（仅在缓存为空时出现）
 function offlinePage() {
   var html = '<!DOCTYPE html>' +
     '<html lang="zh-CN"><head><meta charset="UTF-8">' +

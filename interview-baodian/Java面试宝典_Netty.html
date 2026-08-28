@@ -4,14 +4,14 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · Netty</title>
 <style>
-:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+:root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
-[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
-.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
@@ -56,11 +56,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
 .back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
 .back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+.sec-title{display:inline-block;background:var(--primary);color:#fff;padding:4px 14px;border-radius:8px;font-size:13px;font-weight:700;margin:10px 0 6px}
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
-<body>
+<body data-section="14">
 <div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+
   <h1>Netty</h1>
   <p>2道高频题 · Netty核心考点</p>
 <div class="nav-row">
@@ -68,16 +84,71 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a href="Java面试宝典_Dubbo.html">← Dubbo</a>
     <a href="Java面试宝典_Zookeeper.html">Zookeeper →</a>
   </div>
+</div>
 <div class="container">
-<div class="card"><div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Netty 的线程模型和零拷贝？</div><div class="q-tags"><span class="q-tag">Netty</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>Reactor主从模型：</strong></p><ul><li><strong>Boss Group（1个NioEventLoop）：</strong>接收连接，注册Channel到Worker。</li><li><strong>Worker Group（CPU*2个NioEventLoop）：</strong>处理读写IO和业务逻辑。</li><li>每个NioEventLoop绑定一个Selector和一条线程。</li></ul><p><strong>零拷贝（Zero Copy）：</strong></p><ul><li><strong>FileRegion：</strong>transferTo()操作系统级零拷贝（DMA拷贝）。</li><li><strong>CompositeByteBuf：</strong>逻辑组合多个ByteBuf，无物理拷贝。</li><li><strong>Unpooled.wrappedBuffer：</strong>包装字节数组，不拷贝。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Netty 的线程模型和零拷贝？</div><div class="q-tags"><span class="q-tag">Netty</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong class="sec-title">一句话概括</strong></p><p>Netty 采用<strong>Reactor 主从模型</strong>管理线程，用<strong>零拷贝</strong>减少数据在内核态与用户态之间的搬运次数，这两点共同撑起了它的高性能。</p>
 
-<div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Netty 解决 TCP 粘包/拆包方案？</div><div class="q-tags"><span class="q-tag">Netty</span><span class="q-tag">粘包</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Netty提供多种<strong>解码器</strong>解决粘包/拆包：</p><ul><li><strong>FixedLengthFrameDecoder：</strong>定长消息。</li><li><strong>LineBasedFrameDecoder：</strong>换行符分隔。</li><li><strong>DelimiterBasedFrameDecoder：</strong>自定义分隔符。</li><li><strong>LengthFieldBasedFrameDecoder：</strong>消息头包含长度字段（最常用）。</li><li><strong>自定义协议：</strong>魔数+长度+数据+校验。</li></ul></div></div></div>
+<p><strong class="sec-title">定义</strong></p>
+<p><strong>Reactor 主从模型</strong>：一种事件驱动 + IO 多路复用的网络编程模型。Boss 线程专职接收连接，Worker 线程专职处理已连接通道的读写事件。</p>
+<p><strong>零拷贝（Zero Copy）</strong>：在数据传输过程中，减少甚至消除数据在内核缓冲区与用户缓冲区之间的来回拷贝，让数据尽可能"直达"目的地。</p>
+
+<p><strong class="sec-title">作用</strong></p>
+<ul><li>主从模型：用极少量线程支撑海量并发连接，避免"一个连接一个线程"带来的内存和上下文切换开销。</li><li>零拷贝：降低 CPU 占用、减少内存带宽消耗、提升文件/网络传输吞吐量。</li></ul>
+
+<p><strong class="sec-title">原理</strong></p>
+<p><strong>线程模型——Reactor 主从多线程</strong></p>
+<ul><li><strong>Boss Group</strong>：通常只配 1 个 NioEventLoop，专门做 Accept（监听端口、接收新连接），然后把新 Channel 注册到 Worker Group 的某个 EventLoop 上。</li><li><strong>Worker Group</strong>：通常配 CPU 核心数 × 2 个 NioEventLoop，每个 EventLoop 绑定一个 Selector + 一条线程，负责这条线程上所有 Channel 的读写事件。</li><li><strong>关键约束</strong>：一个 Channel 生命周期内只绑定在一个 NioEventLoop 上，所以 Channel 的读写操作天然是单线程的，不需要额外加锁。</li></ul>
+<p><strong>零拷贝三种实现</strong></p>
+<ul><li><strong>FileRegion.transferTo()</strong>：操作系统级 DMA 拷贝，数据从磁盘直接到网卡缓冲区，不经过用户空间。</li><li><strong>CompositeByteBuf</strong>：逻辑上将多个 ByteBuf"拼"在一起，物理上数据不需要拷贝到新数组。</li><li><strong>Unpooled.wrappedBuffer()</strong>：包装已有字节数组，只是换了个"壳"，不产生新的内存拷贝。</li></ul>
+
+<p><strong class="sec-title">举例讲解</strong></p>
+<p>把 Netty 比作一家高级餐厅：</p>
+<ul><li><strong>Boss Group</strong> 是迎宾员，只站在门口迎接客人（接收连接），然后带客人入座，把客人交给负责该区域的服务员。</li><li><strong>Worker Group</strong> 是服务员，每人负责一片区域的多张桌子（一个线程管理多个 Channel）。一张桌子自始至终只由一个服务员服务（Channel 绑定在一个 EventLoop 上），所以不会出现两个服务员同时给同一桌点菜的情况（线程安全）。</li><li><strong>零拷贝</strong> 就像餐厅用了"智能传送带"，后厨炒好菜后，菜盘不经过服务员的手推车（用户空间），而是直接通过传送带从厨房窗口送到客人桌上（内核 DMA 直达网卡），省掉了服务员来回搬运的中间环节，上菜速度自然快得多。</li></ul>
+
+<p><strong class="sec-title">面试速记口诀</strong></p>
+<p>"一主多从、一个 Channel 一个 EventLoop；零拷贝三种套路——transferTo 直接传、Composite 拼着用、wrapped 包个壳。"</p>
+</div></div></div>
+
+<div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Netty 解决 TCP 粘包/拆包方案？</div><div class="q-tags"><span class="q-tag">Netty</span><span class="q-tag">粘包</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong class="sec-title">一句话概括</strong></p><p>TCP 是面向流的协议，本身没有消息边界，所以发送方多次写入的数据可能被接收方一次性读完（<strong>粘包</strong>），也可能一个大消息被分多次才读完（<strong>拆包</strong>）。Netty 提供了多种<strong>解码器（Decoder）</strong>在 ChannelPipeline 里自动识别消息边界。</p>
+
+<p><strong class="sec-title">定义</strong></p>
+<p><strong>粘包</strong>：发送方连续发送多条小消息，TCP 协议栈为了提升效率会把它们合并到一个 TCP 报文中发出，接收方一次 read 就读到了多条消息的内容。</p>
+<p><strong>拆包</strong>：发送方发送了一条大消息，但 TCP 报文有大小限制（MSS），这条消息被拆成多个报文发送，接收方需要多次 read 才能拼出完整消息。</p>
+
+<p><strong class="sec-title">作用</strong></p>
+<p>如果不对粘包/拆包做处理，接收方拿到的字节流是"糊成一团"的，无法区分哪里是一条完整消息的结束、下一条消息的开始。解码器的作用就是在字节流到达业务 Handler 之前，先把"散装"的字节流切成一条条完整的消息帧。</p>
+
+<p><strong class="sec-title">原理与方案对比</strong></p>
+<div class="table-wrap"><table><tr><th>解码器</th><th>核心原理</th><th>适用场景</th><th>生活类比</th></tr><tr><td>FixedLengthFrameDecoder</td><td>按固定字节长度切分</td><td>消息长度固定，如心跳包</td><td>每页纸刚好印 100 个字，读到 100 字就是一页</td></tr><tr><td>LineBasedFrameDecoder</td><td>按换行符 \n 或 \r\n 切分</td><td>文本协议，如 Redis 协议、SMTP</td><td>一句话一行，看到回车就知道这句讲完了</td></tr><tr><td>DelimiterBasedFrameDecoder</td><td>按自定义分隔符切分</td><td>消息以特定字符结尾，如 CSV</td><td>逗号分隔表格，看到逗号就知道一个单元格结束</td></tr><tr><td>LengthFieldBasedFrameDecoder</td><td>消息头包含"长度字段"，先读长度再按长度读数据</td><td>二进制协议，<strong>企业级最常用</strong></td><td>快递单上写了包裹尺寸，先看清尺寸再拆开</td></tr><tr><td>自定义协议</td><td>魔数 + 版本号 + 长度 + 数据 + 校验和</td><td>RPC 框架、游戏服务器</td><td>信封格式统一：特殊暗号 + 页数 + 正文 + 防伪码</td></tr></table></div>
+
+<p><strong class="sec-title">举例讲解</strong></p>
+<p>想象两个人隔着一根长长的透明水管传纸条：</p>
+<ul><li><strong>粘包</strong>：第一个人连续扔了 3 张纸条进水口，第二个人在水管出口一次捞上来 3 张粘在一起的纸条，分不清哪句话是谁的、从哪里断句。</li><li><strong>拆包</strong>：第一个人写了一张很长的纸条（比如 1000 字），但水管一次只能传 200 字，第二个人分 5 次才捞完，前 4 次都是"没说完的半句话"。</li></ul>
+<p>解决办法就是在纸条上做标记：</p>
+<ul><li>如果每句话都裁成<strong>固定 50 字</strong>，捞够 50 字就是一条完整消息 → <strong>FixedLengthFrameDecoder</strong>。</li><li>如果每句话末尾都画一条<strong>横线（换行）</strong>，看到横线就知道这句完了 → <strong>LineBasedFrameDecoder</strong>。</li><li>如果纸条开头写了"<strong>本消息共 300 字</strong>"，对方先读长度，再按 300 字精确截取 → <strong>LengthFieldBasedFrameDecoder</strong>（最靠谱，也是 Dubbo、RocketMQ 等框架的首选）。</li></ul>
+
+<p><strong class="sec-title">面试速记口诀</strong></p>
+<p>"TCP 粘包拆包是天生缺陷，Netty 五种解码器来补刀——定长、换行、分隔符、长度字段最常用，复杂场景自定义协议。生产环境首选 LengthFieldBasedFrameDecoder，简单文本用换行，固定长度心跳包用定长。"</p>
+</div></div></div>
 
 </div>
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
 
 <a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
@@ -123,6 +194,6 @@ window.addEventListener('scroll',onScroll);onScroll();
 </div>
 </div>
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
 </body>
 </html>

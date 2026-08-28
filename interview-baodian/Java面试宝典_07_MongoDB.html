@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 07 MongoDB</title>
+<style>
+::root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.card-body{padding:12px 18px 16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body data-section="07">
+<div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+
+  <h1>MongoDB</h1>
+  <p>15道高频题 · 文档模型 · 索引 · 复制集 · 分片 · 聚合管道 · 事务</p>
+<div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_06_Redis.html">← Redis</a>
+    <a href="Java面试宝典_08_Elasticsearch.html">Elasticsearch →</a>
+  </div>
+  </div>
+</div>
+<div class="container">
+
+<!-- Q1 -->
+<div class="card"><div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">MongoDB 是什么？和关系型数据库（MySQL）有什么区别？</div><div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>MongoDB 是面向<strong>文档（Document）</strong>的 NoSQL 数据库，数据以 <strong>BSON 文档</strong>存储，支持水平扩展，与 MySQL 的"表 + 行"关系模型完全不同。</p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>MongoDB</th><th>MySQL</th></tr></thead><tbody><tr><td>数据模型</td><td>BSON 文档（Json 风格）</td><td>表 + 行 + 列</td></tr><tr><td>Schema</td><td>动态（字段可随时增减）</td><td>固定（需 DDL 变更）</td></tr><tr><td>事务</td><td>4.0+ 支持多文档事务</td><td>强 ACID，天然支持</td></tr><tr><td>扩展方式</td><td>分片（Sharding）水平扩展</td><td>主从 / 分库分表，偏垂直</td></tr><tr><td>复杂关联查询</td><td>弱（需 $lookup）</td><td>强（JOIN 丰富）</td></tr><tr><td>典型场景</td><td>海量数据、结构多变</td><td>强一致、强事务业务</td></tr></tbody></table></div><p>💡 选型：<strong>结构多变、读写并发高、海量数据</strong>（用户画像/日志/商品）→ MongoDB；<strong>强事务、复杂关联查询</strong>（订单/财务）→ MySQL。</p></div></div></div>
+
+<!-- Q2 -->
+<div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">MongoDB 的 BSON 和 JSON 有什么区别？</div><div class="q-tags"><span class="q-tag">数据模型</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>BSON 是 MongoDB 的<strong>二进制 JSON</strong>，比 JSON 支持更多数据类型、解析更快、存储更紧凑。</p><ul><li><strong>数据类型更多：</strong>Date、ObjectId、BinData、Decimal128、正则、内嵌数组/文档等。</li><li><strong>二进制存储：</strong>带类型标记和长度，遍历/解析快，省去文本解析。</li><li><strong>遍历更快：</strong>字段名旁直接带类型和长度，可直接跳读。</li><li><strong>JSON：</strong>人可读的纯文本，跨语言通用，但类型弱（数字都是 number）。</li></ul><p>💡 面试可说：MongoDB 文档天然就是 BSON，内部存储、索引、复制均基于 BSON。</p></div></div></div>
+
+<!-- Q3 -->
+<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">MongoDB 的 ObjectId 是怎么生成的？</div><div class="q-tags"><span class="q-tag">数据模型</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>ObjectId 是 <strong>12 字节</strong>的十六进制字符串，由 <strong>时间戳 + 机器标识 + 进程ID + 自增计数器</strong>四部分构成，无需中心自增即可全局唯一。</p><ul><li><strong>4 字节：</strong>秒级时间戳（可按 _id 排序约等于按插入时间排序）。</li><li><strong>3 字节：</strong>机器标识（主机名 hash）。</li><li><strong>2 字节：</strong>进程 ID。</li><li><strong>3 字节：</strong>同一秒内的自增计数器（随机起点）。</li></ul><p><strong>优点：</strong>客户端本地即可生成，天然支持分布式；自带时间信息。</p><p>💡 对比：MySQL 自增主键需要中心协调；UUID 是 128 位更长、无序。</p></div></div></div>
+
+<!-- Q4 -->
+<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">MongoDB 的文档模型：范式化与反范式化如何选择？</div><div class="q-tags"><span class="q-tag">建模</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>范式化（<strong>引用</strong>）减少冗余但查询要多次；反范式化（<strong>内嵌</strong>）一次查询出数据但要维护一致性。</p><p><strong>内嵌（Embedded）：</strong></p><ul><li>适合：一对一 / 一对少；子文档总是随主文档一起读；读多写少。</li><li>例子：用户 + 收货地址、文章 + 评论。</li></ul><p><strong>引用（Reference）：</strong></p><ul><li>适合：一对多 / 多对多；子文档独立变化；数据量大不宜内嵌。</li><li>例子：用户 + 订单、商品 + 库存。</li></ul><p>💡 实务：<strong>混用</strong>——高频一起读的内嵌，低频或独立的用引用，必要时用 $lookup 关联。</p></div></div></div>
+
+<!-- Q5 -->
+<div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">MongoDB 有哪些索引类型？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>MongoDB 索引底层用 <strong>B-Tree</strong>，类型丰富，覆盖单字段、复合、数组、全文、地理位置等场景。</p><ul><li><strong>单字段索引：</strong>默认 _id 唯一索引；可对任意字段建升/降序。</li><li><strong>复合索引：</strong>多字段，遵循"最左前缀"原则（ESR：相等字段 → 排序 → 范围）。</li><li><strong>多键索引：</strong>对数组字段建索引，自动展开数组元素。</li><li><strong>文本索引：</strong>全文检索，支持中文分词（需指定语言）。</li><li><strong>地理空间索引：</strong>2dsphere，支持附近的人/距离查询。</li><li><strong>TTL 索引：</strong>字段到期自动删除文档（如验证码、会话）。</li><li><strong>哈希索引：</strong>用于分片键均衡分布。</li><li><strong>唯一索引：</strong>保证字段唯一性。</li></ul><p>💡 排查：<code>db.collection.getIndexes()</code> 查看；<code>explain("executionStats")</code> 判断是否走索引。</p></div></div></div>
+
+<!-- Q6 -->
+<div class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">MongoDB 的 WiredTiger 存储引擎有什么特点？</div><div class="q-tags"><span class="q-tag">存储引擎</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>WiredTiger 是 MongoDB 3.2+ 的<strong>默认存储引擎</strong>，基于 B-Tree，提供<strong>文档级锁 + 压缩 + 快照隔离（MVCC）+ 崩溃恢复</strong>。</p><ul><li><strong>文档级并发控制：</strong>取代旧版 MMAPv1 的集合级锁，并发能力大幅提升。</li><li><strong>压缩：</strong>Snappy / Zlib 压缩数据和索引，显著节省磁盘。</li><li><strong>检查点 + Journal：</strong>定期 checkpoint + 预写日志（WAL），崩溃后快速恢复。</li><li><strong>内存缓存：</strong>默认使用 50% 内存（需显式配置，避免与 OS 冲突）。</li><li><strong>快照隔离：</strong>支持多版本并发控制，为事务提供基础。</li></ul><p>💡 面试加分：提到 MMAPv1 → WiredTiger 的演进，说明锁粒度从集合级到文档级。</p></div></div></div>
+
+<!-- Q7 -->
+<div class="card"><div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">MongoDB 复制集（Replica Set）的原理和选举机制？</div><div class="q-tags"><span class="q-tag">高可用</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>复制集是<strong>一主多从</strong>的高可用架构：主节点负责写，从节点通过复制 <strong>oplog</strong> 异步同步数据，主节点故障时自动<strong>选举</strong>出新主。</p><ul><li><strong>写入：</strong>只写主节点，写入记录到 oplog（本地集合）。</li><li><strong>同步：</strong>从节点拉取并应用 oplog，默认异步复制。</li><li><strong>心跳：</strong>节点间每 2 秒心跳，超时（默认 10s）触发重新选举。</li><li><strong>选举：</strong>基于 <strong>Raft 算法</strong>；必须有<strong>大多数节点（n/2+1）</strong>在线才能选主，防止脑裂。</li><li><strong>优先级：</strong>priority 高的节点优先成为主；可配置隐藏节点、延迟节点（备份）。</li><li><strong>读写分离：</strong>secondaryPreferred 读从节点，但可能读到旧数据。</li></ul><p>💡 典型规模：3 节点（1 主 2 从）或 5 节点，最多可容忍 n/2 台故障。</p></div></div></div>
+
+<!-- Q8 -->
+<div class="card"><div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">MongoDB 的分片集群（Sharding）原理？</div><div class="q-tags"><span class="q-tag">分片</span><span class="q-tag">架构</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>分片集群将集合按<strong>分片键</strong>水平切分到多个 shard，<strong>mongos</strong> 做路由，<strong>Config Server</strong> 保存元数据，数据按块（chunk）自动均衡。</p><ul><li><strong>组件：</strong>mongos（路由）、Config Server（元数据副本集）、Shard（每个 shard 本身是副本集）。</li><li><strong>分片键选择：</strong>基数大、分布均匀、读写在它上面分散（避免热点）。</li><li><strong>数据分布方式：</strong><code>hashed</code>（哈希取模，分布均匀）与 <code>ranged</code>（范围分片，利于范围查询）。</li><li><strong>均衡器：</strong>chunk 超过阈值自动迁移，动态扩缩容。</li></ul><p>💡 什么时候分片：数据量单机放不下、写入吞吐超单机、需要线性扩展；<strong>分片键一旦选定不可修改</strong>，务必慎重。</p></div></div></div>
+
+<!-- Q9 -->
+<div class="card"><div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">MongoDB 支持事务吗？如何实现？</div><div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>MongoDB 4.0 起支持<strong>副本集多文档事务</strong>（ACID），4.2 起支持<strong>分片集群分布式事务</strong>。</p><ul><li><strong>底层原理：</strong>基于 WiredTiger 的 <strong>快照隔离（MVCC）</strong> + Journal 日志，事务内读到一致快照。</li><li><strong>使用方式：</strong><code>session.startTransaction()</code> → 多次操作 → <code>commitTransaction()</code> / <code>abortTransaction()</code>。</li><li><strong>限制：</strong>事务有时长限制（默认 60s）；事务内不能创建/删除集合；不能跨不同分片键的分布式事务做任意操作。</li><li><strong>注意：</strong>事务会放大锁冲突，谨慎控制事务内操作数量。</li></ul><p>💡 面试点：提到事务演进 2.6（单文档原子性）→ 4.0（多文档）→ 4.2（分布式事务）。</p></div></div></div>
+
+<!-- Q10 -->
+<div class="card"><div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">MongoDB 的聚合管道（Aggregation Pipeline）是什么？</div><div class="q-tags"><span class="q-tag">聚合</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>聚合管道类似 Linux 管道，把多个阶段（stage）依次作用于文档流，前一个阶段的输出作为下一阶段的输入。</p><ul><li><strong>常用阶段：</strong><code>$match</code>（过滤）→ <code>$group</code>（分组）→ <code>$sort</code>（排序）→ <code>$project</code>（投影）→ <code>$unwind</code>（展开数组）→ <code>$lookup</code>（跨集合关联，类似 JOIN）→ <code>$limit/$skip</code>（分页）。</li><li><strong>内存限制：</strong>单阶段默认内存上限 100MB，超出可用 <code>allowDiskUse</code> 落盘。</li><li><strong>优化：</strong>尽早 <code>$match</code>、<code>$sort</code> 尽量靠前（可复用索引），避免全量 <code>$unwind</code>。</li></ul><p>💡 对比：聚合管道比旧版 MapReduce 高效得多，是 Mongo 数据分析的主流方式。</p></div></div></div>
+
+<!-- Q11 -->
+<div class="card"><div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">MongoDB 的读写关注级别（Write Concern / Read Concern）？</div><div class="q-tags"><span class="q-tag">一致性</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>Write Concern 决定<strong>写多少节点确认</strong>才算成功；Read Concern 决定<strong>读取哪种已提交状态</strong>的数据，两者共同平衡一致性与性能。</p><p><strong>Write Concern：</strong></p><ul><li><code>w=1</code>（默认）：主节点确认即返回，性能好。</li><li><code>w=majority</code>：多数节点确认，数据不丢（选举后不丢写）。</li><li><code>j=true</code>：journal 落盘后才确认。</li><li><code>wtimeout</code>：等待超时上限，避免一直阻塞。</li></ul><p><strong>Read Concern：</strong></p><ul><li><code>local</code>（默认）：读到本节点最新数据，可能未提交。</li><li><code>available</code>：类似 local，分片场景可用。</li><li><code>majority</code>：只读已提交到多数副本的数据（不读脏数据）。</li><li><code>linearizable</code>：最强一致（结合 writeConcern majority 使用）。</li><li><code>snapshot</code>：事务快照读。</li></ul><p>💡 组合建议：核心数据 <code>w=majority + readConcern majority</code>；缓存类数据用默认级别换性能。</p></div></div></div>
+
+<!-- Q12 -->
+<div class="card"><div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">MongoDB 和 Redis 有什么区别？如何选择？</div><div class="q-tags"><span class="q-tag">对比</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>MongoDB 是<strong>磁盘文档数据库</strong>（持久化核心数据），Redis 是<strong>内存 key-value 缓存</strong>（高并发热点数据）。</p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>MongoDB</th><th>Redis</th></tr></thead><tbody><tr><td>定位</td><td>文档数据库（NoSQL）</td><td>内存数据库 / 缓存</td></tr><tr><td>数据模型</td><td>BSON 文档，复杂结构</td><td>String / Hash / List / Set / ZSet</td></tr><tr><td>存储介质</td><td>磁盘为主（WiredTiger）</td><td>内存为主，持久化是补充</td></tr><tr><td>数据量</td><td>海量（TB 级可分片）</td><td>受内存限制（GB 级）</td></tr><tr><td>事务</td><td>多文档 ACID（4.0+）</td><td>Lua 脚本 / MULTI 弱事务</td></tr><tr><td>典型场景</td><td>核心数据存储、查询分析</td><td>缓存、计数器、排行榜、分布式锁</td></tr></tbody></table></div><p>💡 常见组合：<strong>Redis 扛高并发缓存 + MongoDB 存主数据</strong>，缓存击穿时回源 MongoDB。</p></div></div></div>
+
+<!-- Q13 -->
+<div class="card"><div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">MongoDB 的 GridFS 是什么？应用场景？</div><div class="q-tags"><span class="q-tag">大文件</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>GridFS 是 MongoDB 存储<strong>超过 16MB 大文件</strong>的规范：文件拆成小块存入 <strong>chunks</strong> 集合，元数据存入 <strong>files</strong> 集合。</p><ul><li><strong>files 集合：</strong>存文件名、大小、上传时间、MD5 等元数据。</li><li><strong>chunks 集合：</strong>存二进制分块（默认每块 <strong>255KB</strong>），带 files_id 关联。</li><li><strong>优点：</strong>随 MongoDB 分片/副本集扩展；支持断点续传；免搭建文件服务器。</li><li><strong>缺点：</strong>查询性能不如专业对象存储（OSS/S3）；不支持文件内随机修改（需整块重写）。</li></ul><p>💡 场景：中小规模的文件存储（头像、日志归档、内部资料）；<strong>大规模场景优先 OSS/S3</strong>。</p></div></div></div>
+
+<!-- Q14 -->
+<div class="card"><div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">MongoDB 慢查询如何排查和优化？</div><div class="q-tags"><span class="q-tag">性能优化</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>开启 <strong>Profiler</strong> 记录慢操作 → 用 <strong>explain</strong> 分析执行计划 → 对症下药（建索引/改查询/调分页）。</p><ol><li><strong>开启慢查询日志：</strong><code>db.setProfilingLevel(1, {slowms: 100})</code>，慢操作写入 <code>system.profile</code> 集合。</li><li><strong>分析执行计划：</strong><code>db.collection.find(...).explain("executionStats")</code>，关注 <code>COLLSCAN</code>（全表扫描）→ 应改为 <code>IXSCAN</code>。</li><li><strong>建索引：</strong>针对查询条件、排序字段建复合索引（遵循 ESR 顺序）。</li><li><strong>限制返回：</strong>只查需要的字段（<code>$project</code>），避免大文档全量传输。</li><li><strong>分页优化：</strong>深分页用 <code>skip</code> 很慢，改用<strong>键集分页</strong>（<code>_id &gt; 上次值</code>）或 <code>find().sort().limit()</code> 游标式。</li><li><strong>监控：</strong><code>db.serverStatus()</code>、mongostat 观察内存、连接数、队列。</li></ol></div></div></div>
+
+<!-- Q15 -->
+<div class="card"><div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">MongoDB 与 Elasticsearch 的区别？</div><div class="q-tags"><span class="q-tag">对比</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>MongoDB 是<strong>文档数据库</strong>（负责存储、事务、查询），Elasticsearch 是<strong>搜索引擎</strong>（负责全文检索、分析聚合），二者定位不同常配合使用。</p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>MongoDB</th><th>Elasticsearch</th></tr></thead><tbody><tr><td>定位</td><td>文档数据库（NoSQL）</td><td>分布式搜索引擎</td></tr><tr><td>索引结构</td><td>B-Tree（字段索引）</td><td>倒排索引（全文检索）</td></tr><tr><td>写入一致性</td><td>事务 ACID</td><td>近实时（秒级可见）</td></tr><tr><td>强项</td><td>存储、查询、事务</td><td>全文搜索、相关度评分、聚合分析</td></tr><tr><td>弱项</td><td>全文检索能力弱</td><td>不适合强一致业务存储</td></tr></tbody></table></div><p>💡 常见组合：<strong>MongoDB 存业务数据，ES 同步数据做全文搜索</strong>（如商品搜索、日志检索）。</p></div></div></div>
+
+<div class="footer">
+  📌 07 · MongoDB · 共15题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_08_Elasticsearch.html" style="color:var(--primary)">下一板块 →</a>
+</div>
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var sd=document.getElementById('searchDropdown');
+  var si=document.getElementById('searchInput');
+  if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
+});
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+</body>
+</html>
