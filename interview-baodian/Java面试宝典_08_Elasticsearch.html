@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 08 Elasticsearch</title>
+<style>
+:::root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.search-input::placeholder{color:rgba(255,255,255,.6)}
+.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-history .search-history .clear-btn:hover{text-decoration:underline}
+
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.card-body{padding:12px 18px 16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body data-section="08">
+<div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+
+  <h1>Elasticsearch</h1>
+  <p>15道高频题 · 倒排索引 · 集群 · 分词 · 聚合 · 查询优化</p>
+<div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_07_MongoDB.html">← MongoDB</a>
+    <a href="Java面试宝典_Spring.html">框架 →</a>
+  </div>
+  </div>
+</div>
+<div class="container">
+
+<!-- Q1 -->
+<div class="card"><div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Elasticsearch 是什么？和 MySQL 有什么区别？</div><div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>Elasticsearch 是基于 <strong>Lucene</strong> 的<strong>分布式全文搜索引擎</strong>，用<strong>倒排索引</strong>实现秒级检索，定位与 MySQL 完全不同。</p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>Elasticsearch</th><th>MySQL</th></tr></thead><tbody><tr><td>定位</td><td>分布式搜索引擎 / 分析引擎</td><td>关系型数据库</td></tr><tr><td>索引结构</td><td>倒排索引（全文检索）</td><td>B+Tree（精确/范围查询）</td></tr><tr><td>写入</td><td>近实时（秒级可见）</td><td>事务 ACID，实时</td></tr><tr><td>强项</td><td>全文搜索、相关度评分、聚合分析、海量日志</td><td>强一致、复杂关联、事务</td></tr><tr><td>弱项</td><td>事务弱、Join 能力弱</td><td>模糊搜索性能差、海量数据扩展吃力</td></tr><tr><td>典型场景</td><td>搜索、日志检索、监控分析</td><td>业务核心数据存储</td></tr></tbody></table></div><p>💡 常见组合：<strong>MySQL 存主数据，ES 同步做搜索</strong>（Binlog → MQ → ES），各取所长。</p></div></div></div>
+
+<!-- Q2 -->
+<div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">ES 的倒排索引（Inverted Index）原理？</div><div class="q-tags"><span class="q-tag">核心原理</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>倒排索引是<strong>“词项 → 文档ID”</strong>的映射表：先对文档<strong>分词</strong>，再记录每个词出现在哪些文档，查询时直接查词找到文档，避免全表扫描。</p><ul><li><strong>分词（Analyzer）：</strong>文档写入时按分析器切分成词项（token），如 “Elasticsearch 分布式搜索” → 分词后建表。</li><li><strong>结构：</strong>词项字典（Term Dictionary，有序）→ 倒排列表（Posting List，含文档ID、词频 TF、位置 Position、偏移）。</li><li><strong>查询过程：</strong>查询词 → 二分/跳表找词项 → 拿到倒排列表 → 合并（AND/OR）→ 按相关度打分排序。</li><li><strong>优化：</strong>词项字典用 FST 压缩（内存友好）、倒排列表用<strong>跳表</strong> + <strong>Roaring Bitmap</strong> 加速合并。</li></ul><p>💡 记忆点：正排是“文档→词”，倒排是“词→文档”，核心是<strong>空间换时间</strong>。</p></div></div></div>
+
+<!-- Q3 -->
+<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">ES 为什么是近实时（Near Real Time）？写入流程是什么？</div><div class="q-tags"><span class="q-tag">写入原理</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>数据先写入 <strong>内存 buffer</strong> + <strong>translog</strong>，默认每秒 <strong>refresh</strong> 一次生成可搜索的 segment，所以写入后约 <strong>1 秒</strong>才可被搜索到（近实时）。</p><ol><li><strong>写入内存 buffer：</strong>文档先写入分片的内存缓冲，此时不可搜索。</li><li><strong>写 translog：</strong>同时追加写预写日志，用于崩溃恢复，防止数据丢失。</li><li><strong>refresh（默认 1s）：</strong>buffer 清空并生成内存中的 segment（OS 缓存），此后<strong>可被搜索</strong>。</li><li><strong>flush：</strong>translog 满（默认 512MB 或 30 分钟）时，把 segment <strong>fsync 落盘</strong>并删除旧 translog，生成 commit point。</li><li><strong>merge：</strong>后台合并小 segment 成大 segment，删除已删除文档，控制句柄与内存。</li></ol><p>💡 调优：追求搜索实时性可调 <code>refresh_interval</code>；批量导入时可临时关闭 refresh，导入完再开启。</p></div></div></div>
+
+<!-- Q4 -->
+<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">ES 的索引、分片（Shard）与副本（Replica）？</div><div class="q-tags"><span class="q-tag">架构</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>索引（Index）是逻辑上的<strong>文档集合</strong>；物理上被拆成多个<strong>分片（Shard）</strong>分布在不同节点，每个分片可带<strong>副本（Replica）</strong>实现高可用与读扩展。</p><ul><li><strong>主分片（Primary Shard）：</strong>写入必须走主分片，分片数在<strong>建索引时确定，之后不可修改</strong>。</li><li><strong>副本分片（Replica）：</strong>主分片的完整拷贝，用于容错与分摊读请求，<strong>可随时增减</strong>。</li><li><strong>路由：</strong>文档归属分片由 <code>hash(routing) % 主分片数</code> 决定，保证同一文档总落到同一分片。</li><li><strong>写入：</strong>请求到协调节点 → 路由到主分片 → 同步到副本 → 返回成功。</li><li><strong>分片数建议：</strong>单分片控制在 30–50GB 左右；集群规模按数据量与节点数规划，不宜过大。</li></ul><p>💡 面试点：主分片数不可变，所以<strong>前期规划比后期扩容更重要</strong>；也可用 <code>_reindex</code> 重建索引调整分片数。</p></div></div></div>
+
+<!-- Q5 -->
+<div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">ES 集群的节点角色有哪些？</div><div class="q-tags"><span class="q-tag">集群</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>节点按职责分为 <strong>Master、Data、Ingest、Coordinating</strong> 等角色，职责分离保证集群稳定与水平扩展。</p><ul><li><strong>Master 节点：</strong>负责集群元数据、索引创建/删除、分片分配，轻量不存数据；建议 <code>node.master: true</code> 且不参与数据。</li><li><strong>Data 节点：</strong>真正存储分片、执行写入与查询，是集群的主力，可水平扩展。</li><li><strong>Ingest 节点：</strong>负责写入前的预处理管道（如字段拆分、清洗）。</li><li><strong>Coordinating 节点：</strong>只做请求路由、结果汇总（每个节点默认都是协调节点）。</li></ul><p>💡 面试点：<strong>Master 最少 3 个候选</strong>（奇数）防止脑裂；数据节点多时查询汇总注意<strong>协调节点压力</strong>。</p></div></div></div>
+
+<!-- Q6 -->
+<div class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">ES 中 query 和 filter 的区别？</div><div class="q-tags"><span class="q-tag">查询</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>query 会<strong>计算相关度分数并影响排序</strong>，filter <strong>只做过滤、不评分</strong>，且结果会被<strong>缓存</strong>，性能更好。</p><ul><li><strong>query：</strong>参与 <code>_score</code> 计算，适合全文检索、相关度排序（match、multi_match、match_phrase）。</li><li><strong>filter：</strong>布尔过滤，结果二值化（命中/未命中），不评分不排序，走 <strong>filter cache</strong> 复用，性能高。</li><li><strong>组合：</strong><code>bool</code> 查询中 <code>must</code>（评分） + <code>filter</code>（不评分） 搭配，既保证相关度又提升性能。</li><li><strong>示例：</strong><code>{"bool":{"must":[{"match":{"title":"手机"}}],"filter":[{"term":{"status":"1"}},{"range":{"price":{"gte":1000}}}]}}</code></li></ul><p>💡 面试点：高频且不评分的条件（状态、时间范围）一律放 <strong>filter</strong>，利用缓存显著提速。</p></div></div></div>
+
+<!-- Q7 -->
+<div class="card"><div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">ES 的 keyword 和 text 字段有什么区别？</div><div class="q-tags"><span class="q-tag">映射</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong><code>text</code> 会被<strong>分词</strong>用于全文检索，<code>keyword</code> <strong>不分词</strong>整体存为单个词项，用于精确匹配、排序、聚合。</p><ul><li><strong>text：</strong>经分析器分词后建倒排索引，支持 match 全文搜索、模糊匹配；<strong>不支持</strong>直接做 term 精确匹配与聚合（除非开启 fielddata）。</li><li><strong>keyword：</strong>整个字符串作为一个词项，适合 status、userId、订单号等；支持 <code>term</code> 精确匹配、<code>range</code> 范围、排序、聚合（bucket）。</li><li><strong>多字段（multi-fields）：</strong>常见做法 <code>"title":{"type":"text","fields":{"keyword":{"type":"keyword"}}}</code>，同字段兼顾搜索与聚合。</li><li><strong>长度限制：</strong>keyword 默认最长 <strong>256 字符</strong>（可配置），超长会被截断。</li></ul><p>💡 面试点：需要“搜索用 text、精确/聚合用 keyword”，用 multi-fields 一个字段解决两种需求。</p></div></div></div>
+
+<!-- Q8 -->
+<div class="card"><div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">ES 深度分页问题与解决方案？</div><div class="q-tags"><span class="q-tag">查询优化</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>from+size 越大，ES 需要把每个分片排序后的前 <code>from+size</code> 条全取回来再全局排序，<strong>内存开销爆炸</strong>，默认上限 <code>index.max_result_window=10000</code>。</p><ul><li><strong>问题：</strong>深度分页（如第 10000 页）会让协调节点内存 OOM，性能急剧下降。</li><li><strong>方案一 search_after：</strong>基于上一页最后一条的 <strong>排序值游标</strong>继续翻页，适合“滚动加载”，无深翻页开销。<code>{"search_after":[12.5,137224],"sort":[{"price":"desc"},{"_id":"asc"}]}</code></li><li><strong>方案二 scroll：</strong>服务端生成快照游标，适合<strong>导出、全量遍历</strong>（如数据迁移），不适合实时交互（有快照上下文开销）。</li><li><strong>方案三 PIT（Point In Time）：</strong>7.10+ 引入，search_after 配合 PIT 保证翻页期间数据一致。</li><li><strong>不适合：</strong>随机跳页仍用 from+size，但建议<strong>限制最大深度</strong>或改业务（如只允许前 1000 条）。</li></ul><p>💡 记忆：交互翻页浅用 from+size，滚动加载用 search_after，全量导出用 scroll。</p></div></div></div>
+
+<!-- Q9 -->
+<div class="card"><div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">ES 的倒排索引和 MySQL 的 B+Tree 对比？为什么搜索用 ES？</div><div class="q-tags"><span class="q-tag">核心原理</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>B+Tree 擅长<strong>精确/范围查询</strong>，倒排索引擅长<strong>分词后的全文检索</strong>，场景不同没有绝对优劣。</p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>倒排索引（ES）</th><th>B+Tree（MySQL）</th></tr></thead><tbody><tr><td>数据结构</td><td>词项字典 + 倒排列表</td><td>多路平衡树</td></tr><tr><td>检索方式</td><td>词 → 文档（命中即得）</td><td>二分查找叶子节点</td></tr><tr><td>全文检索</td><td>强（分词、相关度打分）</td><td>弱（LIKE %xx% 全表扫）</td></tr><tr><td>精确/范围</td><td>一般（range 需专门优化）</td><td>极快（索引有序）</td></tr><tr><td>模糊搜索</td><td>支持（通配符，性能开销大）</td><td>弱</td></tr></tbody></table></div><p><strong>为什么搜索用 ES：</strong>业务搜索本质是“按词找内容 + 相关度排序”，倒排索引天然匹配；MySQL 的 LIKE 无法利用索引且无法打分排序。</p><p>💡 面试点：强调<strong>两者互补</strong>——MySQL 管事务与精确查询，ES 管全文搜索与聚合分析。</p></div></div></div>
+
+<!-- Q10 -->
+<div class="card"><div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">ES 的聚合（Aggregation）是什么？常用类型？</div><div class="q-tags"><span class="q-tag">聚合分析</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>聚合是 ES 的<strong>分析统计能力</strong>，类似 SQL 的 GROUP BY / 聚合函数，分<strong>桶聚合（Bucket）</strong>、<strong>指标聚合（Metric）</strong>、<strong>管道聚合（Pipeline）</strong>三类。</p><ul><li><strong>Bucket 桶聚合：</strong>把文档分组，如 <code>terms</code>（按字段分组）、<code>date_histogram</code>（按时间分桶，如按天统计）、<code>range</code>。</li><li><strong>Metric 指标聚合：</strong>计算数值，如 <code>avg</code>、<code>sum</code>、<code>min/max</code>、<code>cardinality</code>（去重计数，近似）、<code>percentiles</code>（分位数）。</li><li><strong>Pipeline 管道聚合：</strong>对前一个聚合结果再计算，如 <code>bucket_script</code>、<code>avg_bucket</code>。</li><li><strong>示例：</strong>按分类统计商品均价 —— <code>{"aggs":{"by_cat":{"terms":{"field":"category.keyword"},"aggs":{"avg_price":{"avg":{"field":"price"}}}}}}</code></li><li><strong>注意：</strong>聚合字段需为 <code>keyword</code> 或 <code>doc_values=true</code> 的数值/日期字段。</li></ul><p>💡 面试点：提到 ES 聚合常用于<strong>日志分析、销售报表、用户画像统计</strong>，替代部分 SQL 统计。</p></div></div></div>
+
+<!-- Q11 -->
+<div class="card"><div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">ES 集群的脑裂问题及解决方案？</div><div class="q-tags"><span class="q-tag">集群</span><span class="q-tag">高可用</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>脑裂指网络分区时集群被拆成多个“小集群”各自选举 Master，导致数据不一致；通过<strong>最小投票数</strong>与<strong>角色分离</strong>避免。</p><ul><li><strong>现象：</strong>主节点与部分节点网络中断，另一部分节点因看不到主节点而重新选举出新 Master，出现两个 Master。</li><li><strong>方案一 discovery.zen.minimum_master_nodes（7.x 前）：</strong>设置为 <code>候选主节点数/2 + 1</code>，只有获得足够票数的节点才能成为 Master，保证同时只有一个。</li><li><strong>方案二（7.x+）：</strong>使用 <code>cluster.initial_master_nodes</code> 引导 + <strong>Zen2 选主</strong>（类似 Raft，需要多数派），并配置 <code>discovery.seed_hosts</code>。</li><li><strong>方案三 角色分离：</strong>Master 节点只当候选主节点（<code>node.data: false</code>），避免数据节点网络抖动影响选主。</li><li><strong>辅助：</strong>适当调大 <code>discovery.zen.fd.ping_timeout</code>，减少误判故障。</li></ul><p>💡 面试点：脱口而出 <strong>“minimum_master_nodes = n/2 + 1”</strong>，并说明这是防脑裂的核心手段。</p></div></div></div>
+
+<!-- Q12 -->
+<div class="card"><div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">ES 的 refresh、flush、merge 分别是什么？</div><div class="q-tags"><span class="q-tag">写入原理</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>三者是 segment 生命周期的关键动作：<strong>refresh</strong> 让数据可搜索，<strong>flush</strong> 让数据落盘，<strong>merge</strong> 合并小段提升查询与清理删除文档。</p><ul><li><strong>refresh（默认 1s）：</strong>内存 buffer → 生成 segment（在 OS 缓存中），<strong>可搜索但未持久化</strong>；可设 <code>refresh_interval=-1</code> 关闭（批量导入时）。</li><li><strong>flush（默认 translog 512MB 或 30min）：</strong>segment <strong>fsync 落盘</strong>、清空 translog、写 commit point；是真正“持久化”的动作。</li><li><strong>merge：</strong>后台把多个小 segment 合并成大 segment，<strong>减少 segment 数量</strong>（降低句柄/内存），并真正物理删除被标记删除的文档；会消耗 IO，可限速 <code>indices.store.throttle</code>。</li></ul><p>💡 记忆口诀：<strong>refresh 可见、flush 落盘、merge 合并</strong>，三者构成 ES 写入链路的关键动作。</p></div></div></div>
+
+<!-- Q13 -->
+<div class="card"><div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">ES 的写入、更新、删除如何保证一致性？</div><div class="q-tags"><span class="q-tag">一致性</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>ES 采用<strong>主分片写、副本同步</strong> + <strong>translog 预写日志</strong> + <strong>版本号乐观并发控制</strong>，保证最终一致与崩溃不丢数据。</p><ul><li><strong>写入一致性：</strong>写主分片成功并同步到副本（默认 <code>wait_for_active_shards</code> 可配置），协调节点返回成功。</li><li><strong>崩溃恢复：</strong>translog 记录所有写操作，宕机后重放 translog 恢复未 flush 的数据，<strong>不丢已确认写入</strong>。</li><li><strong>更新/删除：</strong>ES 文档不可变，更新=先删旧文档再写新文档；删除是<strong>标记删除</strong>，由 merge 真正清理。</li><li><strong>乐观锁：</strong>文档带 <code>_version</code>，更新时带上版本，版本不一致则失败（冲突可重试）。</li><li><strong>近实时限制：</strong>副本可见有延迟，可通过 <code>_primary</code> 强制读主分片但会牺牲性能。</li></ul><p>💡 面试点：强调 ES 是<strong>最终一致</strong>，与数据库强一致不同，适合搜索场景。</p></div></div></div>
+
+<!-- Q14 -->
+<div class="card"><div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">ES 的 Analyzer 分词器有哪些？中文分词怎么配？</div><div class="q-tags"><span class="q-tag">分词</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>分析器由 <strong>字符过滤器 + 分词器（Tokenizer）+ Token 过滤器</strong> 组成；中文默认不支持，需装 <strong>IK / 拼音 插件</strong>。</p><ul><li><strong>内置分词器：</strong><code>standard</code>（默认，按空格/标点切分）、<code>keyword</code>（不分词）、<code>whitespace</code>、<code>simple</code>、<code>english</code>（英文词干还原）。</li><li><strong>中文痛点：</strong>标准分词器对中文按单个字符切分，无法识别词语边界与语义。</li><li><strong>解决方案：</strong>安装 <strong>IK Analyzer</strong>（支持 ik_max_word 最细粒度 / ik_smart 智能切词），常见搭配 <strong>拼音分词器</strong> 做拼音搜索。</li><li><strong>自定义：</strong><code>PUT /index/_settings</code> 配置分析器，字段映射里指定 <code>"analyzer":"ik_max_word","search_analyzer":"ik_smart"</code>。</li><li><strong>验证：</strong><code>POST /index/_analyze {"text":"中华人民共和国","analyzer":"ik_max_word"}</code>。</li></ul><p>💡 面试点：提到 <strong>索引用 ik_max_word（召回全）、搜索用 ik_smart（更精准）</strong> 的经典组合。</p></div></div></div>
+
+<!-- Q15 -->
+<div class="card"><div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">ES 生产环境如何优化与调优？</div><div class="q-tags"><span class="q-tag">性能优化</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong>调优围绕<strong>内存（堆）、磁盘（SSD）、索引设计、查询写法</strong>四个维度，核心是“减少不必要的开销”。</p><p><strong>索引与映射：</strong></p><ul><li>只索引需要的字段（<code>"index":false</code>）、合理设置分片数、避免字段过多；<code>keyword</code> 与 <code>text</code> 按需设计。</li><li>日志类按时间滚动索引（<code>ILM 索引生命周期管理</code>），控制段数量。</li></ul><p><strong>查询优化：</strong></p><ul><li>能 <code>filter</code> 不 <code>query</code>（走缓存）；避免 <code>wildcard</code> 开头通配符；控制 <code>size</code>；深分页用 <code>search_after</code>。</li><li>聚合字段开启 <code>doc_values</code>；避免大结果集聚合。</li></ul><p><strong>节点与内存：</strong></p><ul><li>堆内存建议 <strong>31GB（<code>ES_JAVA_OPTS=-Xms31g -Xmx31g</code>）</strong>，留给 OS Page Cache 更多空间。</li><li>关闭 swap；数据盘用 <strong>SSD</strong>；磁盘水位线监控（<code>cluster.routing.allocation.disk.watermark</code>）。</li><li>批量写入用 <code>_bulk</code>（建议 5–15MB/批），必要时临时调大 <code>refresh_interval</code> 与 <code>translog</code> 参数。</li></ul><p>💡 面试点：记住 <strong>“堆别超 31GB、SSD、filter 缓存、bulk 批量写”</strong> 四条硬核优化即可。</p></div></div></div>
+
+<div class="footer">
+  📌 08 · Elasticsearch · 共15题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Spring.html" style="color:var(--primary)">下一板块 →</a>
+</div>
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var sd=document.getElementById('searchDropdown');
+  var si=document.getElementById('searchInput');
+  if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
+});
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+</body>
+</html>

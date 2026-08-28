@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · 01 Java基础</title>
 <style>
-:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+:root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
-[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
-.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
@@ -58,14 +58,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
 .back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
 .back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+.sec-title{display:inline-block;background:var(--primary);color:#fff;padding:4px 14px;border-radius:8px;font-size:13px;font-weight:700;margin:10px 0 6px}
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body data-section="01">
 
 <div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+
   <h1>Java 基础面试题</h1>
-  <p>13道高频题 · 基础语法 · 面向对象 · 关键字 · 反射 · IO流</p>
+  <p>69道高频题 · 基础语法 · 面向对象 · 关键字 · 反射 · IO流</p>
 <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_02_集合容器.html">集合容器 →</a>
@@ -522,15 +538,1750 @@ new Thread(() -> System.out.println("Running")).start();</code></pre></div></div
 <!-- Q40 -->
 <div class="card"><div class="card-header"><div class="q-num">40</div><div class="q-meta"><div class="q-title">transient、volatile、synchronized 关键字的区别？</div><div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">综合</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>关键字</th><th>作用</th><th>场景</th></tr></thead><tbody><tr><td>transient</td><td>修饰字段，序列化时忽略该字段</td><td>敏感信息不序列化、不可序列化对象</td></tr><tr><td>volatile</td><td>保证变量可见性和禁止指令重排序，不保证原子性</td><td>状态标志位、DCL单例</td></tr><tr><td>synchronized</td><td>保证原子性、可见性、有序性（加锁）</td><td>多线程同步、线程安全</td></tr></tbody></table></div><p>💡 <strong>关键区别：</strong>transient是序列化关键字，volatile是轻量级同步（仅可见性），synchronized是重量级同步（原子性+可见性+有序性）。volatile不保证原子性，i++操作仍需synchronized或AtomicInteger。</p></div></div></div>
 
+<!-- Q41 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">41</div>
+    <div class="q-meta"><div class="q-title">面向对象和面向过程的区别？</div>
+      <div class="q-tags"><span class="q-tag">OOP</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>面向过程是"<strong>按步骤做</strong>"，关注的是"怎么一步步把事情做完"；面向对象是"<strong>找对象来做</strong>"，关注的是"有哪些对象、对象之间怎么协作"。Java 是典型的面向对象语言，C 是典型的面向过程语言。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>面向过程（Procedure Oriented）</strong>：以"过程/函数"为核心，把要解决的问题拆解成一个个步骤，用函数实现每个步骤，再按顺序调用。数据和操作数据的函数是分离的。</p>
+      <p><strong>面向对象（Object Oriented）</strong>：以"对象"为核心，把现实世界的事物抽象成类和对象，将<strong>数据（属性）+ 操作数据的方法（行为）</strong>封装在一起，通过对象之间的消息传递来完成功能。</p>
+
+      <p><strong class="sec-title">核心区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>面向过程</th><th>面向对象</th></tr></thead><tbody>
+      <tr><td>核心思想</td><td>步骤、函数、流程</td><td>对象、类、协作</td></tr>
+      <tr><td>数据与操作</td><td>分离（数据结构 + 一堆函数）</td><td>封装在一起（属性 + 方法）</td></tr>
+      <tr><td>代码组织</td><td>按功能拆函数</td><td>按业务抽象成类</td></tr>
+      <tr><td>可维护性</td><td>差，改一处流程可能牵动全局</td><td>好，高内聚、低耦合，改内部不影响外部</td></tr>
+      <tr><td>可扩展性</td><td>差，新增功能要改动流程主线</td><td>好，继承 + 多态天然支持扩展</td></tr>
+      <tr><td>代码复用</td><td>函数复用，粒度小</td><td>类复用 + 继承复用，粒度大</td></tr>
+      <tr><td>性能</td><td>高（函数直接调用，开销小）</td><td>略低（有对象创建、方法调用开销）</td></tr>
+      <tr><td>适用场景</td><td>简单流程、底层驱动、嵌入式</td><td>大型复杂业务系统、多人协作项目</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>例1：做饭</strong></p>
+      <ul>
+        <li><strong>面向过程</strong>：像照着菜谱做——洗菜() → 切菜() → 热锅() → 炒菜() → 装盘()，一步步调用函数，食材（数据）被传来传去。</li>
+        <li><strong>面向对象</strong>：像餐厅后厨——<strong>厨师对象</strong>有自己的拿手菜技能，<strong>食材对象</strong>有新鲜度属性，<strong>锅对象</strong>有温度属性。你只需要"厨师.做菜(食材)"，具体怎么洗、怎么切、怎么炒是厨师自己的事（封装）。以后想换做法，换个厨师即可（多态）。</li>
+      </ul>
+      <p><strong>例2：洗衣机</strong></p>
+      <ul>
+        <li><strong>面向过程</strong>：主程序里按顺序调用 注水()、洗涤()、排水()、脱水()，水、电机等状态数据暴露在外，改一个功能可能要改好几个函数。</li>
+        <li><strong>面向对象</strong>：封装一个<strong>洗衣机类</strong>，把水位、转速、洗衣模式当属性，把启动()、注水()、洗涤()、脱水()当方法，外部只需调用"洗衣机.一键洗衣()"，内部细节全部隐藏。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"面向过程是流水线，一步一步照着办，数据和函数分两边；面向对象是搭积木，对象封装又协作，继承多态好扩展。性能选过程，复杂系统选对象，两者结合最实在（Java 方法内部其实也是过程式思路）。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q42 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">42</div>
+    <div class="q-meta"><div class="q-title">Java 语言有哪些特点？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>Java 的核心特点可以浓缩为四个字：<strong>"一次编译，到处运行"</strong>，再配合"面向对象、自动内存管理、跨平台、丰富生态"，让它成为后端开发的主流语言。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p>Java 是一种<strong>面向对象的、跨平台的、编译型 + 解释型</strong>的高级编程语言，通过 JVM（Java 虚拟机）实现平台无关性。</p>
+
+      <p><strong class="sec-title">主要特点</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>特点</th><th>说明</th><th>好处</th></tr></thead><tbody>
+      <tr><td>1. 跨平台（核心）</td><td>代码编译成字节码，由 JVM 解释执行，JVM 针对不同平台有不同版本</td><td>一次编写，处处运行，不用为每个系统写一套代码</td></tr>
+      <tr><td>2. 面向对象</td><td>封装、继承、多态、抽象四大特性</td><td>代码高内聚低耦合，易维护、易扩展、易复用</td></tr>
+      <tr><td>3. 自动内存管理</td><td>JVM 的 GC（垃圾回收）自动回收不再使用的对象</td><td>开发者不用手动管理内存，减少内存泄漏和崩溃</td></tr>
+      <tr><td>4. 强类型 & 安全</td><td>编译期就做严格类型检查</td><td>提前发现错误，减少运行时 bug</td></tr>
+      <tr><td>5. 简单易学</td><td>去掉了 C/C++ 中易出错的指针、多继承等复杂特性</td><td>上手门槛低，语法贴近自然语言</td></tr>
+      <tr><td>6. 健壮性</td><td>强类型检查 + 异常处理机制 + 内存安全</td><td>程序更稳定，崩溃率低</td></tr>
+      <tr><td>7. 多线程</td><td>语言层内置线程支持</td><td>适合高并发场景</td></tr>
+      <tr><td>8. 丰富的生态</td><td>海量开源库 + 框架（Spring、MyBatis 等）</td><td>开发效率高，社区活跃</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>例1：跨平台</strong> 就像写一份"通用合同模板"，内容只写一遍，但用 Word、WPS、Google Docs 打开都能正常阅读。Java 源码编译出的字节码，在 Windows、Linux、Mac 上各自的 JVM 都能运行，不用为每个系统重写代码。</p>
+      <p><strong>例2：自动内存管理</strong> 就像酒店有保洁阿姨定期清理没人住的房间。C/C++ 需要你亲手"开房退房"（手动释放内存），忘了退就占着资源；Java 的 GC 就像保洁阿姨，发现房间没人住了就自动清扫（回收内存），你只管使用对象，不用管回收。</p>
+      <p><strong>例3：面向对象</strong> 前面提到的"找对象来做"——`厨师.做菜(食材)`，把复杂逻辑封装进对象，外层调用者只需关注"做什么"，不用管"怎么做"。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"Java 八大特点一句话记住：跨平台、面向对象、自动内存、强类型、简单、健壮、多线程、生态好。其中跨平台靠 JVM，面向对象靠四大特性，不手动管内存靠 GC。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q43 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">43</div>
+    <div class="q-meta"><div class="q-title">Java 和 C++ 的区别？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">对比</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>Java 偏"简单安全"，C++ 偏"性能自由"</strong>。Java 为了跨平台和安全牺牲了一部分底层控制力，C++ 为了性能和灵活性保留了全部底层能力，但代价是难学难用、容易出错。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>Java</strong>：面向对象、跨平台的高级语言，编译成字节码后由 JVM 运行，自动内存管理（GC），去掉了指针、多继承等复杂特性。</p>
+      <p><strong>C++</strong>：在 C 语言基础上加入面向对象支持的编译型语言，支持多继承、运算符重载、直接操作指针，内存需要手动管理。</p>
+
+      <p><strong class="sec-title">核心区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>Java</th><th>C++</th></tr></thead><tbody>
+      <tr><td>运行方式</td><td>编译成字节码，JVM 解释/即时编译执行</td><td>直接编译成本地机器码执行</td></tr>
+      <tr><td>跨平台</td><td>靠 JVM，一处编译处处运行</td><td>需为每个平台分别编译，且要处理平台差异</td></tr>
+      <tr><td>内存管理</td><td>自动 GC，不用手动管理</td><td>手动 new/delete，容易内存泄漏</td></tr>
+      <tr><td>指针</td><td>无指针，只有引用</td><td>有指针，可自由操作内存地址</td></tr>
+      <tr><td>继承</td><td>单继承（类），多继承靠接口</td><td>支持多继承</td></tr>
+      <tr><td>运算符重载</td><td>不支持</td><td>支持</td></tr>
+      <tr><td>性能</td><td>略低（有 JVM 开销、GC 停顿）</td><td>高，接近硬件底层</td></tr>
+      <tr><td>学习难度</td><td>相对简单，语法更安全友好</td><td>难，需理解指针、内存、底层原理</td></tr>
+      <tr><td>安全性</td><td>高（无指针、数组越界检查、沙箱机制）</td><td>低（指针可任意操作，易出缓冲区溢出）</td></tr>
+      <tr><td>适用场景</td><td>企业级后端、Web、Android、大数据</td><td>游戏、操作系统、驱动、高性能计算</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>例1：内存管理</strong></p>
+      <ul>
+        <li><strong>C++</strong> 像开手动挡的车：换挡（new/delete）得自己来，控制力强、够省油（性能高），但操作不好会熄火（内存泄漏/崩溃）。</li>
+        <li><strong>Java</strong> 像开自动挡的车：换挡（内存回收）交给系统（GC），你只管踩油门写业务，省心安全，但会略耗油（有 JVM 开销）。</li>
+      </ul>
+      <p><strong>例2：操作底层</strong></p>
+      <ul>
+        <li><strong>C++ 的指针</strong> 像给你一把万能钥匙，能打开内存里任何一扇门，很强但也很危险，开错门就崩。</li>
+        <li><strong>Java 的引用</strong> 像给你一张受控的门禁卡，只能进有权限的房间（对象），JVM 帮你把安全边界卡死。</li>
+      </ul>
+      <p><strong>例3：应用场景</strong> 写<strong>游戏引擎/操作系统</strong>要用 C++（需要极致性能和控制底层）；写<strong>电商、银行后端系统</strong>用 Java（看重稳定、易维护、生态）。
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"Java 自动挡，C++ 手动挡；Java 靠 JVM 跨平台，C++ 编机器码跑得快；Java 无指针靠 GC 安全，C++ 有指针自由但易崩。做后端选 Java，搞底层/游戏选 C++。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q44 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">44</div>
+    <div class="q-meta"><div class="q-title">什么是 Java 程序的主类？应用程序和小程序的主类有何不同？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">概念</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>主类就是一个程序的<strong>入口类</strong>，是 JVM 启动后第一个要执行的类。应用（Application）的主类必须有 <code>main</code> 方法，小程序（Applet）的主类没有 <code>main</code> 方法。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>主类（Main Class）</strong>：一个 Java 程序运行时，包含程序入口的那个类。JVM 执行时从主类的入口方法开始。</p>
+      <ul>
+        <li><strong>应用程序（Application）</strong>：普通的、可独立运行的程序，入口是 <code>public static void main(String[] args)</code> 方法，用 <code>java</code> 命令直接启动。</li>
+        <li><strong>小程序（Applet）</strong>：早期嵌入在网页中运行的 Java 程序，需要借助浏览器加载，入口不是 main 方法，而是生命周期方法。</li>
+      </ul>
+
+      <p><strong class="sec-title">两者主类的核心区别</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>应用程序（Application）</th><th>小程序（Applet）</th></tr></thead><tbody>
+      <tr><td>入口方法</td><td><code>public static void main(String[] args)</code></td><td>无 main，有 init() / start() / paint() / stop() / destroy() 等生命周期方法</td></tr>
+      <tr><td>运行方式</td><td>命令行 <code>java 类名</code> 独立运行</td><td>嵌入 HTML，由浏览器加载运行</td></tr>
+      <tr><td>是否有图形界面</td><td>不强制，可有可无</td><td>必须在窗口中显示（AWT/Swing 组件）</td></tr>
+      <tr><td>与浏览器的关系</td><td>不依赖浏览器</td><td>依赖浏览器和 JVM 插件</td></tr>
+      <tr><td>生命周期</td><td>程序启动到结束</td><td>init→start→paint→stop→destroy，由浏览器控制</td></tr>
+      <tr><td>继承要求</td><td>无强制要求</td><td>必须继承 java.applet.Applet 类</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>例1：应用程序</strong> 就像一部电影的主角，影片开场（JVM 启动）后，主角直接开始表演（执行 main 方法），电影有自己的开头和结尾，不依赖其他东西。</p>
+      <p><strong>例2：小程序（Applet）</strong> 就像剧场里的"客串演员"，它不能自己开场，必须由"导演"（浏览器）安排：什么时候上台（init/start）、什么时候表演（paint）、什么时候退场（stop/destroy）。<strong>注意</strong>：Applet 是 Java 早期（JDK1.0 时代）的产物，因为安全性差、依赖浏览器插件，现在已被淘汰，基本不再使用，面试了解概念即可。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"主类就是入口类：应用程序主类带 main，java 命令自己跑；小程序主类不带 main，靠生命周期方法在浏览器里跑。Applet 是历史产物，现在已被淘汰。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q45 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">45</div>
+    <div class="q-meta"><div class="q-title">Java 应用程序与小程序之间有哪些差别？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">对比</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>应用程序是"独立自主的完整程序"，小程序是"寄生在浏览器里的一段程序"</strong>。两者最大的差别在于"有没有 main 方法"和"靠谁启动运行"。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>应用程序（Application）</strong>：有 <code>main</code> 方法，能独立运行，是完整的 Java 程序。</p>
+      <p><strong>小程序（Applet）</strong>：没有 <code>main</code> 方法，必须嵌入到网页中，由浏览器配合 JVM 加载执行。</p>
+
+      <p><strong class="sec-title">两者差别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>应用程序（Application）</th><th>小程序（Applet）</th></tr></thead><tbody>
+      <tr><td>运行入口</td><td>main 方法</td><td>init / start / paint / stop / destroy 生命周期方法</td></tr>
+      <tr><td>运行环境</td><td>独立，只需 JRE</td><td>必须嵌入 HTML，依赖浏览器 + JVM 插件</td></tr>
+      <tr><td>启动方式</td><td>命令行 java 命令直接运行</td><td>通过浏览器访问包含 Applet 的网页触发</td></tr>
+      <tr><td>文件扩展名</td><td>.java 编译后 .class</td><td>.java 编译后 .class（嵌入 HTML 用 &lt;applet&gt; 标签）</td></tr>
+      <tr><td>图形界面</td><td>不强制，控制台/图形均可</td><td>必须在窗口（AWT/Swing）中显示</td></tr>
+      <tr><td>生命周期控制</td><td>程序自己从开始到结束</td><td>由浏览器控制，可随时被中断/暂停</td></tr>
+      <tr><td>使用现状</td><td>当前主流，广泛使用</td><td>已淘汰，几乎不再使用</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>应用程序</strong> 就像一部"单机游戏"：安装好（JRE 就绪）就能自己启动（运行 main），从头玩到尾，不需要其他东西配合。</p>
+      <p><strong>小程序（Applet）</strong> 就像网页里的一段"小插件/小挂件"：它自己不能启动，必须依附在网页（浏览器）里，网页关闭它就消失（浏览器调用 stop/destroy 结束它）。</p>
+      <p><strong>补充</strong>：为什么 Applet 被淘汰？因为它需要浏览器安装 Java 插件、安全性差（在浏览器沙箱里权限受限）、移动端也不支持，后来被 HTML5、JavaScript 等技术取代。所以现在面试主要考概念，知道两者区别即可。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"应用程序独立跑，带 main 靠 java 命令；小程序寄浏览器，靠生命周期靠网页。Applet 已被淘汰，记住差别好面试。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q46 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">46</div>
+    <div class="q-meta"><div class="q-title">字符型常量和字符串常量的区别？</div>
+      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">易混淆</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>字符常量是一个"字符"，用单引号；字符串常量是一串"字符"，用双引号</strong>。字符是基本类型，字符串是对象。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>字符型常量（char）</strong>：表示<strong>单个</strong>字符，用<strong>单引号</strong>包裹，例如 <code>'a'</code>、<code>'好'</code>、<code>'\n'</code>。它是 Java 的<strong>基本数据类型</strong>。</p>
+      <p><strong>字符串常量（String）</strong>：表示<strong>多个</strong>字符，用<strong>双引号</strong>包裹，例如 <code>"abc"</code>、<code>"你好"</code>。它是 <code>String</code> <strong>类的对象</strong>。</p>
+
+      <p><strong class="sec-title">核心区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>字符型常量（char）</th><th>字符串常量（String）</th></tr></thead><tbody>
+      <tr><td>写法</td><td>单引号 <code>'A'</code></td><td>双引号 <code>"A"</code></td></tr>
+      <tr><td>本质</td><td>基本数据类型 char</td><td>String 类的对象</td></tr>
+      <tr><td>内容</td><td>只能有 1 个字符</td><td>0 个或多个字符</td></tr>
+      <tr><td>存储位置</td><td>栈中直接存字符值</td><td>堆中的对象（String 常量池）</td></tr>
+      <tr><td>占内存</td><td>2 个字节（UTF-16）</td><td>不定，取决于字符长度 + 对象头</td></tr>
+      <tr><td>空值</td><td>可以是 '\u0000'（空字符），不能是空</td><td>可以是 ""（空字符串）</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>想象"字"和"词"的区别：</p>
+      <ul>
+        <li><strong>字符</strong> 就像单个汉字"好"，它只代表<strong>一个字</strong>，用单引号写 <code>'好'</code>。</li>
+        <li><strong>字符串</strong> 就像由多个字组成的<strong>一句话</strong>"你好吗"，用双引号写 <code>"你好吗"</code>。</li>
+      </ul>
+      <p>代码对比：</p>
+      <div class="code-block"><span class="co">// 字符常量：单个字符，单引号</span>
+<span class="kw">char</span> c = <span class="str">'A'</span>;
+
+<span class="co">// 字符串常量：多个字符，双引号</span>
+String s = <span class="str">"ABC"</span>;
+
+<span class="co">// 注意：即使只有一个字符，双引号也是字符串</span>
+String s2 = <span class="str">"A"</span>;   <span class="co">// 这是 String 对象，不是 char</span></div>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"字符单引号一个字符是基本类型，字符串双引号一串字符是 String 对象；单引号 char、双引号 String，一字之差别搞混。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q47 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">47</div>
+    <div class="q-meta"><div class="q-title">构造器 Constructor 是否可被 override？</div>
+      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>构造器（构造方法）不能被 override（重写）</strong>。因为重写的前提是"父类和子类方法签名完全一样"，而构造器的名字必须和类名相同，父类和子类类名不同，构造器名字就不同，所以永远无法满足重写的条件。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>构造器（Constructor）</strong>：与类名同名、没有返回值的方法，在 new 对象时自动调用，用于初始化对象。</p>
+      <p><strong>override（重写）</strong>：子类重新定义父类中同名同参的方法，实现多态。</p>
+
+      <p><strong class="sec-title">为什么不能 override</strong></p>
+      <ul>
+        <li><strong>名字不同</strong>：构造器必须与类名同名，<code>Father()</code> 和 <code>Child()</code> 构造器名字不一样，签名无法一致，自然不构成重写。</li>
+        <li><strong>没有返回值概念</strong>：重写要求返回类型兼容，而构造器没有返回类型（连 void 都没有），根本谈不上返回类型一致。</li>
+        <li><strong>构造器不属于多态范畴</strong>：重写依赖对象的多态分派，而构造器是"对象创建时"触发的，没有对象可以多态。</li>
+      </ul>
+
+      <p><strong class="sec-title">那子类如何"改造"父类构造行为？</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>手段</th><th>说明</th></tr></thead><tbody>
+      <tr><td>重载（Overload）</td><td>构造器可以被重载，即一个类里可以有多个参数不同的构造器（如无参、有参）。</td></tr>
+      <tr><td>调用父类构造器</td><td>子类构造器第一行用 <code>super(...)</code> 调用父类的某个构造器。</td></tr>
+      <tr><td>子类自己的构造器</td><td>子类写自己的构造器，实现自己的初始化逻辑，这不是"重写"，而是"定义新构造器"。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="kw">class</span> Father {
+    Father() { }   <span class="co">// 父类构造器</span>
+    <span class="kw">void</span> eat() { }  <span class="co">// 普通方法，可被重写</span>
+}
+
+<span class="kw">class</span> Child <span class="kw">extends</span> Father {
+    <span class="co">// Child() 是子类自己的构造器，名字不同，不是重写</span>
+    Child() { <span class="kw">super</span>(); }  <span class="co">// 通过 super() 调用父类构造器</span>
+
+    <span class="kw">@Override</span>
+    <span class="kw">void</span> eat() { }  <span class="co">// 普通方法 eat() 可以被重写 ✔</span>
+}</div>
+      <p>就像父子的<strong>姓氏</strong>：父亲叫"王爸爸"，儿子叫"王儿子"，名字肯定不一样，所以儿子没法"重写"爸爸的名字（构造器），但儿子可以调用爸爸的名字（<code>super()</code>），也可以用自己不同的名字（自己的构造器）。而普通的吃饭习惯（eat 方法）儿子是可以"重写"成自己喜欢的方式的。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"构造器不能重写，因为重写要同名同参，而构造器名字跟类名走，父类子类名字不同；重写是普通方法的特权，构造器只能重载 + 用 super() 调用父类构造器。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q48 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">48</div>
+    <div class="q-meta"><div class="q-title">讲讲 Java 面向对象编程的三大特性：封装、继承、多态</div>
+      <div class="q-tags"><span class="q-tag">OOP</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>Java 面向对象有<strong>封装、继承、多态</strong>三大特性，一句话记住：<strong>"封装管好内部、继承管好复用、多态管好扩展"</strong>。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>封装（Encapsulation）</strong>：把对象的属性和方法包装成一个整体，对外隐藏内部细节，只暴露必要的访问接口（通过 <code>private</code> + <code>getter/setter</code> 实现）。</p>
+      <p><strong>继承（Inheritance）</strong>：子类通过 <code>extends</code> 获得父类的属性和方法，实现代码复用，子类还可以在父类基础上扩展或重写。</p>
+      <p><strong>多态（Polymorphism）</strong>：同一类型的对象，在不同时刻可以表现出不同的行为——"同一个调用，不同的实现"。Java 多态靠<strong>继承 + 重写 + 父类引用指向子类对象</strong>实现。</p>
+
+      <p><strong class="sec-title">三大特性对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>特性</th><th>关注点</th><th>核心机制</th><th>解决什么问题</th></tr></thead><tbody>
+      <tr><td>封装</td><td>内部细节隐藏</td><td>private + getter/setter</td><td>保护数据安全，降低耦合</td></tr>
+      <tr><td>继承</td><td>代码复用</td><td>extends + super</td><td>消除重复代码，形成层级</td></tr>
+      <tr><td>多态</td><td>动态扩展</td><td>重写 + 父类引用指向子类对象 + 动态绑定</td><td>提高扩展性，面向接口编程</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>例1：封装 —— 像 ATM 取款机</strong></p>
+      <ul><li>你只知道插卡、输密码、取钱、查余额（对外暴露的接口），完全不用关心 ATM 内部是怎么验证密码、怎么联网、怎么数钱的（内部细节隐藏）。</li><li>你的账户余额是 <code>private</code> 的，别人不能直接改，只能通过银行提供的合法接口（getter/setter 或取款方法）操作，数据就安全了。</li></ul>
+      <p><strong>例2：继承 —— 像"动物"和"狗"</strong></p>
+      <ul><li><code>Animal</code> 是父类，定义了共有的 <code>eat()</code>、<code>sleep()</code> 方法（代码复用）。</li><li><code>Dog extends Animal</code>，自动拥有了吃和睡的能力，不用重写；狗还可以新增自己特有的 <code>bark()</code>（扩展）。</li></ul>
+      <p><strong>例3：多态 —— 像"都是动物，行为不一样"</strong></p>
+      <div class="code-block"><span class="kw">class</span> Animal {
+    <span class="kw">void</span> sound() { }  <span class="co">// 父类方法</span>
+}
+<span class="kw">class</span> Dog <span class="kw">extends</span> Animal {
+    <span class="kw">@Override</span> <span class="kw">void</span> sound() { System.<span class="kw">out</span>.println(<span class="str">"汪汪"</span>); }
+}
+<span class="kw">class</span> Cat <span class="kw">extends</span> Animal {
+    <span class="kw">@Override</span> <span class="kw">void</span> sound() { System.<span class="kw">out</span>.println(<span class="str">"喵喵"</span>); }
+}
+
+<span class="co">// 父类引用指向子类对象</span>
+Animal a1 = <span class="kw">new</span> Dog();  <span class="co">// 编译看左边，运行看右边</span>
+Animal a2 = <span class="kw">new</span> Cat();
+a1.sound();  <span class="co">// 汪汪 —— 动态绑定到 Dog 的实现</span>
+a2.sound();  <span class="co">// 喵喵 —— 动态绑定到 Cat 的实现</span></div>
+      <p>都是 <code>Animal</code> 类型，但调用 <code>sound()</code> 时，实际执行的是各自子类的实现，这就是多态。<strong>"编译看左边（声明类型），运行看右边（实际对象）"</strong> 是判断多态的关键口诀。</p>
+
+      <p><strong class="sec-title">多态存在的三个必要条件</strong></p>
+      <ul><li>有继承关系（实现类继承接口/父类）。</li><li>子类重写了父类的方法。</li><li>父类引用指向子类对象。</li></ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"封装管内部（private + getter/setter），继承管复用（extends + super），多态管扩展（重写 + 父类引用指向子类 + 动态绑定）。口诀：编译看左边，运行看右边。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q49 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">49</div>
+    <div class="q-meta"><div class="q-title">String 为什么是不可变的？</div>
+      <div class="q-tags"><span class="q-tag">字符串</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：String 被设计成<strong>不可变</strong>，核心靠三点——<strong>final 修饰类、final 修饰字符数组、值存储为私有且没有修改方法</strong>。不可变的字符串保证了<strong>安全、缓存高效、线程安全</strong>。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>不可变对象</strong>：对象一旦创建，其内部状态就不能被改变。String 是典型的不可变类。</p>
+
+      <p><strong class="sec-title">String 不可变是怎么实现的</strong></p>
+      <ul>
+        <li><strong>类被 final 修饰</strong>：<code>public final class String</code>，不能被继承，防止子类破坏不可变特性。</li>
+        <li><strong>存储字段被 final 修饰</strong>：底层用 <code>private final byte[] value;</code>（JDK9+ 用 byte[]，JDK8 是 char[]），数组引用不可变。</li>
+        <li><strong>字段是 private 且无修改方法</strong>：没有提供 setter，外部拿不到数组引用，无法直接改内部数据。</li>
+        <li><strong>不暴露内部引用</strong>：<code>substring()</code>、<code>toCharArray()</code> 等方法都返回新对象或拷贝，不会泄露原始数组。</li>
+      </ul>
+
+      <p><strong class="sec-title">为什么一定要设计成不可变</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>原因</th><th>说明</th></tr></thead><tbody>
+      <tr><td>1. 字符串常量池复用</td><td>相同字面量复用同一对象。如果 String 可变，改一个就会影响所有引用它的变量。</td></tr>
+      <tr><td>2. 安全</td><td>网络传输、文件路径、数据库 URL 等常依赖字符串，若可变易被恶意篡改。</td></tr>
+      <tr><td>3. 线程安全</td><td>不可变对象天然线程安全，多个线程同时访问不会出问题。</td></tr>
+      <tr><td>4. 作为 HashMap 的 key</td><td>key 要求不可变且 hashCode 稳定。String 不可变，hashCode 才安全，作为 key 不会"换身份证"。</td></tr>
+      <tr><td>5. 缓存 hashCode</td><td>String 内部缓存了 hashCode，不可变保证了缓存永远有效，提高哈希效率。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>例1：常量池复用</strong> 就像一本"公共词典"，大家共用同一页内容。如果字符串可变，你改了这页，所有人看到的都变了——所以必须锁死（不可变）。</p>
+      <p><strong>例2：HashMap key</strong> 想象用身份证号（String）当柜子的钥匙。如果身份证号可变，今天改了号码，明天就拿原来的钥匙打不开柜子了（hashCode 变了找不到 key）。所以身份证号必须是不可变的，才能稳定当钥匙。</p>
+      <div class="code-block"><span class="kw">public final class</span> String
+    <span class="kw">implements</span> java.io.Serializable, Comparable&lt;String&gt; {
+    <span class="co">// JDK9+ 底层是 byte[]，且 final + private</span>
+    <span class="kw">private final</span> <span class="kw">byte</span>[] value;
+    <span class="co">// 没有提供修改 value 的方法</span>
+}</div>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"String 不可变靠三连：final 类、final 数组、私有无 setter。好处四句话：常量池能复用、安全防篡改、线程天然安全、能当 HashMap 的 key。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q50 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">50</div>
+    <div class="q-meta"><div class="q-title">在一个静态方法内调用一个非静态成员为什么是非法的？</div>
+      <div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">static</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>非静态成员（实例成员）依赖"具体的对象"才能访问，而静态方法不依赖对象、直接用"类名"就能调用，方法里没有 this，也就找不到是哪个对象</strong>，所以是非法的。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>静态成员（static 成员）</strong>：属于类本身，随类加载而存在，通过 <code>类名.成员</code> 直接访问，不依赖任何对象。</p>
+      <p><strong>非静态成员（实例成员）</strong>：属于某个具体的对象，必须先 new 出对象，再用 <code>对象名.成员</code> 访问。</p>
+
+      <p><strong class="sec-title">根本原因</strong></p>
+      <ul>
+        <li><strong>生命周期不同</strong>：静态成员在<strong>类加载时就存在</strong>；非静态成员要等<strong>对象创建（new）后才存在</strong>。</li>
+        <li><strong>静态方法没有 this</strong>：静态方法执行时，可能还没创建任何对象，没有 <code>this</code> 指向具体实例，自然无法访问"某个对象的"成员。</li>
+        <li><strong>无法确定目标对象</strong>：非静态成员每个对象各有一份，静态方法里直接调用非静态成员，编译器不知道你要访问的是哪个对象的，只能报编译错误。</li>
+      </ul>
+
+      <p><strong class="sec-title">对比说明</strong></p>
+      <div class="code-block"><span class="kw">class</span> Demo {
+    <span class="kw">int</span> count = <span class="num">10</span>;          <span class="co">// 非静态成员（实例变量）</span>
+    <span class="kw">static</span> <span class="kw">void</span> f() {          <span class="co">// 静态方法</span>
+        <span class="co">// count = 20;   // 编译错误！静态方法里不能直接访问实例成员</span>
+    }
+    <span class="kw">static</span> <span class="kw">void</span> g(Demo d) {    <span class="co">// 但可以传入对象再访问</span>
+        d.count = <span class="num">20</span>;          <span class="co">// 合法：通过具体的对象 d 访问 ✔</span>
+    }
+}</div>
+      <p><strong>静态方法里想用非静态成员怎么办？</strong>先创建一个对象，再用对象访问，例如在静态方法里 <code>new Demo().count</code> 或把对象作为参数传入。</p>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>把类比作一家<strong>工厂</strong>，静态成员像"工厂的公共设备"（如厂房大门的打卡机），工厂一建好就在，任何人都能用（不依赖某个员工）。非静态成员像"每个员工的私人工牌"（姓名、工号），只有这个员工入职（new 对象）后才有。</p>
+      <ul>
+        <li>你站在"厂房公共区域"（静态方法）想直接刷某个"员工的私人工牌"（非静态成员），但厂房里可能一个人都没有（还没 new 对象），不知道该刷谁的。</li>
+        <li>所以必须先指定具体是哪位员工（传入对象引用），才能刷他的工牌。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"静态成员类加载就有、不靠对象；非静态成员靠对象 new 出来才有。静态方法里没有 this，找不到对象，所以不能直接访问非静态成员；想用就先 new 一个对象或把对象当参数传进来。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q51 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">51</div>
+    <div class="q-meta"><div class="q-title">import java 和 javax 有什么区别？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">易混淆</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>它们本质上是同一个包体系，javax 原本是"Java 扩展包"（官方扩展 API），后来已经被并入标准库，现在两者没有功能上的硬性区别</strong>，只是历史遗留的名字。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>java.*</strong>：Java 标准库（JDK 核心类），如 <code>java.lang</code>、<code>java.util</code>、<code>java.io</code>。</p>
+      <p><strong>javax.*</strong>：Java 扩展 API 的包名，如 <code>javax.servlet</code>、<code>javax.swing</code>、<code>javax.sql</code>。最初是官方提供、独立于核心库的扩展。</p>
+
+      <p><strong class="sec-title">历史沿革（为什么会有 javax）</strong></p>
+      <ul>
+        <li>早期 javax 代表"<strong>扩展（Extension）</strong>"包，是一些官方但还没进入核心库的标准 API。</li>
+        <li>后来很多 javax 包<strong>被并入 JDK 标准库</strong>，成为 JDK 自带的一部分（如 javax.swing、javax.sql）。</li>
+        <li>有的 javax 包仍然需要额外引入（如 javax.servlet 是 JavaEE/Web 容器提供的，不在 JDK 里）。</li>
+        <li>所以现在 <code>java.</code> 和 <code>javax.</code> 的界限已经模糊，<strong>大部分 javax 也被视为标准库</strong>。</li>
+      </ul>
+
+      <p><strong class="sec-title">两者的实际区别</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>java.*</th><th>javax.*</th></tr></thead><tbody>
+      <tr><td>含义</td><td>Java 核心标准库</td><td>Java 扩展 API（后多并入标准库）</td></tr>
+      <tr><td>是否 JDK 自带</td><td>是，JDK 核心</td><td>部分自带（如 swing），部分需额外引入（如 servlet）</td></tr>
+      <tr><td>常见例子</td><td>java.lang / java.util / java.io</td><td>javax.servlet / javax.swing / javax.sql</td></tr>
+      <tr><td>能否直接使用</td><td>可以直接 import</td><td>需看具体包，可能依赖第三方/容器提供</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>可以理解为"官方总店"和"官方分店"：</p>
+      <ul>
+        <li><strong>java.*</strong> 是官方总店（核心标准库），所有商品（类）都直接开放给所有人，开箱即用。</li>
+        <li><strong>javax.*</strong> 最初是官方分店（扩展包），卖的是"增值商品"（额外功能），后来部分分店被并入总店（如 swing），部分分店仍要单独去"加盟店"拿货（如 servlet 需要容器提供）。</li>
+      </ul>
+      <p><strong>结论</strong>：日常写代码 import 时，<code>java</code> 和 <code>javax</code> 基本都是直接用，不必刻意区分，知道 javax 是历史遗留的"扩展名"即可。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"java 是核心标准库，javax 是扩展包出身、后来大部分并入标准库；现在两者都是 JDK 官方包，功能上无硬区别，只是历史名字。遇到 javax.servlet 要注意它由容器提供。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q52 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">52</div>
+    <div class="q-meta"><div class="q-title">成员变量与局部变量的区别有哪些？</div>
+      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">易混淆</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>成员变量属于类/对象，随对象而生、作用范围整个类；局部变量属于方法/代码块，用完就销毁、只在方法内有效</strong>。最大的区别是"生命周期"和"作用范围"。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>成员变量（实例变量 / 静态变量）</strong>：定义在类体内、方法体外的变量，属于类或对象，随对象创建而存在。</p>
+      <p><strong>局部变量（方法变量）</strong>：定义在方法内部、构造器或代码块中的变量，随方法调用而创建，方法结束就销毁。</p>
+
+      <p><strong class="sec-title">核心区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>成员变量</th><th>局部变量</th></tr></thead><tbody>
+      <tr><td>定义位置</td><td>类体内、方法体外</td><td>方法内、构造器内、代码块内</td></tr>
+      <tr><td>从属关系</td><td>属于对象/类</td><td>属于方法/代码块</td></tr>
+      <tr><td>生命周期</td><td>随对象创建而存在，对象销毁才结束</td><td>方法调用时创建，方法结束即销毁</td></tr>
+      <tr><td>作用范围</td><td>整个类中都可访问</td><td>只在定义它的方法/代码块内有效</td></tr>
+      <tr><td>默认值</td><td>有默认值（int=0，引用=null 等）</td><td>无默认值，使用前必须先赋值</td></tr>
+      <tr><td>存储位置</td><td>实例变量在堆中，静态变量在方法区</td><td>栈中</td></tr>
+      <tr><td>修饰符</td><td>可加 public/private/static/final 等</td><td>不能用访问修饰符，只能用 final</td></tr>
+      <tr><td>内存</td><td>随对象创建分配</td><td>随方法调用创建，开销小</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="kw">class</span> Student {
+    <span class="kw">String</span> name;   <span class="co">// 成员变量：属于对象，有默认值 null</span>
+    <span class="kw">static int</span> total;  <span class="co">// 静态成员变量：属于类</span>
+
+    <span class="kw">void</span> study() {
+        <span class="kw">int</span> minutes = <span class="num">30</span>;  <span class="co">// 局部变量：属于方法，必须赋值</span>
+        <span class="kw">int</span> score;      <span class="co">// 报错！局部变量无默认值，使用前必须初始化</span>
+    }
+}</div>
+      <p>把类比作一个<strong>宿舍楼</strong>：</p>
+      <ul>
+        <li><strong>成员变量</strong> 像宿舍楼的"公共设施"或每个房间的"配套设施"：宿舍建成（new 对象）时就有，直到宿舍楼拆除（对象回收）才消失，整个楼里都能用（整个类可访问）。</li>
+        <li><strong>局部变量</strong> 像某个人出门时的"随身物品"：出门（调用方法）时带上，回到宿舍（方法结束）就放下，只在出门这段时间有效，别人看不到也不能用。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"成员变量在类里、随对象活、整个类能用、有默认值；局部变量在方法里、用完就没了、方法内才有效、必须先赋值。位置不同决定生命周期和作用域。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q53 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">53</div>
+    <div class="q-meta"><div class="q-title">创建一个对象用什么运算符？对象实体与对象引用有何不同？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">概念</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：创建对象用 <strong>new</strong> 运算符；<strong>对象实体是"真正存在内存里的数据"，对象引用只是"指向它的一个地址（遥控器/门牌号）"</strong>，引用不等于对象本身。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>new 运算符</strong>：在 Java 中创建对象时使用 <code>new 类名(...)</code>，它会<strong>在堆内存中分配空间</strong>并调用构造器完成初始化。</p>
+      <p><strong>对象实体（Object）</strong>：new 出来后在堆内存中真正占有的那部分数据（字段值、方法等），是实实在在的存在。</p>
+      <p><strong>对象引用（Reference）</strong>：指向对象实体地址的一个变量（类似 C 的指针，但更安全），通过它才能访问对象。</p>
+
+      <p><strong class="sec-title">创建对象的方式与 new</strong></p>
+      <div class="code-block">Student s = <span class="kw">new</span> Student();   <span class="co">// new 创建对象</span>
+<span class="co">// 右边 new Student() 是对象实体，分配在堆中</span>
+<span class="co">// 左边 Student s 是对象引用，指向堆中的对象</span></div>
+
+      <p><strong class="sec-title">对象实体 vs 对象引用对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>对象实体（Object）</th><th>对象引用（Reference）</th></tr></thead><tbody>
+      <tr><td>本质</td><td>堆中真正存放的数据</td><td>指向对象的内存地址（变量）</td></tr>
+      <tr><td>存储位置</td><td>堆内存（Heap）</td><td>栈内存（方法局部变量时）</td></tr>
+      <tr><td>创建方式</td><td>通过 new 创建</td><td>用引用变量指向 new 出来的对象</td></tr>
+      <tr><td>可被多个引用指向</td><td>一个对象可被多个引用同时引用</td><td>多个引用可指向同一个对象</td></tr>
+      <tr><td>生命周期</td><td>无引用指向时被 GC 回收</td><td>声明它的方法结束可能销毁</td></tr>
+      <tr><td>关系</td><td>被引用指向</td><td>指向对象实体</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>把<strong>对象实体</strong>比作一套<strong>真实的房子</strong>，把<strong>对象引用</strong>比作房子的<strong>地址/遥控器</strong>：</p>
+      <ul>
+        <li><code>new 房子()</code> 是真正盖好了一栋房子（对象实体，占一块地/内存）。</li>
+        <li><code>房子的引用 r</code> 只是拿到了这栋房子的地址（门牌号），不是房子本身。</li>
+        <li>同一栋房子可以有多个地址指向它（多个引用指向同一个对象），通过任何一个地址都能找到这栋房子。</li>
+        <li>如果所有地址都失效了（引用为 null 或超出作用域），这栋房子没人能找到，就会被拆迁队（GC）拆除回收。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"new 是造房子的机器，对象实体是盖好的房子，引用是房子的地址；一个房子多个地址很正常，地址全没了房子就被 GC 拆了。引用 ≠ 对象。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q54 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">54</div>
+    <div class="q-meta"><div class="q-title">在 Java 中定义一个不做事且没有参数的构造方法的作用？</div>
+      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">构造器</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：定义一个空的、无参的构造方法，核心作用就是<strong>确保这个类可以用 <code>new 类名()</code> 无参方式创建对象</strong>，防止"因为写了其他构造方法而失去默认无参构造器"导致编译报错。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>默认无参构造器</strong>：当一个类没有写任何构造方法时，编译器会自动提供一个"无参空构造器"。</p>
+      <p><strong>自定义无参空构造器</strong>：<code>public 类名() { }</code>，方法体什么都不做，但它"占据"了构造器名额，让无参 new 仍可用。</p>
+
+      <p><strong class="sec-title">为什么需要它（作用）</strong></p>
+      <ul>
+        <li><strong>保证无参创建对象</strong>：只要一个类写了<strong>任何</strong>构造方法（哪怕只有一个带参的），编译器就不再自动生成默认无参构造器。此时若代码里还要 <code>new 类名()</code>，就会编译报错。</li>
+        <li><strong>适配反射/框架</strong>：很多框架（如 Spring、Jackson、MyBatis）通过反射创建对象时，经常要求有<strong>无参构造器</strong>。写一个空的无参构造器能保证这些框架能正常实例化对象。</li>
+        <li><strong>继承的兜底</strong>：子类构造器默认调用父类无参构造器 <code>super()</code>。如果父类没有无参构造器，子类也必须显式指定 <code>super(...)</code>，否则编译报错。定义一个无参构造器可避免这类麻烦。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="kw">class</span> Student {
+    <span class="kw">String</span> name;
+
+    <span class="co">// 只写了带参构造器 → 编译器不再自动生成无参构造器</span>
+    <span class="kw">public</span> Student(String name) { <span class="kw">this</span>.name = name; }
+}
+
+<span class="kw">new</span> Student();  <span class="co">// 编译错误！因为没写无参构造器</span>
+
+<span class="co">// ── 解决办法：补一个空的无参构造器 ──</span>
+<span class="kw">class</span> Student2 {
+    <span class="kw">String</span> name;
+    <span class="kw">public</span> Student2() { }  <span class="co">// 空无参构造器，什么都不做</span>
+    <span class="kw">public</span> Student2(String name) { <span class="kw">this</span>.name = name; }
+}
+<span class="kw">new</span> Student2();  <span class="co">// 合法 ✔</span></div>
+      <p>把类比作"入住登记"：</p>
+      <ul>
+        <li>默认无参构造器就像"入住时前台自动给你一本空白登记册"（编译器送的）。</li>
+        <li>一旦你自定义了"必须填名字的登记册"（带参构造器），编译器就不再送空白册子了，这时 <code>new 类名()</code>（空手入住）就没法登记（报错）。</li>
+        <li>你手动放一本"空白登记册"（空的、无参构造器）在桌上，就能保证随时可以空手入住（无参创建），也能让框架（前台系统）顺利初始化。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"写不做事、无参的构造器，是为了保住 new 类名() 的能力：写了带参构造器编译器就不送默认无参了，所以手动补一个，既保证无参创建，也让 Spring 等反射框架能正常实例化。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q55 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">55</div>
+    <div class="q-meta"><div class="q-title">什么是方法的返回值？返回值在类的方法里的作用是什么？</div>
+      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">方法</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>返回值就是方法执行完后交给调用者的结果</strong>，通过 <code>return</code> 语句送出；它的作用就是<strong>让方法能把计算结果传回给调用方</strong>，让方法成为"有产出"的零件。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>方法返回值</strong>：方法执行结束后，通过 <code>return</code> 返回给调用者的数据。方法的声明中要写明返回类型（int、String、自定义类等），若没有返回值则用 <code>void</code>。</p>
+
+      <p><strong class="sec-title">返回值的作用</strong></p>
+      <ul>
+        <li><strong>传递结果</strong>：让调用者能拿到方法计算/处理后的结果，比如 <code>int sum = add(1,2)</code> 拿到的 3。</li>
+        <li><strong>实现复用与封装</strong>：一个方法把逻辑封装起来，把结果返回出去，调用方只需关注"输入输出"，不用关心内部实现。</li>
+        <li><strong>支持链式调用/后续逻辑</strong>：返回值可以继续作为其他方法的输入，或参与赋值、判断等后续处理。</li>
+        <li><strong>表达方法执行状态</strong>：常用返回值表示成功/失败（如返回 true/false、返回错误码），方便调用方做分支处理。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="kw">class</span> Calculator {
+    <span class="co">// 有返回值：把计算结果返回给调用者</span>
+    <span class="kw">int</span> add(<span class="kw">int</span> a, <span class="kw">int</span> b) {
+        <span class="kw">return</span> a + b;  <span class="co">// 返回 和</span>
+    }
+
+    <span class="co">// 无返回值(void)：只做事，不返回结果</span>
+    <span class="kw">void</span> printHello() {
+        System.<span class="kw">out</span>.println(<span class="str">"Hello"</span>);  <span class="co">// 没有 return</span>
+    }
+}
+
+<span class="kw">class</span> Main {
+    <span class="kw">public static void</span> main(String[] args) {
+        Calculator c = <span class="kw">new</span> Calculator();
+        <span class="kw">int</span> result = c.add(<span class="num">3</span>, <span class="num">4</span>);   <span class="co">// 返回值 7 赋给 result</span>
+        System.<span class="kw">out</span>.println(result);      <span class="co">// 7</span>
+        c.printHello();                       <span class="co">// 只打印，无返回值</span>
+    }
+}</div>
+      <p>把方法比作<strong>外卖点餐</strong>：</p>
+      <ul>
+        <li><strong>参数</strong>是"你报给店家的需求"（点的菜品）。</li>
+        <li><strong>方法体</strong>是"店家在后厨制作"。</li>
+        <li><strong>返回值</strong>是"做好后递给你的成品"——你做加法方法，店家把"7"端出来给你；没返回值的 void 方法，就像"店家只帮你热了个菜但不给你端出来"（比如只打印一条消息），你自己不需要拿到结果。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"返回值是方法递给调用者的结果，靠 return 送出；void 就是没产出只做事。作用：传结果、封装复用、支持链式处理、表达执行状态。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q56 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">56</div>
+    <div class="q-meta"><div class="q-title">一个类的构造方法的作用是什么？若一个类没有声明构造方法，该程序能正确执行吗？为什么？</div>
+      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">构造器</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>构造方法在 new 对象时自动调用，用来给对象做初始化</strong>（赋初值、准备资源）；如果一个类没有声明任何构造方法，程序<strong>也能正确执行</strong>，因为编译器会自动生成一个"默认无参构造器"。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>构造方法（Constructor）</strong>：与类名同名、没有返回类型（连 void 都没有）、在 <code>new</code> 创建对象时自动执行的特殊方法，主要用来<strong>初始化对象的状态</strong>。</p>
+
+      <p><strong class="sec-title">构造方法的作用</strong></p>
+      <ul>
+        <li><strong>初始化属性</strong>：给对象的成员变量赋初始值，例如 <code>this.name = "张三"</code>。</li>
+        <li><strong>准备资源/建立连接</strong>：在对象诞生时完成必要的准备工作，如打开文件、建立数据库连接。</li>
+        <li><strong>校验入参</strong>：在带参构造器里对传入的参数做合法性校验，保证对象一出生就是"合法的"。</li>
+        <li><strong>支持重载</strong>：可以写多个参数不同的构造器，让调用方按需选择初始化方式。</li>
+      </ul>
+
+      <p><strong class="sec-title">没有声明构造方法能否执行？</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>情况</th><th>能否正确执行</th><th>原因</th></tr></thead><tbody>
+      <tr><td>类完全没写任何构造方法</td><td>可以执行</td><td>编译器自动提供一个无参的默认构造器 <code>类名()</code>，什么都不做，<code>new 类名()</code> 仍然可用。</td></tr>
+      <tr><td>类写了带参构造器、没写无参构造器</td><td>默认无参 new 会报错</td><td>一旦写了任何构造器，编译器就不再自动生成默认无参构造器，此时 <code>new 类名()</code> 编译失败。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="co">// 情况1：没写任何构造器 → 编译器送默认无参构造器，可正常执行</span>
+<span class="kw">class</span> Student {
+    <span class="kw">String</span> name;   <span class="co">// 默认值 null</span>
+}
+<span class="kw">new</span> Student();   <span class="co">// 合法 ✔（用的默认构造器）</span>
+
+<span class="co">// 情况2：只写了带参构造器 → 编译器不再送默认构造器</span>
+<span class="kw">class</span> Teacher {
+    <span class="kw">public</span> Teacher(String name) { }  <span class="co">// 只写带参</span>
+}
+<span class="kw">new</span> Teacher();   <span class="co">// 编译错误 ✘</span></div>
+      <p>把类比作<strong>报名开一个"社团"</strong>：</p>
+      <ul>
+        <li>构造方法就像"新成员报到时的登记手续"：报到（new）时登记名字、准备证件（初始化属性）。</li>
+        <li>如果社团没规定任何"报到手续"（没写构造方法），系统（编译器）也会默认走一套"简单报到流程"（默认无参构造器），所以照样能正常入社（执行）。</li>
+        <li>但一旦你规定了"必须带名字才能报到"（带参构造器），那系统就不再用默认流程了，空手（无参）来报到就会失败（编译报错）。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"构造方法 = 对象出生时的初始化：赋初值、备资源、校验入参。没写任何构造器时编译器自动送默认无参构造器，所以程序能正常跑；但一旦写了带参构造器，默认无参就没了，无参 new 会报错。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q57 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">57</div>
+    <div class="q-meta"><div class="q-title">构造方法有哪些特性？</div>
+      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">构造器</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>构造方法是"同名、无返回类型、new 时自动调用、可以重载、不能重写"的特殊方法</strong>。记住这五条特性，构造方法就基本拿下了。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>构造方法（Constructor）</strong>：与类名<strong>同名</strong>、<strong>没有返回类型</strong>（连 void 都不写）的特殊方法，在 <code>new</code> 创建对象时被<strong>自动调用</strong>，用来完成对象的初始化。</p>
+
+      <p><strong class="sec-title">构造方法的核心特性</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>特性</th><th>说明</th></tr></thead><tbody>
+      <tr><td>1. 方法名与类名相同</td><td>名字必须和类名完全一致（大小写也一致），这是硬性规定。</td></tr>
+      <tr><td>2. 没有返回类型</td><td>不能写 int、void 等任何返回类型，写了就变成普通方法。</td></tr>
+      <tr><td>3. new 时自动调用</td><td>创建对象时由系统自动调用，不需要手动写"方法名()"。</td></tr>
+      <tr><td>4. 可以重载（Overload）</td><td>一个类可有多个参数不同的构造器，如无参、一个参数、两个参数。</td></tr>
+      <tr><td>5. 不能重写（Override）</td><td>构造器名字跟类名走，父子类类名不同，无法构成重写。</td></tr>
+      <tr><td>6. 不能被 static/final/synchronized 修饰</td><td>构造器属于实例创建阶段，不能是静态的，也谈不上 final/synchronized。</td></tr>
+      <tr><td>7. 可以有访问修饰符</td><td>可为 public/private/protected 等，private 可限制外部创建（单例模式）。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">补充特性说明</strong></p>
+      <ul>
+        <li><strong>自动提供默认构造器</strong>：类没写任何构造器时，编译器自动生成一个空的 <code>类名()</code> 默认构造器；一旦写了任何构造器，编译器就不再自动提供无参构造器。</li>
+        <li><strong>第一行限制</strong>：构造器第一行必须是 <code>this(...)</code>（调用本类其他构造器）或 <code>super(...)</code>（调用父类构造器），且两者只能出现一个；都不写时默认调用父类无参 <code>super()</code>。</li>
+        <li><strong>不能手动调用</strong>：构造器只能用 <code>new</code> 触发，不能像普通方法一样用 <code>对象.构造器名()</code> 调用。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="kw">class</span> Student {
+    <span class="kw">String</span> name;
+
+    <span class="co">// 特性：与类名相同、无返回类型、可以重载</span>
+    <span class="kw">public</span> Student() { }              <span class="co">// 无参构造器</span>
+    <span class="kw">public</span> Student(String n) {         <span class="co">// 带参构造器（重载）</span>
+        <span class="kw">this</span>.name = n;
+    }
+    <span class="co">// 没有写 int 等返回类型，写了就是普通方法而非构造器</span>
+}
+
+<span class="kw">class</span> Demo {
+    <span class="kw">public static void</span> main(String[] args) {
+        Student s = <span class="kw">new</span> Student();       <span class="co">// new 时自动调用无参构造器</span>
+        Student s2 = <span class="kw">new</span> Student(<span class="str">"张三"</span>);  <span class="co">// new 时自动调用带参构造器</span>
+    }
+}</div>
+      <p>把构造方法比作<strong>办理入住</strong>：</p>
+      <ul>
+        <li><strong>名字跟酒店一致</strong>（与类同名）——"某某酒店前台"必须挂在"某某酒店"里。</li>
+        <li><strong>入住时前台自动接待</strong>（new 时自动调用）——你刚进门（new），前台（构造器）就自动帮你登记，不用你喊"前台，来登记"。</li>
+        <li><strong>可以选不同房型</strong>（重载）——无参是"标准房"，带参是"带名字的豪华房"，都能办入住。</li>
+        <li><strong>不能重写</strong>——每家酒店都有自己的前台，酒店不同前台名字就不同，没法"重写"别人家的前台。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"构造方法七特性：同名、无返回类型、new 自动调用、能重载、不能重写、不能 static/final/synchronized、可有访问修饰符。再加三条：没写自动送默认构造器、第一行只能 this 或 super、不能手动点调用。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q58 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">58</div>
+    <div class="q-meta"><div class="q-title">静态方法和实例方法有何不同？</div>
+      <div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">static</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>静态方法属于"类"，用 <code>类名.</code> 直接调、不依赖对象；实例方法属于"对象"，必须先 <code>new</code> 出对象再调用</strong>。核心区别在"从属于谁"和"能不能访问实例成员"。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>静态方法（static 方法）</strong>：用 <code>static</code> 修饰，属于类本身，随类加载而存在，通过 <code>类名.方法()</code> 直接调用，不依赖任何对象实例。</p>
+      <p><strong>实例方法（非静态方法）</strong>：没有 <code>static</code> 修饰，属于某个具体的对象，必须先创建对象（<code>new</code>）再通过 <code>对象.方法()</code> 调用。</p>
+
+      <p><strong class="sec-title">核心区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>静态方法</th><th>实例方法</th></tr></thead><tbody>
+      <tr><td>从属于</td><td>类本身</td><td>具体的对象</td></tr>
+      <tr><td>调用方式</td><td><code>类名.方法()</code> 或直接调用</td><td><code>对象.方法()</code>，必须 new 对象</td></tr>
+      <tr><td>生命周期</td><td>类加载时就有，直到程序结束</td><td>对象创建后才有，对象销毁随 GC</td></tr>
+      <tr><td>是否依赖对象</td><td>不依赖，没有 this</td><td>依赖，有 this 指向当前对象</td></tr>
+      <tr><td>访问静态成员</td><td>可以</td><td>可以</td></tr>
+      <tr><td>访问实例成员</td><td>不能直接访问（无对象），除非传入对象引用</td><td>可以</td></tr>
+      <tr><td>能否被重写</td><td>不能（静态方法没有多态，可隐藏）</td><td>可以</td></tr>
+      <tr><td>占用内存</td><td>类加载分配，方法区/元空间</td><td>对象创建后，随对象存堆中</td></tr>
+      <tr><td>使用场景</td><td>工具类方法、工厂方法、主方法 main</td><td>操作对象状态的业务方法</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">关键注意点</strong></p>
+      <ul>
+        <li><strong>静态方法不能直接访问实例成员</strong>：因为静态方法执行时可能还没有对象，没有 <code>this</code>，无法确定访问哪个对象的成员。想用就必须 <code>new</code> 一个对象或把对象作为参数传入。</li>
+        <li><strong>静态方法没有多态，不能被重写</strong>：子类可以定义同名静态方法，但那是"隐藏（hiding）"而非"重写（override）"，调用时按<strong>引用类型</strong>而非对象类型决定。</li>
+        <li><strong>实例方法可以访问静态成员</strong>：因为类一定存在，静态成员随时可用。</li>
+        <li><strong>静态方法只能用静态成员，实例方法两者都能用</strong>——这是面试常考点。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="kw">class</span> Counter {
+    <span class="kw">static int</span> count = <span class="num">0</span>;   <span class="co">// 静态成员（属于类）</span>
+    <span class="kw">int</span> instanceNum;          <span class="co">// 实例成员（属于对象）</span>
+
+    <span class="co">// 静态方法：可直接访问静态成员，不能直接访问实例成员</span>
+    <span class="kw">static</span> <span class="kw">void</span> staticShow() {
+        count++;                 <span class="co">// 合法 ✔ 静态成员</span>
+        <span class="co">// instanceNum = 1;   // 编译错误 ✘ 不能直接访问实例成员</span>
+    }
+
+    <span class="co">// 实例方法：静态成员和实例成员都能访问</span>
+    <span class="kw">void</span> instanceShow() {
+        count++;                 <span class="co">// 合法 ✔</span>
+        instanceNum = <span class="num">1</span>;      <span class="co">// 合法 ✔</span>
+    }
+}
+
+<span class="kw">class</span> Demo {
+    <span class="kw">public static void</span> main(String[] args) {
+        Counter.staticShow();            <span class="co">// 类名调用静态方法 ✔</span>
+        Counter c = <span class="kw">new</span> Counter();     <span class="co">// 先 new 对象</span>
+        c.instanceShow();                <span class="co">// 对象调用实例方法 ✔</span>
+    }
+}</div>
+      <p>把静态方法和实例方法比作<strong>工厂的公共设备和员工的私人物品</strong>：</p>
+      <ul>
+        <li><strong>静态方法</strong>像工厂的"公共饮水机"——只要工厂在（类加载），任何人都能直接用（<code>类名.方法()</code>），不用等某个员工来。</li>
+        <li><strong>实例方法</strong>像"员工的专属技能"——必须等这位员工入职（new 对象）后才有，用的时候得叫他的名字（<code>对象.方法()</code>）。</li>
+        <li><strong>公共饮水机（静态方法）</strong>不能碰"员工的私人物品"（实例成员），因为工厂里可能还没人，不知道碰谁的；但<strong>员工（实例方法）</strong>既能用自己的私人物品（实例成员），也能用公共饮水机（静态成员）。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"静态方法属于类、类名直接调、不依赖对象、没有 this、只能碰静态成员；实例方法属于对象、先 new 再调、有 this、静态实例都能碰。静态方法不能重写只能隐藏。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q59 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">59</div>
+    <div class="q-meta"><div class="q-title">对象的相等与指向他们的引用相等，两者有什么不同？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">equals</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>"引用相等"比的是"两个引用是否指向同一个对象"（同一把钥匙开同一扇门），"对象相等"比的是"两个对象的内容/状态是否一样"（两扇不同的门但里面一样）</strong>。引用相等用 <code>==</code>，对象相等用 <code>equals()</code>。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>引用相等（Reference Equality）</strong>：用 <code>==</code> 判断，比较的是两个引用变量<strong>是否指向堆中的同一个对象</strong>（即内存地址是否相同）。</p>
+      <p><strong>对象相等（Object Equality）</strong>：用 <code>equals()</code> 判断，比较的是两个对象<strong>内部的状态/内容是否相等</strong>（逻辑上是否等价），即使它们是不同的对象。</p>
+
+      <p><strong class="sec-title">核心区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>引用相等（==）</th><th>对象相等（equals()）</th></tr></thead><tbody>
+      <tr><td>比较的是什么</td><td>引用（内存地址）</td><td>对象的内容/状态</td></tr>
+      <tr><td>使用符号/方法</td><td><code>==</code></td><td><code>equals()</code></td></tr>
+      <tr><td>判断标准</td><td>是否指向同一个对象</td><td>逻辑上是否等价（可自定义）</td></tr>
+      <tr><td>基本类型</td><td>比较数值</td><td>不适用</td></tr>
+      <tr><td>引用类型</td><td>比较地址</td><td>默认比较地址，可重写为比较内容</td></tr>
+      <tr><td>两个不同对象内容相同</td><td>false</td><td>true（重写 equals 后）</td></tr>
+      <tr><td>同一个对象</td><td>true</td><td>true</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">关键理解</strong></p>
+      <ul>
+        <li><strong>Object 的默认 equals() 等价于 ==</strong>：如果类没有重写 <code>equals()</code>，那么它内部就是用 <code>==</code> 比较地址，此时"对象相等"和"引用相等"没有区别。</li>
+        <li><strong>重写 equals() 才是"对象相等"</strong>：String、Integer 等包装类重写了 equals()，比较内容，所以两个内容相同的不同对象 equals 为 true。</li>
+        <li><strong>注意自动装箱的坑</strong>：<code>Integer a=100, b=100</code>，缓存范围内 <code>a==b</code> 为 true（同一缓存对象）；超出范围 <code>a==b</code> 为 false（不同对象）。所以包装类比较一律用 equals。</li>
+        <li><strong>重写 equals 必须重写 hashCode</strong>：保证相等的对象有相同的哈希值，否则 HashMap/HashSet 会出问题。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="co">// String 重写了 equals()，比较内容</span>
+String s1 = <span class="kw">new</span> String(<span class="str">"hello"</span>);
+String s2 = <span class="kw">new</span> String(<span class="str">"hello"</span>);
+
+<span class="co">// 引用相等：两个不同对象，地址不同 → false</span>
+System.<span class="kw">out</span>.println(s1 == s2);       <span class="co">// false</span>
+
+<span class="co">// 对象相等：内容相同 → true</span>
+System.<span class="kw">out</span>.println(s1.equals(s2));  <span class="co">// true</span>
+
+<span class="co">// 同一个对象：== 和 equals 都是 true</span>
+String s3 = s1;
+System.<span class="kw">out</span>.println(s1 == s3);       <span class="co">// true</span>
+System.<span class="kw">out</span>.println(s1.equals(s3));  <span class="co">// true</span></div>
+      <p>把引用和对象比作<strong>"地址"和"房子"</strong>：</p>
+      <ul>
+        <li><strong>引用相等（==）</strong>是问："这两个地址是不是同一个门牌号？"——如果两个引用都指向同一栋房子（同一个地址），就是 true。</li>
+        <li><strong>对象相等（equals）</strong>是问："这两栋房子内部装修/内容是不是一样？"——两栋不同门牌号的房子（不同地址），但里面住的人、布局完全相同，逻辑上就算相等。</li>
+        <li>同一个门牌号（== true）的房子内容肯定一样（equals 也 true）；但内容一样的房子（equals true）不一定是同一栋（== 可能是 false）。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"== 比地址（是不是同一扇门），equals 比内容（两扇门里的东西一样不一样）。默认 equals 就是 ==，重写 equals 才比内容；重写 equals 必须重写 hashCode，包装类比较一律用 equals。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q60 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">60</div>
+    <div class="q-meta"><div class="q-title">在调用子类构造方法之前，会先调用父类没有参数的构造方法，其目的是？</div>
+      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">继承</span><span class="q-tag">构造器</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：在调用子类构造方法前，会先调用父类的无参构造方法，目的是<strong>先完成父类的初始化，保证子类继承到的"父类部分"是就绪的</strong>。这就像盖房子先打好地基，子类对象才能建立在完整的父类基础之上。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>构造执行顺序</strong>：在 Java 中，创建一个子类对象时，<strong>会先执行父类的构造方法，再执行子类的构造方法</strong>（先父后子）。子类构造器第一行隐含调用 <code>super()</code>（父类无参构造器）。</p>
+
+      <p><strong class="sec-title">根本目的</strong></p>
+      <ul>
+        <li><strong>保证父类部分初始化完成</strong>：子类对象在内存中其实"包含"一个父类对象（父类的成员变量和方法是子类的一部分）。不先初始化父类，子类继承到的属性就可能是未初始化的（null、0），无法使用。</li>
+        <li><strong>符合"先有父再有子"的逻辑</strong>：对象构造是自顶向下的，父类是子类存在的前提，只有父类先构建好，子类才能在此基础上扩展。</li>
+        <li><strong>保证继承成员可用</strong>：子类构造方法里可能用到父类的字段或调用父类的方法，如果父类没初始化，这些成员就没有正确状态。</li>
+      </ul>
+
+      <p><strong class="sec-title">执行顺序说明</strong></p>
+      <div class="code-block"><span class="kw">class</span> Animal {
+    <span class="kw">public</span> Animal() {
+        System.<span class="kw">out</span>.println(<span class="str">"父类构造执行"</span>);  <span class="co">// 先执行</span>
+    }
+}
+<span class="kw">class</span> Dog <span class="kw">extends</span> Animal {
+    <span class="kw">public</span> Dog() {
+        <span class="kw">super</span>();                          <span class="co">// 隐含调用，可省略</span>
+        System.<span class="kw">out</span>.println(<span class="str">"子类构造执行"</span>);  <span class="co">// 后执行</span>
+    }
+}
+<span class="kw">new</span> Dog();
+<span class="co">// 输出顺序：父类构造执行 → 子类构造执行</span></div>
+      <ul>
+        <li>子类构造器<strong>第一行必须是 <code>super(...)</code> 或 <code>this(...)</code></strong>，不写就默认 <code>super()</code> 调用父类无参构造器。</li>
+        <li><strong>如果父类没有无参构造器</strong>（只有带参构造器），子类必须显式 <code>super(参数)</code> 调用父类某个构造器，否则编译报错。</li>
+        <li>多层继承时层层向上：<code>爷爷 → 爸爸 → 儿子</code>，最顶层的父类最先执行。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>把对象比作<strong>一栋建筑</strong>，把类继承比作"地基 → 框架 → 装修"：</p>
+      <ul>
+        <li>父类是<strong>地基和框架</strong>，子类是<strong>在这基础上做的装修</strong>。</li>
+        <li>必须先打好地基、建好框架（先执行父类构造），才能开始装修（再执行子类构造）。如果不先建好父类部分，装修（子类）就无处可施。</li>
+        <li>也像<strong>"先有父，后有子"</strong>——子类继承自父类，父类没初始化，子类继承到的属性就是残缺的。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"先父后子是铁律：创建子类对象，先执行父类构造再执行子类构造。目的是先把父类部分初始化好，子类继承的属性才可用。子类构造第一行隐含 super()，父类只有带参构造时得显式 super(参数)。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q61 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">61</div>
+    <div class="q-meta"><div class="q-title">hashCode 与 equals 的区别？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">equals</span><span class="q-tag">hashCode</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>equals 判断两个对象是否"相等"（内容是否一样），hashCode 返回对象的"哈希值"（一个散列编号）</strong>。两者关系紧密：equals 相等的对象，hashCode 必须相等；hashCode 相等，equals 不一定相等。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>equals()</strong>：Object 类的方法，判断两个对象<strong>是否相等</strong>。默认比较地址，String 等类重写后比较内容。</p>
+      <p><strong>hashCode()</strong>：Object 类的方法，返回对象的一个<strong>int 类型的哈希值</strong>，通常根据对象的字段计算出来，用于在哈希结构（HashMap、HashSet 等）中快速定位。</p>
+
+      <p><strong class="sec-title">两者的关系（重要约定）</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>约定</th><th>说明</th></tr></thead><tbody>
+      <tr><td>1. equals 相等 → hashCode 必须相等</td><td>两个对象 equals 为 true，它们的 hashCode 一定相同，否则违反散列约定。</td></tr>
+      <tr><td>2. hashCode 相等 → equals 不一定相等</td><td>哈希值相同不代表对象内容相同（哈希碰撞），还需用 equals 精确判断。</td></tr>
+      <tr><td>3. hashCode 不同 → equals 必为 false</td><td>哈希值不同，说明两个对象一定不相等。</td></tr>
+      <tr><td>4. 重写 equals 必须重写 hashCode</td><td>否则在 HashMap/HashSet 中会出现"相等对象哈希不同"的 bug。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>equals()</th><th>hashCode()</th></tr></thead><tbody>
+      <tr><td>作用</td><td>判断两个对象是否相等</td><td>返回对象的哈希值（散列编号）</td></tr>
+      <tr><td>返回类型</td><td>boolean</td><td>int</td></tr>
+      <tr><td>核心用途</td><td>逻辑上的对象比较</td><td>哈希结构快速定位/散列存储</td></tr>
+      <tr><td>性能</td><td>可能遍历比较所有字段，较慢</td><td>计算一个数值，较快</td></tr>
+      <tr><td>是否必须重写</td><td>需要时重写</td><td>重写 equals 时必须一起重写</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">在 HashMap 中如何配合工作</strong></p>
+      <ul>
+        <li>放入 HashMap 时，先算 hashCode 找到桶（bucket）位置，再在桶内用 equals 判断是否已存在相同 key。</li>
+        <li>所以 <code>hashCode</code> 负责"分桶提速"，<code>equals</code> 负责"精确判断"。二者配合，既能快速定位，又保证正确性。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="kw">class</span> Person {
+    <span class="kw">String</span> name;
+    <span class="kw">int</span> age;
+    Person(String name, <span class="kw">int</span> age) { <span class="kw">this</span>.name=name; <span class="kw">this</span>.age=age; }
+
+    <span class="kw">@Override</span> <span class="kw">public boolean</span> equals(Object o) {
+        <span class="kw">if</span> (!(o <span class="kw">instanceof</span> Person)) <span class="kw">return false</span>;
+        Person p = (Person) o;
+        <span class="kw">return</span> name.equals(p.name) && age == p.age;  <span class="co">// 内容相等</span>
+    }
+    <span class="kw">@Override</span> <span class="kw">public int</span> hashCode() {
+        <span class="kw">return</span> name.hashCode() + age;  <span class="co">// 重写 equals 必须重写 hashCode</span>
+    }
+}</div>
+      <p>把 hashCode 比作<strong>图书馆的索书号/书架编号</strong>，把 equals 比作<strong>逐字核对书本内容</strong>：</p>
+      <ul>
+        <li><strong>hashCode</strong> 像先根据书名算出它在几楼几排书架（分桶），能<strong>快速缩小范围</strong>。</li>
+        <li><strong>equals</strong> 像在这个书架上<strong>逐本核对</strong>，确认到底是不是你要的那本书（精确判断）。</li>
+        <li>两本一样的书（equals 相等），索书号（hashCode）必然一样；但索书号一样的书（hashCode 相等），可能是上下册或同名不同内容（equals 不一定相等，哈希碰撞）。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"equals 比相等，hashCode 算编号；equals 相等 hashCode 必相等，hashCode 相等 equals 不一定相等，hashCode 不同 equals 必 false。重写 equals 必须重写 hashCode，否则 HashMap/HashSet 出 bug。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q62 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">62</div>
+    <div class="q-meta"><div class="q-title">为什么 Java 中只有值传递？</div>
+      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>Java 方法调用时，参数传的都是"栈中存的值的副本"，基本类型传数值副本，引用类型传"引用地址值的副本"，所以本质只有值传递</strong>，不存在"把变量本身传进去"的引用传递。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>值传递（Pass by Value）</strong>：方法调用时，把实参的<strong>值复制一份</strong>传给形参，形参的修改不影响实参。</p>
+      <p><strong>引用传递（Pass by Reference）</strong>：把实参的<strong>变量本身（地址）</strong>传给形参，形参和实参指向同一内存，修改会互相影响。</p>
+
+      <p><strong class="sec-title">为什么只有值传递（核心原因）</strong></p>
+      <ul>
+        <li><strong>方法参数存的是"栈中的值"</strong>：Java 所有变量（基本类型和引用类型）在栈中都存一个"值"——基本类型存数值本身，引用类型存"指向堆中对象的地址值"。</li>
+        <li><strong>传参时复制的是这个"栈中的值"</strong>：不管传什么，都是把这个值<strong>拷贝一份</strong>给形参，形参拿到的是副本，不是变量本身。</li>
+        <li><strong>形参和实参是不同的变量</strong>：它们各自持有值，修改形参（重新赋值）不会改变实参持有的值。</li>
+        <li><strong>引用类型"能改对象内容"≠引用传递</strong>：因为形参和实参的<strong>地址值相同</strong>，指向同一个对象，所以通过形参<code>obj.xxx</code>能改对象内容——但这是"通过引用访问对象"，不是"传递了引用变量本身"。若给形参重新赋新对象（<code>obj = new ...</code>），实参不受影响，这就证明了只是值传递。</li>
+      </ul>
+
+      <p><strong class="sec-title">验证方式：两个典型例子</strong></p>
+      <div class="code-block"><span class="co">// 例1：基本类型，值传递，实参不变</span>
+<span class="kw">static void</span> f(<span class="kw">int</span> a) { a = <span class="num">100</span>; }
+<span class="kw">int</span> x = <span class="num">10</span>;
+f(x);
+<span class="co">// x 仍为 10，形参 a 的修改不影响实参</span>
+
+<span class="co">// 例2：引用类型，传的是"地址值副本"，重新赋值实参不变</span>
+<span class="kw">static void</span> g(Person p) { p = <span class="kw">new</span> Person(); }  <span class="co">// 重新指向新对象</span>
+Person p1 = <span class="kw">new</span> Person();
+g(p1);
+<span class="co">// p1 仍指向原来的对象，没变成新对象 → 证明只传了地址副本</span>
+
+<span class="co">// 例3：但通过形参修改对象内容会生效（因地址相同指向同一对象）</span>
+<span class="kw">static void</span> h(Person p) { p.name = <span class="str">"新名字"</span>; }
+h(p1);
+<span class="co">// p1.name 被改成"新名字" → 因为 p1 和形参 p 指向同一对象</span></div>
+
+      <p><strong class="sec-title">关键理解</strong></p>
+      <ul>
+        <li><strong>引用类型变量 = 持有地址的变量</strong>，传参传的是这个"地址值"的副本。</li>
+        <li>通过形参<strong>改对象内容生效</strong>，是因为地址值副本仍指向同一个对象，不是引用传递。</li>
+        <li>通过形参<strong>改形参自身指向（重新赋值）不生效</strong>，实参不会跟着变——这是判断"值传递"的铁证。</li>
+        <li>C++ 才有真正的引用传递（<code>&amp;</code>）；Java 借鉴了 C 的指针但更安全，只允许值传递。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>把参数传递比作<strong>复印文件</strong>：</p>
+      <ul>
+        <li>值传递就像你把一张<strong>复印件的副本</strong>交给对方，对方在副本上乱涂乱画（修改形参），原件（实参）完全不受影响。</li>
+        <li>引用类型传参，相当于你复印了"一张写有地址的小纸条"给对方，对方按地址能找到你的房子（改房子内部=改对象内容会生效），但对方把这张纸条改成另一个地址（重新赋值），你的房子地址不会变。</li>
+        <li>所以 Java 永远是"给复印件/地址纸条副本"，从没有把"原件"或"地址本"整个交出去，故只有值传递。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"Java 只有值传递：基本类型传数值副本，引用类型传地址副本。判断铁证——给形参重新赋值（指向新对象）实参不变就是值传递；通过形参改对象内容生效是因为地址相同，不是引用传递。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q63 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">63</div>
+    <div class="q-meta"><div class="q-title">简述线程、程序、进程的基本概念，以及它们之间的关系是什么？</div>
+      <div class="q-tags"><span class="q-tag">并发</span><span class="q-tag">进程线程</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>程序是"静态的代码"，进程是"程序的一次运行"，线程是"进程内的执行单元"</strong>。关系是层层包含：程序 → 进程 → 线程，一个程序可对应多个进程，一个进程可包含多个线程。</p>
+
+      <p><strong class="sec-title">基本概念</strong></p>
+      <ul>
+        <li><strong>程序（Program）</strong>：一组<strong>静态的指令和数据</strong>的有序集合，是存在磁盘上的可执行代码，本身<strong>不占用 CPU 资源</strong>，是"死的"。</li>
+        <li><strong>进程（Process）</strong>：<strong>程序的一次执行过程</strong>，是操作系统进行资源分配（CPU、内存、IO）的基本单位，是"活的"、动态的，有独立的地址空间。</li>
+        <li><strong>线程（Thread）</strong>：<strong>进程内的一个更小的执行单元</strong>，是 CPU 调度的基本单位，多个线程共享所属进程的资源（内存、文件），线程之间可并发执行。</li>
+      </ul>
+
+      <p><strong class="sec-title">三者关系对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>程序</th><th>进程</th><th>线程</th></tr></thead><tbody>
+      <tr><td>本质</td><td>静态指令/代码集合</td><td>程序的一次运行</td><td>进程内的执行单元</td></tr>
+      <tr><td>动态性</td><td>静态，不执行</td><td>动态，正在运行</td><td>动态，正在执行</td></tr>
+      <tr><td>资源</td><td>不占 CPU/内存资源</td><td>系统资源分配的基本单位</td><td>共享进程资源，CPU 调度基本单位</td></tr>
+      <tr><td>地址空间</td><td>存在磁盘上</td><td>拥有独立地址空间</td><td>共享所属进程的地址空间</td></tr>
+      <tr><td>数量关系</td><td>一个程序可多次运行</td><td>对应多个进程</td><td>一个进程可有多个线程</td></tr>
+      <tr><td>系统开销</td><td>—</td><td>创建/切换开销大</td><td>创建/切换开销小（更轻量）</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">三者关系详解</strong></p>
+      <ul>
+        <li><strong>程序 → 进程</strong>：一个<strong>程序</strong>可以被执行多次，每次执行就产生一个<strong>进程</strong>。比如同一个记事本程序，你可以同时打开多个窗口，就是多个进程。</li>
+        <li><strong>进程 → 线程</strong>：一个<strong>进程</strong>可以包含一个或多个<strong>线程</strong>。线程是进程内的执行路径，多线程让进程能同时做多件事。</li>
+        <li><strong>包含关系</strong>：进程是程序的动态实例，线程是进程的动态执行单元，层层向下包含。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>把三者比作<strong>"剧本、演出、演员"</strong>：</p>
+      <ul>
+        <li><strong>程序</strong> = <strong>剧本</strong>：写在纸上的台词和情节（静态代码），放在那里不会自己演，也不占舞台资源。</li>
+        <li><strong>进程</strong> = <strong>一场演出</strong>：把剧本搬上舞台实际演起来（程序运行），需要舞台、灯光、道具（CPU、内存等资源），每次演出都是一场独立的"演出"（进程）。同一个剧本（程序）可以演很多场（多个进程）。</li>
+        <li><strong>线程</strong> = <strong>舞台上的演员</strong>：一场演出（进程）里有多个演员（线程）在同时表演，他们共用同一个舞台（共享进程资源），协同完成整场戏。</li>
+      </ul>
+      <p><strong>再形象一点</strong>：程序是"菜谱"（静态文字），进程是"照着菜谱做出来的那锅菜"（实际烹饪过程），线程是"炒菜时同时切菜、烧火、放调料等多个动作"（进程内并行的动作单元）。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"程序是死的代码，进程是程序的一次运行，线程是进程里的执行单元。层层包含：程序→进程→线程，一个程序多个进程，一个进程多个线程；进程是资源分配单位，线程是 CPU 调度单位。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q64 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">64</div>
+    <div class="q-meta"><div class="q-title">关于 final 关键字的一些总结</div>
+      <div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">final</span><span class="q-tag">经典</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>final 是 Java 的"不可变/不可覆盖"修饰符——修饰类不可继承、修饰方法不可重写、修饰变量不可重新赋值</strong>。三句话记住它的核心作用。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>final 关键字</strong>：用来修饰类、方法、变量的关键字，表示"最终状态"，一旦设定后不可再改变。</p>
+
+      <p><strong class="sec-title">final 的三大核心用途</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>修饰对象</th><th>作用</th><th>示例/注意点</th></tr></thead><tbody>
+      <tr><td>final 类</td><td>该类<strong>不能被继承</strong></td><td><code>public final class String</code>，String、Integer 等都是 final 类。</td></tr>
+      <tr><td>final 方法</td><td>该方法<strong>不能被重写（override）</strong></td><td>父类 final 方法子类不能重写，但可被继承调用；常用来固定核心算法。</td></tr>
+      <tr><td>final 变量</td><td>该变量<strong>一旦赋值不可再改</strong></td><td>基本类型值不可变；引用类型<strong>引用不可变</strong>（不能重新指向新对象，但对象内容可变）。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">final 变量的分类</strong></p>
+      <ul>
+        <li><strong>final 成员变量</strong>：要么在<strong>声明时</strong>赋值，要么在<strong>构造器中</strong>赋值，且只能赋值一次。</li>
+        <li><strong>final 局部变量</strong>：在声明时或之后赋值，赋值后不可再改；可以延迟到使用前赋值。</li>
+        <li><strong>final 静态变量</strong>：属于类，常在声明时或静态代码块中初始化。</li>
+      </ul>
+
+      <p><strong class="sec-title">常考细节（坑点）</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>注意点</th><th>说明</th></tr></thead><tbody>
+      <tr><td>final 引用类型的"内容可变"</td><td><code>final List&lt;Integer&gt; list</code> 不能再 <code>list = 新list</code>，但可以 <code>list.add(...)</code> 改内容。</td></tr>
+      <tr><td>final 方法参数</td><td><code>void f(final int a)</code> 形参在方法内不能再赋值。</td></tr>
+      <tr><td>final 与匿名内部类</td><td>匿名内部类/局部内部类访问的局部变量必须是 final（或 effectively final）。</td></tr>
+      <tr><td>final 与 static 组合</td><td><code>static final</code> 通常定义常量，如 <code>static final int MAX=100</code>，命名全大写。</td></tr>
+      <tr><td>final 与安全</td><td>final 有助于不可变类设计（配合 private 字段），提升线程安全。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="co">// 1. final 类：不能被继承</span>
+<span class="kw">final class</span> Point { <span class="kw">int</span> x, y; }
+<span class="co">// class Sub extends Point {}  // 编译错误 ✘ 不能继承 final 类</span>
+
+<span class="co">// 2. final 方法：不能被重写</span>
+<span class="kw">class</span> A {
+    <span class="kw">final void</span> work() { }   <span class="co">// 子类不能重写 work()</span>
+}
+
+<span class="co">// 3. final 变量：不能重新赋值（引用不能变，但内容可变）</span>
+<span class="kw">final int</span> MAX = <span class="num">100</span>;
+<span class="co">// MAX = 200;  // 编译错误 ✘</span>
+
+<span class="kw">final</span> StringBuilder sb = <span class="kw">new</span> StringBuilder(<span class="str">"a"</span>);
+<span class="co">// sb = new StringBuilder("b");  // 编译错误 ✘ 引用不能变</span>
+sb.append(<span class="str">"b"</span>);   <span class="co">// 合法 ✔ 内容可以变，sb 现在是 "ab"</span></div>
+      <p>把 final 比作<strong>"一次性锁"</strong>或<strong>"盖了章的合同"</strong>：</p>
+      <ul>
+        <li><strong>final 类</strong>像"封死的公司"——别人不能在你基础上开分公司（继承），像 String 这种底层类要锁死防止被篡改。</li>
+        <li><strong>final 方法</strong>像"固定的操作流程"——后人只能照着用，不能改流程（重写），保证核心逻辑不被破坏。</li>
+        <li><strong>final 变量</strong>像"盖了章的房产证"——房产证主人（引用）不能换（不能重新指向新对象），但房子里的家具（对象内容）可以随意摆放（可修改内容）。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"final 三连：类不可继承、方法不可重写、变量不可再赋值。引用类型只锁引用、不锁内容；static final 是常量要全大写；匿名内部类用局部变量必须 final。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q65 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">65</div>
+    <div class="q-meta"><div class="q-title">Java 中的异常处理有哪些？</div>
+      <div class="q-tags"><span class="q-tag">异常处理</span><span class="q-tag">经典</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>Java 异常处理的核心是 try-catch-finally 机制 + throw/throws 关键字</strong>，再加上异常分类体系（Error / Exception），用它们来捕获、抛出和兜底处理程序运行中的异常情况。</p>
+
+      <p><strong class="sec-title">异常处理的核心机制</strong></p>
+      <ul>
+        <li><strong>try-catch</strong>：把可能出错的代码放在 try 块中，用 catch 捕获并处理指定类型的异常。</li>
+        <li><strong>finally</strong>：无论是否发生异常都会执行的代码块（除非 System.exit），常用于释放资源（关闭流、连接）。</li>
+        <li><strong>throw</strong>：手动抛出一个异常对象（方法体内）。</li>
+        <li><strong>throws</strong>：声明方法可能抛出的异常，交给调用方处理（方法签名上）。</li>
+        <li><strong>try-with-resources</strong>：JDK7+，自动关闭实现 AutoCloseable 的资源，简化资源释放。</li>
+      </ul>
+
+      <p><strong class="sec-title">异常分类体系</strong></p>
+      <div class="code-block">Throwable（所有异常/错误的根类）
+├── Error（严重错误，不处理）
+│   ├── OutOfMemoryError
+│   └── StackOverflowError
+└── Exception（程序可处理）
+    ├── RuntimeException（运行时异常，可选处理）
+    │   ├── NullPointerException
+    │   ├── IndexOutOfBoundsException
+    │   └── ClassCastException
+    └── Checked 检查异常（必须处理）
+        ├── IOException
+        ├── SQLException
+        └── ClassNotFoundException</div>
+
+      <p><strong class="sec-title">异常处理的几种写法</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>写法</th><th>说明</th></tr></thead><tbody>
+      <tr><td>try-catch</td><td>捕获异常并处理，程序继续运行。</td></tr>
+      <tr><td>try-catch-finally</td><td>捕获异常 + 无论如何执行 finally 清理资源。</td></tr>
+      <tr><td>try-finally</td><td>不捕获，只保证 finally 执行（异常向上抛）。</td></tr>
+      <tr><td>try-with-resources</td><td>JDK7+，资源自动 close，代码更简洁安全。</td></tr>
+      <tr><td>多个 catch</td><td>JDK7+ 可用 <code>catch(A | B e)</code> 合并捕获多个异常。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">基本使用示例</strong></p>
+      <div class="code-block"><span class="kw">public void</span> readFile(String path) <span class="kw">throws</span> IOException {  <span class="co">// throws 声明</span>
+    <span class="kw">try</span> (BufferedReader br = <span class="kw">new</span> BufferedReader(<span class="kw">new</span> FileReader(path))) {
+        String line;
+        <span class="kw">while</span> ((line = br.readLine()) != <span class="kw">null</span>) {
+            System.<span class="kw">out</span>.println(line);
+        }
+    } <span class="kw">catch</span> (FileNotFoundException e) {      <span class="co">// 精确捕获</span>
+        <span class="kw">throw new</span> IllegalArgumentException(<span class="str">"文件不存在: "</span> + path, e);
+    } <span class="kw">finally</span> {                            <span class="co">// 兜底清理</span>
+        System.<span class="kw">out</span>.println(<span class="str">"清理完成"</span>);
+    }
+}</div>
+
+      <p><strong class="sec-title">使用原则与注意事项</strong></p>
+      <ul>
+        <li><strong>不要吞异常</strong>：catch 里空实现或只打印不处理会让问题被隐藏，应记录日志或重新抛出。</li>
+        <li><strong>catch 顺序</strong>：子类异常在前、父类异常在后，否则父类会提前捕获。</li>
+        <li><strong>finally 与 return</strong>：finally 中有 return 会覆盖 try 的返回值，尽量避免。</li>
+        <li><strong>用异常还是返回值</strong>：业务校验类用返回值/断言，不可预期的错误用异常。</li>
+        <li><strong>避免 catch 一切（catch(Exception e)）</strong>：过度捕获会掩盖真实错误，应精确到具体异常类型。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>把异常处理比作<strong>"厨房做菜遇到问题"</strong>：</p>
+      <ul>
+        <li><strong>try</strong> 是"开始炒菜"（正常流程）。</li>
+        <li><strong>catch</strong> 是"菜烧糊了"（异常），赶紧补救——少放盐就加盐（处理异常），菜还能吃（程序继续）。</li>
+        <li><strong>finally</strong> 是"不管菜好不好，最后都要洗锅关火"（清理资源），是必须做的事。</li>
+        <li><strong>throw</strong> 是"我发现食材变质了，主动喊厨师长"（主动抛出异常）。</li>
+        <li><strong>throws</strong> 是"这道菜可能做糊，我提前告诉客人"（声明可能异常，让调用方处理）。</li>
+        <li><strong>Error</strong> 是"厨房着火了"（严重错误 OOM/StackOverflow），没法补救，只能终止。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"异常处理五板斧：try-catch 抓、finally 清、throw 抛、throws 声明、try-with-resources 自动关。体系是 Throwable 分 Error 和 Exception，Runtime 可选、Checked 必处理。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q66 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">66</div>
+    <div class="q-meta"><div class="q-title">Java 序列化中如果有些字段不想进行序列化，怎么办？</div>
+      <div class="q-tags"><span class="q-tag">序列化</span><span class="q-tag">transient</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>用 <code>transient</code> 关键字修饰不想序列化的字段</strong>，序列化时该字段会被跳过，反序列化后其值为默认值（引用为 null、基本类型为 0/false）。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>transient</strong>：Java 序列化关键字，修饰字段后，该字段在<strong>对象序列化时不会被写入字节流</strong>，从而不被持久化或传输。</p>
+
+      <p><strong class="sec-title">如何使用</strong></p>
+      <div class="code-block"><span class="kw">import</span> java.io.Serializable;
+
+<span class="kw">class</span> User <span class="kw">implements</span> Serializable {
+    <span class="kw">private static final long</span> serialVersionUID = <span class="num">1L</span>;
+    <span class="kw">private String</span> name;           <span class="co">// 正常序列化</span>
+    <span class="kw">private int</span> age;              <span class="co">// 正常序列化</span>
+    <span class="kw">private transient String</span> password;   <span class="co">// 不想序列化，加 transient</span>
+    <span class="kw">private transient static</span> String salt;  <span class="co">// 静态字段本身就序列化不了，加 transient 更保险</span>
+}</div>
+
+      <p><strong class="sec-title">为什么要跳过某些字段</strong></p>
+      <ul>
+        <li><strong>敏感信息</strong>：密码、token、银行卡号等，不应被持久化或传输到磁盘/网络。</li>
+        <li><strong>非必要的缓存数据</strong>：如派生字段、临时缓存，反序列化后可按需重新计算。</li>
+        <li><strong>不可序列化的引用</strong>：字段类型没实现 Serializable，避免序列化抛 NotSerializableException。</li>
+      </ul>
+
+      <p><strong class="sec-title">关键注意点</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>注意点</th><th>说明</th></tr></thead><tbody>
+      <tr><td>transient 只修饰字段</td><td>只能修饰成员变量，不能修饰类、方法、局部变量。</td></tr>
+      <tr><td>静态字段天然不序列化</td><td>static 字段属于类，本来就不随对象序列化，加 transient 无实际意义（但可加双保险）。</td></tr>
+      <tr><td>反序列化后是默认值</td><td>transient 字段反序列化后为默认值：引用 null、int 为 0、boolean 为 false。</td></tr>
+      <tr><td>final 字段也可 transient</td><td>final transient 字段反序列化后为默认值，不是其初始值。</td></tr>
+      <tr><td>不影响内存使用</td><td>transient 只是序列化时跳过，对象在内存中该字段仍正常存在、可用。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">补充：更灵活的自定义方式</strong></p>
+      <p>如果对序列化有更复杂的需求（如想加密后再序列化），可以重写 <code>writeObject()</code> 和 <code>readObject()</code> 方法，自定义序列化逻辑，自由决定哪些字段、以什么形式写入。</p>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>把序列化比作<strong>"打包托运包裹"</strong>：</p>
+      <ul>
+        <li>对象的字段像包裹里的物品，序列化就是装箱托运。</li>
+        <li><strong>transient 字段</strong>像"不能托运的违禁品或私密物品"（如密码、银行卡），装箱时被单独拿出来<strong>不放进包裹</strong>（不序列化）。</li>
+        <li>到达目的地（反序列化）后，私密物品（transient 字段）位置是空的（null / 默认值），因为根本就没装箱。</li>
+        <li>但私密物品在出发地（内存）里<strong>一直都在、正常使用</strong>，只是不上托运（不序列化）。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"不想序列化就加 transient：密码/缓存/不可序列化字段都适用。注意 transient 只修饰字段、反序列化后是默认值、static 本来就不序列化、内存里照常存在。更复杂需求可重写 writeObject/readObject 自定义。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q67 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">67</div>
+    <div class="q-meta"><div class="q-title">获取用键盘输入常用的两种方法？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">IO</span><span class="q-tag">输入</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：常用的两种键盘输入方法是<strong>① Scanner（最常用、简单方便）② BufferedReader（传统、高效）</strong>。面试题通常问这两者。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>方法一：Scanner</strong>（java.util.Scanner）：JDK5 引入，提供 <code>nextXxx()</code> 系列方法直接读取基本类型和字符串，简单直观。</p>
+      <p><strong>方法二：BufferedReader</strong>（java.io.BufferedReader）：传统 IO 方式，配合 InputStreamReader 读取，<strong>只能读字符串</strong>，需要手动转换类型，性能较好。</p>
+
+      <p><strong class="sec-title">方法一：Scanner 使用</strong></p>
+      <div class="code-block"><span class="kw">import</span> java.util.Scanner;
+
+<span class="kw">public class</span> Demo {
+    <span class="kw">public static void</span> main(String[] args) {
+        Scanner sc = <span class="kw">new</span> Scanner(System.<span class="kw">in</span>);
+        System.<span class="kw">out</span>.print(<span class="str">"请输入姓名: "</span>);
+        String name = sc.next();        <span class="co">// 读字符串</span>
+        System.<span class="kw">out</span>.print(<span class="str">"请输入年龄: "</span>);
+        <span class="kw">int</span> age = sc.nextInt();      <span class="co">// 读 int</span>
+        System.<span class="kw">out</span>.println(<span class="str">"姓名="</span> + name + <span class="str">", 年龄="</span> + age);
+        sc.close();                     <span class="co">// 释放资源</span>
+    }
+}</div>
+
+      <p><strong class="sec-title">方法二：BufferedReader 使用</strong></p>
+      <div class="code-block"><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> Demo {
+    <span class="kw">public static void</span> main(String[] args) <span class="kw">throws</span> IOException {
+        BufferedReader br = <span class="kw">new</span> BufferedReader(
+            <span class="kw">new</span> InputStreamReader(System.<span class="kw">in</span>));
+        System.<span class="kw">out</span>.print(<span class="str">"请输入姓名: "</span>);
+        String name = br.readLine();    <span class="co">// 只能读一行字符串</span>
+        System.<span class="kw">out</span>.print(<span class="str">"请输入年龄: "</span>);
+        <span class="kw">int</span> age = Integer.parseInt(br.readLine());  <span class="co">// 手动转 int</span>
+        System.<span class="kw">out</span>.println(<span class="str">"姓名="</span> + name + <span class="str">", 年龄="</span> + age);
+        br.close();
+    }
+}</div>
+
+      <p><strong class="sec-title">两者对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>Scanner</th><th>BufferedReader</th></tr></thead><tbody>
+      <tr><td>所在包</td><td>java.util</td><td>java.io</td></tr>
+      <tr><td>读取类型</td><td>可读基本类型 + 字符串（nextInt/nextDouble 等）</td><td>只能读字符串（readLine）</td></tr>
+      <tr><td>类型转换</td><td>自动转换</td><td>需手动转换（Integer.parseInt 等）</td></tr>
+      <tr><td>是否抛异常</td><td>不强制（用 hasNextXxx 判断）</td><td>必须处理 IOException（throws）</td></tr>
+      <tr><td>性能</td><td>较慢（有正则分词开销）</td><td>较快（缓冲流，效率高）</td></tr>
+      <tr><td>适用</td><td>简单交互、学习场景</td><td>大文件/大量读取、需要缓冲的高性能场景</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>把两种方式比作<strong>"点餐的两种方式"</strong>：</p>
+      <ul>
+        <li><strong>Scanner</strong> 像<strong>自助点餐机</strong>：可以直接选择"点一份饭"（nextInt 读数字）、"点一份菜"（next 读字符串），界面友好、操作直接，适合日常简单点餐（简单交互）。</li>
+        <li><strong>BufferedReader</strong> 像<strong>后厨传菜窗口</strong>：它不管菜是什么，只是把菜（字符串）一大盘一大盘端出来（readLine 读一行），具体是饭还是菜（转成 int、double）得你自己去分辨转换，但端得快（缓冲、性能高）。</li>
+      </ul>
+      <p><strong>补充</strong>：此外还有 Console 类（<code>System.console().readLine()</code>，适合控制台交互且不能重定向输入）等，但最常考的是 Scanner 和 BufferedReader 两种。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"键盘输入两把钥匙：Scanner 简单读啥都行（自动转类型）、BufferedReader 只能读字符串（手动转类型）但性能高。刷题常用 Scanner，大数据量用 BufferedReader。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q68 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">68</div>
+    <div class="q-meta"><div class="q-title">常见关键字总结：static、final、this、super 等等</div>
+      <div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">经典</span><span class="q-tag">总结</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>static 管"属于类"，final 管"不可变/不可覆盖"，this 管"本类当前对象"，super 管"父类引用"</strong>，再加上其他高频关键字（volatile、synchronized、transient、abstract 等）各司其职。</p>
+
+      <p><strong class="sec-title">四大核心关键字详解</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>关键字</th><th>作用</th><th>核心要点</th><th>典型场景</th></tr></thead><tbody>
+      <tr><td><strong>static</strong></td><td>属于类，不依赖对象</td><td>静态变量/方法/代码块/内部类；不能直接访问实例成员；不能使用 this</td><td>工具类方法、常量、主方法 main</td></tr>
+      <tr><td><strong>final</strong></td><td>不可变/不可覆盖</td><td>类不可继承、方法不可重写、变量不可重新赋值；引用类型只锁引用不锁内容</td><td>String 类、常量 static final</td></tr>
+      <tr><td><strong>this</strong></td><td>当前对象引用</td><td>区分成员变量与局部变量、调用本类构造器 this()、链式编程 return this</td><td>构造器赋值、链式调用</td></tr>
+      <tr><td><strong>super</strong></td><td>父类引用</td><td>访问父类成员、调用父类构造器 super()；必须放构造器第一行</td><td>子类构造器、重写时调父类方法</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">static 详细用法</strong></p>
+      <ul>
+        <li><strong>静态变量</strong>：<code>static int count</code>，属于类，所有对象共享一份。</li>
+        <li><strong>静态方法</strong>：<code>static void f()</code>，类名直接调，不能访问实例成员。</li>
+        <li><strong>静态代码块</strong>：类加载时执行一次，用于初始化静态变量。</li>
+        <li><strong>静态内部类</strong>：不依赖外部类实例，只能访问外部类静态成员。</li>
+        <li><strong>静态导入</strong>：<code>import static xxx</code>，直接使用静态成员名。</li>
+      </ul>
+
+      <p><strong class="sec-title">final 详细用法</strong></p>
+      <ul>
+        <li><strong>final 类</strong>：不可继承（String、Integer）。</li>
+        <li><strong>final 方法</strong>：不可重写，可被继承调用。</li>
+        <li><strong>final 变量</strong>：不可重新赋值；引用类型内容可变。</li>
+        <li><strong>static final</strong>：常量，命名全大写，如 <code>MAX_VALUE</code>。</li>
+      </ul>
+
+      <p><strong class="sec-title">this 与 super 区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>this</th><th>super</th></tr></thead><tbody>
+      <tr><td>指向</td><td>当前类的对象（本类引用）</td><td>父类的对象（父类引用）</td></tr>
+      <tr><td>访问成员</td><td>本类成员（含继承来的）</td><td>父类成员</td></tr>
+      <tr><td>调用构造器</td><td>this(...) 调用本类其他构造器</td><td>super(...) 调用父类构造器</td></tr>
+      <tr><td>位置限制</td><td>构造器第一行（与其他构造器调用互斥）</td><td>构造器第一行（不写默认 super()）</td></tr>
+      <tr><td>静态方法中</td><td>不能使用</td><td>不能使用</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">其他高频关键字速记</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>关键字</th><th>一句话作用</th></tr></thead><tbody>
+      <tr><td>volatile</td><td>保证可见性 + 禁止指令重排，不保证原子性。</td></tr>
+      <tr><td>synchronized</td><td>加锁，保证原子性/可见性/有序性，线程安全。</td></tr>
+      <tr><td>transient</td><td>序列化时跳过该字段，反序列化后为默认值。</td></tr>
+      <tr><td>abstract</td><td>修饰抽象类/抽象方法，不能与 final 同用。</td></tr>
+      <tr><td>interface / implements</td><td>接口定义 / 实现接口。</td></tr>
+      <tr><td>extends</td><td>类继承，单继承。</td></tr>
+      <tr><td>enum</td><td>定义枚举，编译为继承 Enum 的 final 类。</td></tr>
+      <tr><td>new</td><td>创建对象，堆中分配内存调用构造器。</td></tr>
+      <tr><td>instanceof</td><td>判断对象是否是某类型的实例。</td></tr>
+      <tr><td>try/catch/finally/throw/throws</td><td>异常处理五件套。</td></tr>
+      <tr><td>return / break / continue</td><td>返回 / 跳出循环 / 跳过本次循环。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="kw">class</span> Animal {
+    String name;
+    <span class="kw">public</span> Animal(String name) { <span class="kw">this</span>.name = name; }  <span class="co">// this 区分参数与成员</span>
+    <span class="kw">void</span> eat() { System.<span class="kw">out</span>.println(<span class="str">"吃"</span>); }
+}
+<span class="kw">class</span> Dog <span class="kw">extends</span> Animal {
+    <span class="kw">static final String</span> TYPE = <span class="str">"犬类"</span>;   <span class="co">// static final 常量</span>
+    <span class="kw">static int</span> count;                    <span class="co">// static 静态变量</span>
+    <span class="kw">public</span> Dog(String name) {
+        <span class="kw">super</span>(name);                      <span class="co">// super 调父类构造器</span>
+        count++;                          <span class="co">// 静态变量所有对象共享</span>
+    }
+    <span class="kw">@Override void</span> eat() {
+        <span class="kw">super</span>.eat();                      <span class="co">// super 调父类方法</span>
+        System.<span class="kw">out</span>.println(<span class="str">"狗粮"</span>);
+    }
+}</div>
+      <p>用一句话记住四个关键字：</p>
+      <ul>
+        <li><strong>static</strong> 像"公司公共会议室"——属于公司（类）而不是某个员工（对象），谁都能预约使用。</li>
+        <li><strong>final</strong> 像"公司制度"——定死了不能改：公司章程（final 类）不能被子公司继承，核心流程（final 方法）不能改，年度预算（final 变量）不能超。</li>
+        <li><strong>this</strong> 像"说'我自己'"——员工说"我自己来做"（this），指的就是当前这个员工自己。</li>
+        <li><strong>super</strong> 像"找我师傅/领导"——徒弟做不了找师傅（super 父类），先让师傅处理（父类构造/方法）再自己补充。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"static 属于类、final 不可变、this 指本对象、super 指父类；this() 和 super() 只能二选一且放首行、静态方法里都不能用 this 和 super。再记 volatile 可见、synchronized 加锁、transient 不序列化、abstract 不能配 final。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q69 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">69</div>
+    <div class="q-meta"><div class="q-title">Arrays 工具类常见方法有哪些？</div>
+      <div class="q-tags"><span class="q-tag">工具类</span><span class="q-tag">Arrays</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>Arrays 是 java.util 包下专为数组服务的工具类，最常用的是 sort 排序、binarySearch 二分查找、copyOf 拷贝、toString 打印、fill 填充、equals 比较、asList 转 List</strong>。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>Arrays</strong>：java.util.Arrays，提供了一系列<strong>操作数组的静态方法</strong>（排序、查找、拷贝、填充、比较、打印、转换等），全部是 static 方法，直接 <code>Arrays.方法名()</code> 调用。</p>
+
+      <p><strong class="sec-title">常见方法总结</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>方法</th><th>作用</th><th>示例</th></tr></thead><tbody>
+      <tr><td><strong>sort()</strong></td><td>数组排序（默认升序，可传 Comparator 自定义）</td><td><code>Arrays.sort(arr)</code></td></tr>
+      <tr><td><strong>binarySearch()</strong></td><td>二分查找，返回下标；未找到返回负数插入点</td><td><code>Arrays.binarySearch(arr, 5)</code></td></tr>
+      <tr><td><strong>copyOf()</strong></td><td>拷贝数组（可指定新长度）</td><td><code>Arrays.copyOf(arr, len)</code></td></tr>
+      <tr><td><strong>copyOfRange()</strong></td><td>拷贝数组指定范围</td><td><code>Arrays.copyOfRange(arr, from, to)</code></td></tr>
+      <tr><td><strong>toString()</strong></td><td>把数组转成字符串打印</td><td><code>Arrays.toString(arr)</code></td></tr>
+      <tr><td><strong>deepToString()</strong></td><td>多维数组转字符串</td><td><code>Arrays.deepToString(arr2d)</code></td></tr>
+      <tr><td><strong>fill()</strong></td><td>用指定值填充数组</td><td><code>Arrays.fill(arr, 0)</code></td></tr>
+      <tr><td><strong>equals()</strong></td><td>比较两个数组是否相等（长度+元素）</td><td><code>Arrays.equals(a, b)</code></td></tr>
+      <tr><td><strong>asList()</strong></td><td>数组转 List（注意：返回固定长度 List）</td><td><code>Arrays.asList(1,2,3)</code></td></tr>
+      <tr><td><strong>stream()</strong></td><td>数组转 Stream（JDK8+）</td><td><code>Arrays.stream(arr)</code></td></tr>
+      <tr><td><strong>parallelSort()</strong></td><td>并行排序（JDK8+，大数据量更快）</td><td><code>Arrays.parallelSort(arr)</code></td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">使用示例</strong></p>
+      <div class="code-block"><span class="kw">import</span> java.util.Arrays;
+
+<span class="kw">public class</span> Demo {
+    <span class="kw">public static void</span> main(String[] args) {
+        <span class="kw">int</span>[] arr = {<span class="num">3</span>, <span class="num">1</span>, <span class="num">4</span>, <span class="num">1</span>, <span class="num">5</span>};
+
+        Arrays.sort(arr);                       <span class="co">// 排序 → [1,1,3,4,5]</span>
+        System.<span class="kw">out</span>.println(Arrays.toString(arr));  <span class="co">// [1, 1, 3, 4, 5]</span>
+
+        <span class="kw">int</span> idx = Arrays.binarySearch(arr, <span class="num">4</span>);  <span class="co">// 二分查找 → 3</span>
+
+        <span class="kw">int</span>[] copy = Arrays.copyOf(arr, <span class="num">3</span>);      <span class="co">// 拷贝前3个 → [1,1,3]</span>
+
+        <span class="kw">int</span>[] filled = <span class="kw">new int</span>[<span class="num">3</span>];
+        Arrays.fill(filled, <span class="num">7</span>);                  <span class="co">// 填充 → [7,7,7]</span>
+
+        <span class="kw">boolean</span> eq = Arrays.equals(arr, copy);  <span class="co">// 比较 → false</span>
+
+        java.util.List&lt;Integer&gt; list = Arrays.asList(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>);  <span class="co">// 转 List</span>
+    }
+}</div>
+
+      <p><strong class="sec-title">易错点提醒</strong></p>
+      <ul>
+        <li><strong>binarySearch 前提</strong>：必须<strong>先排序</strong>，否则结果不确定。</li>
+        <li><strong>asList 的坑</strong>：返回的是 Arrays 内部类 ArrayList（固定长度），<strong>不能 add/remove</strong>，会抛 UnsupportedOperationException；想可变需 <code>new ArrayList<>(Arrays.asList(...))</code>。</li>
+        <li><strong>asList 泛型</strong>：<code>Arrays.asList(1,2,3)</code> 返回 <code>List&lt;Integer&gt;</code>；传基本类型数组如 <code>int[]</code> 会把整个数组当作一个元素，需用包装类数组。</li>
+        <li><strong>equals vs deepEquals</strong>：一维用 equals，多维数组比较用 <code>Arrays.deepEquals()</code>。</li>
+      </ul>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>把 Arrays 比作<strong>"数组的万能工具箱"</strong>：</p>
+      <ul>
+        <li><strong>sort</strong> 像"整理书架"——把乱序的书按顺序排好。</li>
+        <li><strong>binarySearch</strong> 像"查字典"——前提是字典已经按字母排好（先排序），翻找才快（二分）。</li>
+        <li><strong>copyOf</strong> 像"复印文件"——把原数组复印一份，复印份数（新长度）可指定。</li>
+        <li><strong>toString</strong> 像"报菜名"——把数组内容用一行字念出来，方便查看。</li>
+        <li><strong>fill</strong> 像"给格子贴同一种标签"——所有位置填成同一个值。</li>
+        <li><strong>asList</strong> 像"把散装货装进固定货架"——转成 List，但货架是固定死的（不能增删）。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"Arrays 七件套：sort 排序、binarySearch 查找（先排序）、copyOf 拷贝、toString 打印、fill 填充、equals 比较、asList 转 List。记坑：asList 固定长度不能增删、binarySearch 必须先排序。"</p>
+    </div>
+  </div>
+</div>
+
 <div class="footer">
-  📌 01 · Java 基础 · 共40题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_02_集合容器.html" style="color:var(--primary)">下一板块 →</a>
+  📌 01 · Java 基础 · 共69题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_02_集合容器.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 
 </div>
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
 
 
 <a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
@@ -572,12 +2323,13 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-
+<script>
 document.addEventListener('click',function(e){
   var sd=document.getElementById('searchDropdown');
   var si=document.getElementById('searchInput');
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=4')}</script>
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
 </body>
 </html>

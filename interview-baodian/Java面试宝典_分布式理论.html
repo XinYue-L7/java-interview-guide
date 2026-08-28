@@ -4,14 +4,14 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · 分布式理论</title>
 <style>
-:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+:root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
-[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
-.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
@@ -56,11 +56,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
 .back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
 .back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
-<body data-section="08">
+<body data-section="16">
 <div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+
   <h1>分布式理论</h1>
   <p>11道高频题 · CAP · 分布式事务 · 分布式锁 · 一致性协议</p>
   <div class="nav-row">
@@ -137,12 +152,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="card"><div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">API 网关的作用和常见选型？</div><div class="q-tags"><span class="q-tag">网关</span><span class="q-tag">微服务</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>作用：</strong>统一入口、路由转发、鉴权认证、限流熔断、日志监控、灰度发布、协议转换。</p><p><strong>常见选型：</strong></p><ul><li><strong>Spring Cloud Gateway：</strong>响应式、非阻塞、Spring生态好。国内首选。</li><li><strong>Zuul 2：</strong>Netflix，非阻塞。</li><li><strong>Kong：</strong>基于OpenResty/Nginx，插件丰富。</li><li><strong>Nginx+Lua/OpenResty：</strong>高性能、灵活。</li></ul></div></div></div>
 
 <div class="footer">
-  📌 08a · 分布式理论 · 共11题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_消息队列.html" style="color:var(--primary)">下一板块 →</a>
+  📌 16 · 分布式理论 · 共11题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_消息队列.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
 </script>
 
 <a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
@@ -184,6 +212,6 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
 </body>
 </html>

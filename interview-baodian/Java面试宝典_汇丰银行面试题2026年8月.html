@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 汇丰银行面试题2026年8月</title>
+<style>
+::root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.card-body{padding:12px 18px 16px}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body data-section="21">
+<div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+  <h1>汇丰银行面试题 2026年8月</h1>
+  <p>38道题 · 汇丰银行 Java 后端真实面试题整理</p>
+<div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_系统设计.html">← 系统设计</a>
+    <a href="Java面试宝典_01_Java基础.html">Java基础 →</a>
+  </div>
+</div>
+<div class="container">
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Java 1.8 相对于之前旧版本有什么新特性？</div><div class="q-tags"><span class="q-tag">Java基础</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>Java 1.8（JDK 8）是 Java 语言的一次重大版本更新，引入了函数式编程思想、新的 API 和语法糖，极大提升了开发效率和代码简洁性。</p>
+      <p><strong>2. 作用：</strong></p>
+      <ul>
+        <li>简化集合操作与并行处理。</li>
+        <li>支持函数式编程范式，减少样板代码。</li>
+        <li>解决旧版日期时间 API 的线程安全问题。</li>
+        <li>增强接口的表达能力，便于接口演进。</li>
+      </ul>
+      <p><strong>3. 原理：</strong></p>
+      <ul>
+        <li><strong>Lambda 表达式：</strong>基于 invokedynamic 字节码指令和函数式接口实现，编译器将 Lambda 转换为私有静态方法，通过 LambdaMetafactory 动态生成实现类。</li>
+        <li><strong>Stream API：</strong>基于管道（Pipeline）和惰性求值，数据源 → 中间操作（过滤/映射）→ 终止操作（聚合/收集），支持并行流（parallelStream）利用 Fork/Join 框架拆分任务。</li>
+        <li><strong>默认方法：</strong>通过 default 关键字在接口中提供默认实现，编译后生成桥接方法，解决接口扩展与已有实现的兼容性问题。</li>
+        <li><strong>新时间日期 API：</strong>java.time 包基于 Joda-Time 设计，核心类均为不可变对象，线程安全。</li>
+        <li><strong>接口静态方法：</strong>允许在接口中定义静态工具方法。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">你具体是怎么用 Lambda 表达式的？可以举个例子说明吗？</div><div class="q-tags"><span class="q-tag">Java基础</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>Lambda 表达式是一种匿名函数的简洁写法，允许将函数作为参数传递，是函数式编程在 Java 中的核心体现。</p>
+      <p><strong>2. 作用：</strong>替代冗长的匿名内部类写法，使代码更简洁、可读性更高，尤其适用于集合遍历、事件监听、Stream 操作等场景。</p>
+      <p><strong>3. 原理：</strong>编译器将 Lambda 体转换为类的私有方法，通过 invokedynamic 指令在运行时由 LambdaMetafactory 生成对应的函数式接口实现对象，避免每次编译都生成匿名类的字节码膨胀问题。</p>
+      <p><strong>示例：</strong></p>
+      <pre class="code-block">// 遍历集合
+list.forEach(o -> System.out.println(o));
+// 排序
+list.sort((a, b) -> a.getAge() - b.getAge());
+// Stream 过滤 + 映射
+list.stream()
+    .filter(e -> e.getSalary() > 5000)
+    .map(e -> e.getName())
+    .collect(Collectors.toList());
+// Runnable 线程
+new Thread(() -> System.out.println("Running")).start();</pre>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">你们项目中平时用得比较多的集合有哪些？</div><div class="q-tags"><span class="q-tag">Java基础</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>Java 集合框架（Java Collections Framework）是一组用于存储和操作对象组的接口和类，分为单列集合（Collection）和双列集合（Map）。</p>
+      <p><strong>2. 作用：</strong>提供统一、高效、可复用的数据结构，满足不同场景下的数据存储、检索、排序和去重需求。</p>
+      <p><strong>3. 原理：</strong></p>
+      <ul>
+        <li><strong>ArrayList：</strong>基于动态数组，扩容时创建 1.5 倍新数组并复制元素。</li>
+        <li><strong>HashSet：</strong>基于 HashMap 实现，元素作为 Key，Value 为一个固定对象 PRESENT，利用哈希表去重。</li>
+        <li><strong>HashMap：</strong>基于哈希表（数组 + 链表/红黑树），通过 (n - 1) &amp; hash 定位桶，解决哈希冲突。</li>
+        <li><strong>ConcurrentHashMap：</strong>JDK 1.7 采用分段锁（Segment），1.8 改为 CAS + synchronized 锁单个桶节点，提升并发性能。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">ArrayList 和 LinkedList 的区别？</div><div class="q-tags"><span class="q-tag">Java基础</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>两者都是 List 接口的实现类，ArrayList 基于动态数组，LinkedList 基于双向链表。</p>
+      <p><strong>2. 作用：</strong>ArrayList 适用于随机访问频繁的场景；LinkedList 适用于频繁插入、删除的场景（尤其是头部/尾部）。</p>
+      <p><strong>3. 原理：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>对比项</th><th>ArrayList</th><th>LinkedList</th></tr>
+        <tr><td>底层结构</td><td>Object[] 数组</td><td>双向链表（Node：prev + data + next）</td></tr>
+        <tr><td>查询</td><td>随机访问 O(1)</td><td>需遍历 O(n)</td></tr>
+        <tr><td>插入/删除</td><td>尾部 O(1)（均摊），中间需移动元素 O(n)</td><td>只需修改指针 O(1)（已知节点位置）</td></tr>
+        <tr><td>内存占用</td><td>连续内存，有扩容开销</td><td>每个节点额外存储两个指针，内存碎片化</td></tr>
+        <tr><td>适用场景</td><td>读多写少、随机访问</td><td>频繁增删、实现队列/栈</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">请简单介绍一下 HashMap，它和旧版本 JDK 中的 HashMap 有什么大的改进或区别？</div><div class="q-tags"><span class="q-tag">Java基础</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>HashMap 是基于哈希表实现的键值对存储结构，允许一个 null 键和多个 null 值，非线程安全，查询/插入平均时间复杂度为 O(1)。</p>
+      <p><strong>2. 作用：</strong>提供高效的键值对存取，是 Java 中最常用的 Map 实现，广泛应用于缓存、索引、数据映射等场景。</p>
+      <p><strong>3. 原理（JDK 1.7 vs 1.8）：</strong></p>
+      <ul>
+        <li><strong>JDK 1.7：</strong>数组 + 链表，哈希冲突采用头插法。并发扩容时可能出现环形链表，导致 get() 死循环。</li>
+        <li><strong>JDK 1.8：</strong>数组 + 链表/红黑树：当链表长度 ≥ 8 且数组长度 ≥ 64 时，链表转为红黑树，查询复杂度从 O(n) 降为 O(log n)。</li>
+        <li>哈希冲突采用尾插法，避免并发扩容死循环。</li>
+        <li>扩容时通过 (hash &amp; oldCap) == 0 判断是否需要移动位置，减少元素迁移量。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">你了解红黑树是一个什么样的结构吗？</div><div class="q-tags"><span class="q-tag">Java基础</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>红黑树（Red-Black Tree）是一种自平衡二叉搜索树（BST），在每个节点上增加一个颜色属性（红或黑），通过颜色约束维持树的平衡。</p>
+      <p><strong>2. 作用：</strong>保证最坏情况下查找、插入、删除的时间复杂度均为 O(log n)，避免普通 BST 退化为链表（O(n)）。</p>
+      <p><strong>3. 原理：</strong>红黑树通过 5 条性质限制树的最大高度不超过 2log(n+1)：</p>
+      <ol>
+        <li>节点是红色或黑色。</li>
+        <li>根节点是黑色。</li>
+        <li>所有叶子（NIL）是黑色。</li>
+        <li>红色节点的两个子节点都是黑色（不能连续红）。</li>
+        <li>从任一节点到其每个叶子的所有路径包含相同数目的黑色节点（黑高相同）。</li>
+      </ol>
+      <p>当插入或删除破坏性质时，通过变色和旋转（左旋、右旋）恢复平衡。JDK 1.8 HashMap 利用红黑树优化长链表性能问题。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">你了解 JVM 内存结构吗？可以简单介绍一下它包含哪些区域吗？</div><div class="q-tags"><span class="q-tag">Java基础</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>JVM 内存结构（运行时数据区）是 Java 虚拟机在执行 Java 程序时划分的内存区域，用于存储数据、指令和对象。</p>
+      <p><strong>2. 作用：</strong>为 Java 程序的运行提供内存分配、线程隔离、对象生命周期管理和垃圾回收的基础环境。</p>
+      <p><strong>3. 原理：</strong>运行时数据区分为线程私有和线程共享两大类。</p>
+      <p><strong>线程私有：</strong></p>
+      <ul>
+        <li><strong>程序计数器（PC Register）：</strong>记录当前线程执行的字节码行号，线程切换时恢复执行位置。唯一不会发生 OOM 的区域。</li>
+        <li><strong>虚拟机栈（VM Stack）：</strong>每个方法执行时创建一个栈帧，存储局部变量表、操作数栈、动态链接、方法返回地址。方法调用即入栈，返回即出栈。</li>
+        <li><strong>本地方法栈（Native Method Stack）：</strong>为 Native 方法（C/C++）服务，HotSpot 中与虚拟机栈合并。</li>
+      </ul>
+      <p><strong>线程共享：</strong></p>
+      <ul>
+        <li><strong>堆（Heap）：</strong>存放对象实例和数组，是 GC 的主要工作区域。逻辑上分为新生代（Eden、Survivor）和老年代。</li>
+        <li><strong>方法区（Method Area）：</strong>存储类信息、常量、静态变量、即时编译器编译后的代码。JDK 8 之前为永久代（PermGen），JDK 8 起改为元空间（Metaspace），使用本地内存。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">除了堆和栈，还有其他区域吗？</div><div class="q-tags"><span class="q-tag">Java基础</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>直接内存（Direct Memory）不属于 JVM 运行时数据区，是操作系统本地内存的一部分，通过 java.nio.ByteBuffer 的 allocateDirect() 方法分配。</p>
+      <p><strong>2. 作用：</strong>避免在 Java 堆和 Native 堆之间来回复制数据，提升 I/O 操作性能，常用于 NIO、Netty、MappedByteBuffer 等高性能 I/O 场景。</p>
+      <p><strong>3. 原理：</strong>DirectByteBuffer 通过 Unsafe.allocateMemory() 在堆外分配内存，其引用存储在 Java 堆中的 DirectByteBuffer 对象里。GC 回收该对象时会触发 Cleaner 释放堆外内存。直接内存不受 -Xmx 限制，但受限于系统总内存，分配过大会导致 OOM（OutOfMemoryError: Direct buffer memory）。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">你了解 Java 垃圾回收吗？</div><div class="q-tags"><span class="q-tag">Java基础</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>垃圾回收是 Java 虚拟机自动管理堆内存的机制，负责回收不再被引用的对象所占用的内存，无需程序员手动释放。</p>
+      <p><strong>2. 作用：</strong>防止内存泄漏和悬空指针，降低内存管理复杂度。</p>
+      <p><strong>3. 原理：</strong></p>
+      <p><strong>（1）判断对象是否存活：</strong></p>
+      <ul>
+        <li><strong>引用计数法：</strong>每个对象维护引用计数器，为 0 时回收。缺点：无法解决循环引用。</li>
+        <li><strong>可达性分析：</strong>从 GC Roots 出发向下搜索，不可达的对象标记为垃圾。GC Roots 包括：虚拟机栈局部变量、本地方法栈 JNI 引用、方法区静态变量/常量、同步锁持有的对象、活跃线程。</li>
+      </ul>
+      <p><strong>（2）垃圾回收算法：</strong></p>
+      <ul>
+        <li><strong>标记-清除：</strong>标记存活对象，清除未标记对象。缺点：产生内存碎片。</li>
+        <li><strong>复制算法：</strong>内存分两块，存活对象复制到另一块。无碎片，但空间利用率 50%，用于新生代（Eden → Survivor）。</li>
+        <li><strong>标记-整理：</strong>标记存活对象并向一端移动，清理边界外内存。无碎片，用于老年代。</li>
+        <li><strong>分代收集：</strong>新生代用复制算法，老年代用标记-整理/清除。</li>
+      </ul>
+      <p><strong>（3）常见垃圾收集器：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>收集器</th><th>特点</th><th>适用场景</th></tr>
+        <tr><td>Serial</td><td>单线程，STW</td><td>客户端模式</td></tr>
+        <tr><td>Parallel</td><td>多线程并行，高吞吐量</td><td>后台计算</td></tr>
+        <tr><td>CMS</td><td>并发标记清除，低延迟</td><td>互联网应用（JDK 14 废弃）</td></tr>
+        <tr><td>G1</td><td>区域化堆，可预测停顿</td><td>大堆（JDK 9+ 默认）</td></tr>
+        <tr><td>ZGC/Shenandoah</td><td>超低延迟（&lt;10ms）</td><td>超大堆、低停顿</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">请简单说一下两个等号（==）和 equals 的区别。</div><div class="q-tags"><span class="q-tag">Java基础</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>== 是 Java 中的比较运算符；equals() 是 Object 类定义的方法，用于对象内容的比较。</p>
+      <p><strong>2. 作用：</strong>== 判断两个变量是否指向同一内存地址；equals 判断两个对象是否在逻辑上相等。</p>
+      <p><strong>3. 原理：</strong></p>
+      <ul>
+        <li><strong>==：</strong>基本类型比较值是否相等；引用类型比较内存地址是否相同。</li>
+        <li><strong>equals()：</strong>Object 类默认实现与 == 相同（比较地址）；若类重写了 equals()（如 String、Integer），则比较对象的内容/状态。</li>
+        <li>重写 equals() 必须同时重写 hashCode()，以维护 hashCode 契约：相等对象必须有相等哈希码。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">请简单说一下接口和抽象类的区别。</div><div class="q-tags"><span class="q-tag">Java基础</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>接口（interface）是对行为的抽象规范；抽象类（abstract class）是对类别的抽象，不能被实例化。</p>
+      <p><strong>2. 作用：</strong>接口定义"能做什么"，实现类定义"怎么做"；抽象类提取共性，作为子类的模板。</p>
+      <p><strong>3. 原理：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>对比项</th><th>抽象类</th><th>接口</th></tr>
+        <tr><td>继承/实现</td><td>单继承（extends）</td><td>多实现（implements）</td></tr>
+        <tr><td>构造器</td><td>有</td><td>无</td></tr>
+        <tr><td>成员变量</td><td>任意类型</td><td>只能是 public static final 常量</td></tr>
+        <tr><td>方法</td><td>抽象 + 具体方法</td><td>JDK 8 前只能抽象；JDK 8+ 支持 default/static；JDK 9+ 支持 private</td></tr>
+        <tr><td>设计语义</td><td>is-a（类别关系）</td><td>has-a（能力/契约）</td></tr>
+        <tr><td>访问修饰符</td><td>任意</td><td>默认 public</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">你们使用 Java 时怎么考虑线程安全？怎么实现线程安全？</div><div class="q-tags"><span class="q-tag">Java基础</span><span class="q-tag">并发</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>线程安全指在多线程环境下，对共享数据的访问和操作不会导致数据不一致或程序异常。</p>
+      <p><strong>2. 作用：</strong>保证并发场景下数据的正确性、原子性、可见性和有序性。</p>
+      <p><strong>3. 原理：</strong>多线程安全问题的根源是多线程并发读写共享可变变量，破坏了三大特性：</p>
+      <ul>
+        <li><strong>原子性：</strong>操作不可中断。</li>
+        <li><strong>可见性：</strong>一个线程修改对其它线程立即可见。</li>
+        <li><strong>有序性：</strong>禁止指令重排序。</li>
+      </ul>
+      <p><strong>分层解决方案：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>层级</th><th>方案</th><th>原理</th></tr>
+        <tr><td>1. 避免共享</td><td>局部变量、ThreadLocal</td><td>栈私有或线程绑定副本，无竞争</td></tr>
+        <tr><td>2. 不可变对象</td><td>String、final 类</td><td>状态不可变，天然线程安全</td></tr>
+        <tr><td>3. 原子操作</td><td>AtomicInteger 等 CAS 类</td><td>Unsafe 的 CAS 自旋，无锁原子更新</td></tr>
+        <tr><td>4. 可见性/有序性</td><td>volatile</td><td>内存屏障保证可见性，禁止重排序</td></tr>
+        <tr><td>5. 互斥锁</td><td>synchronized、ReentrantLock</td><td>Monitor（对象头 Mark Word）；AQS 队列同步器</td></tr>
+        <tr><td>6. 并发容器</td><td>ConcurrentHashMap、CopyOnWriteArrayList</td><td>分段锁/CAS/写时复制</td></tr>
+        <tr><td>7. 线程封闭</td><td>单线程执行</td><td>消除共享，从根本上避免竞争</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">请简单介绍一下线程池有哪几大参数？</div><div class="q-tags"><span class="q-tag">Java基础</span><span class="q-tag">并发</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>线程池是预先创建一组线程并复用它们执行任务的机制，由 ThreadPoolExecutor 实现。</p>
+      <p><strong>2. 作用：</strong>减少线程创建/销毁开销，控制并发数量，便于线程管理和资源调度。</p>
+      <p><strong>3. 原理：</strong>ThreadPoolExecutor 的 7 大核心参数：</p>
+      <div class="table-wrap"><table>
+        <tr><th>参数</th><th>说明</th></tr>
+        <tr><td>1. corePoolSize</td><td>核心线程数，即使空闲也保留（除非 allowCoreThreadTimeOut）</td></tr>
+        <tr><td>2. maximumPoolSize</td><td>最大线程数，当队列满时创建救急线程</td></tr>
+        <tr><td>3. keepAliveTime</td><td>非核心线程空闲存活时间</td></tr>
+        <tr><td>4. unit</td><td>时间单位</td></tr>
+        <tr><td>5. workQueue</td><td>阻塞队列（ArrayBlockingQueue、LinkedBlockingQueue、SynchronousQueue 等）</td></tr>
+        <tr><td>6. threadFactory</td><td>线程工厂，自定义线程名称、优先级、守护状态</td></tr>
+        <tr><td>7. handler</td><td>拒绝策略</td></tr>
+      </table></div>
+      <p><strong>4 种内置拒绝策略：</strong></p>
+      <ul>
+        <li><strong>AbortPolicy：</strong>直接抛出 RejectedExecutionException（默认）。</li>
+        <li><strong>CallerRunsPolicy：</strong>由提交任务的线程（调用者）自己执行。</li>
+        <li><strong>DiscardPolicy：</strong>静默丢弃任务，无异常。</li>
+        <li><strong>DiscardOldestPolicy：</strong>丢弃队列中最老的任务，尝试重新提交。</li>
+      </ul>
+      <p><strong>执行流程：</strong>提交任务 → 核心线程数未满则创建线程 → 已满则入队列 → 队列满则创建救急线程 → 达到最大线程数则执行拒绝策略。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">请简单介绍一下 Spring 的 AOP 和 IOC。</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. IOC（控制反转）：</strong></p>
+      <ul>
+        <li><strong>定义：</strong>IOC 是一种设计思想，将对象的创建、依赖关系的管理从程序内部转移到外部容器。</li>
+        <li><strong>作用：</strong>实现组件解耦，降低类与类之间的依赖，便于单元测试和模块化开发。</li>
+        <li><strong>原理：</strong>Spring 通过依赖注入（DI）实现：容器读取配置（XML/注解/配置类）生成 BeanDefinition → 利用反射实例化 Bean，通过构造器/Setter/字段注入依赖 → 维护 Bean 生命周期（单例/原型），管理循环依赖（三级缓存：singletonObjects → earlySingletonObjects → singletonFactories）。</li>
+      </ul>
+      <p><strong>2. AOP（面向切面编程）：</strong></p>
+      <ul>
+        <li><strong>定义：</strong>AOP 是一种编程范式，将横切关注点（日志、事务、权限、监控）从业务逻辑中剥离，实现无侵入增强。</li>
+        <li><strong>作用：</strong>减少代码重复，提高模块化程度，使业务代码更纯粹。</li>
+        <li><strong>原理：</strong>基于动态代理实现运行时增强：Bean 需要被增强时，Spring 创建代理对象替代原对象；方法调用时拦截并先执行切面逻辑（Before/After/Around），再调用目标方法。代理类型：JDK 动态代理（目标类实现接口）或 CGLIB 代理（目标类无接口，生成子类）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">你知道 Spring IoC 容器的加载流程是怎样的吗？</div><div class="q-tags"><span class="q-tag">Spring</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>IoC 容器加载流程指 Spring 从启动到就绪，完成所有 Bean 定义解析、加工、实例化和初始化的完整过程。</p>
+      <p><strong>2. 作用：</strong>确保所有配置正确解析，Bean 按依赖顺序正确创建，容器处于可用状态。</p>
+      <p><strong>3. 原理（以 AnnotationConfigApplicationContext 为例）：</strong></p>
+      <ol>
+        <li>刷新容器：调用 refresh() 方法。</li>
+        <li>加载配置资源：解析 @Configuration 类或 XML 配置文件。</li>
+        <li>生成 BeanDefinition：通过 BeanDefinitionReader 扫描并注册所有 Bean 定义到 BeanDefinitionRegistry。</li>
+        <li>执行 BeanFactoryPostProcessor：如 ConfigurationClassPostProcessor 处理 @ComponentScan、@Import、@Bean 等。</li>
+        <li>注册 BeanPostProcessor：实例化并注册所有后置处理器。</li>
+        <li>实例化单例 Bean：反射调用构造器创建对象 → populateBean() 依赖注入（@Autowired、@Value）→ 初始化（Aware 接口、BeanPostProcessor.before()、@PostConstruct/InitializingBean、BeanPostProcessor.after()）。</li>
+        <li>容器就绪：对外提供 getBean() 获取对象。</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">AOP 是通过什么原理实现的？你知道常用的动态代理实现有哪几种吗？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>AOP 通过动态代理在运行时生成代理对象，拦截目标方法调用，织入增强逻辑。</p>
+      <p><strong>2. 作用：</strong>在不修改源代码的情况下，为方法添加前置、后置、环绕等横切逻辑。</p>
+      <p><strong>3. 原理：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>代理方式</th><th>原理</th><th>适用场景</th></tr>
+        <tr><td>JDK 动态代理</td><td>基于 java.lang.reflect.Proxy，运行时生成实现相同接口的代理类，通过 InvocationHandler.invoke() 拦截方法</td><td>目标类有接口</td></tr>
+        <tr><td>CGLIB 代理</td><td>基于 ASM 字节码库生成目标类的子类，通过 MethodInterceptor.intercept() 拦截方法。不能代理 final 类和 final 方法</td><td>目标类无接口</td></tr>
+      </table></div>
+      <p><strong>Spring 默认策略：</strong>若目标类实现了接口，优先使用 JDK 代理；否则使用 CGLIB。可通过 @EnableAspectJAutoProxy(proxyTargetClass = true) 强制使用 CGLIB。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">比如配了 @Transactional 注解，什么情况下会导致事务失效？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>事务失效指方法上标注了 @Transactional，但事务并未生效，异常时数据未回滚。</p>
+      <p><strong>2. 作用：</strong>理解事务边界和代理机制，避免生产环境数据不一致。</p>
+      <p><strong>3. 原理：</strong>@Transactional 通过 AOP 代理实现，事务失效通常是因为代理未被触发或配置错误：</p>
+      <div class="table-wrap"><table>
+        <tr><th>失效场景</th><th>原理说明</th></tr>
+        <tr><td>同类内部方法调用</td><td>this.method() 调用的是原对象，非代理对象，代理逻辑未被触发。解决方案：注入自身代理，或拆分到另一个 Bean</td></tr>
+        <tr><td>非 public 方法</td><td>Spring 事务代理基于 AOP，只能拦截 public 方法</td></tr>
+        <tr><td>异常被 try-catch 吞掉</td><td>代理只在异常抛出到外层时回滚，若被捕获则视为正常完成</td></tr>
+        <tr><td>未指定 rollbackFor</td><td>默认只回滚 RuntimeException 和 Error，受检异常（如 IOException）不回滚，需配置 rollbackFor = Exception.class</td></tr>
+        <tr><td>传播属性配置错误</td><td>如 PROPAGATION_NOT_SUPPORTED 挂起当前事务，以非事务方式执行</td></tr>
+        <tr><td>数据库引擎不支持</td><td>如 MySQL MyISAM 引擎不支持事务</td></tr>
+        <tr><td>异步方法</td><td>@Async 方法在新线程执行，与原线程事务上下文隔离</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">在 Spring 中，你可以简单说几个常用的注解吗？</div><div class="q-tags"><span class="q-tag">Spring</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>类别</th><th>注解</th><th>作用</th></tr>
+        <tr><td>组件注册</td><td>@Component、@Service、@Repository、@Controller</td><td>标记类为 Spring Bean，自动扫描注册</td></tr>
+        <tr><td></td><td>@Configuration、@Bean</td><td>配置类 + 显式定义 Bean</td></tr>
+        <tr><td>依赖注入</td><td>@Autowired</td><td>按类型自动注入（Spring 提供）</td></tr>
+        <tr><td></td><td>@Resource</td><td>按名称注入（JSR-250 标准）</td></tr>
+        <tr><td></td><td>@Value</td><td>注入配置属性值</td></tr>
+        <tr><td>AOP</td><td>@Aspect、@Pointcut、@Around、@Before、@After</td><td>定义切面和通知</td></tr>
+        <tr><td>事务</td><td>@Transactional</td><td>声明式事务管理</td></tr>
+        <tr><td>MVC</td><td>@RequestMapping、@GetMapping、@PostMapping</td><td>映射请求路径</td></tr>
+        <tr><td></td><td>@RequestBody</td><td>将请求体 JSON 绑定到对象</td></tr>
+        <tr><td></td><td>@ResponseBody</td><td>将返回值序列化为响应体</td></tr>
+        <tr><td></td><td>@PathVariable、@RequestParam</td><td>绑定路径变量和请求参数</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">请简单描述一下 Spring Boot 有什么优点？</div><div class="q-tags"><span class="q-tag">SpringBoot</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>Spring Boot 是 Spring 框架的扩展，旨在简化 Spring 应用的初始搭建和开发过程。</p>
+      <p><strong>2. 作用：</strong>减少配置工作量，快速构建独立运行的生产级 Spring 应用。</p>
+      <p><strong>3. 原理（优点）：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>优点</th><th>原理</th></tr>
+        <tr><td>自动配置</td><td>@EnableAutoConfiguration 通过 spring.factories 加载自动配置类，根据 classpath 中存在的类、配置文件属性等条件（@ConditionalOnClass、@ConditionalOnProperty）自动装配 Bean</td></tr>
+        <tr><td>内置 Web 容器</td><td>默认嵌入 Tomcat/Jetty/Undertow，应用打包为可执行 JAR，通过 JarLauncher 启动</td></tr>
+        <tr><td>Starter 起步依赖</td><td>将某一场景所需的所有依赖聚合为一个 Starter（如 spring-boot-starter-web），由父 POM 统一管理版本</td></tr>
+        <tr><td>简化配置</td><td>约定大于配置，提供 application.properties/yaml 统一配置外部化</td></tr>
+        <tr><td>Actuator 监控</td><td>提供 /actuator/health、/metrics 等端点，便于运维监控</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">你了解 Spring Boot 的 Starter 吗？</div><div class="q-tags"><span class="q-tag">SpringBoot</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>Starter 是 Spring Boot 提供的依赖组合包，将某一功能场景所需的全部依赖和默认配置打包在一起。</p>
+      <p><strong>2. 作用：</strong>简化依赖引入和版本管理，开发者只需引入一个 Starter，即可获得完整功能支持。</p>
+      <p><strong>3. 原理：</strong></p>
+      <ul>
+        <li>Starter 本质上是一个 Maven/Gradle 模块，POM 中聚合了相关依赖（如 spring-boot-starter-web 包含 spring-webmvc、tomcat、jackson 等）。</li>
+        <li>Spring Boot 父工程（spring-boot-starter-parent）通过 dependencyManagement 统一锁定所有依赖版本。</li>
+        <li>Starter 通常伴随自动配置类（xxxAutoConfiguration），在应用启动时根据条件自动装配所需 Bean。</li>
+        <li>例如：spring-boot-starter-data-jpa 自动配置 EntityManagerFactory、TransactionManager 等。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">假如说我现在有个 MySQL，我把它打包成了一个 Docker 镜像，然后我要把镜像去部署到云上去的，比如说一些 ECS 服务，要部署在这上面去运行。如果让你去做部署的操作，你会怎么样去做？</div><div class="q-tags"><span class="q-tag">SpringBoot</span><span class="q-tag">Docker</span><span class="q-tag">云部署</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>Docker 镜像部署是将 MySQL 应用容器化后，在云服务器（ECS）上运行容器，实现快速部署和环境一致性。</p>
+      <p><strong>2. 作用：</strong>实现应用的标准化交付，简化部署流程，保证开发/测试/生产环境一致。</p>
+      <p><strong>3. 原理（部署步骤）：</strong></p>
+      <ol>
+        <li><strong>环境准备：</strong>配置 ECS 安全组，放行 MySQL 端口（默认 3306）及 SSH 端口；在 ECS 上安装 Docker。</li>
+        <li><strong>镜像传输：</strong>推荐将镜像推送到镜像仓库（Docker Hub、阿里云 ACR、AWS ECR），ECS 上 docker pull；备选本地 docker save 导出 tar 包，上传后 docker load 导入。</li>
+        <li><strong>启动容器：</strong></li>
+      </ol>
+      <pre class="code-block">docker run -d \
+  --name mysql-prod \
+  -p 3306:3306 \
+  -v /data/mysql:/var/lib/mysql \
+  -v /etc/mysql/conf.d:/etc/mysql/conf.d \
+  -e MYSQL_ROOT_PASSWORD=&lt;密码&gt; \
+  --restart unless-stopped \
+  &lt;镜像名&gt;:&lt;标签&gt;</pre>
+      <ul>
+        <li>-v 挂载宿主机目录实现数据持久化，避免容器删除数据丢失。</li>
+        <li>--restart unless-stopped 保证服务器重启后自动启动。</li>
+      </ul>
+      <ol start="4">
+        <li><strong>验证：</strong>docker ps 查看运行状态；远程连接测试 mysql -h &lt;ECS_IP&gt; -P 3306 -u root -p。</li>
+        <li><strong>运维保障：</strong>配置定时任务 mysqldump 备份到 OSS/S3；创建非 root 用户限制访问 IP；部署 Prometheus + Grafana 监控，ELK/Loki 日志收集；生产环境建议改用 RDS 托管或 K8s 主从集群。</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">22</div><div class="q-meta"><div class="q-title">你们项目中用到哪个数据库比较多？MySQL 默认有哪几种存储引擎？</div><div class="q-tags"><span class="q-tag">数据库</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>存储引擎是 MySQL 中负责数据存储和读取的底层组件，不同引擎有不同的存储机制、索引方式和锁策略。</p>
+      <p><strong>2. 作用：</strong>根据业务场景选择最合适的存储引擎，优化性能、事务和并发能力。</p>
+      <p><strong>3. 原理：</strong>MySQL 支持的存储引擎：</p>
+      <div class="table-wrap"><table>
+        <tr><th>引擎</th><th>特点</th><th>适用场景</th></tr>
+        <tr><td>InnoDB（默认）</td><td>支持事务（ACID）、行级锁、外键、MVCC、崩溃恢复</td><td>高并发 OLTP，需要事务支持</td></tr>
+        <tr><td>MyISAM（早期默认）</td><td>表级锁、不支持事务、全文索引、压缩存储</td><td>读多写少、日志/归档</td></tr>
+        <tr><td>Memory</td><td>数据存于内存，速度极快，重启丢失</td><td>临时表、缓存</td></tr>
+        <tr><td>Archive</td><td>高压缩存储，只支持插入和查询</td><td>日志、历史数据归档</td></tr>
+        <tr><td>CSV</td><td>以 CSV 格式存储，便于数据交换</td><td>数据导入导出</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">23</div><div class="q-meta"><div class="q-title">有没有遇到生产环境查询特别慢的情况？一般怎么排查问题？</div><div class="q-tags"><span class="q-tag">数据库</span><span class="q-tag">调优</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>慢查询是执行时间超过阈值（long_query_time，默认 10 秒）的 SQL 查询，影响系统响应和用户体验。</p>
+      <p><strong>2. 作用：</strong>定位性能瓶颈，优化 SQL 和数据库配置，提升查询效率。</p>
+      <p><strong>3. 原理（排查步骤）：</strong></p>
+      <ol>
+        <li><strong>开启慢查询日志：</strong>SET GLOBAL slow_query_log = 'ON'; SET GLOBAL long_query_time = 1; 或使用 mysqldumpslow、pt-query-digest 分析。</li>
+        <li><strong>使用 EXPLAIN 分析执行计划：</strong>关注 type（避免 ALL）、key（是否用索引）、rows（扫描行数）、Extra（是否有 Using filesort、Using temporary）。</li>
+        <li><strong>检查索引使用情况：</strong>是否缺少索引；索引是否失效（函数操作、类型转换、like '%xx'）；是否选错索引（FORCE INDEX 干预）。</li>
+        <li><strong>分析锁竞争：</strong>SHOW ENGINE INNODB STATUS 查看死锁和锁等待；information_schema.INNODB_TRX 查看活跃事务。</li>
+        <li><strong>检查服务器资源：</strong>SHOW GLOBAL STATUS 查看 QPS、TPS、连接数；监控 CPU、内存、磁盘 I/O（iostat、vmstat）。</li>
+        <li><strong>优化措施：</strong>加索引、优化 SQL（避免 SELECT *、大分页用覆盖索引/延迟关联）；读写分离、分库分表、引入缓存（Redis）。</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">请简单介绍一下索引的使用场景，索引是不是越多越好？它有什么缺点？</div><div class="q-tags"><span class="q-tag">数据库</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>索引是帮助数据库高效获取数据的数据结构，类似书籍的目录。</p>
+      <p><strong>2. 作用：</strong>加速数据检索（SELECT/UPDATE/DELETE 的 WHERE 条件），减少全表扫描。</p>
+      <p><strong>3. 原理：</strong>MySQL 索引通常以 B+ 树存储：非叶子节点存储键值和指针，叶子节点存储实际数据（聚簇索引）或主键值（非聚簇索引）；查询时从根节点二分查找，时间复杂度 O(log n)。</p>
+      <p><strong>索引不是越多越好，缺点如下：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>缺点</th><th>说明</th></tr>
+        <tr><td>降低写性能</td><td>插入、删除、更新时需维护索引结构（B+ 树分裂/合并），增加额外开销</td></tr>
+        <tr><td>占用磁盘空间</td><td>每个索引都是一份独立数据结构，大表索引可能占用大量空间</td></tr>
+        <tr><td>增加优化器选择成本</td><td>索引过多时，优化器评估成本增加，可能选错索引</td></tr>
+        <tr><td>缓存效率下降</td><td>索引页占用 Buffer Pool，减少数据页缓存空间</td></tr>
+      </table></div>
+      <p><strong>使用场景：</strong>WHERE、ORDER BY、GROUP BY、JOIN 条件中的列；区分度高的列（cardinality 高）；频繁查询、较少更新的列。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">哪些场景下索引会失效？</div><div class="q-tags"><span class="q-tag">数据库</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>索引失效指 SQL 语句虽然存在索引，但优化器选择不走索引，改为全表扫描。</p>
+      <p><strong>2. 作用：</strong>了解失效场景，编写高效的 SQL，避免性能陷阱。</p>
+      <p><strong>3. 原理（失效场景）：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>失效场景</th><th>原理</th></tr>
+        <tr><td>对索引列使用函数/表达式</td><td>WHERE YEAR(create_time) = 2024，B+ 树无法对函数结果排序定位</td></tr>
+        <tr><td>隐式类型转换</td><td>字符串字段传数字，MySQL 将字段转为数字再比较，破坏索引</td></tr>
+        <tr><td>like 以 % 开头</td><td>WHERE name LIKE '%张%'，前缀不确定，无法利用 B+ 树有序性</td></tr>
+        <tr><td>OR 条件部分列无索引</td><td>只要一个条件无可用索引，可能全表扫描</td></tr>
+        <tr><td>!=、&lt;&gt;、NOT IN</td><td>范围太广，优化器认为全表扫描更快</td></tr>
+        <tr><td>IS NULL / IS NOT NULL</td><td>数据分布不均时可能失效</td></tr>
+        <tr><td>复合索引未遵循最左前缀</td><td>索引 (a,b,c)，查询条件只有 b 和 c，缺少最左列 a</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">你知道索引在 MySQL 中以什么样的数据结构存储？</div><div class="q-tags"><span class="q-tag">数据库</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>MySQL（InnoDB）索引主要采用 B+ 树（Balanced Plus Tree）作为底层数据结构。</p>
+      <p><strong>2. 作用：</strong>支持高效的范围查询、等值查询和顺序访问，同时保持树的平衡，避免退化为链表。</p>
+      <p><strong>3. 原理（B+ 树特点）：</strong></p>
+      <ul>
+        <li><strong>多路平衡树：</strong>每个节点可包含多个键值和指针，降低树高，减少磁盘 I/O。</li>
+        <li><strong>数据只在叶子节点：</strong>非叶子节点仅存储键值和子节点指针，可存储更多键，树更矮。</li>
+        <li><strong>叶子节点双向链表：</strong>支持高效的范围查询和顺序遍历。</li>
+        <li><strong>聚簇索引：</strong>叶子节点存储完整行数据；非聚簇索引：叶子节点存储主键值，需回表查询。</li>
+      </ul>
+      <p><strong>为什么不用哈希表？</strong>哈希表等值查询 O(1) 快，但不支持范围查询和排序。</p>
+      <p><strong>为什么不用 B 树？</strong>B 树数据分散在各节点，范围查询需中序遍历，效率低；B+ 树叶子节点链表更适合范围查询和全表扫描。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">你知道 MySQL 的聚簇索引和非聚簇索引吗？它们在存储数据时结构有什么不一样？</div><div class="q-tags"><span class="q-tag">数据库</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>聚簇索引（Clustered Index）数据行和索引存储在一起，叶子节点即数据页；非聚簇索引（Secondary Index）索引和数据分离，叶子节点存储主键值。</p>
+      <p><strong>2. 作用：</strong>聚簇索引决定数据物理存储顺序；非聚簇索引加速特定列查询，但可能需要回表。</p>
+      <p><strong>3. 原理：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>对比项</th><th>聚簇索引</th><th>非聚簇索引</th></tr>
+        <tr><td>数量</td><td>一张表只能有一个（主键索引）</td><td>可以有多个</td></tr>
+        <tr><td>叶子节点内容</td><td>存储完整的行数据</td><td>存储索引列值 + 主键值</td></tr>
+        <tr><td>数据存储</td><td>数据即索引，索引即数据</td><td>索引与数据分离</td></tr>
+        <tr><td>查询方式</td><td>直接定位数据</td><td>先查索引得主键，再回表查聚簇索引（覆盖索引除外）</td></tr>
+        <tr><td>插入性能</td><td>需按主键顺序维护，随机主键导致页分裂</td><td>影响较小</td></tr>
+        <tr><td>空间占用</td><td>无额外存储（数据本身）</td><td>需额外存储空间</td></tr>
+      </table></div>
+      <p><strong>覆盖索引：</strong>若查询列全在非聚簇索引中（如 SELECT name FROM user WHERE name = 'xxx'，且 name 有索引），无需回表，直接返回结果。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">你可以简单介绍一下你理解的 PostgreSQL 和 MySQL 这些有什么差异吗？它有什么特点？</div><div class="q-tags"><span class="q-tag">数据库</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>两者都是流行的开源关系型数据库，但设计理念和适用场景不同。</p>
+      <p><strong>2. 作用：</strong>根据业务需求选择合适的数据库：MySQL 适合简单 OLTP；PostgreSQL 适合复杂查询和扩展性要求高的场景。</p>
+      <p><strong>3. 原理：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>对比项</th><th>MySQL</th><th>PostgreSQL</th></tr>
+        <tr><td>架构</td><td>多存储引擎（InnoDB、MyISAM 等）</td><td>单存储引擎，高度集成</td></tr>
+        <tr><td>SQL 标准支持</td><td>较好</td><td>更严格，支持更多高级特性</td></tr>
+        <tr><td>复杂查询</td><td>优化器相对简单</td><td>优化器强大，支持复杂 JOIN、CTE、窗口函数</td></tr>
+        <tr><td>数据类型</td><td>标准类型</td><td>支持数组、JSON/JSONB、GIS、自定义类型</td></tr>
+        <tr><td>扩展性</td><td>插件式扩展</td><td>高度可扩展，支持自定义函数、类型、索引、语言</td></tr>
+        <tr><td>并发控制</td><td>MVCC + 行级锁</td><td>纯 MVCC，读写冲突小，无锁读</td></tr>
+        <tr><td>主从复制</td><td>成熟，异步/半同步</td><td>流复制、逻辑复制，更灵活</td></tr>
+        <tr><td>适用场景</td><td>互联网 OLTP、Web 应用</td><td>复杂分析、地理信息、金融、需要强一致性</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">你知道 PostgreSQL 它有哪些索引类型吗？</div><div class="q-tags"><span class="q-tag">数据库</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>PostgreSQL 支持多种索引数据结构，针对不同数据类型和查询模式优化。</p>
+      <p><strong>2. 作用：</strong>为不同场景（等值、范围、全文、地理空间）提供最合适的索引策略。</p>
+      <p><strong>3. 原理：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>索引类型</th><th>数据结构</th><th>适用场景</th></tr>
+        <tr><td>B-tree（默认）</td><td>B+ 树</td><td>等值、范围、排序、模糊匹配前缀</td></tr>
+        <tr><td>Hash</td><td>哈希表</td><td>仅等值查询（=），不支持范围</td></tr>
+        <tr><td>GiST</td><td>平衡树框架</td><td>地理空间（PostGIS）、范围类型、全文检索</td></tr>
+        <tr><td>SP-GiST</td><td>空间分区树</td><td>高维数据、IP 地址、四叉树等分区数据</td></tr>
+        <tr><td>GIN</td><td>倒排索引</td><td>数组、JSONB、全文检索（多值包含查询）</td></tr>
+        <tr><td>BRIN</td><td>块范围元数据</td><td>大数据量顺序存储（时序数据），索引极小</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">你在项目中是怎么进行 SQL 调优的？</div><div class="q-tags"><span class="q-tag">数据库</span><span class="q-tag">调优</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>SQL 调优是通过分析、改写 SQL 和优化数据库配置，降低查询响应时间和资源消耗。</p>
+      <p><strong>2. 作用：</strong>提升系统吞吐量，降低数据库负载，改善用户体验。</p>
+      <p><strong>3. 原理（调优步骤）：</strong></p>
+      <ol>
+        <li><strong>定位慢 SQL：</strong>开启慢查询日志，使用 pt-query-digest 分析；SHOW PROCESSLIST 查看执行中的慢查询。</li>
+        <li><strong>分析执行计划：</strong>EXPLAIN ANALYZE（PostgreSQL）或 EXPLAIN（MySQL）；关注扫描方式（Seq Scan → Index Scan → Index Only Scan 优化方向）。</li>
+        <li><strong>索引优化：</strong>为 WHERE、JOIN、ORDER BY 列创建索引；使用覆盖索引避免回表；删除冗余/未使用索引。</li>
+        <li><strong>SQL 改写：</strong>避免 SELECT *；大分页优化（LIMIT 1000000, 10 改为基于主键的范围查询）；用 EXISTS 替代 IN（子表大时）；避免在索引列上做函数运算。</li>
+        <li><strong>表结构优化：</strong>选择合适的数据类型；适当反范式设计减少 JOIN；大表水平/垂直拆分。</li>
+        <li><strong>配置与架构优化：</strong>调整 Buffer Pool、连接池大小；读写分离、分库分表；引入缓存（Redis）减少数据库压力。</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">你刚才提到用过 AWS S3，AWS 上其他服务有没有了解过？除了 AWS，其他云平台有没有看过？</div><div class="q-tags"><span class="q-tag">云平台</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>AWS 核心服务：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>服务</th><th>作用</th></tr>
+        <tr><td>EC2</td><td>弹性计算云，虚拟服务器</td></tr>
+        <tr><td>S3</td><td>对象存储，高可用、高扩展</td></tr>
+        <tr><td>RDS</td><td>托管关系型数据库（MySQL、PostgreSQL、Aurora）</td></tr>
+        <tr><td>ElastiCache</td><td>托管 Redis/Memcached</td></tr>
+        <tr><td>Lambda</td><td>无服务器计算，事件驱动</td></tr>
+        <tr><td>ECS/EKS</td><td>容器编排服务（Docker/Kubernetes）</td></tr>
+        <tr><td>CloudWatch</td><td>监控与告警</td></tr>
+        <tr><td>IAM</td><td>身份与访问管理</td></tr>
+        <tr><td>Route 53</td><td>DNS 域名解析</td></tr>
+        <tr><td>SQS/SNS</td><td>消息队列与通知服务</td></tr>
+      </table></div>
+      <p><strong>其他云平台：</strong>阿里云（ECS、OSS、RDS、SLB、ACK、函数计算）；腾讯云（CVM、COS、TKE、SCF）；华为云（ECS、OBS、CCE）；Azure（VM、Blob Storage、AKS、Azure Functions）。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">Docker、K8S 这些有没有用过？</div><div class="q-tags"><span class="q-tag">云平台</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. Docker：</strong></p>
+      <ul>
+        <li><strong>定义：</strong>基于容器技术的轻量级虚拟化平台，将应用及其依赖打包为镜像，实现一次构建、到处运行。</li>
+        <li><strong>作用：</strong>解决环境不一致问题，快速部署、扩缩容，提升资源利用率。</li>
+        <li><strong>原理：</strong>利用 Linux 内核的 Namespace（隔离进程、网络、文件系统）和 Cgroups（限制 CPU、内存资源），在宿主机上运行隔离的容器进程。镜像采用分层存储（UnionFS），共享基础层，减少存储占用。</li>
+      </ul>
+      <p><strong>2. Kubernetes（K8s）：</strong></p>
+      <ul>
+        <li><strong>定义：</strong>Google 开源的容器编排平台，用于自动化部署、扩展和管理容器化应用。</li>
+        <li><strong>作用：</strong>管理大规模容器集群，实现服务发现、负载均衡、自动扩缩容、滚动更新和自愈。</li>
+        <li><strong>原理：</strong>Master 节点（API Server、Scheduler、Controller Manager、etcd）+ Worker 节点（Kubelet、Kube-proxy、Container Runtime）；Pod 是最小调度单元；Controller 包括 Deployment（无状态）、StatefulSet（有状态）、DaemonSet（守护进程）；Service 通过标签选择器暴露 Pod，提供 ClusterIP/NodePort/LoadBalancer 访问方式。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">33</div><div class="q-meta"><div class="q-title">你们平时项目打包部署一般是怎么做的？</div><div class="q-tags"><span class="q-tag">云平台</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>常见部署流程：</strong></p>
+      <ol>
+        <li><strong>代码提交：</strong>Git 推送到远程仓库（GitHub/GitLab）。</li>
+        <li><strong>CI 构建：</strong>Jenkins/GitLab CI/GitHub Actions 触发流水线：拉取代码 → Maven/Gradle 编译打包 → 运行单元测试 → 代码扫描（SonarQube）。</li>
+        <li><strong>镜像构建：</strong>Dockerfile 构建镜像，推送到镜像仓库（Harbor/ACR/ECR）。</li>
+        <li><strong>部署上线：</strong>传统方式 SSH 到服务器 docker run 或 docker-compose up；K8s 方式更新 Deployment YAML，kubectl apply 滚动发布。</li>
+        <li><strong>验证：</strong>健康检查、集成测试、灰度发布。</li>
+        <li><strong>监控：</strong>Prometheus + Grafana 监控，ELK 日志收集。</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">34</div><div class="q-meta"><div class="q-title">如果让你去开发一个 Pipeline（流水线）去打包、打镜像、推送，你会怎么做？有没有了解过具体的脚本配置？</div><div class="q-tags"><span class="q-tag">云平台</span><span class="q-tag">CI/CD</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>CI/CD Pipeline（持续集成/持续部署流水线）自动化完成代码构建、测试、镜像打包和部署。</p>
+      <p><strong>2. 作用：</strong>减少人工干预，提升交付效率，保证构建和部署的一致性。</p>
+      <p><strong>3. 原理：</strong>以 GitLab CI 为例（.gitlab-ci.yml）：</p>
+      <pre class="code-block">stages:
+  - build
+  - test
+  - package
+  - deploy
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  IMAGE_NAME: "registry.example.com/myapp"
+
+# 1. 编译打包
+build:
+  stage: build
+  image: maven:3.8-openjdk-17
+  script:
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - target/*.jar
+
+# 2. 单元测试
+test:
+  stage: test
+  image: maven:3.8-openjdk-17
+  script:
+    - mvn test
+
+# 3. 构建并推送镜像
+package:
+  stage: package
+  image: docker:20-dind
+  services:
+    - docker:20-dind
+  script:
+    - docker build -t $IMAGE_NAME:$CI_COMMIT_SHA .
+    - docker push $IMAGE_NAME:$CI_COMMIT_SHA
+    - docker tag $IMAGE_NAME:$CI_COMMIT_SHA $IMAGE_NAME:latest
+    - docker push $IMAGE_NAME:latest
+
+# 4. 部署到 K8s
+deploy:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl set image deployment/myapp myapp=$IMAGE_NAME:$CI_COMMIT_SHA
+    - kubectl rollout status deployment/myapp
+  only:
+    - main</pre>
+      <p><strong>Jenkins Pipeline（Jenkinsfile）示例：</strong></p>
+      <pre class="code-block">pipeline {
+  agent any
+  environment {
+    IMAGE_NAME = 'registry.example.com/myapp'
+  }
+  stages {
+    stage('Build') {
+      steps { sh 'mvn clean package -DskipTests' }
+    }
+    stage('Docker Build & Push') {
+      steps {
+        script {
+          docker.build("${IMAGE_NAME}:${BUILD_NUMBER}")
+          docker.withRegistry('https://registry.example.com', 'docker-creds') {
+            docker.image("${IMAGE_NAME}:${BUILD_NUMBER}").push()
+            docker.image("${IMAGE_NAME}:${BUILD_NUMBER}").push('latest')
+          }
+        }
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh 'kubectl set image deployment/myapp myapp=${IMAGE_NAME}:${BUILD_NUMBER}'
+      }
+    }
+  }
+}</pre>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">你们有没有涉及过代码扫描工具或安全检查工具？你用过哪些？</div><div class="q-tags"><span class="q-tag">云平台</span><span class="q-tag">DevOps</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>工具</th><th>类型</th><th>作用</th></tr>
+        <tr><td>SonarQube</td><td>代码质量扫描</td><td>检测代码异味、重复代码、潜在 Bug、测试覆盖率</td></tr>
+        <tr><td>Checkstyle</td><td>代码规范</td><td>检查代码风格是否符合团队规范</td></tr>
+        <tr><td>SpotBugs/FindBugs</td><td>静态分析</td><td>查找空指针、资源未关闭等常见 Bug</td></tr>
+        <tr><td>OWASP Dependency-Check</td><td>依赖安全</td><td>扫描 Maven/Gradle 依赖中的已知 CVE 漏洞</td></tr>
+        <tr><td>Fortify/Snyk</td><td>安全扫描</td><td>检测代码中的安全漏洞（SQL 注入、XSS 等）</td></tr>
+        <tr><td>ESLint/Prettier</td><td>前端规范</td><td>JS/TS 代码质量和格式检查</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">36</div><div class="q-meta"><div class="q-title">假如说我现在有 10 个大写字母，然后我想对这 10 个大写字母按照从前 ABCD 这种顺序去排，你不用那种工具类提供的 sort 方法，你自己写方法去排这个顺序，你要怎么去做呢？</div><div class="q-tags"><span class="q-tag">算法</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong>排序是将一组数据按特定顺序（升序/降序）重新排列的算法。</p>
+      <p><strong>2. 作用：</strong>将无序数据变为有序，便于查找、去重和展示。</p>
+      <p><strong>3. 原理：</strong>大写字母 A-Z 的 ASCII 码连续（65-90），可利用计数排序（Counting Sort）或冒泡排序实现。计数排序时间复杂度 O(n)，适合范围有限的数据。</p>
+      <p><strong>计数排序实现：</strong></p>
+      <pre class="code-block">public class LetterSort {
+    public static char[] sortLetters(char[] arr) {
+        // A-Z 共 26 个字母，计数数组大小为 26
+        int[] count = new int[26];
+        // 统计每个字母出现次数
+        for (char c : arr) {
+            count[c - 'A']++;
+        }
+        // 按顺序回填
+        int index = 0;
+        for (int i = 0; i &lt; 26; i++) {
+            while (count[i] &gt; 0) {
+                arr[index++] = (char) (i + 'A');
+                count[i]--;
+            }
+        }
+        return arr;
+    }
+
+    public static void main(String[] args) {
+        char[] letters = {'C', 'A', 'Z', 'B', 'A', 'M', 'K', 'D', 'Y', 'B'};
+        sortLetters(letters);
+        System.out.println(letters); // AABBC DKM YZ
+    }
+}</pre>
+      <p><strong>冒泡排序实现（通用）：</strong></p>
+      <pre class="code-block">public static char[] bubbleSort(char[] arr) {
+    for (int i = 0; i &lt; arr.length - 1; i++) {
+        for (int j = 0; j &lt; arr.length - 1 - i; j++) {
+            if (arr[j] &gt; arr[j + 1]) {
+                char temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+    return arr;
+}</pre>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">37</div><div class="q-meta"><div class="q-title">你想找一份什么样的工作？你期望的工作是比较偏向技术，还是偏向业务，还是综合考量？</div><div class="q-tags"><span class="q-tag">求职</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>建议回答方向：</strong>我希望找一份技术与业务并重的工作。技术是我的根基，我希望在 Java 后端、分布式系统和云原生方向持续深耕；同时我也希望深入理解业务领域，因为技术最终是为业务价值服务的。我期望的团队氛围是开放协作、鼓励技术分享的，有明确的成长路径和 mentor 机制，能让我参与从架构设计到落地的完整周期。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">38</div><div class="q-meta"><div class="q-title">面试官补充介绍及反问环节</div><div class="q-tags"><span class="q-tag">求职</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>建议反问问题：</strong></p>
+      <ol>
+        <li>团队目前的核心技术栈是什么？是否有计划引入新技术？</li>
+        <li>这个岗位日常的工作内容偏新功能开发还是系统维护优化？</li>
+        <li>团队的技术氛围如何？有没有定期的技术分享或 Code Review 机制？</li>
+        <li>业务未来的发展方向是什么？技术团队如何支撑业务增长？</li>
+        <li>对我的面试表现有什么建议？我还有哪些方面可以加强？</li>
+      </ol>
+      <p>💡 <strong>提示：</strong>建议结合自身项目经验准备具体案例，面试时以"项目背景 → 遇到的问题 → 如何解决的 → 最终效果"的 STAR 法则展开说明，会更有说服力。</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+
+<div class="footer">
+  📌 21 · 汇丰银行面试题2026年8月 · 共38题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a>
+</div>
+</div>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+</body>
+</html>

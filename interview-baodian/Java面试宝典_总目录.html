@@ -5,24 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · 总目录</title>
 <style>
-:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#eef2f6;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#e0e6ed;--tag-bg:#e8f5e9;--link:#3b82f6;--icon-bg:rgba(45,106,79,0.08)}
+:root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#006f7a;--hero-to:#00a3ad;--bg:#eef2f6;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#e0e6ed;--tag-bg:#d8eff0;--link:#3b82f6;--icon-bg:rgba(0,135,143,0.08)}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#eef2f6;--card-bg:#fff;--text:#1a1a2e;--muted:#6b7280;--border:#e5e7eb;--tag-bg:#faf5ed;--link:#3b82f6;--icon-bg:rgba(201,169,110,0.10)}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#eef2f6;--card-bg:#fff;--text:#2d2640;--muted:#6b7280;--border:#e5e7eb;--tag-bg:#f3f0f8;--link:#3b82f6;--icon-bg:rgba(91,79,139,0.10)}
-[data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#e4e9ed;--card-bg:#fff;--text:#1a2430;--muted:#4f5d66;--border:#c5d0d8;--tag-bg:#d5e0e7;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
 
-.settings-btn{position:absolute;top:12px;left:12px;z-index:200;padding:6px 14px;border-radius:8px;border:none;background:transparent;color:#fff;cursor:pointer;font-size:13px;transition:.2s}
-.settings-btn:hover{background:rgba(255,255,255,.12)}
-.settings-dropdown{position:absolute;top:48px;left:12px;z-index:200;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);padding:8px 0;min-width:130px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:.2s}
+.settings-group{position:absolute;top:12px;left:12px;z-index:200;display:flex;align-items:center;gap:8px}
+.settings-btn{padding:7px 16px;border-radius:16px;border:none;background:transparent;color:#fff;cursor:pointer;font-size:13px;font-weight:600;transition:.2s;line-height:1}
+.settings-btn:hover{background:rgba(255,255,255,.15)}
+.settings-dropdown{position:absolute;top:48px;left:12px;z-index:200;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);padding:8px 0;min-width:112px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:.2s}
 .settings-dropdown.show{opacity:1;visibility:visible;transform:translateY(0)}
 .settings-dropdown-label{padding:6px 16px;font-size:11px;color:var(--muted);font-weight:600}
-.settings-dropdown .theme-item{padding:8px 16px;font-size:13px;color:#1a2430;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:8px}
+.settings-dropdown .theme-item{padding:10px 16px;font-size:13px;color:#1a2430;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:10px;position:relative;justify-content:space-between}
 .settings-dropdown .theme-item:hover{background:#eef2f5}
 .settings-dropdown .theme-item .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.settings-dropdown .theme-item[data-theme="green"] .dot{background:#2d6a4f}
+/* 主题开关（Material 风格，每个主题项右侧） */
+.settings-dropdown .theme-item input{opacity:0;width:0;height:0;position:absolute}
+.settings-dropdown .theme-item .mini-slider{position:relative;display:inline-block;width:36px;height:20px;background:#d1d5db;border-radius:10px;transition:.3s;flex-shrink:0}
+.settings-dropdown .theme-item .mini-slider:before{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.settings-dropdown .theme-item input:checked + .mini-slider{background:#2d6a4f}
+.settings-dropdown .theme-item input:checked + .mini-slider:before{transform:translateX(16px)}
+.settings-dropdown .theme-item[data-theme="green"] input:checked + .mini-slider{background:#00878f}
+.settings-dropdown .theme-item[data-theme="gold"] input:checked + .mini-slider{background:#c9a96e}
+.settings-dropdown .theme-item[data-theme="purple"] input:checked + .mini-slider{background:#5b4f8b}
+.settings-dropdown .theme-item[data-theme="light"] input:checked + .mini-slider{background:#D6B38A}
+.settings-dropdown .theme-item[data-theme="dark"] input:checked + .mini-slider{background:#1e293b}
+.settings-dropdown .theme-item[data-theme="green"] .dot{background:#00878f}
 .settings-dropdown .theme-item[data-theme="gold"] .dot{background:#c9a96e}
 .settings-dropdown .theme-item[data-theme="purple"] .dot{background:#5b4f8b}
 .settings-dropdown .theme-item[data-theme="light"] .dot{background:#2563eb}
@@ -32,12 +44,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 [data-theme="light"] .hero{color:#fff;border-bottom:none}
 .hero h1{font-size:30px;font-weight:800;margin-bottom:6px}
 .hero p{opacity:.85;font-size:14px}
-.search-wrap{position:relative;display:inline-block;min-width:280px;max-width:90vw;margin:16px auto 0;vertical-align:top}
-.search-input{width:100%;padding:10px 40px 10px 16px;border-radius:24px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font-size:14px;outline:none;transition:.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.search-input::placeholder{color:rgba(255,255,255,.6)}
-.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
-.search-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.2);color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.2s}
-.search-btn:hover{background:rgba(255,255,255,.35)}
+.search-wrap{position:relative;display:inline-block;min-width:320px;max-width:90vw;margin:16px auto 0;vertical-align:top;padding:6px 8px;background:transparent;border-radius:14px}
+.search-input{width:100%;padding:10px 16px 10px 40px;border-radius:10px;border:none;background:#fff;color:#333;font-size:15px;outline:none;transition:.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.search-input::placeholder{color:#999}
+.search-input:focus{background:#fff}
+.search-icon{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);color:#999;pointer-events:none;display:flex;align-items:center;justify-content:center;gap:6px;font-size:15px;z-index:5}
+.search-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:8px;border:none;background:transparent;color:#999;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.search-btn:hover{background:rgba(0,0,0,.06);color:#666}
 .search-dropdown{position:absolute;top:calc(100% + 6px);left:0;width:100%;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);max-height:360px;overflow-y:auto;z-index:150;display:none;text-align:left}
 .search-dropdown.show{display:block}
 .search-item{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:.15s;color:var(--text);text-decoration:none;display:block}
@@ -76,27 +89,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:28px 0 0}
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
 
 <div class="hero">
-  <h1>Java 面试宝典</h1>
-  <p>8 大板块 · 300 道面试题 · 覆盖全栈知识点</p>
-  <p><strong>103 道高频面试题</strong></p>
+  <h1>Java Interview Bible</h1>
+  <p>21 大模块 · 388 道面试题 · 覆盖全栈知识点</p>
+  <p><strong>115 道高频面试题</strong></p>
   <div class="search-wrap" id="searchWrap">
-  <input type="text" class="search-input" id="searchInput" placeholder="搜索面试题..." oninput="doSearch(this.value);resizeSearch();recordHistoryDebounced()" onkeydown="if(event.key==='Enter'){addHistory(this.value);doSearch(this.value)}" onfocus="showHistory()" autocomplete="off">
-  <button class="search-btn" onclick="addHistory(document.getElementById('searchInput').value);doSearch(document.getElementById('searchInput').value)">🔍</button>
+  <div class="search-icon" id="searchIcon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>搜索</span></div>
+  <input type="text" class="search-input" id="searchInput" placeholder="" oninput="doSearch(this.value);resizeSearch();recordHistoryDebounced();toggleSearchIcon()" onkeydown="if(event.key==='Enter'){addHistory(this.value);doSearch(this.value)}" onfocus="showHistory();toggleSearchIcon()" autocomplete="off">
   <div class="search-dropdown" id="searchDropdown"></div>
   <span id="searchMeasure" style="position:absolute;visibility:hidden;white-space:nowrap;font-size:14px;font-family:inherit;padding:0 40px 0 16px;pointer-events:none;"></span>
   </div>
-  <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()">⚙️ 设置</button>
+  <div class="settings-group" id="settingsGroup">
+    <button class="settings-btn" id="settingsBtn" onclick="toggleSettings()">主题</button>
+  </div>
   <div class="settings-dropdown" id="settingsDropdown">
-    <div class="settings-dropdown-label">主题</div>
-    <div class="theme-item" data-theme="green" onclick="setTheme('green')"><span class="dot"></span>深绿</div>
-    <div class="theme-item" data-theme="gold" onclick="setTheme('gold')"><span class="dot"></span>黑白金</div>
-    <div class="theme-item" data-theme="purple" onclick="setTheme('purple')"><span class="dot"></span>紫色</div>
-    <div class="theme-item" data-theme="light" onclick="setTheme('light')"><span class="dot"></span>浅色</div>
-    <div class="theme-item" data-theme="dark" onclick="setTheme('dark')"><span class="dot"></span>深色</div>
+    <label class="theme-item" data-theme="green">孔雀蓝<input type="checkbox" onchange="setTheme('green')"><span class="mini-slider"></span></label>
+    <label class="theme-item" data-theme="gold">黑白金<input type="checkbox" onchange="setTheme('gold')"><span class="mini-slider"></span></label>
+    <label class="theme-item" data-theme="purple">紫色<input type="checkbox" onchange="setTheme('purple')"><span class="mini-slider"></span></label>
+    <label class="theme-item" data-theme="light">浅色<input type="checkbox" onchange="setTheme('light')"><span class="mini-slider"></span></label>
+    <label class="theme-item" data-theme="dark">深色<input type="checkbox" onchange="setTheme('dark')"><span class="mini-slider"></span></label>
   </div>
 </div>
 
@@ -106,7 +124,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="01" href="Java面试宝典_01_Java基础.html">
       <div class="card-header">
         <div class="card-title">Java 基础</div>
-        <span class="card-count">40题</span>
+        <span class="card-count">69题</span>
       </div>
       <ul class="card-list">
         <li>基础语法与数据类型</li>
@@ -134,7 +152,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="03" href="Java面试宝典_03_JVM.html">
       <div class="card-header">
         <div class="card-title">JVM 虚拟机</div>
-        <span class="card-count">35题</span>
+        <span class="card-count">33题</span>
       </div>
       <ul class="card-list">
         <li>内存区域划分</li>
@@ -176,7 +194,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="06" href="Java面试宝典_06_Redis.html">
       <div class="card-header">
         <div class="card-title">Redis</div>
-        <span class="card-count">35题</span>
+        <span class="card-count">36题</span>
       </div>
       <ul class="card-list">
         <li>数据类型与应用</li>
@@ -187,10 +205,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="07" href="Java面试宝典_Spring.html">
+    <a class="card" data-watermark="07" href="Java面试宝典_07_MongoDB.html">
+      <div class="card-header">
+        <div class="card-title">MongoDB</div>
+        <span class="card-count">15题</span>
+      </div>
+      <ul class="card-list">
+        <li>文档模型与 BSON</li>
+        <li>索引 / 聚合管道</li>
+        <li>复制集与选举机制</li>
+        <li>分片集群</li>
+        <li>事务与一致性</li>
+      </ul>
+    </a>
+
+    <a class="card" data-watermark="08" href="Java面试宝典_08_Elasticsearch.html">
+      <div class="card-header">
+        <div class="card-title">Elasticsearch</div>
+        <span class="card-count">15题</span>
+      </div>
+      <ul class="card-list">
+        <li>倒排索引原理</li>
+        <li>集群与分片</li>
+        <li>分词 / 聚合</li>
+        <li>深度分页优化</li>
+        <li>脑裂与调优</li>
+      </ul>
+    </a>
+
+    <a class="card" data-watermark="09" href="Java面试宝典_Spring.html">
       <div class="card-header">
         <div class="card-title">Spring</div>
-        <span class="card-count">19题</span>
+        <span class="card-count">16题</span>
       </div>
       <ul class="card-list">
         <li>IOC 控制反转与 DI 依赖注入</li>
@@ -201,10 +247,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="08" href="Java面试宝典_SpringBoot.html">
+    <a class="card" data-watermark="10" href="Java面试宝典_SpringBoot.html">
       <div class="card-header">
         <div class="card-title">SpringBoot</div>
-        <span class="card-count">5题</span>
+        <span class="card-count">4题</span>
       </div>
       <ul class="card-list">
         <li>自动装配原理</li>
@@ -215,7 +261,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="09" href="Java面试宝典_SpringMVC.html">
+    <a class="card" data-watermark="11" href="Java面试宝典_SpringMVC.html">
       <div class="card-header">
         <div class="card-title">SpringMVC</div>
         <span class="card-count">2题</span>
@@ -226,7 +272,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="10" href="Java面试宝典_MyBatis.html">
+    <a class="card" data-watermark="12" href="Java面试宝典_MyBatis.html">
       <div class="card-header">
         <div class="card-title">MyBatis</div>
         <span class="card-count">6题</span>
@@ -238,7 +284,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="11" href="Java面试宝典_Dubbo.html">
+    <a class="card" data-watermark="13" href="Java面试宝典_Dubbo.html">
       <div class="card-header">
         <div class="card-title">Dubbo</div>
         <span class="card-count">5题</span>
@@ -250,7 +296,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="12" href="Java面试宝典_Netty.html">
+    <a class="card" data-watermark="14" href="Java面试宝典_Netty.html">
       <div class="card-header">
         <div class="card-title">Netty</div>
         <span class="card-count">2题</span>
@@ -261,7 +307,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="13" href="Java面试宝典_Zookeeper.html">
+    <a class="card" data-watermark="15" href="Java面试宝典_Zookeeper.html">
       <div class="card-header">
         <div class="card-title">Zookeeper</div>
         <span class="card-count">1题</span>
@@ -271,7 +317,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="14" href="Java面试宝典_分布式理论.html">
+    <a class="card" data-watermark="16" href="Java面试宝典_分布式理论.html">
       <div class="card-header">
         <div class="card-title">分布式理论</div>
         <span class="card-count">11题</span>
@@ -284,7 +330,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="15" href="Java面试宝典_消息队列.html">
+    <a class="card" data-watermark="17" href="Java面试宝典_消息队列.html">
       <div class="card-header">
         <div class="card-title">消息队列</div>
         <span class="card-count">8题</span>
@@ -296,7 +342,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="16" href="Java面试宝典_设计模式.html">
+    <a class="card" data-watermark="18" href="Java面试宝典_设计模式.html">
       <div class="card-header">
         <div class="card-title">设计模式</div>
         <span class="card-count">7题</span>
@@ -308,7 +354,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="17" href="Java面试宝典_网络协议.html">
+    <a class="card" data-watermark="19" href="Java面试宝典_网络协议.html">
       <div class="card-header">
         <div class="card-title">网络协议</div>
         <span class="card-count">3题</span>
@@ -320,7 +366,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="18" href="Java面试宝典_系统设计.html">
+    <a class="card" data-watermark="20" href="Java面试宝典_系统设计.html">
       <div class="card-header">
         <div class="card-title">系统设计</div>
         <span class="card-count">7题</span>
@@ -332,10 +378,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
+    <a class="card" data-watermark="21" href="Java面试宝典_汇丰银行面试题2026年8月.html">
+      <div class="card-header">
+        <div class="card-title">汇丰银行面试题</div>
+        <span class="card-count">38题</span>
+      </div>
+      <ul class="card-list">
+        <li>Java 基础与集合容器</li>
+        <li>Spring / Spring Boot</li>
+        <li>数据库与 SQL 调优</li>
+        <li>云平台与 CI/CD</li>
+        <li>算法题与求职反问</li>
+      </ul>
+    </a>
+
   </div>
 
   <div class="footer">
-    📌 总计 <strong>296 道</strong> 精选面试题 · 18 大模块 · 覆盖 Java 后端全栈面试核心考点
+    📌 总计 <strong>388 道</strong> 精选面试题 · 21 大模块 · 覆盖 Java 后端全栈面试核心考点
   </div>
 </div>
 
@@ -344,8 +404,18 @@ function setTheme(t){
   document.documentElement.setAttribute('data-theme',t);
   localStorage.setItem('theme',t);
   document.getElementById('settingsDropdown').classList.remove('show');
+  var items=document.querySelectorAll('.settings-dropdown .theme-item');
+  items.forEach(function(it){
+    var cb=it.querySelector('input[type=checkbox]');
+    if(cb)cb.checked=(it.getAttribute('data-theme')===t);
+  });
 }
-(function(){try{var t=localStorage.getItem('theme');if(t)setTheme(t);}catch(e){}resizeSearch();})();
+function toggleSearchIcon(){
+  var inp=document.getElementById('searchInput');
+  var ic=document.getElementById('searchIcon');
+  if(ic)ic.style.display=(inp&&inp.value.trim())?'none':'flex';
+}
+(function(){try{var t=localStorage.getItem('theme')||'gold';setTheme(t);}catch(e){setTheme('gold');}resizeSearch();toggleSearchIcon();})();
 function toggleSettings(){
   document.getElementById('settingsDropdown').classList.toggle('show');
 }
@@ -467,6 +537,6 @@ function doSearch(q){
   dd.classList.add('show');
 }
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=7')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
 </body>
 </html>
