@@ -66,7 +66,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_05_MySQL.html">← MySQL</a>
-    <a href="Java面试宝典_07_框架.html">框架 →</a>
+    <a href="Java面试宝典_Spring.html">框架 →</a>
   </div>
   </div>
 </div>
@@ -362,7 +362,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="card"><div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">什么是 Redis 多级缓存架构？</div><div class="q-tags"><span class="q-tag">多级缓存</span><span class="q-tag">架构</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>多级缓存架构从近到远：</p><ol><li><strong>L1 本地缓存：</strong>Caffeine/Guava Cache，毫秒级，JVM内。</li><li><strong>L2 分布式缓存：</strong>Redis，毫秒~微秒级。</li><li><strong>L3 数据库：</strong>MySQL，毫秒~秒级。</li></ol><p><strong>更新策略：</strong>推模式（DB更新→MQ/Canal→更新Redis→通知应用更新本地缓存）或拉模式（TTL过期后重新加载）。</p><p>💡 适合读多写少的场景，写操作多反而增加复杂度。</p></div></div></div>
 
 <div class="footer">
-  📌 06 · Redis · 共35题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_07_框架.html" style="color:var(--primary)">下一板块 →</a>
+  📌 06 · Redis · 共35题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Spring.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
