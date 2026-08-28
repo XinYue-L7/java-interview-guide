@@ -7,3 +7,6 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Maven 编译产物
+target/

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- ============================================================ -->
+    <!-- 方式二：Spring XML 配置（与 ElasticJobConfig.java 二选一）     -->
+    <!-- ============================================================ -->
+
+    <!-- 1. 注册中心：Zookeeper 协调器 -->
+    <bean id="registryCenter" class="com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter"
+          init-method="init">
+        <constructor-arg>
+            <bean class="com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration">
+                <constructor-arg value="127.0.0.1:2181"/>
+                <constructor-arg value="elastic-job-demo"/>
+                <property name="connectionTimeoutMilliseconds" value="3000"/>
+                <property name="sessionTimeoutMilliseconds" value="5000"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- 2. SimpleJob Bean -->
+    <bean id="mySimpleJob" class="com.example.elasticjob.job.MySimpleJob"/>
+
+    <!-- 3. SimpleJob 调度器 -->
+    <bean id="simpleJobScheduler" class="com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler"
+          init-method="init">
+        <constructor-arg ref="mySimpleJob"/>
+        <constructor-arg ref="registryCenter"/>
+        <constructor-arg>
+            <bean class="com.dangdang.ddframe.job.lite.config.LiteJobConfiguration">
+                <constructor-arg>
+                    <bean class="com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration">
+                        <constructor-arg>
+                            <bean class="com.dangdang.ddframe.job.config.JobCoreConfiguration">
+                                <!-- 作业名 / cron / 分片数 -->
+                                <constructor-arg value="mySimpleJob"/>
+                                <constructor-arg value="0/5 * * * * ?"/>
+                                <constructor-arg value="3"/>
+                                <property name="shardingItemParameters" value="0=A,1=B,2=C"/>
+                                <property name="failover" value="true"/>
+                                <property name="misfire" value="true"/>
+                            </bean>
+                        </constructor-arg>
+                        <constructor-arg value="com.example.elasticjob.job.MySimpleJob"/>
+                    </bean>
+                </constructor-arg>
+                <property name="overwrite" value="true"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- 4. DataflowJob Bean -->
+    <bean id="myDataflowJob" class="com.example.elasticjob.job.MyDataflowJob"/>
+
+    <!-- 5. DataflowJob 调度器 -->
+    <bean id="dataflowJobScheduler" class="com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler"
+          init-method="init">
+        <constructor-arg ref="myDataflowJob"/>
+        <constructor-arg ref="registryCenter"/>
+        <constructor-arg>
+            <bean class="com.dangdang.ddframe.job.lite.config.LiteJobConfiguration">
+                <constructor-arg>
+                    <bean class="com.dangdang.ddframe.job.config.dataflow.DataflowJobConfiguration">
+                        <constructor-arg>
+                            <bean class="com.dangdang.ddframe.job.config.JobCoreConfiguration">
+                                <constructor-arg value="myDataflowJob"/>
+                                <constructor-arg value="0/10 * * * * ?"/>
+                                <constructor-arg value="3"/>
+                                <property name="shardingItemParameters" value="0=A,1=B,2=C"/>
+                            </bean>
+                        </constructor-arg>
+                        <constructor-arg value="com.example.elasticjob.job.MyDataflowJob"/>
+                        <!-- streamingProcess: true 流式处理 -->
+                        <constructor-arg value="true"/>
+                    </bean>
+                </constructor-arg>
+                <property name="overwrite" value="true"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+</beans>
