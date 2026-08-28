@@ -65,11 +65,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <p>5道高频题 · Dubbo核心考点</p>
 <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
-    <a href="Java面试宝典_06_Redis.html">← Redis</a>
-    <a href="Java面试宝典_08_分布式&其他.html">分布式&其他 →</a>
+    <a href="Java面试宝典_MyBatis.html">← MyBatis</a>
+    <a href="Java面试宝典_Netty.html">Netty →</a>
   </div>
 <main class="container">
-<div class="card">class="card">class="card">
+<div class="card">
   <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Dubbo 的工作流程和核心组件？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">RPC</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
@@ -88,29 +88,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<div </div>
-<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Dubbo 的核心原理和调用流程？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">RPC</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Dubbo是高性能RPC框架，核心流程：</p><ol><li><strong>注册：</strong>Provider向Registry注册服务。</li><li><strong>订阅：</strong>Consumer从Registry订阅服务（拉取+监听变更）。</li><li><strong>调用：</strong>Consumer通过动态代理（Proxy）发起远程调用→经过Filter链→负载均衡选择Provider→Netty网络传输→Provider反序列化→执行→返回。</li><li><strong>监控：</strong>Monitor统计调用次数和耗时。</li></ol><p><strong>注册中心：</strong>ZooKeeper（默认）、Nacos、Redis、Consul。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Dubbo 的核心原理和调用流程？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">RPC</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Dubbo是高性能RPC框架，核心流程：</p><ol><li><strong>注册：</strong>Provider向Registry注册服务。</li><li><strong>订阅：</strong>Consumer从Registry订阅服务（拉取+监听变更）。</li><li><strong>调用：</strong>Consumer通过动态代理（Proxy）发起远程调用→经过Filter链→负载均衡选择Provider→Netty网络传输→Provider反序列化→执行→返回。</li><li><strong>监控：</strong>Monitor统计调用次数和耗时。</li></ol><p><strong>注册中心：</strong>ZooKeeper（默认）、Nacos、Redis、Consul。</p></div></div></div>
 
-<!-- Q26 -->
-<div </div>
-<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Dubbo 负载均衡策略有哪些？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">负载均衡</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Random（默认）：</strong>加权随机，按权重随机。</li><li><strong>RoundRobin：</strong>加权轮询。</li><li><strong>LeastActive：</strong>最少活跃调用数（处理快的节点分配更多）。</li><li><strong>ConsistentHash：</strong>一致性Hash，相同参数的请求始终发到同一Provider。</li><li><strong>ShortestResponse：</strong>最短响应时间（Dubbo 2.7+）。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Dubbo 负载均衡策略有哪些？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">负载均衡</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Random（默认）：</strong>加权随机，按权重随机。</li><li><strong>RoundRobin：</strong>加权轮询。</li><li><strong>LeastActive：</strong>最少活跃调用数（处理快的节点分配更多）。</li><li><strong>ConsistentHash：</strong>一致性Hash，相同参数的请求始终发到同一Provider。</li><li><strong>ShortestResponse：</strong>最短响应时间（Dubbo 2.7+）。</li></ul></div></div></div>
 
-<!-- Q27 -->
-<div </div>
-<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Dubbo 的集群容错策略有哪些？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">容错</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Failfast：</strong>快速失败，立即抛异常。适合非幂等写操作。</li><li><strong>Failsafe：</strong>失败安全，忽略异常。适合写入日志。</li><li><strong>Failover（默认）：</strong>失败自动切换重试（默认2次+本机1次=3次）。适合幂等读操作。</li><li><strong>Failback：</strong>失败自动恢复，后台定时重发。</li><li><strong>Forking：</strong>并行调用多个Provider，一个成功即返回。</li><li><strong>Broadcast：</strong>广播调用所有Provider，一个失败即失败。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Dubbo 的集群容错策略有哪些？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">容错</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Failfast：</strong>快速失败，立即抛异常。适合非幂等写操作。</li><li><strong>Failsafe：</strong>失败安全，忽略异常。适合写入日志。</li><li><strong>Failover（默认）：</strong>失败自动切换重试（默认2次+本机1次=3次）。适合幂等读操作。</li><li><strong>Failback：</strong>失败自动恢复，后台定时重发。</li><li><strong>Forking：</strong>并行调用多个Provider，一个成功即返回。</li><li><strong>Broadcast：</strong>广播调用所有Provider，一个失败即失败。</li></ul></div></div></div>
 
-<!-- Q28 -->
-<div </div>
-<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Dubbo 服务暴露和服务引入流程？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>服务暴露：</strong></p><ol><li>Spring容器刷新→ServiceBean.onApplicationEvent→export()。</li><li>服务配置转URL→适配协议(dubbo/http等)→开启Netty服务器监听端口。</li><li>注册到注册中心(ZooKeeper/Nacos)。</li></ol><p><strong>服务引入：</strong></p><ol><li>ReferenceBean.getObject()→init()。</li><li>连接注册中心→订阅服务→获取Provider列表。</li><li>动态代理生成接口实现类（InvokerInvocationHandler）。</li></ol></div></div></div>
-
-<!-- Q38 -->
-<div </div>
+<div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Dubbo 服务暴露和服务引入流程？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>服务暴露：</strong></p><ol><li>Spring容器刷新→ServiceBean.onApplicationEvent→export()。</li><li>服务配置转URL→适配协议(dubbo/http等)→开启Netty服务器监听端口。</li><li>注册到注册中心(ZooKeeper/Nacos)。</li></ol><p><strong>服务引入：</strong></p><ol><li>ReferenceBean.getObject()→init()。</li><li>连接注册中心→订阅服务→获取Provider列表。</li><li>动态代理生成接口实现类（InvokerInvocationHandler）。</li></ol></div></div></div>
 
 </main>
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
 var bh=document.getElementById('backHome');
@@ -147,6 +140,12 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=4')}</script>
+
+<div class="footer">
+  📌 13 · Dubbo · 共5题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Netty.html" style="color:var(--primary)">下一板块 →</a>
+</div>
+</main>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
 </body>
 </html>

@@ -65,24 +65,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <p>2道高频题 · Netty核心考点</p>
 <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
-    <a href="Java面试宝典_06_Redis.html">← Redis</a>
-    <a href="Java面试宝典_08_分布式&其他.html">分布式&其他 →</a>
+    <a href="Java面试宝典_Dubbo.html">← Dubbo</a>
+    <a href="Java面试宝典_Zookeeper.html">Zookeeper →</a>
   </div>
 <main class="container">
-<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Netty 的线程模型和零拷贝？</div><div class="q-tags"><span class="q-tag">Netty</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>Reactor主从模型：</strong></p><ul><li><strong>Boss Group（1个NioEventLoop）：</strong>接收连接，注册Channel到Worker。</li><li><strong>Worker Group（CPU*2个NioEventLoop）：</strong>处理读写IO和业务逻辑。</li><li>每个NioEventLoop绑定一个Selector和一条线程。</li></ul><p><strong>零拷贝（Zero Copy）：</strong></p><ul><li><strong>FileRegion：</strong>transferTo()操作系统级零拷贝（DMA拷贝）。</li><li><strong>CompositeByteBuf：</strong>逻辑组合多个ByteBuf，无物理拷贝。</li><li><strong>Unpooled.wrappedBuffer：</strong>包装字节数组，不拷贝。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Netty 的线程模型和零拷贝？</div><div class="q-tags"><span class="q-tag">Netty</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>Reactor主从模型：</strong></p><ul><li><strong>Boss Group（1个NioEventLoop）：</strong>接收连接，注册Channel到Worker。</li><li><strong>Worker Group（CPU*2个NioEventLoop）：</strong>处理读写IO和业务逻辑。</li><li>每个NioEventLoop绑定一个Selector和一条线程。</li></ul><p><strong>零拷贝（Zero Copy）：</strong></p><ul><li><strong>FileRegion：</strong>transferTo()操作系统级零拷贝（DMA拷贝）。</li><li><strong>CompositeByteBuf：</strong>逻辑组合多个ByteBuf，无物理拷贝。</li><li><strong>Unpooled.wrappedBuffer：</strong>包装字节数组，不拷贝。</li></ul></div></div></div>
 
-<!-- Q29 -->
-<div </div>
-<div class="card">class="card">class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Netty 解决 TCP 粘包/拆包方案？</div><div class="q-tags"><span class="q-tag">Netty</span><span class="q-tag">粘包</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Netty提供多种<strong>解码器</strong>解决粘包/拆包：</p><ul><li><strong>FixedLengthFrameDecoder：</strong>定长消息。</li><li><strong>LineBasedFrameDecoder：</strong>换行符分隔。</li><li><strong>DelimiterBasedFrameDecoder：</strong>自定义分隔符。</li><li><strong>LengthFieldBasedFrameDecoder：</strong>消息头包含长度字段（最常用）。</li><li><strong>自定义协议：</strong>魔数+长度+数据+校验。</li></ul></div></div></div>
-
-<!-- Q40 -->
-<div </div>
+<div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Netty 解决 TCP 粘包/拆包方案？</div><div class="q-tags"><span class="q-tag">Netty</span><span class="q-tag">粘包</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Netty提供多种<strong>解码器</strong>解决粘包/拆包：</p><ul><li><strong>FixedLengthFrameDecoder：</strong>定长消息。</li><li><strong>LineBasedFrameDecoder：</strong>换行符分隔。</li><li><strong>DelimiterBasedFrameDecoder：</strong>自定义分隔符。</li><li><strong>LengthFieldBasedFrameDecoder：</strong>消息头包含长度字段（最常用）。</li><li><strong>自定义协议：</strong>魔数+长度+数据+校验。</li></ul></div></div></div>
 
 </main>
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
 var bh=document.getElementById('backHome');
@@ -119,6 +117,12 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=4')}</script>
+
+<div class="footer">
+  📌 14 · Netty · 共2题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Zookeeper.html" style="color:var(--primary)">下一板块 →</a>
+</div>
+</main>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
 </body>
 </html>
