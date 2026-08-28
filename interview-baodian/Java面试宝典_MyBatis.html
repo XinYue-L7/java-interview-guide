@@ -68,7 +68,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a href="Java面试宝典_SpringMVC.html">← SpringMVC</a>
     <a href="Java面试宝典_Dubbo.html">Dubbo →</a>
   </div>
-<main class="container">
+<div class="container">
 <div class="card">
   <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">MyBatis 中 #{} 和 ${} 的区别？</div><div class="q-tags"><span class="q-tag">MyBatis</span><span class="q-tag">安全</span></div></div></div>
   <div class="card-body">
@@ -105,7 +105,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 <div class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">MyBatis 的执行流程？</div><div class="q-tags"><span class="q-tag">MyBatis</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ol><li>加载mybatis-config.xml和Mapper.xml→SqlSessionFactoryBuilder→SqlSessionFactory。</li><li>SqlSessionFactory.openSession()→SqlSession。</li><li>SqlSession.getMapper()→动态代理（MapperProxy）。</li><li>调用Mapper方法→MapperProxy拦截→查找MappedStatement。</li><li>Executor执行（经过一级/二级缓存→插件拦截→StatementHandler→ParameterHandler→JDBC执行）。</li><li>ResultSetHandler处理结果集→返回。</li></ol></div></div></div>
 
-</main>
+</div>
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
@@ -153,7 +153,7 @@ window.addEventListener('scroll',onScroll);onScroll();
 <div class="footer">
   📌 12 · MyBatis · 共6题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Dubbo.html" style="color:var(--primary)">下一板块 →</a>
 </div>
-</main>
+</div>
 
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
 </body>

@@ -68,7 +68,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a href="Java面试宝典_MyBatis.html">← MyBatis</a>
     <a href="Java面试宝典_Netty.html">Netty →</a>
   </div>
-<main class="container">
+<div class="container">
 <div class="card">
   <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Dubbo 的工作流程和核心组件？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">RPC</span></div></div></div>
   <div class="card-body">
@@ -96,7 +96,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 <div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Dubbo 服务暴露和服务引入流程？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>服务暴露：</strong></p><ol><li>Spring容器刷新→ServiceBean.onApplicationEvent→export()。</li><li>服务配置转URL→适配协议(dubbo/http等)→开启Netty服务器监听端口。</li><li>注册到注册中心(ZooKeeper/Nacos)。</li></ol><p><strong>服务引入：</strong></p><ol><li>ReferenceBean.getObject()→init()。</li><li>连接注册中心→订阅服务→获取Provider列表。</li><li>动态代理生成接口实现类（InvokerInvocationHandler）。</li></ol></div></div></div>
 
-</main>
+</div>
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
@@ -144,7 +144,7 @@ window.addEventListener('scroll',onScroll);onScroll();
 <div class="footer">
   📌 13 · Dubbo · 共5题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Netty.html" style="color:var(--primary)">下一板块 →</a>
 </div>
-</main>
+</div>
 
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
 </body>

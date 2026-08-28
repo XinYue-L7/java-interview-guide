@@ -68,7 +68,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a href="Java面试宝典_SpringBoot.html">← SpringBoot</a>
     <a href="Java面试宝典_MyBatis.html">MyBatis →</a>
   </div>
-<main class="container">
+<div class="container">
 <div class="card">
   <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Spring MVC 的请求处理流程？</div><div class="q-tags"><span class="q-tag">SpringMVC</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
@@ -88,7 +88,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 <div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Spring MVC 处理请求的完整流程？</div><div class="q-tags"><span class="q-tag">SpringMVC</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ol><li>请求到达<strong>DispatcherServlet</strong>。</li><li>HandlerMapping找到对应<strong>Handler（Controller+方法）</strong>。</li><li>HandlerAdapter适配调用Handler。</li><li>Handler执行前：拦截器preHandle()→参数解析（HandlerMethodArgumentResolver）→反射调用Controller方法。</li><li>返回值处理（HandlerMethodReturnValueHandler），如@ResponseBody→HttpMessageConverter序列化。</li><li>拦截器postHandle()→afterCompletion()。</li><li>响应返回。</li></ol></div></div></div>
 
-</main>
+</div>
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
@@ -136,7 +136,7 @@ window.addEventListener('scroll',onScroll);onScroll();
 <div class="footer">
   📌 11 · Spring MVC · 共2题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_MyBatis.html" style="color:var(--primary)">下一板块 →</a>
 </div>
-</main>
+</div>
 
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
 </body>
