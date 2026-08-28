@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · 系统设计</title>
 <style>
-::root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
+:root,[data-theme="green"]{--primary:#2d6a4f;--hero-from:#1b4332;--hero-mid:#2d6a4f;--hero-to:#40916c;--bg:#f8faf9;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#dde8e2;--tag-bg:#e8f5e9;--success:#2e7d32;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
 [data-theme="light"]{--primary:#0a6e74;--hero-from:#006d77;--hero-mid:#0a9396;--hero-to:#006d77;--bg:#f3f6f8;--card-bg:#fff;--text:#1a2430;--muted:#6b7b83;--border:#dde4e8;--tag-bg:#eef3f5;--link:#0a6e74;--icon-bg:rgba(10,110,116,0.12)}
@@ -66,7 +66,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_网络协议.html">← 网络协议</a>
-    <a href="Java面试宝典_总目录.html">总目录 →</a>
+    <a href="Java面试宝典_Spring.html">Spring →</a>
   </div>
 </div>
 <div class="container">
@@ -108,7 +108,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="card"><div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">Maven 依赖传递和冲突解决？</div><div class="q-tags"><span class="q-tag">Maven</span><span class="q-tag">构建</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>依赖传递：</strong>引入A→A依赖B→B也被引入。scope影响传递（compile可传，provided/test不传）。</p><p><strong>冲突解决：</strong></p><ul><li><strong>最短路径优先：</strong>A→B→C(1.0) &gt; A→D→E→C(2.0) →选C(1.0)。</li><li><strong>第一声明优先：</strong>同路径深度，先声明的依赖优先。</li><li><strong>手动排除：</strong><code>&lt;exclusions&gt;&lt;exclusion&gt;</code>排除不需要的传递依赖。</li><li><strong>指定版本：</strong><code>&lt;dependencyManagement&gt;</code>统一管理版本。</li><li><strong>mvn dependency:tree</strong>查看依赖树，定位冲突。</li></ul></div></div></div>
 
 <div class="footer">
-  📌 系统设计 · 共7题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a>
+  📌 08e · 系统设计 · 共7题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Spring.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
