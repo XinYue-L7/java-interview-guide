@@ -68,7 +68,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a href="Java面试宝典_系统设计.html">← 系统设计</a>
     <a href="Java面试宝典_SpringBoot.html">SpringBoot →</a>
   </div>
-<main class="container">
+<div class="container">
 <div class="card">
   <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Spring IOC 的实现原理？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
@@ -288,51 +288,6 @@ document.addEventListener('click',function(e){
   var si=document.getElementById('searchInput');
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
-</body>
-</html></div>
-
-</main>
-
-<script>
-function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)};(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
-<script>
-var bt=document.getElementById('backTop');
-var bh=document.getElementById('backHome');
-function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
-window.addEventListener('scroll',onScroll);onScroll();
-</script>
-<script>
-(function(){
-  var params=new URLSearchParams(window.location.search);
-  var q=params.get('q');
-  if(q){
-    var cards=document.querySelectorAll('.card');
-    var found=null;
-    for(var i=0;i<cards.length;i++){
-      var numEl=cards[i].querySelector('.q-num');
-      if(numEl && numEl.textContent.trim()===q){
-        found=cards[i];
-        break;
-      }
-    }
-    if(found){
-      found.scrollIntoView({behavior:'smooth',block:'center'});
-      found.style.transition='box-shadow .3s';
-      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
-      setTimeout(function(){found.style.boxShadow='';},2500);
-      var btn=found.querySelector('.toggle-btn');
-      var ans=found.querySelector('.answer');
-      if(btn && ans && !ans.classList.contains('show')){
-        ans.classList.add('show');
-        btn.classList.add('open');
-        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
-      }
-    }
-  }
-})();
-</script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
 </body>
 </html>

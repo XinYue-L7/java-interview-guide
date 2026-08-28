@@ -68,7 +68,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a href="Java面试宝典_Spring.html">← Spring</a>
     <a href="Java面试宝典_SpringMVC.html">SpringMVC →</a>
   </div>
-<main class="container">
+<div class="container">
 <div class="card">
   <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">SpringBoot 自动配置原理？</div><div class="q-tags"><span class="q-tag">SpringBoot</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
@@ -110,7 +110,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 <div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Spring Boot 如何实现优雅停机？</div><div class="q-tags"><span class="q-tag">SpringBoot</span><span class="q-tag">运维</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Spring Boot 2.3+支持优雅停机：</p><ul><li><code>server.shutdown=graceful</code></li><li><code>spring.lifecycle.timeout-per-shutdown-phase=30s</code></li></ul><p><strong>原理：</strong></p><ul><li>收到SIGTERM→不再接受新请求→等待现有请求处理完→关闭容器。</li><li>配合K8s的preStop hook，实现滚动更新不丢流量。</li><li>Spring Boot Actuator的<code>/actuator/shutdown</code>端点也可管理。</li></ul></div></div></div>
 
-</main>
+</div>
 
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
@@ -158,7 +158,7 @@ window.addEventListener('scroll',onScroll);onScroll();
 <div class="footer">
   📌 10 · Spring Boot · 共5题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_SpringMVC.html" style="color:var(--primary)">下一板块 →</a>
 </div>
-</main>
+</div>
 
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js?v=8')}</script>
 </body>
