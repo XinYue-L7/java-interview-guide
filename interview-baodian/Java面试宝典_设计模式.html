@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="gold">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · 设计模式</title>
 <style>
+html{margin:0;padding:0;background:var(--hero-from)}
 :root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
 [data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
-.search-input::placeholder{color:rgba(255,255,255,.6)}
-.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
-.search-btn:hover{background:rgba(255,255,255,.35)}
-.search-history .search-history .clear-btn:hover{text-decoration:underline}
 
 .nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover{background:rgba(255,255,255,.2)}
-.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
-.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.theme-btn:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
 .q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
-.card-body{padding:12px 18px 16px}
 .toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
@@ -77,7 +76,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </label>
 
   <h1>设计模式</h1>
-  <p>7道高频题 · 创建型 · 结构型 · 行为型 · SOLID原则</p>
+  <p>8道高频题 · 创建型 · 结构型 · 行为型 · SOLID原则</p>
   <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_消息队列.html">← 消息队列</a>
@@ -92,14 +91,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
       <ul>
-        <li><strong>单例模式：</strong>DCL、静态内部类、枚举。Spring Bean默认单例。</li>
-        <li><strong>工厂模式：</strong>简单工厂、工厂方法、抽象工厂。</li>
-        <li><strong>代理模式：</strong>Spring AOP(动态代理)。</li>
-        <li><strong>观察者模式：</strong>Spring事件机制、消息队列。</li>
-        <li><strong>策略模式：</strong>不同算法可互相替换。</li>
-        <li><strong>模板方法：</strong>AQS、Spring JdbcTemplate。</li>
-        <li><strong>装饰器模式：</strong>IO流(BufferedInputStream包装FileInputStream)。</li>
-        <li><strong>责任链模式：</strong>Servlet Filter、Spring Interceptor。</li>
+        <li><strong>单例模式：</strong><br/><br/>DCL、静态内部类、枚举。<br/><br/>Spring Bean默认单例。</li>
+        <li><strong>工厂模式：</strong><br/><br/>简单工厂、工厂方法、抽象工厂。</li>
+        <li><strong>代理模式：</strong><br/><br/>Spring AOP(动态代理)。</li>
+        <li><strong>观察者模式：</strong><br/><br/>Spring事件机制、消息队列。</li>
+        <li><strong>策略模式：</strong><br/><br/>不同算法可互相替换。</li>
+        <li><strong>模板方法：</strong><br/><br/>AQS、Spring JdbcTemplate。</li>
+        <li><strong>装饰器模式：</strong><br/><br/>IO流(BufferedInputStream包装FileInputStream)。</li>
+        <li><strong>责任链模式：</strong><br/><br/>Servlet Filter、Spring Interceptor。</li>
       </ul>
     </div>
   </div>
@@ -110,23 +109,61 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
       <ul>
-        <li><strong>饿汉式：</strong>类加载时创建，线程安全但可能浪费内存。</li>
-        <li><strong>懒汉式(双重校验锁DCL)：</strong>volatile+两次null检查，推荐。</li>
-        <li><strong>静态内部类：</strong>利用类加载机制保证线程安全+懒加载，推荐。</li>
-        <li><strong>枚举：</strong>天生线程安全+防反射破坏+防序列化破坏，Effective Java推荐。</li>
+        <li><strong>饿汉式：</strong><br/><br/>类加载时创建，线程安全但可能浪费内存。</li>
+        <li><strong>懒汉式(双重校验锁DCL)：</strong><br/><br/>volatile+两次null检查，推荐。</li>
+        <li><strong>静态内部类：</strong><br/><br/>利用类加载机制保证线程安全+懒加载，推荐。</li>
+        <li><strong>枚举：</strong><br/><br/>天生线程安全+防反射破坏+防序列化破坏，Effective Java推荐。</li>
       </ul>
       <p>💡 DCL中instance必须用volatile防止指令重排序(分配内存→初始化→赋值，可能被重排)。</p>
     </div>
   </div>
 </div>
-<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">设计模式六大原则（SOLID）是什么？</div><div class="q-tags"><span class="q-tag">设计模式</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>S 单一职责：</strong>一个类只负责一件事。</li><li><strong>O 开闭原则：</strong>对扩展开放，对修改关闭。</li><li><strong>L 里氏替换：</strong>子类可以替换父类（子类不改变父类行为）。</li><li><strong>I 接口隔离：</strong>接口尽量小，不强迫实现不需要的方法。</li><li><strong>D 依赖倒置：</strong>依赖抽象而非具体实现（面向接口编程）。</li></ul><p>💡 还有：迪米特法则（最少知识）、合成复用原则（组合优于继承）。</p></div></div></div>
-<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">单例模式的多种实现及优缺点？</div><div class="q-tags"><span class="q-tag">设计模式</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>饿汉式：</strong>类加载时就创建。线程安全，但可能浪费内存。</li><li><strong>懒汉式（加锁）：</strong>synchronized getInstance()。线程安全但效率低。</li><li><strong>DCL（双重检查锁）：</strong>volatile+两次null检查。高效、推荐。</li><li><strong>静态内部类：</strong>利用JVM类加载机制，延迟加载+线程安全。最优雅。</li><li><strong>枚举：</strong>天然单例、防反射、防反序列化。Effective Java推荐。</li></ul></div></div></div>
-<div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">工厂模式和抽象工厂模式的区别？</div><div class="q-tags"><span class="q-tag">设计模式</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>工厂方法</th><th>抽象工厂</th></tr></thead><tbody><tr><td>产品</td><td>单一产品</td><td>产品族（多个相关产品）</td></tr><tr><td>层级</td><td>一个工厂接口</td><td>工厂的工厂</td></tr><tr><td>扩展</td><td>增加产品=加具体工厂</td><td>增加产品族=加具体工厂</td></tr></tbody></table></div><p>💡 工厂方法：BeanFactory。抽象工厂：Swing的LookAndFeel（一套按钮+文本框+菜单风格）。</p></div></div></div>
-<div class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">观察者模式和发布-订阅模式的区别？</div><div class="q-tags"><span class="q-tag">设计模式</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>观察者模式：</strong>Subject直接维护Observer列表，Subject和Observer松耦合。同步直接调用。</li><li><strong>发布-订阅模式：</strong>Publisher和Subscriber通过<strong>Broker/EventBus</strong>解耦，互不知道对方。异步间接通信。</li></ul><p>💡 MQ是典型的发布-订阅模式。Spring的ApplicationListener是观察者模式。</p></div></div></div>
-<div class="card"><div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">策略模式和模板方法模式的区别？</div><div class="q-tags"><span class="q-tag">设计模式</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>策略模式：</strong>定义一系列算法，可<strong>互相替换</strong>。客户端选择策略。如支付方式（微信/支付宝）。</li><li><strong>模板方法：</strong>定义算法<strong>骨架</strong>，子类实现具体步骤。父类控制流程。如JdbcTemplate、AbstractList。</li></ul><p>💡 策略重在选择（多选一），模板方法重在流程（固定流程+可变步骤）。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">设计模式六大原则（SOLID）是什么？</div><div class="q-tags"><span class="q-tag">设计模式</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>S 单一职责：</strong><br/><br/>一个类只负责一件事。</li><li><strong>O 开闭原则：</strong><br/><br/>对扩展开放，对修改关闭。</li><li><strong>L 里氏替换：</strong><br/><br/>子类可以替换父类（子类不改变父类行为）。</li><li><strong>I 接口隔离：</strong><br/><br/>接口尽量小，不强迫实现不需要的方法。</li><li><strong>D 依赖倒置：</strong><br/><br/>依赖抽象而非具体实现（面向接口编程）。</li></ul><p>💡 还有：</p>
+      <p>迪米特法则（最少知识）、合成复用原则（组合优于继承）。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">单例模式的多种实现及优缺点？</div><div class="q-tags"><span class="q-tag">设计模式</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>饿汉式：</strong><br/><br/>类加载时就创建。<br/><br/>线程安全，但可能浪费内存。</li><li><strong>懒汉式（加锁）：</strong><br/><br/>synchronized getInstance()。<br/><br/>线程安全但效率低。</li><li><strong>DCL（双重检查锁）：</strong><br/><br/>volatile+两次null检查。<br/><br/>高效、推荐。</li><li><strong>静态内部类：</strong><br/><br/>利用JVM类加载机制，延迟加载+线程安全。<br/><br/>最优雅。</li><li><strong>枚举：</strong><br/><br/>天然单例、防反射、防反序列化。<br/><br/>Effective Java推荐。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">工厂模式和抽象工厂模式的区别？</div><div class="q-tags"><span class="q-tag">设计模式</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>工厂方法</th><th>抽象工厂</th></tr></thead><tbody><tr><td>产品</td><td>单一产品</td><td>产品族（多个相关产品）</td></tr><tr><td>层级</td><td>一个工厂接口</td><td>工厂的工厂</td></tr><tr><td>扩展</td><td>增加产品=加具体工厂</td><td>增加产品族=加具体工厂</td></tr></tbody></table></div><p>💡 工厂方法：</p>
+      <p>BeanFactory。</p>
+      <p>抽象工厂：</p>
+      <p>Swing的LookAndFeel（一套按钮+文本框+菜单风格）。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">观察者模式和发布-订阅模式的区别？</div><div class="q-tags"><span class="q-tag">设计模式</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>观察者模式：</strong><br/><br/>Subject直接维护Observer列表，Subject和Observer松耦合。<br/><br/>同步直接调用。</li><li><strong>发布-订阅模式：</strong><br/><br/>Publisher和Subscriber通过<strong>Broker/EventBus</strong>解耦，互不知道对方。<br/><br/>异步间接通信。</li></ul><p>💡 MQ是典型的发布-订阅模式。</p>
+      <p>Spring的ApplicationListener是观察者模式。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">策略模式和模板方法模式的区别？</div><div class="q-tags"><span class="q-tag">设计模式</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>策略模式：</strong><br/><br/>定义一系列算法，可<strong>互相替换</strong>。<br/><br/>客户端选择策略。<br/><br/>如支付方式（微信/支付宝）。</li><li><strong>模板方法：</strong><br/><br/>定义算法<strong>骨架</strong>，子类实现具体步骤。<br/><br/>父类控制流程。<br/><br/>如JdbcTemplate、AbstractList。</li></ul><p>💡 策略重在选择（多选一），模板方法重在流程（固定流程+可变步骤）。</p></div></div></div>
 
-<div class="footer">
-  📌 18 · 设计模式 · 共7题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_网络协议.html" style="color:var(--primary)">下一板块 →</a>
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">Spring 中用到了哪些设计模式？（源码级详解）</div><div class="q-tags"><span class="q-tag">设计模式</span><span class="q-tag">Spring</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一句话概括：</strong></p>
+      <p>Spring 框架本身就是大型设计模式应用集，核心用到了<strong>工厂、单例、代理、模板方法、观察者、适配器、装饰者</strong> 7 种设计模式。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>设计模式</th><th>Spring 中的体现</th><th>关键实现</th></tr></thead>
+        <tbody>
+        <tr><td><strong>工厂模式</strong></td><td>IoC 容器创建与管理 Bean</td><td>BeanFactory / ApplicationContext 通过 getBean() 按需创建对象；FactoryBean 可定制创建逻辑</td></tr>
+        <tr><td><strong>单例模式</strong></td><td>Bean 默认 singleton 作用域</td><td>singletonObjects（ConcurrentHashMap）单例注册表，保证全局唯一</td></tr>
+        <tr><td><strong>代理模式</strong></td><td>AOP 面向切面编程</td><td>JDK 动态代理（有接口）+ CGLIB（无接口），动态增强事务、日志、鉴权</td></tr>
+        <tr><td><strong>模板方法</strong></td><td>固定流程骨架 + 回调</td><td>JdbcTemplate、RestTemplate、TransactionTemplate 的 execute() 模板方法</td></tr>
+        <tr><td><strong>观察者模式</strong></td><td>事件驱动模型</td><td>ApplicationEvent + ApplicationListener + ApplicationEventPublisher，@EventListener 注解</td></tr>
+        <tr><td><strong>适配器模式</strong></td><td>统一不同类型接口</td><td>AOP 的 AdvisorAdapter；Spring MVC 的 HandlerAdapter 适配不同 Controller</td></tr>
+        <tr><td><strong>装饰者模式</strong></td><td>动态增强对象行为</td><td>HttpServletRequestWrapper、DataSource 读写分离代理、BeanWrapper</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>重点展开：</strong></p>
+      <ul>
+        <li><strong>工厂 + 单例（IoC/DI）：</strong><br/><br/>BeanFactory 是工厂模式，getBean() 通过反射创建对象；<br/><br/>Bean 默认单例，创建后存入 singletonObjects 单例注册表，再次获取直接返回。<br/><br/>IoC（控制反转）是解耦思想，DI（依赖注入）是其实现方式。</li>
+        <li><strong>代理（AOP）：</strong><br/><br/>有接口走 JDK Proxy（InvocationHandler 拦截），无接口走 CGLIB（生成子类）。<br/><br/>Spring AOP 是运行时织入（动态代理），AspectJ 是编译期/加载期织入。</li>
+        <li><strong>观察者（事件驱动）：</strong><br/><br/>发布事件用 publishEvent()，监听用 @EventListener 或实现 ApplicationListener，还支持 @TransactionalEventListener 在事务提交后触发。</li>
+        <li><strong>适配器（MVC）：</strong><br/><br/>HandlerAdapter 有多种实现（RequestMappingHandlerAdapter、HttpRequestHandlerAdapter 等），把不同的 Handler 统一适配成处理器调用。</li>
+      </ul>
+      <p>💡 <strong>面试点：</strong></p>
+      <p>先总述 7 种模式，再挑 2-3 个展开（最常问 AOP 代理、IoC 工厂、事件观察者）；</p>
+      <p>能结合源码（singletonObjects 单例注册表、JDK Proxy 原理）是加分项。</p>
+    </div>
+  </div>
+</div>
+
+ <div class="footer">
+  📌 18 · 设计模式 · 共8题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_网络协议.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -186,6 +223,6 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=39')}</script>
 </body>
 </html>

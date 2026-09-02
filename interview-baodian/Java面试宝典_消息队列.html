@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="gold">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · 消息队列</title>
 <style>
+html{margin:0;padding:0;background:var(--hero-from)}
 :root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
 [data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
-.search-input::placeholder{color:rgba(255,255,255,.6)}
-.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
-.search-btn:hover{background:rgba(255,255,255,.35)}
-.search-history .search-history .clear-btn:hover{text-decoration:underline}
 
 .nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover{background:rgba(255,255,255,.2)}
-.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
-.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.theme-btn:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
 .q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
-.card-body{padding:12px 18px 16px}
 .toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
@@ -63,7 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .switch input:checked + .slider{background:var(--primary)}
 .switch input:checked + .slider:before{transform:translateX(19px)}
 </style>
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#1a1a2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="面试宝典">
@@ -91,52 +90,524 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>作用：</strong>异步解耦、削峰填谷、最终一致性。</p>
-      <p><strong>保证不丢失（全链路）：</strong></p>
+      <p><strong>一、消息队列的核心作用</strong></p>
+      <p><strong>1. 异步解耦</strong></p>
+      <p>系统间通过消息队列通信，调用方无需等待被调用方处理完成即可返回。<br/>例如：<br/>用户下单后，订单系统只需发送订单消息，积分系统、库存系统、物流系统各自异步消费处理，系统间松耦合，互不影响。</p>
+      <p><strong>2. 削峰填谷</strong></p>
+      <p>高并发场景下（如秒杀、大促），流量洪峰会被消息队列缓冲，后端服务按自身处理能力匀速消费，避免数据库被打挂。<br/>生产者只管发消息，消费者按固定速率消费，流量被"削平"。</p>
+      <p><strong>3. 最终一致性（分布式事务）</strong></p>
+      <p>通过消息队列实现分布式事务的异步最终一致性，例如：<br/>本地事务成功+发送消息，下游系统消费消息完成自身事务，失败可重试。</p>
+      <p><strong>4. 广播与订阅</strong></p>
+      <p>一条消息可被多个消费者组同时消费，实现一对多广播（如配置变更通知推送到多个服务实例）。</p>
+      <p><strong>5. 日志采集与流式处理</strong></p>
+      <p>大规模分布式系统中，各服务日志通过消息队列汇聚到分析系统（如 Kafka + Flink 实现实时数仓）。</p>
+
+      <p><strong>二、如何保证消息不丢失（全链路视角）</strong></p>
+      <p>消息从生产到消费经历三个阶段：<strong>Producer → Broker → Consumer</strong>，每个阶段都有丢失风险，需分别保证。</p>
+
+      <p><strong>1. 生产端（Producer）不丢失</strong></p>
       <ul>
-        <li><strong>生产端：</strong>同步发送+确认回调/事务消息。</li>
-        <li><strong>Broker端：</strong>同步刷盘+多副本(ISR)。</li>
-        <li><strong>消费端：</strong>手动ACK，处理完再提交offset。</li>
+        <li><strong>同步发送 + 确认回调：</strong><br/>等待 Broker 返回 ACK 后才认为发送成功，失败自动重试。<br/>Kafka 设置 <code>acks=all</code>，RocketMQ 使用同步发送 <code>SendResult</code>。</li>
+        <li><strong>异步发送 + 失败重试：</strong><br/>指定回调函数处理发送失败，失败消息落入本地日志或死信队列，定时补偿重发。</li>
+        <li><strong>事务消息：</strong><br/>本地事务与消息发送绑定，本地事务成功则消息一定发送成功。<br/>RocketMQ 提供 Half 消息 + 事务回查机制。</li>
+        <li><strong>消息落盘/落库：</strong><br/>极端可靠场景下，发送前先将消息写入本地数据库/日志，发送成功后再删除，发送失败可定时扫描重发。</li>
       </ul>
+
+      <p><strong>2. Broker 端不丢失</strong></p>
+      <ul>
+        <li><strong>同步刷盘（Sync Flush）：</strong><br/>消息写入 PageCache 后强制刷入磁盘再返回 ACK，避免断电丢失。<br/>RocketMQ 支持同步/异步刷盘，高可靠场景选同步。</li>
+        <li><strong>多副本机制（Replication）：</strong><br/>消息至少写入多个 Broker 副本才算成功。<br/>Kafka 设置 <code>replication.factor ≥ 3</code>，并配合 ISR 机制确保副本同步。</li>
+        <li><strong>多机房部署：</strong><br/>跨可用区部署 Broker，单机房故障不丢数据。</li>
+        <li><strong>Broker 持久化：</strong><br/>RabbitMQ 将 Exchange、Queue、Message 全部持久化（<code>durable=true, delivery_mode=2</code>）。</li>
+      </ul>
+
+      <p><strong>3. 消费端（Consumer）不丢失</strong></p>
+      <ul>
+        <li><strong>手动 ACK / 手动提交 Offset：</strong><br/>业务逻辑处理完成后，再向 Broker 确认消费成功。<br/>Kafka 设置 <code>enable.auto.commit=false</code>，RocketMQ 使用 <code>CONSUME_SUCCESS</code> 返回。</li>
+        <li><strong>先处理业务，再提交 Offset：</strong><br/>如果先提交 Offset 再处理业务，处理失败时消息已标记为消费，无法再消费，造成丢失。</li>
+        <li><strong>消费异常处理：</strong><br/>消费失败不直接 ACK，而是重试一定次数后转入死信队列（DLQ），人工介入处理。</li>
+        <li><strong>幂等消费：</strong><br/>即使重复消费，也不会造成数据错误（见第 2 题）。</li>
+      </ul>
+
+      <p><strong>三、总结口诀</strong></p>
+      <p><strong>生产端：<br/>同步发送 + 事务消息 + 失败重试；<br/>Broker：<br/>同步刷盘 + 多副本；<br/>消费端：<br/>手动 ACK + 先业务后 Offset。</strong></p>
     </div>
   </div>
 </div>
+
 <div class="card">
   <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">如何保证消息不重复消费？</div><div class="q-tags"><span class="q-tag">MQ</span><span class="q-tag">幂等</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>幂等性方案：</strong></p>
+      <p><strong>核心认知：MQ 只能保证 At Least Once（至少一次）</strong></p>
+      <p>消息队列为了保证消息不丢失，在网络抖动、Consumer 处理超时、Broker 重平衡等场景下会重复投递消息。<strong>去重必须由业务层实现</strong>，MQ 本身无法保证 Exactly Once（除 Kafka 事务在特定条件下可实现）。</p>
+
+      <p><strong>一、幂等性设计方案</strong></p>
+
+      <p><strong>1. 数据库唯一索引（最常用）</strong></p>
       <ul>
-        <li><strong>数据库唯一键：</strong>用消息ID(或业务唯一键)建唯一索引，insert去重。</li>
-        <li><strong>Redis Set：</strong>消费前SETNX判断是否已处理。</li>
-        <li><strong>状态机：</strong>业务状态流转(如订单：待支付→已支付)，更新时加条件。</li>
+        <li>用消息的 <strong>唯一 ID</strong>（如 Kafka 的 offset+partition、RocketMQ 的 MessageID、业务唯一键如订单号）建立数据库唯一索引。</li>
+        <li>消费时先 <code>INSERT</code> 一条消费记录，若唯一键冲突则直接丢弃，视为已消费。</li>
+        <li>示例表结构：</li>
       </ul>
-      <p>💡 MQ本身只能保证at least once，幂等靠业务层实现。</p>
+      <div class="code-block">CREATE TABLE idempotent_log (
+    msg_id VARCHAR(64) PRIMARY KEY,
+    biz_key  VARCHAR(64) NOT NULL,
+    status   TINYINT DEFAULT 0,
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP
+);</div>
+      <ul>
+        <li>消费逻辑：<br/>先 <code>INSERT IGNORE</code> 或 <code>ON DUPLICATE KEY UPDATE</code>，成功则执行业务，冲突则跳过。</li>
+        <li>优点：<br/>简单可靠，持久化去重记录。<br/>缺点：<br/>依赖数据库，高并发可能成为瓶颈（可配合缓存优化）。</li>
+      </ul>
+
+      <p><strong>2. Redis SETNX / 分布式锁</strong></p>
+      <ul>
+        <li>消费前执行 <code>SET msg_id "1" NX EX 86400</code>（NX 表示仅当 key 不存在时才设置，EX 设置过期时间）。</li>
+        <li>设置成功 → 首次消费，执行业务；<br/>设置失败 → 重复消息，直接返回。</li>
+        <li>Redis 性能高，适合高并发场景。<br/>注意：<br/>Redis 非强一致，极端情况下可能重复（主从切换），但概率极低。</li>
+        <li>进阶：<br/>可结合 Redisson 分布式锁，保证集群环境下幂等。</li>
+      </ul>
+
+      <p><strong>3. 业务状态机幂等</strong></p>
+      <ul>
+        <li>利用业务本身的有限状态机（FSM），只有特定状态才能流转到下一状态。</li>
+        <li>示例：<br/>订单状态流转 <code>待支付 → 已支付 → 已发货 → 已完成</code>。<br/>收到支付消息时，只有"待支付"状态才能更新为"已支付"，重复消息因状态不匹配而忽略。</li>
+        <li>SQL 示例：<code>UPDATE orders SET status='PAID' WHERE order_id=? AND status='PENDING'</code>，影响行数为 0 则已处理过。</li>
+        <li>优点：<br/>无需额外去重表，天然幂等。<br/>局限：<br/>仅适用于有明确状态流转的业务。</li>
+      </ul>
+
+      <p><strong>4. Token 机制（防重复提交场景）</strong></p>
+      <ul>
+        <li>接口调用前先从服务端申请 Token，服务端将 Token 存入 Redis；<br/>调用时携带 Token，服务端校验并删除 Token。</li>
+        <li>重复请求携带相同 Token，Redis 中已删除，校验失败拒绝处理。</li>
+      </ul>
+
+      <p><strong>5. Kafka Producer 端幂等（enable.idempotence）</strong></p>
+      <ul>
+        <li>Kafka 0.11+ 支持 Producer 幂等：<br/>通过 <code>PID（Producer ID）+ Sequence Number</code> 为每个消息编号，Broker 端去重。</li>
+        <li>注意：<br/>仅解决<strong>生产端重复发送</strong>问题（网络超时导致重试），不解决消费端重复消费。</li>
+      </ul>
+
+      <p><strong>二、选型建议</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>方案</th><th>适用场景</th><th>优缺点</th></tr>
+        <tr><td>数据库唯一键</td><td>通用场景，数据一致性要求高</td><td>可靠持久；<br/>DB 有压力</td></tr>
+        <tr><td>Redis SETNX</td><td>高并发，允许极微小概率重复</td><td>性能极高；<br/>Redis 故障可能丢记录</td></tr>
+        <tr><td>状态机</td><td>有明确状态流转的业务（订单、审批）</td><td>无需额外存储；<br/>局限性强</td></tr>
+        <tr><td>Token</td><td>用户端防重复提交</td><td>适合接口层面；<br/>需前端配合</td></tr>
+      </table></div>
     </div>
   </div>
 </div>
+
 <div class="card">
   <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Kafka、RocketMQ、RabbitMQ 的区别？</div><div class="q-tags"><span class="q-tag">MQ</span><span class="q-tag">对比</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
+      <p><strong>一、核心维度对比表</strong></p>
       <div class="table-wrap"><table>
-        <tr><th>对比</th><th>Kafka</th><th>RocketMQ</th><th>RabbitMQ</th></tr>
-        <tr><td>吞吐量</td><td>极高(百万级)</td><td>高(十万级)</td><td>一般(万级)</td></tr>
-        <tr><td>事务消息</td><td>支持</td><td>支持(分布式事务)</td><td>不支持</td></tr>
-        <tr><td>延时消息</td><td>不支持</td><td>支持(18级)</td><td>插件支持</td></tr>
-        <tr><td>协议</td><td>自定义</td><td>自定义</td><td>AMQP</td></tr>
-        <tr><td>适用</td><td>大数据/日志</td><td>电商/金融</td><td>企业集成</td></tr>
+        <tr><th>对比维度</th><th>Kafka</th><th>RocketMQ</th><th>RabbitMQ</th></tr>
+        <tr><td>开发语言</td><td>Scala / Java</td><td>Java</td><td>Erlang</td></tr>
+        <tr><td>吞吐量</td><td>极高（百万级 / 秒）</td><td>高（十万级 / 秒）</td><td>一般（万级 / 秒）</td></tr>
+        <tr><td>延迟</td><td>毫秒级</td><td>毫秒级</td><td>微秒级（最低）</td></tr>
+        <tr><td>协议</td><td>自定义协议</td><td>自定义协议</td><td>AMQP</td></tr>
+        <tr><td>消息模型</td><td>发布-订阅（Pull）</td><td>发布-订阅（Push/Pull）</td><td>队列 + 路由（Push）</td></tr>
+        <tr><td>事务消息</td><td>支持（Kafka 事务）</td><td>支持（分布式事务，最强）</td><td>不支持</td></tr>
+        <tr><td>延时消息</td><td>不支持（需自行实现）</td><td>支持（18 个级别）</td><td>插件支持 / TTL+DLX</td></tr>
+        <tr><td>顺序消息</td><td>单分区内有序</td><td>全局有序 / 分区有序</td><td>单队列有序</td></tr>
+        <tr><td>消息持久化</td><td>磁盘顺序写 + PageCache</td><td>磁盘顺序写 + 内存映射</td><td>内存 / 磁盘可选</td></tr>
+        <tr><td>多语言客户端</td><td>丰富</td><td>Java 最完善</td><td>非常丰富</td></tr>
+        <tr><td>运维复杂度</td><td>中等（ZooKeeper/KRaft）</td><td>低（NameServer 轻量）</td><td>低</td></tr>
+        <tr><td>典型场景</td><td>日志采集 / 大数据 / 流处理</td><td>电商 / 金融 / 分布式事务</td><td>企业集成 / 任务调度</td></tr>
+      </table></div>
+
+      <p><strong>二、架构差异详解</strong></p>
+
+      <p><strong>1. Kafka：高吞吐日志型 MQ</strong></p>
+      <ul>
+        <li><strong>核心设计：</strong><br/>将消息按 Topic 分多个 Partition，每个 Partition 是一个<strong>顺序写日志文件</strong>。<br/>Consumer 通过 offset 随机读取，支持"倒带"重放。</li>
+        <li><strong>为什么吞吐高：</strong><br/>磁盘顺序写（比随机写快 3 个数量级）+ 零拷贝（sendfile）+ 批量压缩 + 页缓存。</li>
+        <li><strong>副本机制：</strong><br/>Leader-Follower 模式，ISR（In-Sync Replicas）集合中副本同步后才算提交。<br/>依赖 ZooKeeper（3.x）或 KRaft（3.3+ 去 ZK）。</li>
+        <li><strong>局限：</strong><br/>不支持延时消息；<br/>单 Topic 分区数过多时性能下降；<br/>消费失败不支持重试到特定队列。</li>
+      </ul>
+
+      <p><strong>2. RocketMQ：金融级业务型 MQ</strong></p>
+      <ul>
+        <li><strong>核心设计：</strong><br/>Topic 逻辑队列 + CommitLog 物理存储。<br/>所有消息顺序写到一个 CommitLog，ConsumeQueue 存储偏移索引，读写分离。</li>
+        <li><strong>事务消息：</strong><br/>Half 消息机制：<br/>先发 Half 消息（对消费者不可见）→ 执行本地事务 → 根据本地事务结果 Commit 或 Rollback → Broker 定时回查未决消息。</li>
+        <li><strong>顺序消息：</strong><br/>支持全局顺序（单队列）和分区顺序（同 key 同队列），电商场景（如订单创建→支付→发货）非常实用。</li>
+        <li><strong>延时消息：</strong><br/>内置 18 个延时级别（1s / 5s / 10s / 1m / 2m ... 2h），满足绝大部分定时任务需求。</li>
+        <li><strong>NameServer：</strong><br/>轻量级服务发现，无状态集群，运维比 ZooKeeper 简单得多。</li>
+      </ul>
+
+      <p><strong>3. RabbitMQ：通用型消息中间件</strong></p>
+      <ul>
+        <li><strong>核心设计：</strong><br/>基于 AMQP 协议，Exchange（交换机）负责路由，Queue 负责存储，Binding 定义路由规则。<br/>灵活的路由能力（direct / topic / fanout / headers）。</li>
+        <li><strong>低延迟：</strong><br/>Erlang 专为电信级高并发设计，消息在内存中流转时延迟极低（微秒级）。</li>
+        <li><strong>特性丰富：</strong><br/>死信队列、TTL、延迟插件、优先级队列、消息追踪（Tracing）、 shovel 跨集群同步。</li>
+        <li><strong>局限：</strong><br/>吞吐量相对低；<br/>Erlang 学习成本高；<br/>队列积压时性能急剧下降。</li>
+      </ul>
+
+      <p><strong>三、选型建议</strong></p>
+      <ul>
+        <li><strong>大数据 / 日志 / 实时流处理</strong> → <strong>Kafka</strong>（吞吐最高，与 Flink/Spark 生态完美集成）</li>
+        <li><strong>电商 / 金融 / 需要分布式事务</strong> → <strong>RocketMQ</strong>（事务消息、顺序消息、延时消息最完善）</li>
+        <li><strong>企业集成 / 复杂路由 / 低延迟任务调度</strong> → <strong>RabbitMQ</strong>（AMQP 标准、路由灵活、功能丰富）</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Kafka 如何保证消息不丢失？</div><div class="q-tags"><span class="q-tag">Kafka</span><span class="q-tag">消息队列</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p>Kafka 消息从 Producer 到 Broker 到 Consumer，每个环节都有丢失风险，需分别配置保障。</p>
+
+      <p><strong>一、Producer 端保证</strong></p>
+      <ul>
+        <li><strong>acks=all（或 acks=-1）</strong>：<br/>Producer 收到 Leader + 所有 ISR 副本的确认后才算发送成功。<br/>若 acks=1 则只等 Leader，Leader 宕机且未同步到 Follower 时丢失；<br/>acks=0 则发完不管，最易丢。</li>
+        <li><strong>retries > 0</strong>：<br/>发送失败自动重试次数，建议设为 3~5。<br/>注意：<br/>重试可能导致消息乱序，需配合 <code>max.in.flight.requests.per.connection=1</code>（Kafka < 2.5）或开启幂等。</li>
+        <li><strong>enable.idempotence=true</strong>：<br/>开启 Producer 幂等，通过 PID + Sequence Number 防止因重试导致的消息重复发送。</li>
+        <li><strong>事务消息（可选）</strong>：<br/>多条消息原子性写入多个 Partition，配合 <code>transactional.id</code> 使用，适用于"恰好一次"语义场景。</li>
+      </ul>
+      <p>Producer 配置示例：</p>
+      <div class="code-block">props.put("acks", "all");
+props.put("retries", 3);
+props.put("enable.idempotence", "true");
+props.put("max.in.flight.requests.per.connection", 5); // Kafka 2.5+ 开启幂等后可大于 1 且保序</div>
+
+      <p><strong>二、Broker 端保证</strong></p>
+      <ul>
+        <li><strong>replication.factor ≥ 3</strong>：<br/>每个 Partition 至少 3 个副本，单机/单盘故障不丢数据。</li>
+        <li><strong>min.insync.replicas ≥ 2</strong>：<br/>配合 acks=all，要求 ISR 中至少 2 个副本确认写入，才给 Producer 返回成功。<br/>避免 Leader 刚写入还未同步到 Follower 就宕机。</li>
+        <li><strong>unclean.leader.election.enable=false</strong>：<br/>禁止非 ISR 副本当选为 Leader。<br/>若设为 true，未同步的副本成为 Leader 会导致已确认的消息丢失。</li>
+        <li><strong>log.flush.interval.messages / log.flush.interval.ms</strong>：<br/>控制刷盘频率。<br/>默认依赖 OS 刷盘，高可靠场景可适当调小，但会影响吞吐。</li>
+      </ul>
+      <p>Broker 配置示例：</p>
+      <div class="code-block"># server.properties
+replication.factor=3
+min.insync.replicas=2
+unclean.leader.election.enable=false</div>
+
+      <p><strong>三、Consumer 端保证</strong></p>
+      <ul>
+        <li><strong>enable.auto.commit=false</strong>：<br/>关闭自动提交 Offset，改为业务处理完成后手动调用 <code>consumer.commitSync()</code>。</li>
+        <li><strong>先处理业务，再提交 Offset</strong>：<br/>如果先提交 Offset 再处理业务，处理过程中应用崩溃，消息已标记为消费成功，但实际未处理，造成丢失。</li>
+        <li><strong>消费异常处理</strong>：<br/>消费失败时捕获异常，不提交 Offset，消息会再次投递（可能重复，需业务幂等）。</li>
+        <li><strong>隔离级别（isolation.level）</strong>：<br/>如果 Producer 使用事务，Consumer 设置 <code>isolation.level=read_committed</code>，避免读取到事务未提交的消息（事务回滚后消息"消失"造成丢失感知）。</li>
+      </ul>
+
+      <p><strong>四、总结配置清单</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>环节</th><th>关键配置</th><th>推荐值</th></tr>
+        <tr><td>Producer</td><td>acks</td><td>all</td></tr>
+        <tr><td>Producer</td><td>retries</td><td>3~5</td></tr>
+        <tr><td>Producer</td><td>enable.idempotence</td><td>true</td></tr>
+        <tr><td>Broker</td><td>replication.factor</td><td>≥3</td></tr>
+        <tr><td>Broker</td><td>min.insync.replicas</td><td>≥2</td></tr>
+        <tr><td>Broker</td><td>unclean.leader.election.enable</td><td>false</td></tr>
+        <tr><td>Consumer</td><td>enable.auto.commit</td><td>false</td></tr>
+        <tr><td>Consumer</td><td>isolation.level</td><td>read_committed（配合事务）</td></tr>
       </table></div>
     </div>
   </div>
 </div>
-<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Kafka 如何保证消息不丢失？</div><div class="q-tags"><span class="q-tag">Kafka</span><span class="q-tag">消息队列</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>三端保证：</strong></p><ul><li><strong>Producer：</strong>acks=all（所有副本确认）+ retries>0 + 幂等性enable.idempotence=true。</li><li><strong>Broker：</strong>replication.factor≥3 + min.insync.replicas≥2 + unclean.leader.election.enable=false。</li><li><strong>Consumer：</strong>手动提交offset（处理完再commit）+ 关闭自动提交enable.auto.commit=false。</li></ul></div></div></div>
-<div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Kafka 如何保证消息不重复消费？</div><div class="q-tags"><span class="q-tag">Kafka</span><span class="q-tag">幂等</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>消费者幂等处理（核心）：</strong>业务层唯一键（订单号+业务类型）去重→Redis/DB记录已处理消息。</li><li><strong>Producer幂等：</strong>enable.idempotence=true（PID+SequenceNumber去重）。</li><li><strong>事务消息：</strong>Kafka事务（但实际上不解决消费端重复）。</li></ul><p>💡 重点：Kafka只能保证至少一次（at least once），消费端自己实现幂等！</p></div></div></div>
-<div class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">Kafka ISR 是什么？min.insync.replicas的作用？</div><div class="q-tags"><span class="q-tag">Kafka</span><span class="q-tag">ISR</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>ISR（In-Sync Replicas）：</strong>与Leader保持同步的副本集合。同步条件是replica.lag.time.max.ms内追上Leader。</p><p><strong>min.insync.replicas：</strong>最少同步副本数。</p><ul><li>配合acks=all使用，确保消息至少写入ISR中这么多副本。</li><li>设为≥2可保证Leader宕机不丢数据。</li><li>ISR数量 < min.insync.replicas时，生产者写入失败→不丢数据。</li></ul></div></div></div>
-<div class="card"><div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">RabbitMQ 如何保证消息不丢失？</div><div class="q-tags"><span class="q-tag">RabbitMQ</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Producer→Exchange：</strong>Publisher Confirm机制（confirmCallback）。</li><li><strong>Exchange→Queue：</strong>mandatory=true + returnCallback（消息退回处理）。</li><li><strong>Queue→Broker持久化：</strong>Queue、Message都持久化（delivery_mode=2）。</li><li><strong>Consumer：</strong>手动ACK（acknowledge-mode: manual），处理完再ack。</li></ul></div></div></div>
-<div class="card"><div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">RabbitMQ 死信队列和延迟队列？</div><div class="q-tags"><span class="q-tag">RabbitMQ</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>死信（DLX Dead Letter Exchange）：</strong>消息被拒绝+NACK+不重回队列、消息TTL过期、队列满时进入DLX。</p><p><strong>延迟队列：</strong>设置消息TTL+死信队列实现。消息发到设置了TTL的队列→过期后→进入DLX→消费者监听DLX绑定的队列。</p><p><strong>注意：</strong>不同TTL的消息可能不按预期顺序消费（队列头消息TTL最长会阻塞后面的）。可用插件<strong>rabbitmq_delayed_message_exchange</strong>精确延迟。</p></div></div></div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Kafka 如何保证消息不重复消费？</div><div class="q-tags"><span class="q-tag">Kafka</span><span class="q-tag">幂等</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>核心：Kafka 只能保证 At Least Once，消费端重复无法避免，必须业务层做幂等处理。</strong></p>
+      <p>重复消费的典型场景：<br/>Consumer 处理完业务后提交 Offset 前崩溃 → 重启后重新消费同一批消息；<br/>或 Rebalance 导致分区重新分配，新 Consumer 从旧 Offset 开始消费。</p>
+
+      <p><strong>一、Producer 端减少重复发送</strong></p>
+      <ul>
+        <li><strong>enable.idempotence=true</strong>：<br/>通过 PID（Producer ID）+ Sequence Number 机制，Broker 端自动去重因网络超时导致的重试消息。</li>
+        <li><strong>事务消息</strong>：<br/>通过 <code>transactional.id</code> + <code>initTransactions()</code>，实现跨 Partition 的原子写入。<br/>事务保证了"要么全部成功要么全部失败"，配合 Consumer 的 <code>isolation.level=read_committed</code> 可实现端到端的 Exactly Once。</li>
+      </ul>
+      <p>Producer 幂等示例：</p>
+      <div class="code-block">props.put("enable.idempotence", "true");
+props.put("acks", "all");
+props.put("retries", Integer.MAX_VALUE); // 幂等开启后可安全设置大重试次数</div>
+
+      <p><strong>二、Consumer 端幂等处理（核心）</strong></p>
+      <p>Kafka 的事务和 Producer 幂等只能解决"生产端重复"，消费端重复只能靠业务层：</p>
+      <ul>
+        <li><strong>唯一键去重（数据库唯一索引）</strong>：<br/>消息中携带业务唯一键（如订单号 + 事件类型），消费时先插入去重表，唯一键冲突则跳过。</li>
+        <li><strong>Redis SETNX</strong>：<code>SET msg_key "1" NX EX 86400</code>，设置成功才消费。<br/>适合高并发场景。</li>
+        <li><strong>状态机/乐观锁</strong>：<br/>业务状态只能按固定方向流转，重复消息因状态条件不匹配被忽略。<br/>如 <code>UPDATE orders SET status='PAID' WHERE id=? AND status='PENDING'</code>。</li>
+      </ul>
+
+      <p><strong>三、Exactly Once 语义（端到端）</strong></p>
+      <p>Kafka 在 0.11 版本后通过<strong>幂等 Producer + 事务 + read_committed Consumer</strong>实现了端到端 Exactly Once，但有限制：</p>
+      <ul>
+        <li>Producer 必须开启幂等和事务。</li>
+        <li>Consumer 必须设置 <code>isolation.level=read_committed</code>。</li>
+        <li>Consumer 处理消息后若还要写入 Kafka（如 Stream 处理），需使用 Kafka Streams API 的事务支持，手动管理事务较复杂。</li>
+        <li>如果 Consumer 消费后写入外部系统（如 MySQL、Redis），仍需要业务层幂等，因为 Kafka 无法跨系统保证 Exactly Once。</li>
+      </ul>
+
+      <p><strong>四、实际生产建议</strong></p>
+      <ul>
+        <li>Producer 开启 <code>enable.idempotence=true</code>，消除网络重试导致的重复。</li>
+        <li>Consumer 做好业务幂等（唯一键/状态机），这是最根本的保障。</li>
+        <li>需要 Exactly Once 且消费后写入 Kafka 时，使用 Kafka Streams 的事务 API。</li>
+        <li>消费后写入外部系统时，"两阶段提交"过于复杂，建议以<strong>业务幂等</strong>为主，接受极少量重复。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">Kafka ISR 是什么？min.insync.replicas 的作用？</div><div class="q-tags"><span class="q-tag">Kafka</span><span class="q-tag">ISR</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、ISR（In-Sync Replicas）详解</strong></p>
+      <p>ISR 是<strong>与 Leader 保持同步的副本集合</strong>。<br/>Kafka 的每个 Partition 有一个 Leader 和多个 Follower，ISR 包含 Leader 和所有"足够同步"的 Follower。</p>
+
+      <p><strong>1. 副本同步条件</strong></p>
+      <ul>
+        <li>副本在 <code>replica.lag.time.max.ms</code>（默认 10 秒）内向 Leader 发送过 Fetch 请求。</li>
+        <li>副本的 LEO（Log End Offset）与 Leader 的 LEO 差距不超过 <code>replica.lag.max.messages</code>（已废弃，现仅看时间）。</li>
+      </ul>
+      <p>若 Follower 因网络故障、GC 停顿等原因超过时间未同步，会被踢出 ISR，进入 OSR（Out-of-Sync Replicas）。</p>
+
+      <p><strong>2. HW（High Watermark）与 LEO（Log End Offset）</strong></p>
+      <ul>
+        <li><strong>LEO</strong>：<br/>副本日志的最后一个偏移量 + 1，即下一条待写入的位置。<br/>每个副本有自己的 LEO。</li>
+        <li><strong>HW</strong>：<br/>ISR 中所有副本都已同步到的最大偏移量。<strong>Consumer 只能读取 HW 之前的消息</strong>（已同步确认的消息），HW 之后的数据即使 Leader 有，Consumer 也看不到。</li>
+      </ul>
+      <p>HW 机制保证了：<br/>Leader 宕机后，新选举的 Leader 所拥有的数据一定已被所有 ISR 副本确认，Consumer 不会读到"丢失"的数据。</p>
+
+      <p><strong>3. Leader 选举</strong></p>
+      <ul>
+        <li>Leader 宕机后，Controller 从 <strong>ISR 中</strong>选举新 Leader（优先选数据最全的）。</li>
+        <li>如果 <code>unclean.leader.election.enable=false</code>（推荐），ISR 为空时宁可不可用，也不选 OSR 副本为 Leader，避免数据丢失。</li>
+        <li>如果设为 true，OSR 副本可能成为 Leader，导致已确认的消息丢失（它缺少部分数据）。</li>
+      </ul>
+
+      <p><strong>二、min.insync.replicas 详解</strong></p>
+      <p><code>min.insync.replicas</code> 是 Broker 端配置，表示<strong>当 acks=all 时，消息必须被 ISR 中至少这么多副本成功写入，Producer 才收到成功响应。</strong></p>
+
+      <p><strong>1. 与 acks=all 的配合</strong></p>
+      <ul>
+        <li>acks=all 表示 Producer 等待"所有 ISR 副本"确认。</li>
+        <li>min.insync.replicas 是"所有 ISR 副本"中的最低要求，是<strong>对 acks=all 的进一步约束</strong>。</li>
+        <li>示例：<br/>replication.factor=3，min.insync.replicas=2，acks=all。<br/>Leader + 1 个 Follower 确认即可返回成功，不需要全部 3 个副本（只要 ISR 中确认数 ≥ 2）。</li>
+      </ul>
+
+      <p><strong>2. 数据安全保障</strong></p>
+      <ul>
+        <li>若 ISR 中可用副本数 &lt; min.insync.replicas，Producer 写入会收到 <strong>NOT_ENOUGH_REPLICAS</strong> 异常，拒绝写入 → <strong>宁可不可用，也不丢数据</strong>。</li>
+        <li>若 min.insync.replicas=1，则只要 Leader 确认即可返回成功，Leader 宕机未同步到 Follower 时数据丢失。</li>
+      </ul>
+
+      <p><strong>3. 推荐配置</strong></p>
+      <div class="code-block">replication.factor = 3
+min.insync.replicas = 2
+acks = all
+unclean.leader.election.enable = false</div>
+      <p>这组配置的含义：<br/>每条消息至少写入 2 个副本（Leader + 1 Follower）才返回成功；<br/>Leader 宕机时，新 Leader 一定拥有已确认的全部数据。</p>
+
+      <p><strong>三、总结</strong></p>
+      <ul>
+        <li><strong>ISR</strong>：<br/>动态维护的同步副本集合，保证 Leader 切换时数据不丢。</li>
+        <li><strong>HW</strong>：<br/>消费者可见的最大偏移量，由 ISR 最小 LEO 决定。</li>
+        <li><strong>min.insync.replicas</strong>：<br/>配合 acks=all 设置最低确认副本数，是 Kafka 不丢数据的<strong>核心安全参数</strong>。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">RabbitMQ 如何保证消息不丢失？</div><div class="q-tags"><span class="q-tag">RabbitMQ</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p>RabbitMQ 消息流转路径：<strong>Producer → Exchange → Queue → Consumer</strong>，每个环节都可能丢失消息，需分别保障。</p>
+
+      <p><strong>一、Producer → Exchange（消息到达交换机）</strong></p>
+      <ul>
+        <li><strong>Publisher Confirm（发布确认）</strong>：<br/>Channel 开启 <code>confirmSelect()</code>，消息被 Exchange 成功接收后，Broker 异步返回 <code>ack</code>；<br/>失败返回 <code>nack</code>，Producer 可重试。</li>
+        <li>与事务模式（txSelect）相比，Confirm 是异步的，性能高得多（事务同步阻塞，吞吐量下降 250 倍）。</li>
+      </ul>
+      <div class="code-block">channel.confirmSelect();
+channel.basicPublish("exchange", "routingKey", props, msg.getBytes());
+if (channel.waitForConfirms(5000)) {
+    // 发送成功
+} else {
+    // 发送失败，补偿重试
+}</div>
+
+      <p><strong>二、Exchange → Queue（消息路由到队列）</strong></p>
+      <ul>
+        <li><strong>mandatory=true</strong>：<br/>消息无法路由到任何 Queue 时（如路由键不匹配），Broker 将消息退回给 Producer，通过 <code>ReturnListener</code> 处理，而不是静默丢弃。</li>
+        <li><strong>备用 Exchange（Alternate Exchange）</strong>：<br/>为 Exchange 设置 AE，路由失败的消息自动转入 AE 绑定的队列，用于兜底。</li>
+      </ul>
+      <div class="code-block">// mandatory=true + ReturnCallback
+channel.addReturnListener((replyCode, replyText, exchange, routingKey, properties, body) -> {
+    // 消息被退回，记录日志并补偿
+});
+channel.basicPublish("exchange", "rk", true, props, msg.getBytes());</div>
+
+      <p><strong>三、Queue → 磁盘持久化</strong></p>
+      <ul>
+        <li><strong>Exchange 持久化：</strong><br/>声明时 <code>durable=true</code>，Broker 重启后 Exchange 不丢失。</li>
+        <li><strong>Queue 持久化：</strong><br/>声明时 <code>durable=true</code>，Broker 重启后队列元数据不丢失。</li>
+        <li><strong>Message 持久化：</strong><br/>发送消息时设置 <code>deliveryMode=2</code>（Persistent），消息会写入磁盘而非仅存在内存。</li>
+      </ul>
+      <div class="code-block">// 队列持久化
+channel.queueDeclare("queue", true, false, false, null);
+// 消息持久化
+AMQP.BasicProperties props = new AMQP.BasicProperties.Builder()
+    .deliveryMode(2) // 1=非持久, 2=持久
+    .build();
+channel.basicPublish("", "queue", props, msg.getBytes());</div>
+      <p>注意：<br/>持久化会牺牲性能（磁盘 IO），非核心消息可不持久化。</p>
+
+      <p><strong>四、Queue → Consumer（消费端不丢失）</strong></p>
+      <ul>
+        <li><strong>手动 ACK（acknowledge-mode: manual）</strong>：<br/>关闭自动确认，业务处理完成后调用 <code>channel.basicAck()</code>。<br/>若处理失败，调用 <code>basicNack(requeue=true)</code> 重试或 <code>requeue=false</code> 转入死信队列。</li>
+        <li><strong>先处理业务，再 ACK：</strong><br/>和 Kafka 一样，如果先 ACK 再处理业务，处理失败时消息已删除，造成丢失。</li>
+      </ul>
+      <div class="code-block">// 手动 ACK
+DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+    try {
+        processMessage(delivery.getBody());
+        channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+    } catch (Exception e) {
+        channel.basicNack(delivery.getEnvelope().getDeliveryTag(), false, true);
+    }
+};
+channel.basicConsume("queue", false, deliverCallback, consumerTag -> {});</div>
+
+      <p><strong>五、镜像队列（高可用，防止 Broker 宕机）</strong></p>
+      <ul>
+        <li>普通队列只存在于一个节点，该节点宕机则队列不可用。<br/>镜像队列（Quorum Queue / Classic Mirrored Queue）将队列数据同步到多个节点。</li>
+        <li>RabbitMQ 3.8+ 推荐 <strong>Quorum Queues</strong>：<br/>基于 Raft 共识算法，自动故障转移，Leader 宕机自动选举新 Leader，数据不丢。</li>
+      </ul>
+
+      <p><strong>六、总结：RabbitMQ 不丢消息 checklist</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>环节</th><th>措施</th></tr>
+        <tr><td>Producer → Exchange</td><td>Publisher Confirm</td></tr>
+        <tr><td>Exchange → Queue</td><td>mandatory=true + ReturnCallback / Alternate Exchange</td></tr>
+        <tr><td>Queue 持久化</td><td>durable=true（Exchange + Queue + Message deliveryMode=2）</td></tr>
+        <tr><td>Consumer</td><td>手动 ACK，先业务后 ACK</td></tr>
+        <tr><td>Broker 高可用</td><td>镜像队列 / Quorum Queue</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">RabbitMQ 死信队列和延迟队列？</div><div class="q-tags"><span class="q-tag">RabbitMQ</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、死信队列（DLX, Dead Letter Exchange）</strong></p>
+      <p>死信队列是用来处理<strong>无法正常消费的消息</strong>的"兜底"机制。<br/>消息成为"死信"后，会被转发到死信交换机（DLX），再路由到死信队列中，供后续分析、重试或人工处理。</p>
+
+      <p><strong>1. 消息成为死信的三种条件</strong></p>
+      <ul>
+        <li><strong>消息被拒绝（Reject / NACK）且不重回队列：</strong><br/>Consumer 调用 <code>basicReject</code> 或 <code>basicNack(requeue=false)</code>，消息进入死信队列。</li>
+        <li><strong>消息 TTL 过期：</strong><br/>消息在队列中停留时间超过设定的 TTL（Time To Live），未被消费则过期成为死信。</li>
+        <li><strong>队列达到最大长度：</strong><br/>队列满了（<code>x-max-length</code> 限制），新消息进来时，最早的消息被挤出成为死信。</li>
+      </ul>
+
+      <p><strong>2. 死信队列配置方式</strong></p>
+      <ul>
+        <li>为普通队列设置两个参数：<code>x-dead-letter-exchange</code>（DLX 名称）和 <code>x-dead-letter-routing-key</code>（路由到 DLX 的路由键）。</li>
+        <li>消息成为死信后，会被重新发送到 DLX，再根据 routing key 路由到死信队列。</li>
+      </ul>
+      <div class="code-block">// 声明死信交换机和队列
+channel.exchangeDeclare("dlx.exchange", "direct");
+channel.queueDeclare("dlx.queue", true, false, false, null);
+channel.queueBind("dlx.queue", "dlx.exchange", "dlx.routingKey");
+
+// 声明普通队列，设置 DLX
+Map&lt;String, Object&gt; args = new HashMap&lt;&gt;();
+args.put("x-dead-letter-exchange", "dlx.exchange");
+args.put("x-dead-letter-routing-key", "dlx.routingKey");
+args.put("x-message-ttl", 10000);       // 消息 10s 过期
+args.put("x-max-length", 1000);         // 队列最大 1000 条
+channel.queueDeclare("normal.queue", true, false, false, args);</div>
+
+      <p><strong>3. 死信队列的应用场景</strong></p>
+      <ul>
+        <li><strong>异常消息兜底：</strong><br/>消费失败的消息进入死信队列，避免无限重试阻塞正常消费。</li>
+        <li><strong>消息审计与追踪：</strong><br/>收集所有死信，分析失败原因。</li>
+        <li><strong>延迟重试：</strong><br/>死信队列配合 TTL 可实现"失败后等一段时间再重试"。</li>
+      </ul>
+
+      <p><strong>二、延迟队列（Delayed Queue）</strong></p>
+      <p>延迟队列指消息发送到队列后，不会立即被消费，而是在指定<strong>延迟时间后</strong>才变为可消费状态。<br/>典型场景：<br/>订单 30 分钟未支付自动取消、秒杀结束后统一处理。</p>
+
+      <p><strong>1. 方案一：TTL + 死信队列实现（最常用）</strong></p>
+      <ul>
+        <li>创建延迟队列 A：<br/>不绑定 Consumer，只设置 <code>x-message-ttl</code>（如 30 分钟）和 <code>x-dead-letter-exchange</code>。</li>
+        <li>消息发到队列 A → 30 分钟后 TTL 过期 → 消息变为死信 → 被转发到 DLX → 路由到实际消费队列 B → Consumer 消费。</li>
+      </ul>
+      <div class="code-block">// 延迟队列（不消费，只等过期）
+Map&lt;String, Object&gt; delayArgs = new HashMap&lt;&gt;();
+delayArgs.put("x-message-ttl", 1800000);          // 30 分钟
+delayArgs.put("x-dead-letter-exchange", "order.dlx");
+delayArgs.put("x-dead-letter-routing-key", "order.cancel");
+channel.queueDeclare("order.delay.queue", true, false, false, delayArgs);
+
+// 死信转发的目标队列（真正消费）
+channel.queueDeclare("order.cancel.queue", true, false, false, null);
+channel.queueBind("order.cancel.queue", "order.dlx", "order.cancel");</div>
+
+      <p><strong>2. 方案一的局限性：TTL 顺序问题</strong></p>
+      <p>如果队列中有多条消息，TTL 各不相同（如第一条 30 分钟，第二条 10 分钟），<strong>RabbitMQ 只有队首消息过期后才会检查下一条</strong>。<br/>队首是 30 分钟的消息时，即使第二条已过期，也必须等 30 分钟后才能被处理。</p>
+      <p>解决方案：</p>
+      <ul>
+        <li>每个 TTL 值创建一个独立的队列（队列数量膨胀）。</li>
+        <li>使用延迟消息插件（推荐）。</li>
+      </ul>
+
+      <p><strong>3. 方案二：rabbitmq_delayed_message_exchange 插件（推荐）</strong></p>
+      <ul>
+        <li>安装插件后声明 <code>x-delayed-message</code> 类型的 Exchange。</li>
+        <li>发送消息时设置 <code>x-delay</code> 头（单位毫秒），消息在 Exchange 中延迟指定时间后才路由到队列。</li>
+        <li>不同延迟时间的消息互不阻塞，解决了 TTL 队列的顺序问题。</li>
+      </ul>
+      <div class="code-block">// 声明延迟 Exchange
+Map&lt;String, Object&gt; args = new HashMap&lt;&gt;();
+args.put("x-delayed-type", "direct");
+channel.exchangeDeclare("delayed.exchange", "x-delayed-message", true, false, args);
+
+// 发送延迟消息
+AMQP.BasicProperties props = new AMQP.BasicProperties.Builder()
+    .headers(Collections.singletonMap("x-delay", 300000)) // 延迟 5 分钟
+    .build();
+channel.basicPublish("delayed.exchange", "rk", props, msg.getBytes());</div>
+
+      <p><strong>4. 方案对比</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>方案</th><th>优点</th><th>缺点</th></tr>
+        <tr><td>TTL + DLX</td><td>无需插件，原生支持</td><td>同队列不同 TTL 会阻塞；<br/>需维护多个队列</td></tr>
+        <tr><td>延迟插件</td><td>任意延迟时间，互不阻塞</td><td>需安装插件；<br/>消息在内存中堆积有压力</td></tr>
+      </table></div>
+
+      <p><strong>三、延迟队列的应用场景</strong></p>
+      <ul>
+        <li><strong>订单超时取消：</strong><br/>下单后发送延迟消息，30 分钟后检查订单状态，未支付则自动取消。</li>
+        <li><strong>秒杀结束统一处理：</strong><br/>秒杀开始后发延迟消息，15 分钟后统一汇总库存、生成报表。</li>
+        <li><strong>定时提醒：</strong><br/>预约成功后发延迟消息，到达预约时间前 1 小时推送提醒。</li>
+        <li><strong>重试退避：</strong><br/>消费失败后发延迟消息到 DLX，1 分钟/5 分钟/15 分钟阶梯重试。</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
 <div class="footer">
   📌 17 · 消息队列 · 共8题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_设计模式.html" style="color:var(--primary)">下一板块 →</a>
@@ -199,6 +670,6 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=39')}</script>
 </body>
 </html>

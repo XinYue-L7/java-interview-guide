@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="gold">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · SpringBoot</title>
 <style>
+html{margin:0;padding:0;background:var(--hero-from)}
 :root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
 [data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
-.search-input::placeholder{color:rgba(255,255,255,.6)}
-.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
-.search-btn:hover{background:rgba(255,255,255,.35)}
-.search-history .search-history .clear-btn:hover{text-decoration:underline}
 
 .nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover{background:rgba(255,255,255,.2)}
-.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
-.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.theme-btn:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
 .q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
-.card-body{padding:12px 18px 16px}
 .toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
@@ -63,7 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .switch input:checked + .slider{background:var(--primary)}
 .switch input:checked + .slider:before{transform:translateX(19px)}
 </style>
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#1a1a2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="面试宝典">
@@ -90,23 +89,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>1. 定义：</strong>Spring Boot 自动配置是根据项目引入的依赖（classpath 中的类）以及配置文件中的属性，自动判断并加载合适的 Spring 配置类和 Bean，从而大大减少开发者手动编写 XML 或 Java 配置的工作量。</p>
+      <p><strong>1. 定义：</strong></p>
+      <p>Spring Boot 自动配置是根据项目引入的依赖（classpath 中的类）以及配置文件中的属性，自动判断并加载合适的 Spring 配置类和 Bean，从而大大减少开发者手动编写 XML 或 Java 配置的工作量。</p>
       <p><strong>2. 作用：</strong></p>
       <ul>
-        <li>简化配置：无需手动编写大量 @Configuration 和 @Bean。</li>
-        <li>按需装配：只加载项目实际需要的配置，避免冗余。</li>
-        <li>约定优于配置：提供合理的默认行为，同时允许用户自定义覆盖。</li>
-        <li>开箱即用：引入依赖后即可使用，例如引入 spring-boot-starter-web 就自动配置 Spring MVC。</li>
+        <li>简化配置：<br/><br/>无需手动编写大量 @Configuration 和 @Bean。</li>
+        <li>按需装配：<br/><br/>只加载项目实际需要的配置，避免冗余。</li>
+        <li>约定优于配置：<br/><br/>提供合理的默认行为，同时允许用户自定义覆盖。</li>
+        <li>开箱即用：<br/><br/>引入依赖后即可使用，例如引入 spring-boot-starter-web 就自动配置 Spring MVC。</li>
       </ul>
       <p><strong>3. 原理：</strong></p>
       <ol>
-        <li><strong>入口注解：</strong>@SpringBootApplication 包含 @EnableAutoConfiguration，通过 @Import(AutoConfigurationImportSelector.class) 导入选择器。</li>
-        <li><strong>SPI 机制：</strong>扫描所有依赖 JAR 包中的 META-INF/spring.factories（Spring Boot 2.7+ 使用 META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports），收集候选自动配置类。</li>
-        <li><strong>条件过滤：</strong>通过 @ConditionalOnClass、@ConditionalOnMissingBean、@ConditionalOnProperty 等条件注解，按项目实际情况筛选出需要生效的配置类。</li>
-        <li><strong>Bean 注册：</strong>将符合条件的配置类中的 @Bean 注册到 Spring 容器。</li>
-        <li><strong>用户自定义优先：</strong>如果用户自己定义了某个 Bean，自动配置的 Bean 将不会生效，体现"约定优于配置，但配置可覆盖约定"。</li>
+        <li><strong>入口注解：</strong><br/><br/>@SpringBootApplication 包含 @EnableAutoConfiguration，通过 @Import(AutoConfigurationImportSelector.class) 导入选择器。</li>
+        <li><strong>SPI 机制：</strong><br/><br/>扫描所有依赖 JAR 包中的 META-INF/spring.factories（Spring Boot 2.7+ 使用 META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports），收集候选自动配置类。</li>
+        <li><strong>条件过滤：</strong><br/><br/>通过 @ConditionalOnClass、@ConditionalOnMissingBean、@ConditionalOnProperty 等条件注解，按项目实际情况筛选出需要生效的配置类。</li>
+        <li><strong>Bean 注册：</strong><br/><br/>将符合条件的配置类中的 @Bean 注册到 Spring 容器。</li>
+        <li><strong>用户自定义优先：</strong><br/><br/>如果用户自己定义了某个 Bean，自动配置的 Bean 将不会生效，体现"约定优于配置，但配置可覆盖约定"。</li>
       </ol>
-      <p>💡 <strong>自定义 Starter：</strong>创建 autoconfigure 模块 → 编写配置类 → 在 imports 文件中注册。</p>
+      <p>💡 <strong>自定义 Starter：</strong></p>
+      <p>创建 autoconfigure 模块 → 编写配置类 → 在 imports 文件中注册。</p>
     </div>
   </div>
 </div>
@@ -130,7 +131,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">@SpringBootApplication 注解包含哪些注解？</div><div class="q-tags"><span class="q-tag">SpringBoot</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>@SpringBootApplication是复合注解，包含：</p><ul><li><strong>@SpringBootConfiguration：</strong>标识为配置类（含@Configuration）。</li><li><strong>@EnableAutoConfiguration：</strong>自动配置核心。</li><li><strong>@ComponentScan：</strong>组件扫描（扫描启动类所在包及子包下的@Component等）。</li></ul><p>这3个注解的组合封装，简化了Spring Boot应用的启动配置。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">@SpringBootApplication 注解包含哪些注解？</div><div class="q-tags"><span class="q-tag">SpringBoot</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>@SpringBootApplication是复合注解，包含：</p><ul><li><strong>@SpringBootConfiguration：</strong><br/><br/>标识为配置类（含@Configuration）。</li><li><strong>@EnableAutoConfiguration：</strong><br/><br/>自动配置核心。</li><li><strong>@ComponentScan：</strong><br/><br/>组件扫描（扫描启动类所在包及子包下的@Component等）。</li></ul><p>这3个注解的组合封装，简化了Spring Boot应用的启动配置。</p></div></div></div>
 
 <div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Spring Boot 如何实现优雅停机？</div><div class="q-tags"><span class="q-tag">SpringBoot</span><span class="q-tag">运维</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Spring Boot 2.3+支持优雅停机：</p><ul><li><code>server.shutdown=graceful</code></li><li><code>spring.lifecycle.timeout-per-shutdown-phase=30s</code></li></ul><p><strong>原理：</strong></p><ul><li>收到SIGTERM→不再接受新请求→等待现有请求处理完→关闭容器。</li><li>配合K8s的preStop hook，实现滚动更新不丢流量。</li><li>Spring Boot Actuator的<code>/actuator/shutdown</code>端点也可管理。</li></ul></div></div></div>
 
@@ -197,6 +198,6 @@ window.addEventListener('scroll',onScroll);onScroll();
 </div>
 </div>
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=39')}</script>
 </body>
 </html>

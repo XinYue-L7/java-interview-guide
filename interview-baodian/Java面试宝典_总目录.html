@@ -2,9 +2,11 @@
 <html lang="zh-CN" data-theme="gold">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · 总目录</title>
 <style>
+html{margin:0;padding:0;background:var(--hero-from)}
 :root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#006f7a;--hero-to:#00a3ad;--bg:#eef2f6;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#e0e6ed;--tag-bg:#d8eff0;--link:#3b82f6;--icon-bg:rgba(0,135,143,0.08)}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#eef2f6;--card-bg:#fff;--text:#1a1a2e;--muted:#6b7280;--border:#e5e7eb;--tag-bg:#faf5ed;--link:#3b82f6;--icon-bg:rgba(201,169,110,0.10)}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#eef2f6;--card-bg:#fff;--text:#2d2640;--muted:#6b7280;--border:#e5e7eb;--tag-bg:#f3f0f8;--link:#3b82f6;--icon-bg:rgba(91,79,139,0.10)}
@@ -98,11 +100,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 <div class="hero">
   <h1>Java Interview Bible</h1>
-  <p>21 大模块 · 388 道面试题 · 覆盖全栈知识点</p>
+  <p>21 大模块 · 401 道面试题 · 覆盖全栈知识点</p>
   <p><strong>115 道高频面试题</strong></p>
   <div class="search-wrap" id="searchWrap">
   <div class="search-icon" id="searchIcon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>搜索</span></div>
-  <input type="text" class="search-input" id="searchInput" placeholder="" oninput="doSearch(this.value);resizeSearch();recordHistoryDebounced();toggleSearchIcon()" onkeydown="if(event.key==='Enter'){addHistory(this.value);doSearch(this.value)}" onfocus="showHistory();toggleSearchIcon()" autocomplete="off">
+  <input type="text" class="search-input" id="searchInput" placeholder="" oninput="doSearch(this.value);resizeSearch();toggleSearchIcon()" onkeydown="if(event.key==='Enter'){addHistory(this.value);doSearch(this.value)}" onfocus="showHistory();toggleSearchIcon()" autocomplete="off">
   <div class="search-dropdown" id="searchDropdown"></div>
   <span id="searchMeasure" style="position:absolute;visibility:hidden;white-space:nowrap;font-size:14px;font-family:inherit;padding:0 40px 0 16px;pointer-events:none;"></span>
   </div>
@@ -124,7 +126,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="01" href="Java面试宝典_01_Java基础.html">
       <div class="card-header">
         <div class="card-title">Java 基础</div>
-        <span class="card-count">69题</span>
+        <span class="card-count">68题</span>
       </div>
       <ul class="card-list">
         <li>基础语法与数据类型</li>
@@ -152,7 +154,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="03" href="Java面试宝典_03_JVM.html">
       <div class="card-header">
         <div class="card-title">JVM 虚拟机</div>
-        <span class="card-count">33题</span>
+        <span class="card-count">43题</span>
       </div>
       <ul class="card-list">
         <li>内存区域划分</li>
@@ -166,7 +168,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="04" href="Java面试宝典_04_并发编程.html">
       <div class="card-header">
         <div class="card-title">并发编程</div>
-        <span class="card-count">40题</span>
+        <span class="card-count">38题</span>
       </div>
       <ul class="card-list">
         <li>线程池设计与原理</li>
@@ -180,7 +182,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="05" href="Java面试宝典_05_MySQL.html">
       <div class="card-header">
         <div class="card-title">MySQL 数据库</div>
-        <span class="card-count">40题</span>
+        <span class="card-count">52题</span>
       </div>
       <ul class="card-list">
         <li>索引原理与优化</li>
@@ -194,7 +196,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="06" href="Java面试宝典_06_Redis.html">
       <div class="card-header">
         <div class="card-title">Redis</div>
-        <span class="card-count">36题</span>
+        <span class="card-count">42题</span>
       </div>
       <ul class="card-list">
         <li>数据类型与应用</li>
@@ -208,7 +210,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="07" href="Java面试宝典_07_MongoDB.html">
       <div class="card-header">
         <div class="card-title">MongoDB</div>
-        <span class="card-count">15题</span>
+        <span class="card-count">27题</span>
       </div>
       <ul class="card-list">
         <li>文档模型与 BSON</li>
@@ -236,7 +238,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="09" href="Java面试宝典_Spring.html">
       <div class="card-header">
         <div class="card-title">Spring</div>
-        <span class="card-count">16题</span>
+        <span class="card-count">25题</span>
       </div>
       <ul class="card-list">
         <li>IOC 控制反转与 DI 依赖注入</li>
@@ -264,7 +266,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="11" href="Java面试宝典_SpringMVC.html">
       <div class="card-header">
         <div class="card-title">SpringMVC</div>
-        <span class="card-count">2题</span>
+        <span class="card-count">3题</span>
       </div>
       <ul class="card-list">
         <li>请求处理流程</li>
@@ -345,7 +347,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="18" href="Java面试宝典_设计模式.html">
       <div class="card-header">
         <div class="card-title">设计模式</div>
-        <span class="card-count">7题</span>
+        <span class="card-count">8题</span>
       </div>
       <ul class="card-list">
         <li>创建型 / 结构型 / 行为型</li>
@@ -381,7 +383,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <a class="card" data-watermark="21" href="Java面试宝典_汇丰银行面试题2026年8月.html">
       <div class="card-header">
         <div class="card-title">汇丰银行面试题</div>
-        <span class="card-count">38题</span>
+        <span class="card-count">37题</span>
       </div>
       <ul class="card-list">
         <li>Java 基础与集合容器</li>
@@ -395,7 +397,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 
   <div class="footer">
-    📌 总计 <strong>388 道</strong> 精选面试题 · 21 大模块 · 覆盖 Java 后端全栈面试核心考点
+    📌 总计 <strong>401 道</strong> 精选面试题 · 21 大模块 · 覆盖 Java 后端全栈面试核心考点
   </div>
 </div>
 
@@ -537,6 +539,6 @@ function doSearch(q){
   dd.classList.add('show');
 }
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=39')}</script>
 </body>
 </html>

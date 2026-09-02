@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="gold">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · Spring</title>
 <style>
+html{margin:0;padding:0;background:var(--hero-from)}
 :root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
 [data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
@@ -23,23 +25,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .switch input:checked + .slider{background:var(--primary)}
 .switch input:checked + .slider:before{transform:translateX(19px)}
-.search-input::placeholder{color:rgba(255,255,255,.6)}
-.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
-.search-btn:hover{background:rgba(255,255,255,.35)}
-.search-history .search-history .clear-btn:hover{text-decoration:underline}
 
 .nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover{background:rgba(255,255,255,.2)}
-.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
-.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.theme-btn:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
 .q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
-.card-body{padding:12px 18px 16px}
 .toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
@@ -65,7 +64,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
 .back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
 </style>
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#1a1a2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="面试宝典">
@@ -78,7 +77,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <span class="slider"></span>
   </label>
   <h1>Spring</h1>
-  <p>16道高频题 · Spring核心考点</p>
+  <p>25道高频题 · Spring核心考点</p>
 <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_08_Elasticsearch.html">← Elasticsearch</a>
@@ -91,13 +90,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>IOC(Inversion of Control)控制反转：</strong>将对象创建和依赖关系的管理交给Spring容器。</p>
-      <p><strong>核心：BeanFactory + 反射</strong></p>
+      <p><strong>IOC(Inversion of Control)控制反转：</strong></p>
+      <p>将对象创建和依赖关系的管理交给Spring容器。</p>
+      <p><strong>核心：</strong></p>
+      <p>BeanFactory + 反射</p>
       <ol>
-        <li><strong>资源定位：</strong>加载XML/注解配置。</li>
-        <li><strong>BeanDefinition解析：</strong>将配置解析为BeanDefinition。</li>
-        <li><strong>Bean注册：</strong>注册到BeanDefinitionRegistry(Map)。</li>
-        <li><strong>Bean创建(DI)：</strong>反射创建实例→填充属性→初始化。</li>
+        <li><strong>资源定位：</strong><br/><br/>加载XML/注解配置。</li>
+        <li><strong>BeanDefinition解析：</strong><br/><br/>将配置解析为BeanDefinition。</li>
+        <li><strong>Bean注册：</strong><br/><br/>注册到BeanDefinitionRegistry(Map)。</li>
+        <li><strong>Bean创建(DI)：</strong><br/><br/>反射创建实例→填充属性→初始化。</li>
       </ol>
       <p>💡 ApplicationContext是BeanFactory的子接口，功能更丰富(国际化、事件发布等)。</p>
     </div>
@@ -109,13 +110,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>AOP(Aspect Oriented Programming)面向切面编程：</strong>将横切关注点(日志/事务/权限)与业务逻辑分离。</p>
+      <p><strong>AOP(Aspect Oriented Programming)面向切面编程：</strong></p>
+      <p>将横切关注点(日志/事务/权限)与业务逻辑分离。</p>
       <p><strong>两种实现：</strong></p>
       <ul>
-        <li><strong>JDK动态代理：</strong>基于接口，Proxy+InvocationHandler。目标类必须实现接口。</li>
-        <li><strong>CGLIB代理：</strong>基于继承，ASM字节码生成子类。不能代理final类/方法。</li>
+        <li><strong>JDK动态代理：</strong><br/><br/>基于接口，Proxy+InvocationHandler。<br/><br/>目标类必须实现接口。</li>
+        <li><strong>CGLIB代理：</strong><br/><br/>基于继承，ASM字节码生成子类。<br/><br/>不能代理final类/方法。</li>
       </ul>
-      <p>💡 Spring默认：有接口用JDK代理，无接口用CGLIB。SpringBoot 2.0+默认使用CGLIB。</p>
+      <p>💡 Spring默认：</p>
+      <p>有接口用JDK代理，无接口用CGLIB。</p>
+      <p>SpringBoot 2.0+默认使用CGLIB。</p>
     </div>
   </div>
 </div>
@@ -147,12 +151,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
       <ul>
-        <li><strong>singleton：</strong>单例，IOC容器中只有一个实例（默认）。</li>
-        <li><strong>prototype：</strong>原型，每次获取创建新实例。</li>
-        <li><strong>request：</strong>每次HTTP请求创建一个实例（Web）。</li>
-        <li><strong>session：</strong>每个HTTP Session创建一个实例（Web）。</li>
-        <li><strong>application：</strong>ServletContext级别单例（Web）。</li>
-        <li><strong>websocket：</strong>WebSocket级别单例。</li>
+        <li><strong>singleton：</strong><br/><br/>单例，IOC容器中只有一个实例（默认）。</li>
+        <li><strong>prototype：</strong><br/><br/>原型，每次获取创建新实例。</li>
+        <li><strong>request：</strong><br/><br/>每次HTTP请求创建一个实例（Web）。</li>
+        <li><strong>session：</strong><br/><br/>每个HTTP Session创建一个实例（Web）。</li>
+        <li><strong>application：</strong><br/><br/>ServletContext级别单例（Web）。</li>
+        <li><strong>websocket：</strong><br/><br/>WebSocket级别单例。</li>
       </ul>
     </div>
   </div>
@@ -163,16 +167,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>原理：AOP代理 + ThreadLocal</strong></p>
+      <p><strong>原理：</strong></p>
+      <p>AOP代理 + ThreadLocal</p>
       <p><strong>7种传播行为：</strong></p>
       <ul>
-        <li><strong>REQUIRED：</strong>有事务则加入，无则新建（默认）。</li>
-        <li><strong>REQUIRES_NEW：</strong>总是新建事务，挂起当前事务。</li>
-        <li><strong>SUPPORTS：</strong>有事务则加入，无则以非事务运行。</li>
-        <li><strong>NOT_SUPPORTED：</strong>非事务运行，挂起当前事务。</li>
-        <li><strong>MANDATORY：</strong>必须在事务中，无则抛异常。</li>
-        <li><strong>NEVER：</strong>必须非事务，有则抛异常。</li>
-        <li><strong>NESTED：</strong>嵌套事务，有savepoint可部分回滚。</li>
+        <li><strong>REQUIRED：</strong><br/><br/>有事务则加入，无则新建（默认）。</li>
+        <li><strong>REQUIRES_NEW：</strong><br/><br/>总是新建事务，挂起当前事务。</li>
+        <li><strong>SUPPORTS：</strong><br/><br/>有事务则加入，无则以非事务运行。</li>
+        <li><strong>NOT_SUPPORTED：</strong><br/><br/>非事务运行，挂起当前事务。</li>
+        <li><strong>MANDATORY：</strong><br/><br/>必须在事务中，无则抛异常。</li>
+        <li><strong>NEVER：</strong><br/><br/>必须非事务，有则抛异常。</li>
+        <li><strong>NESTED：</strong><br/><br/>嵌套事务，有savepoint可部分回滚。</li>
       </ul>
     </div>
   </div>
@@ -183,20 +188,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>事务失效本质：</strong>@Transactional基于<strong>AOP动态代理</strong>，只要请求没经过代理或异常没被正确传播，事务就会失效。</p>
+      <p><strong>事务失效本质：</strong></p>
+      <p>@Transactional基于<strong>AOP动态代理</strong>，只要请求没经过代理或异常没被正确传播，事务就会失效。</p>
       <ol>
-        <li><strong>同类自调用：</strong>类A无事务方法调本类有事务方法B，走的是this调用绕过代理 → 失效。解决：<code>AopContext.currentProxy()</code>或注入自身。</li>
-        <li><strong>方法非public：</strong>默认代理只能拦截public方法。</li>
-        <li><strong>异常被吞：</strong>try-catch后未重新抛出，Spring感知不到异常 → 不回滚。</li>
-        <li><strong>异常类型不匹配：</strong>默认只回滚<code>RuntimeException</code>和<code>Error</code>，受检异常(如IOException)需<code>@Transactional(rollbackFor = Exception.class)</code>。</li>
-        <li><strong>数据库引擎不支持：</strong>MyISAM不支持事务，需InnoDB。</li>
-        <li><strong>类未被容器管理：</strong>没加@Component/@Service，或new出来的对象，无代理。</li>
-        <li><strong>多线程：</strong>新线程不在同一事务上下文，事务不回滚。</li>
-        <li><strong>切面顺序错误：</strong>事务切面与自定义切面顺序不当，异常被其他切面拦截。</li>
-        <li><strong>父子容器问题：</strong>事务方法被非本容器的Bean调用（多容器环境）。</li>
-        <li><strong>synchronized锁失效：</strong>分布式环境下本地锁无法保证并发事务一致。</li>
+        <li><strong>同类自调用：</strong><br/><br/>类A无事务方法调本类有事务方法B，走的是this调用绕过代理 → 失效。<br/><br/>解决：<br/><br/><code>AopContext.currentProxy()</code>或注入自身。</li>
+        <li><strong>方法非public：</strong><br/><br/>默认代理只能拦截public方法。</li>
+        <li><strong>异常被吞：</strong><br/><br/>try-catch后未重新抛出，Spring感知不到异常 → 不回滚。</li>
+        <li><strong>异常类型不匹配：</strong><br/><br/>默认只回滚<code>RuntimeException</code>和<code>Error</code>，受检异常(如IOException)需<code>@Transactional(rollbackFor = Exception.class)</code>。</li>
+        <li><strong>数据库引擎不支持：</strong><br/><br/>MyISAM不支持事务，需InnoDB。</li>
+        <li><strong>类未被容器管理：</strong><br/><br/>没加@Component/@Service，或new出来的对象，无代理。</li>
+        <li><strong>多线程：</strong><br/><br/>新线程不在同一事务上下文，事务不回滚。</li>
+        <li><strong>切面顺序错误：</strong><br/><br/>事务切面与自定义切面顺序不当，异常被其他切面拦截。</li>
+        <li><strong>父子容器问题：</strong><br/><br/>事务方法被非本容器的Bean调用（多容器环境）。</li>
+        <li><strong>synchronized锁失效：</strong><br/><br/>分布式环境下本地锁无法保证并发事务一致。</li>
       </ol>
-      <p>💡 <strong>核心口诀：</strong>内部调用绕过代理、异常没抛出/类型不对、类/方法/引擎不支持、多线程/切面/容器出问题。</p>
+      <p>💡 <strong>核心口诀：</strong></p>
+      <p>内部调用绕过代理、异常没抛出/类型不对、类/方法/引擎不支持、多线程/切面/容器出问题。</p>
     </div>
   </div>
 </div>
@@ -217,10 +224,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </table></div>
       <p><strong>查找逻辑补充：</strong></p>
       <ul>
-        <li><strong>@Autowired：</strong>先按类型找，多个同类型Bean时若只有一个<code>@Primary</code>或主Bean则注入它，否则需<code>@Qualifier</code>指定，再不行抛<code>NoUniqueBeanDefinitionException</code>。</li>
-        <li><strong>@Resource：</strong>先按字段名找Bean，找不到再按类型找，都找不到抛异常。它是字段名与Bean名一致时的首选。</li>
+        <li><strong>@Autowired：</strong><br/><br/>先按类型找，多个同类型Bean时若只有一个<code>@Primary</code>或主Bean则注入它，否则需<code>@Qualifier</code>指定，再不行抛<code>NoUniqueBeanDefinitionException</code>。</li>
+        <li><strong>@Resource：</strong><br/><br/>先按字段名找Bean，找不到再按类型找，都找不到抛异常。<br/><br/>它是字段名与Bean名一致时的首选。</li>
       </ul>
-      <p>💡 <strong>推荐：</strong>团队约定优先用构造器注入（配合@Autowired），避免字段注入导致的循环依赖和难以测试问题；如用@Resource，字段名尽量与Bean名一致以命中byName。</p>
+      <p>💡 <strong>推荐：</strong></p>
+      <p>团队约定优先用构造器注入（配合@Autowired），避免字段注入导致的循环依赖和难以测试问题；</p>
+      <p><strong>如用@Resource，字段名尽量与Bean名一致以命中byName。</strong></p>
     </div>
   </div>
 </div>
@@ -232,12 +241,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <div class="answer">
       <p><strong>三级缓存解决单例Bean的循环依赖：</strong></p>
       <ul>
-        <li><strong>一级缓存 singletonObjects：</strong>完全初始化好的Bean。</li>
-        <li><strong>二级缓存 earlySingletonObjects：</strong>早期暴露的半成品Bean（已实例化但未注入属性）。</li>
-        <li><strong>三级缓存 singletonFactories：</strong>ObjectFactory，可生成Bean的早期引用（支持代理对象）。</li>
+        <li><strong>一级缓存 singletonObjects：</strong><br/><br/>完全初始化好的Bean。</li>
+        <li><strong>二级缓存 earlySingletonObjects：</strong><br/><br/>早期暴露的半成品Bean（已实例化但未注入属性）。</li>
+        <li><strong>三级缓存 singletonFactories：</strong><br/><br/>ObjectFactory，可生成Bean的早期引用（支持代理对象）。</li>
       </ul>
-      <p><strong>流程：</strong>A创建→实例化→放入三级缓存→填充属性发现需要B→触发B创建→B填充属性需要A→从三级缓存获取A的早期引用→B完成→A完成。</p>
-      <p>💡 <strong>限制：</strong>只能解决单例setter注入的循环依赖，构造器注入不行（实例化阶段就需要依赖）。Prototype作用域也不支持。</p>
+      <p><strong>流程：</strong></p>
+      <p>A创建→实例化→放入三级缓存→填充属性发现需要B→触发B创建→B填充属性需要A→从三级缓存获取A的早期引用→B完成→A完成。</p>
+      <p>💡 <strong>限制：</strong></p>
+      <p>只能解决单例setter注入的循环依赖，构造器注入不行（实例化阶段就需要依赖）。</p>
+      <p>Prototype作用域也不支持。</p>
     </div>
   </div>
 </div>
@@ -246,20 +258,91 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 <div class="card"><div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">FactoryBean 和 BeanFactory 的区别？</div><div class="q-tags"><span class="q-tag">Spring</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>BeanFactory</th><th>FactoryBean</th></tr></thead><tbody><tr><td>角色</td><td>IOC容器，管理Bean</td><td>创建复杂Bean的工厂</td></tr><tr><td>方法</td><td>getBean()获取Bean</td><td>getObject()返回Bean实例</td></tr><tr><td>典型</td><td>DefaultListableBeanFactory</td><td>SqlSessionFactoryBean、MyBatis MapperProxy</td></tr></tbody></table></div><p>💡 <code>&factoryBeanName</code>获取FactoryBean本身，<code>factoryBeanName</code>获取getObject()产生的Bean。</p></div></div></div>
 
-<div class="card"><div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">Spring 事务传播行为有哪些？</div><div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>7种传播行为（Propagation）：</p><ol><li><strong>REQUIRED（默认）：</strong>有则加入，无则新建。最常用。</li><li><strong>REQUIRES_NEW：</strong>挂起当前，新建事务。内部和外部事务独立。</li><li><strong>SUPPORTS：</strong>有则加入，无则非事务运行。</li><li><strong>NOT_SUPPORTED：</strong>非事务运行，挂起当前事务。</li><li><strong>MANDATORY：</strong>必须有事务，无则抛异常。</li><li><strong>NEVER：</strong>必须非事务，有则抛异常。</li><li><strong>NESTED：</strong>嵌套事务，内部事务依赖外部事务（savepoint回滚）。</li></ol><p>💡 REQUIRES_NEW完全独立，外部回滚不影响内部；NESTED外部回滚会回滚内部。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">Spring 事务传播行为有哪些？</div><div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>7种传播行为（Propagation）：</p><ol><li><strong>REQUIRED（默认）：</strong><br/><br/>有则加入，无则新建。<br/><br/>最常用。</li><li><strong>REQUIRES_NEW：</strong><br/><br/>挂起当前，新建事务。<br/><br/>内部和外部事务独立。</li><li><strong>SUPPORTS：</strong><br/><br/>有则加入，无则非事务运行。</li><li><strong>NOT_SUPPORTED：</strong><br/><br/>非事务运行，挂起当前事务。</li><li><strong>MANDATORY：</strong><br/><br/>必须有事务，无则抛异常。</li><li><strong>NEVER：</strong><br/><br/>必须非事务，有则抛异常。</li><li><strong>NESTED：</strong><br/><br/>嵌套事务，内部事务依赖外部事务（savepoint回滚）。</li></ol><p>💡 REQUIRES_NEW完全独立，外部回滚不影响内部；</p>
+      <p>NESTED外部回滚会回滚内部。</p></div></div></div>
 
-<div class="card"><div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">Spring 事件监听机制？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">事件</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>基于<strong>观察者模式</strong>，三个核心角色：</p><ul><li><strong>事件：</strong>ApplicationEvent（如ContextRefreshedEvent）。</li><li><strong>发布者：</strong>ApplicationEventPublisher（ApplicationContext实现了）。</li><li><strong>监听者：</strong>ApplicationListener（或用@EventListener注解）。</li></ul><p><strong>默认同步执行</strong>，可通过<code>@Async</code>+<code>@EnableAsync</code>实现异步事件。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">Spring 事件监听机制？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">事件</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>基于<strong>观察者模式</strong>，三个核心角色：</p><ul><li><strong>事件：</strong><br/><br/>ApplicationEvent（如ContextRefreshedEvent）。</li><li><strong>发布者：</strong><br/><br/>ApplicationEventPublisher（ApplicationContext实现了）。</li><li><strong>监听者：</strong><br/><br/>ApplicationListener（或用@EventListener注解）。</li></ul><p><strong>默认同步执行</strong>，可通过<code>@Async</code>+<code>@EnableAsync</code>实现异步事件。</p></div></div></div>
 
-<div class="card"><div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">Spring Boot Starter 原理？如何自定义Starter？</div><div class="q-tags"><span class="q-tag">Starter</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>原理：</strong>Spring Boot通过@EnableAutoConfiguration扫描引入的Starter，Conditional条件判断，自动装配Bean。</p><p><strong>自定义Starter步骤：</strong></p><ol><li>创建autoconfigure模块：写配置类+Properties类。</li><li>在<code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>中注册配置类。</li><li>创建starter模块：只含pom.xml，引入autoconfigure模块。</li><li>使用者只需引入starter依赖，配置yml即可自动装配。</li></ol></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">Spring Boot Starter 原理？如何自定义Starter？</div><div class="q-tags"><span class="q-tag">Starter</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>原理：</strong></p>
+      <p>Spring Boot通过@EnableAutoConfiguration扫描引入的Starter，Conditional条件判断，自动装配Bean。</p>
+      <p><strong>自定义Starter步骤：</strong></p><ol><li>创建autoconfigure模块：<br/><br/>写配置类+Properties类。</li><li>在<code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>中注册配置类。</li><li>创建starter模块：<br/><br/>只含pom.xml，引入autoconfigure模块。</li><li>使用者只需引入starter依赖，配置yml即可自动装配。</li></ol></div></div></div>
 
-<div class="card"><div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">Spring 中的设计模式有哪些？</div><div class="q-tags"><span class="q-tag">设计模式</span><span class="q-tag">Spring</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>单例模式：</strong>Spring Bean默认单例。</li><li><strong>工厂模式：</strong>BeanFactory/ApplicationContext。</li><li><strong>代理模式：</strong>AOP（JDK/CGLIB代理）。</li><li><strong>模板方法：</strong>JdbcTemplate、RestTemplate。</li><li><strong>观察者模式：</strong>ApplicationListener事件监听。</li><li><strong>适配器模式：</strong>HandlerAdapter、AdvisorAdapter。</li><li><strong>策略模式：</strong>InstantiationStrategy、Resource实现。</li><li><strong>装饰器模式：</strong>BeanWrapper、ServerHttpRequestDecorator。</li><li><strong>责任链模式：</strong>Filter Chain、AOP通知链。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">Spring 中的设计模式有哪些？</div><div class="q-tags"><span class="q-tag">设计模式</span><span class="q-tag">Spring</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>单例模式：</strong><br/><br/>Spring Bean默认单例。</li><li><strong>工厂模式：</strong><br/><br/>BeanFactory/ApplicationContext。</li><li><strong>代理模式：</strong><br/><br/>AOP（JDK/CGLIB代理）。</li><li><strong>模板方法：</strong><br/><br/>JdbcTemplate、RestTemplate。</li><li><strong>观察者模式：</strong><br/><br/>ApplicationListener事件监听。</li><li><strong>适配器模式：</strong><br/><br/>HandlerAdapter、AdvisorAdapter。</li><li><strong>策略模式：</strong><br/><br/>InstantiationStrategy、Resource实现。</li><li><strong>装饰器模式：</strong><br/><br/>BeanWrapper、ServerHttpRequestDecorator。</li><li><strong>责任链模式：</strong><br/><br/>Filter Chain、AOP通知链。</li></ul></div></div></div>
 
-<div class="card"><div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">Spring AOP 的原理？JDK代理和CGLIB代理的区别？</div><div class="q-tags"><span class="q-tag">AOP</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>AOP基于<strong>动态代理</strong>，在BeanPostProcessor.postProcessAfterInitialization中创建代理。</p><p><strong>JDK动态代理：</strong></p><ul><li>目标类必须实现接口。</li><li>基于反射+接口，生成Proxy$类。</li><li>性能略低（反射调用）。</li></ul><p><strong>CGLIB代理：</strong></p><ul><li>基于ASM字节码，生成子类。</li><li>不需要接口，但不能代理final类/方法。</li><li>性能略高（直接方法调用）。</li></ul><p>💡 Spring Boot 2.x默认使用CGLIB。@EnableAspectJAutoProxy(proxyTargetClass=true)强制CGLIB。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">Spring AOP 的原理？JDK代理和CGLIB代理的区别？</div><div class="q-tags"><span class="q-tag">AOP</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>AOP基于<strong>动态代理</strong>，在BeanPostProcessor.postProcessAfterInitialization中创建代理。</p><p><strong>JDK动态代理：</strong></p><ul><li>目标类必须实现接口。</li><li>基于反射+接口，生成Proxy$类。</li><li>性能略低（反射调用）。</li></ul><p><strong>CGLIB代理：</strong></p><ul><li>基于ASM字节码，生成子类。</li><li>不需要接口，但不能代理final类/方法。</li><li>性能略高（直接方法调用）。</li></ul><p>💡 Spring Boot 2.x默认使用CGLIB。</p>
+      <p><strong>@EnableAspectJAutoProxy(proxyTargetClass=true)强制CGLIB。</strong></p></div></div></div>
 
-<div class="card"><div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">@Configuration 和 @Component 的区别？full模式和lite模式？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">Bean</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>@Configuration（full模式）：</strong>通过CGLIB增强，确保<strong>@Bean方法内部调用</strong>仍然走容器（单例）。</p><p><strong>@Component（lite模式）：</strong>不走CGLIB代理，内部调用@Bean方法会创建新实例。</p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">@Configuration // full模式<br>public class Config {<br>    @Bean A a() { return new A(b()); } // b()走代理，同一实例<br>    @Bean B b() { return new B(); }<br>}<br>@Component // lite模式<br>// a()中b()不会走代理，new新B()</pre></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">@Configuration 和 @Component 的区别？full模式和lite模式？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">Bean</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>@Configuration（full模式）：</strong></p>
+      <p>通过CGLIB增强，确保<strong>@Bean方法内部调用</strong>仍然走容器（单例）。</p><p><strong>@Component（lite模式）：</strong></p>
+      <p>不走CGLIB代理，内部调用@Bean方法会创建新实例。</p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">@Configuration // full模式<br>public class Config {<br>    @Bean A a() { return new A(b()); } // b()走代理，同一实例<br>    @Bean B b() { return new B(); }<br>}<br>@Component // lite模式<br>// a()中b()不会走代理，new新B()</pre></div></div></div>
+
+
+<div class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">什么是 Spring 框架？有哪些核心模块？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">框架</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong></p>
+      <p>Spring 是 Java 生态最流行的<strong>轻量级开源框架</strong>，核心是 <strong>IoC（控制反转）</strong>和 <strong>AOP（面向切面编程）</strong>，目的是降低组件之间的耦合、简化企业级 Java 开发。</p>
+      <p><strong>定义：</strong></p><ul><li>Spring 是一个<strong>分层的一站式（Full-Stack）框架</strong>，2002 年由 Rod Johnson 提出，2004 年发布 1.0。</li><li><strong>IoC 容器：</strong><br/><br/>把对象的创建和依赖关系交给容器管理，开发者不再手动 <code>new</code>，实现解耦。</li><li><strong>AOP：</strong><br/><br/>把日志、事务、权限等横切逻辑与业务逻辑分离，通过动态代理织入。</li><li>本身不重复造轮子，而是<strong>整合主流框架</strong>（MyBatis、JPA、Quartz 等），降低集成成本。</li></ul><p><strong>核心模块（按分层记忆）：</strong></p><div class="table-wrap"><table><thead><tr><th>模块</th><th>作用</th></tr></thead><tbody><tr><td>Spring Core（Beans / Core / Context / SpEL）</td><td>IoC 容器核心，Bean 管理与依赖注入</td></tr><tr><td>Spring AOP / Aspects</td><td>面向切面编程，方法拦截与增强</td></tr><tr><td>Spring JDBC / Tx</td><td>数据访问抽象与声明式事务管理</td></tr><tr><td>Spring ORM</td><td>集成 Hibernate / JPA / MyBatis 等 ORM 框架</td></tr><tr><td>Spring Web / WebMVC</td><td>Web 应用开发，MVC 分层与 REST 支持</td></tr><tr><td>Spring JMS / Messaging</td><td>消息队列集成（ActiveMQ / Kafka 等）</td></tr><tr><td>Spring Test</td><td>单元测试与集成测试支持</td></tr></tbody></table></div><p><strong>核心特征：</strong></p><ul><li><strong>轻量：</strong><br/><br/>框架本身不强制依赖其他组件，核心仅需少量 jar。</li><li><strong>低侵入：</strong><br/><br/>业务代码不强制继承 Spring 类，通过注解/配置解耦。</li><li><strong>容器化：</strong><br/><br/>统一管理 Bean 生命周期与依赖。</li><li><strong>声明式事务：</strong><br/><br/>一个 <code>@Transactional</code> 即可完成事务控制。</li></ul><p>💡 <strong>面试点：</strong></p>
+      <p>牢记 Spring 两大核心是 <strong>IoC 与 AOP</strong>；</p>
+      <p><strong>模块记忆口诀：</strong></p>
+      <p><strong>Core 容器 → AOP 切面 → JDBC/ORM 数据 → Web/MVC 展示</strong>。</p></div></div></div>
+
+<div class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">@Controller 和 @RestController 的区别？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">Web</span><span class="q-tag">注解</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong></p>
+      <p><code>@RestController</code> 是 <code>@Controller</code> + <code>@ResponseBody</code> 的组合注解，专门用于 <strong>REST 接口直接返回 JSON/XML</strong>。</p>
+      <p><strong>区别对比：</strong></p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>@Controller</th><th>@RestController</th></tr></thead><tbody><tr><td>组成</td><td>独立的控制层注解</td><td>组合了 @Controller + @ResponseBody</td></tr><tr><td>返回值处理</td><td>返回<strong>视图名</strong>（ModelAndView）</td><td>返回<strong>数据对象</strong>，序列化为 JSON/XML 写入响应体</td></tr><tr><td>视图渲染</td><td>需要 ViewResolver 解析（JSP/Thymeleaf）</td><td>跳过视图，直接用 HttpMessageConverter 序列化</td></tr><tr><td>@ResponseBody</td><td>每个方法需要单独加</td><td>默认所有方法都有</td></tr><tr><td>典型场景</td><td>服务端渲染页面（老项目 JSP）</td><td>前后端分离的 REST API</td></tr></tbody></table></div><p><strong>原理：</strong></p>
+      <p><code>@RestController</code> 是一个<strong>元注解</strong>，内部组合了 <code>@Controller</code> 和 <code>@ResponseBody</code>，因此类中所有方法默认都带 <code>@ResponseBody</code> 语义。</p>
+      <p><strong>示例：</strong></p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">@Controller<br>public class PageController {<br>    @GetMapping("/user")<br>    public String user() { return "userDetail"; } // 返回视图名，ViewResolver 找 userDetail.jsp<br>}<br><br>@RestController<br>public class ApiController {<br>    @GetMapping("/api/user")<br>    public User user() { return new User("tom"); } // 返回 JSON：{"name":"tom"}<br>}</pre><p>💡 <strong>面试点：</strong></p>
+      <p>REST 接口用 <code>@RestController</code>；</p>
+      <p>需要页面跳转的场景用 <code>@Controller</code>（方法上加 @ResponseBody 也能返回 JSON）。</p></div></div></div>
+
+<div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">Spring AOP 和 AspectJ AOP 的区别？</div><div class="q-tags"><span class="q-tag">AOP</span><span class="q-tag">AspectJ</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong></p>
+      <p><strong>Spring AOP</strong> 是<strong>运行时</strong>基于<strong>动态代理</strong>的轻量级 AOP；</p>
+      <p><strong>AspectJ</strong> 是<strong>编译期/加载期</strong>织入字节码的完整 AOP 框架。</p>
+      <p>两者本质区别是<strong>织入时机不同</strong>。</p><p><strong>区别对比：</strong></p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>Spring AOP</th><th>AspectJ AOP</th></tr></thead><tbody><tr><td>织入方式</td><td>运行时动态代理（JDK / CGLIB）</td><td>编译期（AJC）或加载期（LTW）织入字节码</td></tr><tr><td>依赖</td><td>Bean 必须由 Spring 容器管理</td><td>不依赖 Spring，可独立使用</td></tr><tr><td>性能</td><td>相对较低（代理 + 方法调用拦截）</td><td>相对较高（字节码直接增强）</td></tr><tr><td>切点支持</td><td>仅支持<strong>方法级</strong>切点，且是 Spring Bean 的 public 方法</td><td>支持方法、<strong>字段、构造器、异常</strong>等完整切点</td></tr><tr><td>内部自调用</td><td><code>this</code> 调用本类方法无法拦截</td><td>可以拦截</td></tr><tr><td>使用场景</td><td>Spring 项目内的事务/日志/权限等</td><td>复杂切面、非 Spring 项目、需要静态织入</td></tr></tbody></table></div><p><strong>关系：</strong></p>
+      <p>Spring 2.0 以后<strong>借用了 AspectJ 的注解语法</strong>（<code>@Aspect</code> / <code>@Before</code> / <code>@Around</code> / <code>@Pointcut</code>）来表达切面，但底层织入仍然是 Spring AOP 的动态代理机制；</p>
+      <p><strong>也可以额外集成 AspectJ 的加载期织入（LTW）获得完整能力。</strong></p><p>💡 <strong>面试点：</strong></p>
+      <p>高频回答模板——<strong>"Spring AOP 用 AspectJ 的注解语法，但织入方式是运行时动态代理；</strong></p>
+      <p>真正的 AspectJ 是编译期织入，性能更高、支持字段/构造器切点"。</p></div></div></div>
+
+<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">Spring 单例 Bean 存在线程安全问题吗？如何解决？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">线程安全</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong></p>
+      <p>Spring 容器只保证 Bean 是<strong>单例</strong>，不保证<strong>线程安全</strong>。</p>
+      <p>单例 Bean 是否线程安全，取决于它是否持有<strong>可变的成员变量</strong>。</p><p><strong>分析：</strong></p><ul><li><strong>无状态 Bean（推荐）：</strong><br/><br/>只有方法、没有可变成员变量 → 天然线程安全。</li><li><strong>有状态 Bean：</strong><br/><br/>存在可变成员变量（如 <code>SimpleDateFormat</code>、<code>Map</code>、计数器、ArrayList）→ <strong>线程不安全</strong>，多线程共享同一实例会互相干扰。</li><li>典型事故：<br/><br/>成员变量 <code>SimpleDateFormat</code> 在并发解析日期时抛出 <code>NumberFormatException</code> 或解析结果错乱。</li></ul><p><strong>解决方案：</strong></p><div class="table-wrap"><table><thead><tr><th>方案</th><th>说明</th></tr></thead><tbody><tr><td><strong>无状态化</strong></td><td>不定义可变成员变量，用局部变量/方法参数传递</td></tr><tr><td><strong>ThreadLocal</strong></td><td>每个线程持有自己的副本，如 <code>ThreadLocal&lt;SimpleDateFormat&gt;</code></td></tr><tr><td><strong>prototype 作用域</strong></td><td><code>@Scope("prototype")</code> 每次获取都 new 新实例</td></tr><tr><td><strong>加锁</strong></td><td>synchronized / ReentrantLock（影响性能，慎用）</td></tr><tr><td><strong>线程安全容器</strong></td><td>用 ConcurrentHashMap / CopyOnWriteArrayList 替代普通集合</td></tr></tbody></table></div><p><strong>示例：</strong></p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">// 不安全：成员变量被多线程共享<br>@Service<br>public class DateService {<br>    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");<br>}<br><br>// 安全：ThreadLocal 每个线程一份<br>private static ThreadLocal&lt;SimpleDateFormat&gt; SDF =<br>    ThreadLocal.withInitial(() -&gt; new SimpleDateFormat("yyyy-MM-dd"));</pre><p>💡 <strong>面试点：</strong></p>
+      <p>先答结论——"无状态安全、有状态不安全"；</p>
+      <p>再答治理手段，<strong>ThreadLocal 与无状态化</strong>是最高频答案。</p></div></div></div>
+
+<div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">@Component 和 @Bean 的区别？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">Bean</span><span class="q-tag">注解</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong></p>
+      <p><code>@Component</code> 标注在<strong>类上</strong>，由组件扫描自动注册；</p>
+      <p><code>@Bean</code> 标注在 <strong>@Configuration 类的方法上</strong>，由方法返回对象手动注册。</p><p><strong>区别对比：</strong></p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>@Component</th><th>@Bean</th></tr></thead><tbody><tr><td>标注位置</td><td>类上</td><td>方法上</td></tr><tr><td>注册方式</td><td>组件扫描（@ComponentScan）自动发现</td><td>显式调用 @Bean 方法，把返回值注册为 Bean</td></tr><tr><td>适用对象</td><td>自己写的类（Controller / Service / DAO）</td><td>第三方类（无法加注解的 SDK）、复杂初始化逻辑的对象</td></tr><tr><td>灵活性</td><td>固定：一个类对应一个 Bean</td><td>方法内可写任意逻辑：可 new、可条件判断、可多次注册</td></tr><tr><td>依赖注入</td><td>通过 @Autowired 注入</td><td>@Bean 方法参数会自动从容器注入</td></tr></tbody></table></div><p><strong>示例：</strong></p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">// 方式一：组件扫描，适用于自己写的类<br>@Component<br>public class MyService { ... }<br><br>// 方式二：@Bean 手动注册，适用于第三方类<br>@Configuration<br>public class WebConfig {<br>    @Bean<br>    public RestTemplate restTemplate() {<br>        return new RestTemplate(); // 可在这里做复杂初始化<br>    }<br>}</pre><p>💡 <strong>面试点：</strong></p>
+      <p>记忆要点——<strong>自己写的类用 @Component（扫描），第三方的类用 @Bean（手动）</strong>；</p>
+      <p><strong>@Bean 方法参数自动注入是加分细节。</strong></p></div></div></div>
+
+<div class="card"><div class="card-header"><div class="q-num">22</div><div class="q-meta"><div class="q-title">将一个类声明为 Spring Bean 的注解有哪些？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">Bean</span><span class="q-tag">注解</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong></p>
+      <p>最核心的是 <strong>@Component</strong> 及其四个衍生注解（@Service / @Repository / @Controller / @RestController），外加 <strong>@Configuration</strong> 和 <strong>@Bean</strong>。</p><p><strong>注解清单：</strong></p><div class="table-wrap"><table><thead><tr><th>注解</th><th>语义 / 适用层</th></tr></thead><tbody><tr><td><strong>@Component</strong></td><td>通用组件，最基础的 Bean 注解</td></tr><tr><td><strong>@Service</strong></td><td>业务逻辑层（Service）</td></tr><tr><td><strong>@Repository</strong></td><td>数据访问层（DAO），并转换持久层异常</td></tr><tr><td><strong>@Controller</strong></td><td>控制层（MVC 控制器）</td></tr><tr><td><strong>@RestController</strong></td><td>REST 接口（= @Controller + @ResponseBody）</td></tr><tr><td><strong>@Configuration</strong></td><td>配置类（full 模式，CGLIB 代理）</td></tr><tr><td><strong>@Bean</strong></td><td>标注在 @Configuration 类的方法上，注册第三方对象</td></tr><tr><td><strong>@Import</strong></td><td>导入其他配置类或普通类</td></tr><tr><td><strong>@Mapper</strong>（MyBatis）等</td><td>第三方框架提供的注册注解</td></tr></tbody></table></div><p><strong>原理：</strong></p>
+      <p><code>@Service</code>、<code>@Repository</code>、<code>@Controller</code>、<code>@RestController</code> 都是 <strong>@Component 的衍生（元注解组合）</strong>，被 @ComponentScan 扫描时统一按组件注册；</p>
+      <p>区分它们主要是为了<strong>语义分层</strong>和便于 AOP 精确切分（如对 @Repository 统一转换异常）。</p><p>💡 <strong>面试点：</strong></p>
+      <p>答出"<strong>四大分层注解都是 @Component 的衍生</strong>"就是亮点；</p>
+      <p>再补一句 @Bean 注册第三方、@Configuration 是配置类。</p></div></div></div>
+
+<div class="card"><div class="card-header"><div class="q-num">23</div><div class="q-meta"><div class="q-title">Spring 管理事务的方式有几种？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">事务</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong></p>
+      <p>Spring 管理事务有<strong>两种方式</strong>：</p>
+      <p><strong>编程式事务</strong>（TransactionTemplate / PlatformTransactionManager）和 <strong>声明式事务</strong>（@Transactional），实际开发推荐声明式事务。</p><p><strong>两种方式对比：</strong></p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>编程式事务</th><th>声明式事务</th></tr></thead><tbody><tr><td>实现</td><td>TransactionTemplate / PlatformTransactionManager 手动 begin / commit / rollback</td><td>@Transactional 注解或 XML aop:tx，基于 AOP 代理</td></tr><tr><td>侵入性</td><td>业务代码中混入事务代码，侵入性强</td><td>注解声明，零侵入</td></tr><tr><td>粒度</td><td>精细（可以控制循环内每次提交）</td><td>粗粒度（方法级）</td></tr><tr><td>可维护性</td><td>重复代码多，易出错</td><td>简洁清晰，声明即可</td></tr><tr><td>使用场景</td><td>循环内部分提交、事务边界动态控制等特殊场景</td><td>绝大多数常规业务</td></tr></tbody></table></div><p><strong>示例：</strong></p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">// 声明式：最简单<br>@Transactional<br>public void transfer() { ... }<br><br>// 编程式：细粒度控制<br>public void batchSave() {<br>    transactionTemplate.execute(status -&gt; {<br>        for (Item item : list) {<br>            dao.save(item);<br>            if (item.isBad()) throw new RuntimeException("bad item"); // 触发回滚<br>        }<br>        return null;<br>    });<br>}</pre><p>💡 <strong>面试点：</strong></p>
+      <p>首选回答"两种方式：</p>
+      <p><strong>编程式 + 声明式，推荐声明式"；</strong></p>
+      <p><strong>TransactionTemplate 处理"循环内部分提交"</strong>是最常追问的场景。</p></div></div></div>
+
+<div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">@Transactional(rollbackFor = Exception.class) 注解了解吗？</div><div class="q-tags"><span class="q-tag">Spring</span><span class="q-tag">事务</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong></p>
+      <p><code>@Transactional(rollbackFor = Exception.class)</code> 指定<strong>出现 Exception（包括受检异常）时事务回滚</strong>，解决"受检异常默认不回滚"的问题。</p>
+      <p><strong>为什么需要它：</strong></p><ul><li>Spring 默认规则：<br/><br/><strong>只有 RuntimeException 和 Error 才触发回滚</strong>。</li><li>受检异常（如 <code>IOException</code>、<code>SQLException</code>）默认<strong>提交不回滚</strong>。</li><li>原因：<br/><br/>Spring 约定受检异常通常代表<strong>可预期、可恢复</strong>的业务异常，不应中断事务。</li><li>但如果业务要求"受检异常也必须回滚"，就必须显式加 <code>rollbackFor = Exception.class</code>。</li></ul><p><strong>原理：</strong></p>
+      <p>@Transactional 基于 AOP 代理。</p>
+      <p>方法抛出异常后，<strong>TransactionInterceptor</strong> 会调用 <code>rollbackOn(exception)</code> 判断该异常是否符合回滚规则——匹配则标记事务回滚，否则提交。</p>
+      <p>rollbackFor 就是<strong>扩展了"回滚异常白名单"</strong>。</p><p><strong>相关属性：</strong></p><ul><li><code>rollbackFor</code>：<br/><br/>指定哪些异常触发回滚。</li><li><code>noRollbackFor</code>：<br/><br/>指定哪些异常不触发回滚（即使默认该回滚）。</li><li><code>propagation</code> / <code>isolation</code> / <code>timeout</code> / <code>readOnly</code>：<br/><br/>传播行为、隔离级别、超时、只读。</li></ul><p><strong>示例：</strong></p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">@Transactional(rollbackFor = Exception.class)<br>public void importFile() throws IOException {<br>    dao.insert(order);<br>    fileService.write(file); // 抛 IOException：受检异常<br>    // 不加 rollbackFor 时：IOException 导致提交不回滚（脏数据！）<br>    // 加了 rollbackFor：事务整体回滚<br>}</pre><p>💡 <strong>面试点：</strong></p>
+      <p>这是<strong>事务失效的经典场景</strong>之一（呼应"异常类型不匹配导致失效"）；</p>
+      <p>回答要点——<strong>默认只回滚 RuntimeException，受检异常要显式 rollbackFor</strong>。</p></div></div></div>
+
+<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">如何使用 JPA 在数据库中忽略某个字段（不持久化）？</div><div class="q-tags"><span class="q-tag">JPA</span><span class="q-tag">Hibernate</span><span class="q-tag">注解</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>一句话概括：</strong></p>
+      <p>在实体类的字段上加 <strong>@Transient</strong> 注解，JPA 就不会为该字段创建数据库列、也不会持久化。</p>
+      <p><strong>实现方式：</strong></p><ul><li><strong>@Transient（JPA 标准注解，推荐）：</strong><br/><br/>字段不映射数据库列，用于"只在内存中计算、不需要入库"的字段。</li><li><strong>transient 关键字：</strong><br/><br/>影响的是 <strong>Java 序列化</strong>（原生序列化 / 部分 JSON 序列化），与 JPA 无关，两者不要混用。</li></ul><p><strong>示例：</strong></p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">@Entity<br>@Table(name = "user")<br>public class User {<br>    @Id<br>    private Long id;<br>    private String name;<br><br>    @Transient<br>    private String tempAge; // 不生成列，不持久化<br><br>    // 不持久化的计算属性（getter 上也可以加）<br>    @Transient<br>    public String getDisplayName() {<br>        return "用户：" + name;<br>    }<br>}</pre><p><strong>易混淆点：</strong></p><div class="table-wrap"><table><thead><tr><th>机制</th><th>作用</th><th>场景</th></tr></thead><tbody><tr><td><strong>@Transient</strong></td><td>JPA 不持久化（不建列）</td><td>实体类中仅内存使用的字段</td></tr><tr><td><strong>transient 关键字</strong></td><td>Java 序列化忽略</td><td>序列化时排除字段（如密码）</td></tr><tr><td><strong>@JsonIgnore</strong>（Jackson）</td><td>JSON 序列化/反序列化忽略</td><td>返回给前端时隐藏字段</td></tr></tbody></table></div><p>💡 <strong>面试点：</strong></p>
+      <p>能区分 <strong>@Transient（JPA） vs transient（序列化） vs @JsonIgnore（JSON）</strong>三者，就是加分的完整回答。</p></div></div></div>
 
 <div class="footer">
-  📌 09 · Spring · 共16题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_SpringBoot.html" style="color:var(--primary)">下一板块 →</a>
+  📌 09 · Spring · 共25题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_SpringBoot.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -324,6 +407,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=39')}</script>
 </body>
 </html>

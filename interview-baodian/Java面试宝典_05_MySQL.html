@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="gold">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · 05 MySQL</title>
 <style>
+html{margin:0;padding:0;background:var(--hero-from)}
 :root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
 [data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
-.search-input::placeholder{color:rgba(255,255,255,.6)}
-.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
-.search-btn:hover{background:rgba(255,255,255,.35)}
-.search-history .search-history .clear-btn:hover{text-decoration:underline}
 
 .nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover{background:rgba(255,255,255,.2)}
-.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
-.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.theme-btn:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
 .q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
-.card-body{padding:12px 18px 16px}
 .toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
@@ -63,7 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .switch input:checked + .slider{background:var(--primary)}
 .switch input:checked + .slider:before{transform:translateX(19px)}
 </style>
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#1a1a2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="面试宝典">
@@ -77,7 +76,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </label>
 
   <h1>MySQL 数据库</h1>
-  <p>18道高频题 · 索引 · 事务 · 锁 · SQL优化 · 分库分表 · 执行流程</p>
+  <p>52道高频题 · 索引 · 事务 · 锁 · SQL优化 · 分库分表 · 执行流程</p>
 <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_04_并发编程.html">← 并发编程</a>
@@ -93,14 +92,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>Server层 + 存储引擎层</strong></p>
+      <p><strong>一条SQL的执行分为两层：Server层负责连接、解析、优化、执行，存储引擎层负责实际读写。</strong></p>
       <ol>
-        <li><strong>连接器：</strong>建立连接、权限验证。</li>
-        <li><strong>查询缓存(8.0已废弃)：</strong>命中直接返回。</li>
-        <li><strong>分析器：</strong>词法分析→语法分析，生成解析树。</li>
-        <li><strong>优化器：</strong>选择索引、确定连接顺序，生成执行计划。</li>
-        <li><strong>执行器：</strong>调用存储引擎API，逐行读取→判断→返回。</li>
+        <li><strong>连接器：</strong><br/>负责建立连接、校验用户名密码、获取并缓存权限信息。<br/>权限在连接建立时校验，后续操作直接复用。</li>
+        <li><strong>查询缓存（8.0已废弃）：</strong><br/>以SQL文本为key缓存结果集，命中直接返回。<br/>只要表有更新缓存就失效，命中率极低，8.0已彻底移除。</li>
+        <li><strong>分析器：</strong><br/>词法分析：识别SQL中的关键字、表名、列名。<br/>语法分析：校验SQL语法是否正确，生成解析树。</li>
+        <li><strong>优化器：</strong><br/>决定走哪个索引、多表连接顺序、是否做子查询改写。<br/>生成最优执行计划，是SQL快慢的关键环节。</li>
+        <li><strong>执行器：</strong><br/>调用存储引擎API逐行读取数据，Server层做条件判断过滤。<br/>将满足条件的行返回给客户端。</li>
       </ol>
+      <p>💡 口诀：<strong>连接器→查询缓存→分析器→优化器→执行器</strong>。<br/>排查慢SQL时重点看优化器是否选错了索引。</p>
     </div>
   </div>
 </div>
@@ -111,14 +111,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>InnoDB使用B+树作为索引结构。</strong></p>
-      <p><strong>B+树优势：</strong></p>
+      <p><strong>一、基础概念先讲清楚（面试官追问时的铺垫）：</strong></p>
       <ul>
-        <li><strong>矮胖：</strong>高度低(3-4层)，IO次数少。</li>
-        <li><strong>叶子节点有序链表：</strong>支持范围查询，全表扫描快。</li>
-        <li><strong>非叶子节点只存key：</strong>一个节点可存更多key，减少IO。</li>
+        <li><strong>索引结构：</strong><br/>数据库为了加速查询而额外维护的"目录"数据。<br/>本质是以空间换时间，把无序数据变成可快速定位的有序结构。<br/>常见索引结构：B+ 树、Hash、跳表、倒排索引（全文搜索）。</li>
+        <li><strong>InnoDB：</strong><br/>MySQL 默认的存储引擎，负责数据的存储与读写。<br/>支持事务（ACID）、行级锁、外键、崩溃自动恢复；<br/>采用聚簇索引，表数据本身就是按主键组织的 B+ 树。</li>
+        <li><strong>B+ 树：</strong><br/>B 树的变体，一种多路平衡查找树，专为磁盘存储设计。<br/>非叶子节点只存 key 不存数据，一个 16KB 页能容纳上千个 key；<br/>叶子节点存放所有数据，并按 key 用双向链表串起来，天然有序。</li>
+        <li><strong>索引数据结构：</strong><br/>索引底层具体采用哪种数据结构实现。<br/>B+ 树用于 InnoDB/MyISAM，Hash 用于等值快速查找，<br/>跳表用于 Redis，倒排索引用于 Elasticsearch 全文搜索。</li>
       </ul>
-      <p><strong>对比：</strong>Hash索引只能等值查询；B树非叶子也存数据，节点容量小；跳表不如B+树磁盘友好。</p>
+      <p><strong>二、直接结论：</strong><br/>InnoDB 使用 B+ 树作为索引结构，数据全部存放在叶子节点上。</p>
+      <p><strong>三、为什么选 B+ 树（核心：从磁盘 IO 角度分析）：</strong></p>
+      <ul>
+        <li><strong>矮胖、层高低：</strong><br/>非叶子节点只存 key 不存数据，一个 16KB 页能容纳上千个 key，扇出极大。<br/>千万级数据树高仅 3~4 层，查询只需 3~4 次磁盘 IO。</li>
+        <li><strong>叶子节点形成有序双向链表：</strong><br/>天然支持范围查询（&gt;、&lt;、BETWEEN、ORDER BY），一次定位后沿链表顺序扫描即可。<br/>B 树范围查询需要中序遍历，效率低。</li>
+        <li><strong>叶子节点存数据、内部节点只做路由：</strong><br/>数据集中连续存放，磁盘读取更高效。<br/>内部节点纯索引，一个页能放更多 key，树更矮。</li>
+        <li><strong>查询性能稳定：</strong><br/>所有查询都必须走到叶子节点，IO 次数固定为树高，无波动。<br/>而 B 树部分数据在非叶子节点，存在"命中内部节点"和"命中叶子节点"的性能差异。</li>
+      </ul>
+      <p><strong>四、对比其他数据结构：</strong></p>
+      <ul>
+        <li><strong>Hash 索引：</strong><br/>只能等值查询（=、IN），无法支持范围查询、排序、前缀匹配。<br/>存在哈希冲突，且数据物理无序，无法利用顺序 IO。</li>
+        <li><strong>B 树：</strong><br/>非叶子节点也存数据，节点能容纳的 key 更少，树更高、IO 更多。<br/>叶子节点无链表，范围查询需要中序遍历，性能差。</li>
+        <li><strong>红黑树 / AVL：</strong><br/>典型内存数据结构，树高约 log₂N，千万级数据需 20+ 层；<br/>节点在磁盘上分散，每次比较都可能触发 IO，对磁盘极不友好。</li>
+        <li><strong>跳表：</strong><br/>Redis 用在内存场景；磁盘场景下指针冗余、空间浪费大，不如 B+ 树按页读取高效。</li>
+      </ul>
+      <p><strong>💡 补充：</strong><br/>主键索引（聚簇索引）的叶子节点存完整行数据，二级索引的叶子节点只存主键值，<br/>因此二级索引查询通常需要回表。</p>
     </div>
   </div>
 </div>
@@ -136,7 +151,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
         <tr><td>默认</td><td>主键自动创建</td><td>手动创建</td></tr>
         <tr><td>查询</td><td>直接获取数据</td><td>需回表查询</td></tr>
       </table></div>
-      <p>💡 <strong>回表：</strong>二级索引查主键→再查聚集索引获取完整行。覆盖索引可避免回表。</p>
+      <p>💡 <strong>回表：</strong></p>
+      <p>二级索引查主键→再查聚集索引获取完整行。</p>
+      <p>覆盖索引可避免回表。</p>
     </div>
   </div>
 </div>
@@ -147,8 +164,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>覆盖索引：</strong>查询列全部在索引中，不需要回表。EXPLAIN中Extra显示Using index。</p>
-      <p><strong>最左前缀原则：</strong>联合索引(a,b,c)时，查询条件必须从最左列开始匹配：</p>
+      <p><strong>覆盖索引：</strong></p>
+      <p>查询列全部在索引中，不需要回表。</p>
+      <p><strong>EXPLAIN中Extra显示Using index。</strong></p>
+      <p><strong>最左前缀原则：</strong></p>
+      <p>联合索引(a,b,c)时，查询条件必须从最左列开始匹配：</p>
       <ul>
         <li>✅ WHERE a=1 (使用索引)</li>
         <li>✅ WHERE a=1 AND b=2 (使用索引)</li>
@@ -165,12 +185,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
+      <p><strong>ACID 是事务的四大特性，InnoDB 分别用不同机制保证：</strong></p>
       <ul>
-        <li><strong>原子性(Atomicity)：</strong>事务要么全执行，要么全不执行。通过undo log实现。</li>
-        <li><strong>一致性(Consistency)：</strong>事务前后数据满足完整性约束。由其他三个特性共同保证。</li>
-        <li><strong>隔离性(Isolation)：</strong>并发事务之间互不影响。通过MVCC+锁实现。</li>
-        <li><strong>持久性(Durability)：</strong>事务提交后数据永久保存。通过redo log实现。</li>
+        <li><strong>原子性（Atomicity）：</strong><br/>事务要么全部成功，要么全部回滚，不存在中间状态。<br/>通过 undo log 实现：记录反向操作，回滚时逆序执行，恢复到操作前状态。</li>
+        <li><strong>一致性（Consistency）：</strong><br/>事务执行前后，数据都必须满足完整性约束（唯一约束、外键、业务规则）。<br/>一致性是最终目标，由原子性、隔离性、持久性共同保障。</li>
+        <li><strong>隔离性（Isolation）：</strong><br/>多个事务并发执行时互不干扰，一个事务看不到其他事务未提交的数据。<br/>通过 MVCC（读）和锁（写）实现。</li>
+        <li><strong>持久性（Durability）：</strong><br/>事务提交后数据永久保存，即使宕机也不丢失。<br/>通过 redo log 实现：先写日志，崩溃后按日志重放恢复。</li>
       </ul>
+      <p>💡 面试延伸：<strong>redo log 是物理日志解决崩溃恢复，undo log 是逻辑日志解决回滚和MVCC</strong>。</p>
     </div>
   </div>
 </div>
@@ -181,6 +203,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
+      <p><strong>一、三个并发问题先定义清楚：</strong></p>
+      <ul>
+        <li><strong>脏读：</strong><br/>读到其他事务未提交的数据。<br/>事务A修改数据未提交，事务B读到了修改后的值，若A回滚则B读到的是脏数据。</li>
+        <li><strong>不可重复读：</strong><br/>同一事务内两次读取同一行，结果不一致。<br/>因为两次读取之间，其他事务提交了对该行的修改。</li>
+        <li><strong>幻读：</strong><br/>同一事务内两次范围查询，结果集行数不一致。<br/>因为其他事务插入了满足条件的行，多出来的行如同"幻影"。</li>
+      </ul>
+      <p><strong>二、四种隔离级别（✅表示已解决，❌表示未解决）：</strong></p>
       <div class="table-wrap"><table>
         <tr><th>隔离级别</th><th>脏读</th><th>不可重复读</th><th>幻读</th></tr>
         <tr><td>读未提交(READ UNCOMMITTED)</td><td>❌</td><td>❌</td><td>❌</td></tr>
@@ -188,7 +217,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
         <tr><td>可重复读(REPEATABLE READ)</td><td>✅</td><td>✅</td><td>部分解决</td></tr>
         <tr><td>串行化(SERIALIZABLE)</td><td>✅</td><td>✅</td><td>✅</td></tr>
       </table></div>
-      <p>💡 <strong>MySQL InnoDB默认RR</strong>，通过MVCC+Next-Key Lock解决了大部分幻读。</p>
+      <p><strong>三、各隔离级别详解：</strong></p>
+      <ul>
+        <li><strong>读未提交：</strong><br/>什么都不隔离，可读其他事务未提交的数据，存在脏读。<br/>并发最高、一致性最差，生产几乎不用。</li>
+        <li><strong>读已提交：</strong><br/>只能读已提交的数据，解决脏读。<br/>两次查询之间其他事务提交了修改，结果可能不同（不可重复读）。<br/>Oracle / SQL Server 的默认级别。</li>
+        <li><strong>可重复读：</strong><br/>同一事务内多次读取结果一致，解决不可重复读。<br/>标准定义下仍存在幻读，但 InnoDB 通过 MVCC + Next-Key Lock 解决了大部分幻读。<br/>MySQL InnoDB 的默认级别。</li>
+        <li><strong>串行化：</strong><br/>事务完全串行执行，解决所有问题，但性能最差。<br/>通过强制加锁实现，生产几乎不用。</li>
+      </ul>
+      <p><strong>💡 InnoDB 为什么默认 RR：</strong><br/>历史原因（兼容早期 binlog Statement 格式的主从复制），<br/>且已通过 MVCC + Next-Key Lock 消除大部分幻读，性能优于串行化。</p>
     </div>
   </div>
 </div>
@@ -199,14 +235,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>MVCC(多版本并发控制)依赖三个隐藏字段+Read View：</strong></p>
+      <p><strong>MVCC（多版本并发控制）核心思想：一份数据保留多个历史版本，读操作沿版本链选择可见版本，实现读不加锁、读写不互斥。</strong></p>
+      <p><strong>每行记录有三个隐藏字段：</strong></p>
       <ul>
-        <li><strong>DB_TRX_ID：</strong>最近修改该行的事务ID。</li>
-        <li><strong>DB_ROLL_PTR：</strong>回滚指针，指向undo log中上一个版本。</li>
-        <li><strong>DB_ROW_ID：</strong>行ID(无主键时使用)。</li>
+        <li><strong>DB_TRX_ID：</strong><br/>最近一次修改该行的事务ID。</li>
+        <li><strong>DB_ROLL_PTR：</strong><br/>回滚指针，指向 undo log 中的上一个版本，形成版本链。</li>
+        <li><strong>DB_ROW_ID：</strong><br/>隐藏行ID，无主键时 InnoDB 用它生成聚簇索引。</li>
       </ul>
-      <p><strong>Read View判断可见性：</strong>通过比较事务ID，判断某版本数据是否对当前事务可见。</p>
-      <p>💡 RC级别每次快照读生成新Read View；RR级别仅在第一次快照读时生成。</p>
+      <p><strong>Read View（读视图）由四部分组成：</strong><br/>m_ids（生成时活跃事务ID列表）、min_trx_id（最小活跃事务ID）、max_trx_id（最大事务ID+1）、creator_trx_id（当前事务ID）。</p>
+      <p><strong>可见性判断规则：</strong><br/>版本事务ID &lt; min_trx_id → 已提交，可见。<br/>版本事务ID ≥ max_trx_id → 未来事务，不可见。<br/>在 m_ids 中且≠自己 → 未提交，不可见。<br/>在 m_ids 中且=自己 → 可见。</p>
+      <p><strong>💡 生成时机差异：</strong><br/>RC：每次快照读都生成新的 ReadView，能读到其他事务已提交的修改（不可重复读）。<br/>RR：只在第一次快照读时生成 ReadView 并复用，保证可重复读。</p>
     </div>
   </div>
 </div>
@@ -224,7 +262,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
         <tr><td>记录内容</td><td>物理日志：页修改</td><td>逻辑日志：SQL逆操作</td><td>逻辑日志：SQL语句</td></tr>
         <tr><td>写入方式</td><td>循环写，固定大小</td><td>随机写</td><td>追加写</td></tr>
       </table></div>
-      <p>💡 <strong>两阶段提交：</strong>先写redo log(prepare)→写binlog→redo log(commit)，保证一致性。</p>
+      <p><strong>二、redo log 深入：</strong></p>
+      <ul>
+        <li><strong>WAL（预写日志）：</strong><br/>先写日志、再改数据页，避免每次提交都把脏页刷到磁盘。<br/>崩溃时根据 redo log 重放，恢复已提交事务的数据，保证持久性（D）。</li>
+        <li><strong>记录内容：</strong><br/>物理日志，记录"哪个页、哪个偏移量、被改成了什么"。<br/>只关心物理变更，不关心具体 SQL。</li>
+        <li><strong>循环写：</strong><br/>固定大小（innodb_log_file_size），写满后从头部覆盖。<br/>被覆盖的日志前提是已通过 checkpoint 刷入数据文件。</li>
+      </ul>
+      <p><strong>三、undo log 深入：</strong></p>
+      <ul>
+        <li><strong>作用1：事务回滚。</strong><br/>记录修改前的旧值，回滚时执行逆操作恢复，保证原子性（A）。</li>
+        <li><strong>作用2：MVCC 版本链。</strong><br/>配合行记录的 DB_ROLL_PTR 找到历史版本，实现快照读不加锁。</li>
+        <li><strong>记录内容：</strong><br/>逻辑日志，记录 SQL 的逆操作（INSERT→DELETE，UPDATE→反向 UPDATE）。</li>
+      </ul>
+      <p><strong>四、binlog 深入：</strong></p>
+      <ul>
+        <li><strong>作用：</strong><br/>主从复制、基于时间点恢复数据。</li>
+        <li><strong>记录格式：</strong><br/>Statement（SQL语句）、Row（行变更）、Mixed（混合）。<br/>Row 模式最安全可靠，生产推荐。</li>
+        <li><strong>追加写：</strong><br/>文件写满滚动生成新文件，不会覆盖旧日志。</li>
+      </ul>
+      <p><strong>五、两阶段提交（保证 redo log 与 binlog 一致）：</strong></p>
+      <p>1. 事务提交时先写 redo log，标记为 prepare 状态。<br/>2. 再写 binlog。<br/>3. 最后将 redo log 改为 commit 状态。</p>
+      <p>崩溃时判断：<br/>redo log 为 prepare 且 binlog 完整 → 事务生效；<br/>redo log 为 prepare 但 binlog 缺失 → 事务回滚。<br/>避免出现"redo log 有、binlog 无"或反之，防止主从数据不一致。</p>
+      <p><strong>六、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>redo log（重做日志）：</strong><br/>InnoDB 引擎层的<strong>物理日志</strong>，记录数据页的物理修改（哪个页、哪个偏移量改成了什么），<br/>用于崩溃恢复、保证已提交事务的<strong>持久性（D）</strong>，固定大小<strong>循环写</strong>。</li>
+        <li><strong>undo log（回滚日志）：</strong><br/>InnoDB 引擎层的<strong>逻辑日志</strong>，记录修改前的旧值（SQL 的逆操作），<br/>用于事务回滚保证<strong>原子性（A）</strong>，并配合 DB_ROLL_PTR 形成 MVCC 版本链。</li>
+        <li><strong>binlog（二进制日志）：</strong><br/>MySQL Server 层的<strong>逻辑日志</strong>，记录 SQL 语句或行变更，<br/>用于<strong>主从复制</strong>和基于时间点的数据恢复，追加写、不覆盖。</li>
+        <li><strong>WAL（Write-Ahead Logging，预写日志）：</strong><br/>"先写日志、再改数据页"的原则，<br/>崩溃时用日志重放恢复，避免每次提交都把脏页刷盘。</li>
+        <li><strong>物理日志 vs 逻辑日志：</strong><br/>物理日志记录"哪个页、哪个位置被改成了什么"，与具体 SQL 无关；<br/>逻辑日志记录操作语义（如 INSERT 的逆操作 DELETE），便于回滚和复制。</li>
+        <li><strong>两阶段提交（2PC）：</strong><br/>一个协调者分 <strong>prepare（准备）</strong>和 <strong>commit（提交）</strong>两阶段统一提交多个参与者，<br/>在这里用于保证 redo log 与 binlog 的一致性。</li>
+        <li><strong>MVCC（多版本并发控制）：</strong><br/>通过 undo log 保存历史版本，配合隐藏列 DB_ROLL_PTR 串联成版本链，<br/>让读操作读快照不加锁、读写互不阻塞。</li>
+        <li><strong>checkpoint（检查点）：</strong><br/>把内存中已修改的脏页刷回磁盘并推进日志位点的机制，<br/>刷盘完成后 redo log 对应部分才允许被覆盖。</li>
+        <li><strong>主从复制：</strong><br/>主库将 binlog 发送给从库并重放，<br/>使从库数据与主库一致，用于读写分离和高可用。</li>
+        <li><strong>原子性（A）/ 持久性（D）：</strong><br/>原子性——事务内所有操作要么全部成功、要么全部回滚；<br/>持久性——事务提交后数据不因崩溃而丢失。</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -235,18 +306,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>按粒度：</strong></p>
+      <p><strong>一、分类总览（先总后分）：</strong><br/>MySQL 的锁主要按 <strong>4 个维度</strong>分类，共 <strong>12 种</strong>：</p>
       <ul>
-        <li><strong>表锁：</strong>锁整张表，MyISAM默认，InnoDB也可手动LOCK TABLE。</li>
-        <li><strong>行锁：</strong>InnoDB默认，锁索引记录。</li>
+        <li><strong>按粒度分类（2 种）：</strong><br/>表锁、行锁。</li>
+        <li><strong>按模式分类（3 种）：</strong><br/>共享锁 S、排他锁 X、意向锁 IS/IX。</li>
+        <li><strong>行锁的具体类型（4 种）：</strong><br/>Record Lock、Gap Lock、Next-Key Lock、插入意向锁。</li>
+        <li><strong>其他分类维度（3 种）：</strong><br/>悲观/乐观锁、自增锁、元数据锁 MDL。</li>
       </ul>
-      <p><strong>行锁类型(InnoDB)：</strong></p>
-      <ul>
-        <li><strong>Record Lock：</strong>锁单条索引记录。</li>
-        <li><strong>Gap Lock：</strong>锁间隙，防止插入。</li>
-        <li><strong>Next-Key Lock：</strong>Record + Gap，InnoDB RR级别默认，解决幻读。</li>
-      </ul>
-      <p><strong>按模式：</strong>共享锁(S)、排他锁(X)、意向锁(IS/IX)。</p>
+      <p><strong>二、各分类详解：</strong></p>
+      <ol>
+        <li><strong>按粒度分类（2 种）：</strong>
+          <ul>
+            <li><strong>表锁：</strong><br/>锁整张表，开销小、并发低。<br/>MyISAM 默认使用；InnoDB 的 DDL 通过 MDL（元数据锁）保护表结构。</li>
+            <li><strong>行锁：</strong><br/>InnoDB 默认，锁粒度最小、并发最高。<br/>行锁基于索引实现，若条件未走索引则可能退化为全表扫描加锁。</li>
+          </ul>
+        </li>
+        <li><strong>按模式分类（3 种）：</strong>
+          <ul>
+            <li><strong>共享锁 S：</strong><br/>读锁，多个事务可同时持有，但阻止其他事务加 X 锁。<br/>SELECT ... LOCK IN SHARE MODE。</li>
+            <li><strong>排他锁 X：</strong><br/>写锁，与任何锁都互斥。<br/>SELECT ... FOR UPDATE / UPDATE / DELETE。</li>
+            <li><strong>意向锁 IS/IX：</strong><br/>表级标记，表示事务准备对表内行加锁，<br/>用于快速判断表锁与行锁是否冲突，无需逐行检查。</li>
+          </ul>
+        </li>
+        <li><strong>行锁的具体类型（InnoDB，4 种）：</strong>
+          <ul>
+            <li><strong>Record Lock：</strong><br/>记录锁，锁单条索引记录。</li>
+            <li><strong>Gap Lock：</strong><br/>间隙锁，锁索引记录之间的间隙，阻止其他事务在间隙插入。</li>
+            <li><strong>Next-Key Lock：</strong><br/>Record + Gap 组合，左开右闭区间。<br/>InnoDB RR 级别默认加锁方式，解决幻读。</li>
+            <li><strong>插入意向锁：</strong><br/>插入前先获取，与 Gap Lock 互斥，控制插入位置。</li>
+          </ul>
+        </li>
+        <li><strong>其他分类维度（3 种）：</strong>
+          <ul>
+            <li><strong>悲观锁 / 乐观锁：</strong><br/>悲观锁：SELECT ... FOR UPDATE，先锁后操作；<br/>乐观锁：版本号 / CAS，冲突时重试，适合读多写少。</li>
+            <li><strong>自增锁：</strong><br/>控制自增列并发插入的连续性，innodb_autoinc_lock_mode 可配置。</li>
+            <li><strong>元数据锁 MDL：</strong><br/>保护表结构定义，DDL 与 DML 之间互斥。</li>
+          </ul>
+        </li>
+      </ol>
+      <p><strong>💡 快照读 vs 当前读：</strong><br/>快照读（普通 SELECT）不加锁，走 MVCC，并发高；<br/>当前读（FOR UPDATE / UPDATE / DELETE）加行锁。<br/>两个事务同时更新同一行会产生锁等待，甚至死锁。</p>
     </div>
   </div>
 </div>
@@ -257,15 +355,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
+      <p><strong>一、最常见失效场景（面试必答）：</strong></p>
       <ul>
-        <li>联合索引不满足最左前缀。</li>
-        <li>索引列使用函数/计算：<code>WHERE YEAR(create_time)=2024</code></li>
-        <li>模糊查询前置%：<code>LIKE '%keyword'</code></li>
-        <li>隐式类型转换：字符串列用数字查。</li>
-        <li>OR连接非索引列。</li>
-        <li>!=、NOT IN、IS NULL/IS NOT NULL(可能失效)。</li>
+        <li><strong>不满足最左前缀：</strong><br/>联合索引 (a,b,c)，跳过最左列直接查 b 或 c。<br/>例：WHERE b=1（a 未使用）。</li>
+        <li><strong>索引列使用函数或计算：</strong><br/>例：WHERE YEAR(create_time)=2024、WHERE id+1=10。<br/>索引存的是原始值，无法匹配函数/计算后的结果。</li>
+        <li><strong>隐式类型转换：</strong><br/>例：WHERE phone=13800138000（phone 是 varchar）。<br/>类型转换作用于索引列导致失效，建议改为 '13800138000'。</li>
+        <li><strong>模糊匹配前置 %：</strong><br/>例：LIKE '%keyword'、LIKE '%key%'。<br/>只有 'keyword%'（前缀匹配）能走索引。</li>
+        <li><strong>OR 连接非索引列：</strong><br/>例：WHERE a=1 OR b=2（b 无索引）。<br/>MySQL 无法同时走索引，整体退化为全表扫描。</li>
       </ul>
-      <p>💡 使用EXPLAIN查看执行计划，key列为NULL即未走索引。</p>
+      <p><strong>二、其他易踩坑场景：</strong></p>
+      <ul>
+        <li><strong>范围查询导致后续列失效：</strong><br/>联合索引 (a,b)，WHERE a&gt;10 AND b=1 时 b 列失效。<br/>设计时把范围查询列放最后。</li>
+        <li><strong>!=、&lt;&gt;、NOT IN、NOT LIKE：</strong><br/>MySQL 认为选择性低、范围大，一般走全表扫描。</li>
+        <li><strong>IS NULL / IS NOT NULL：</strong><br/>当非空值占比很大时，优化器可能放弃索引。</li>
+        <li><strong>关联列字符集不一致：</strong><br/>JOIN 两表关联列字符集不同（utf8 vs utf8mb4），无法使用索引。</li>
+        <li><strong>优化器主动放弃：</strong><br/>索引区分度太低（如性别列），优化器认为全表扫描更快而不用索引。</li>
+      </ul>
+      <p><strong>💡 排查方法：</strong><br/>EXPLAIN 看 key 列，为 NULL 即未走索引；<br/>关注 type 字段，尽量达到 ref 或 range 级别。</p>
     </div>
   </div>
 </div>
@@ -276,14 +382,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
+      <p><strong>核心字段逐一说明：</strong></p>
       <ul>
-        <li><strong>id：</strong>查询序号，越大优先级越高。</li>
-        <li><strong>select_type：</strong>SIMPLE/PRIMARY/SUBQUERY/DERIVED等。</li>
-        <li><strong>type：</strong>访问类型，从好到差：system>const>eq_ref>ref>range>index>ALL</li>
-        <li><strong>key：</strong>实际使用的索引。</li>
-        <li><strong>rows：</strong>预估扫描行数。</li>
-        <li><strong>Extra：</strong>Using index(覆盖索引)、Using filesort(文件排序-需优化)、Using temporary(临时表-需优化)。</li>
+        <li><strong>id：</strong><br/>SELECT 的序号，id 越大优先级越高、越先执行；<br/>id 相同则按从上到下顺序执行。</li>
+        <li><strong>select_type：</strong><br/>查询类型：<br/>SIMPLE（简单查询）、PRIMARY（最外层）、SUBQUERY（子查询）、DERIVED（派生表）、UNION（联合查询）、UNION RESULT（联合结果）。</li>
+        <li><strong>table：</strong><br/>当前访问的表名（含别名）。</li>
+        <li><strong>type：</strong><br/>访问类型，从好到差：<br/>system &gt; const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL。<br/>const：主键/唯一键等值查询；eq_ref：连接时被驱动表用唯一索引；<br/>ref：普通索引等值；range：范围查询；index：扫全索引；<br/>ALL：全表扫描，需要优化。</li>
+        <li><strong>possible_keys：</strong><br/>优化器可能用到的索引。</li>
+        <li><strong>key：</strong><br/>实际使用的索引，为 NULL 表示未走索引。</li>
+        <li><strong>key_len：</strong><br/>索引使用的字节数，越小越好。<br/>可用于判断联合索引实际用到了几列。</li>
+        <li><strong>ref：</strong><br/>索引匹配的列或常量。</li>
+        <li><strong>rows：</strong><br/>预估扫描行数，越小越好。</li>
+        <li><strong>Extra：</strong><br/>额外信息：<br/>Using index：覆盖索引，最优；<br/>Using index condition：索引下推 ICP；<br/>Using filesort：需额外排序，应优化；<br/>Using temporary：使用临时表，应优化。</li>
       </ul>
+      <p><strong>💡 实战排查口诀：</strong><br/>type 至少达到 range，最好 ref 及以上；<br/>key 不能为 NULL；<br/>Extra 避免出现 filesort 和 temporary。</p>
     </div>
   </div>
 </div>
@@ -294,13 +406,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <ol>
-        <li><strong>索引优化：</strong>合理建索引、覆盖索引、避免索引失效。</li>
-        <li><strong>SQL优化：</strong>避免SELECT *、避免大事务、用连接替代子查询。</li>
-        <li><strong>表结构：</strong>字段选择合适类型、垂直拆分大字段、适当冗余。</li>
-        <li><strong>架构：</strong>读写分离、分库分表、使用缓存(Redis)。</li>
-        <li><strong>慢查询日志：</strong>开启slow_query_log，分析慢SQL。</li>
-      </ol>
+      <p><strong>一、先定位慢 SQL：</strong></p>
+      <ul>
+        <li>开启慢查询日志 slow_query_log，设置 long_query_time 阈值。</li>
+        <li>对慢 SQL 用 EXPLAIN 分析执行计划，确认是否走索引。</li>
+      </ul>
+      <p><strong>二、索引层面：</strong></p>
+      <ul>
+        <li><strong>合理建索引：</strong><br/>高频 WHERE、JOIN、ORDER BY 列建索引，区分度高的列优先。</li>
+        <li><strong>覆盖索引：</strong><br/>查询列全部包含在索引中，避免回表（Extra 显示 Using index）。</li>
+        <li><strong>避免索引失效：</strong><br/>函数/计算、隐式类型转换、前置 %、OR 连接非索引列等。</li>
+        <li><strong>联合索引注意列顺序：</strong><br/>遵守最左前缀，范围查询列放最后。</li>
+      </ul>
+      <p><strong>三、SQL 写法层面：</strong></p>
+      <ul>
+        <li><strong>避免 SELECT *：</strong><br/>只取需要的列，减少回表与网络传输。</li>
+        <li><strong>用 JOIN 替代子查询：</strong><br/>子查询可能产生临时表，性能更差。</li>
+        <li><strong>大分页优化：</strong><br/>LIMIT 100000,10 改为延迟关联（先查 id 再回表）<br/>或游标方式：WHERE id &gt; 上次最大值 ORDER BY id LIMIT 10。</li>
+        <li><strong>避免大事务：</strong><br/>分批处理，减少锁持有时间，降低死锁概率。</li>
+        <li><strong>批量操作：</strong><br/>批量 insert / 批量 update，避免逐条提交。</li>
+      </ul>
+      <p><strong>四、表结构层面：</strong></p>
+      <ul>
+        <li>字段选择合适类型，能用 int 不用 varchar，能用 varchar(20) 不用 varchar(200)。</li>
+        <li>大字段 / 低频字段垂直拆分。</li>
+        <li>适当冗余、反范式化，减少 JOIN。</li>
+        <li>大表考虑分区或归档历史数据。</li>
+      </ul>
+      <p><strong>五、架构层面：</strong></p>
+      <ul>
+        <li>读写分离：主库写、从库读。</li>
+        <li>分库分表：单表数据量过大时拆分。</li>
+        <li>引入缓存：热点数据放 Redis，扛住读压力。</li>
+      </ul>
+      <p><strong>💡 优化顺序建议：</strong><br/>先看 SQL 写法和索引（成本最低、收益最大），<br/>再看表结构，最后才考虑读写分离 / 分库分表等架构手段。</p>
     </div>
   </div>
 </div>
@@ -312,13 +451,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
       <ul>
-        <li><strong>垂直分库：</strong>按业务拆分数据库(订单库、用户库)。</li>
-        <li><strong>垂直分表：</strong>大表按列拆分，主表存常用字段。</li>
-        <li><strong>水平分库：</strong>按规则(如用户ID)路由到不同库。</li>
-        <li><strong>水平分表：</strong>同一库内按规则分多张表。</li>
+        <li><strong>垂直分库：</strong><br/>按业务域拆分数据库（订单库、用户库、商品库），解决单库容量与连接数瓶颈。<br/>缺点：跨库事务、跨库JOIN变复杂。</li>
+        <li><strong>垂直分表：</strong><br/>把大表按列拆分，主表存高频字段，扩展表存大字段/低频字段。<br/>适合字段多、部分字段大且访问少的情况。</li>
+        <li><strong>水平分库：</strong><br/>同一张表的数据按分片键路由到多个库，每个库存一部分。<br/>解决单库数据量过大、写入吞吐瓶颈。</li>
+        <li><strong>水平分表：</strong><br/>同一库内按规则拆成多张结构相同的表。<br/>解决单表数据量过大导致的索引变深、查询变慢。</li>
       </ul>
-      <p><strong>分片策略：</strong>Hash取模(均匀但扩容难)、Range范围(扩容易但不均匀)、一致性Hash。</p>
-      <p>💡 中间件：ShardingSphere、MyCat。</p>
+      <p><strong>分片策略对比：</strong></p>
+      <ul>
+        <li><strong>Hash取模：</strong><br/>数据分布均匀，但扩容时取模基数变化需大量迁移数据（可用一致性Hash缓解）。</li>
+        <li><strong>Range范围：</strong><br/>按时间/ID区间分片，扩容简单，但热点集中在最新区间。</li>
+        <li><strong>一致性Hash：</strong><br/>扩容时只影响少量数据迁移，适合节点增减频繁的场景。</li>
+      </ul>
+      <p><strong>💡 中间件：</strong><br/>ShardingSphere（推荐，功能全）、MyCat。<br/>分库分表后还需处理：分布式ID、跨库查询、跨库事务、全局表/广播表。</p>
     </div>
   </div>
 </div>
@@ -329,16 +473,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
+      <p><strong>一、先定义清楚：</strong></p>
+      <ul>
+        <li><strong>MyISAM：</strong><br/>MySQL 早期（5.5 之前）默认存储引擎。<br/>使用表锁 + 非聚集索引，不支持事务、外键、崩溃恢复，<br/>但读取速度快、占用空间小，适合只读报表、日志类低并发场景。</li>
+        <li><strong>InnoDB：</strong><br/>MySQL 5.5+ 默认存储引擎。<br/>支持事务（ACID）、行级锁、外键、崩溃自动恢复，<br/>使用聚簇索引组织数据，适合高并发读写的事务型业务。</li>
+      </ul>
+      <p><strong>二、对比表格：</strong></p>
       <div class="table-wrap"><table>
         <tr><th>对比</th><th>MyISAM</th><th>InnoDB</th></tr>
-        <tr><td>事务</td><td>不支持</td><td>支持</td></tr>
-        <tr><td>行锁</td><td>表锁</td><td>行锁+MVCC</td></tr>
+        <tr><td>事务</td><td>不支持</td><td>支持（ACID）</td></tr>
+        <tr><td>锁粒度</td><td>表锁</td><td>行锁 + MVCC</td></tr>
         <tr><td>外键</td><td>不支持</td><td>支持</td></tr>
-        <tr><td>崩溃恢复</td><td>差</td><td>强(redo log)</td></tr>
-        <tr><td>索引</td><td>非聚集</td><td>聚集索引</td></tr>
-        <tr><td>全文索引</td><td>支持</td><td>5.6+支持</td></tr>
-        <tr><td>适用</td><td>只读/日志</td><td>通用/高并发</td></tr>
+        <tr><td>崩溃恢复</td><td>差</td><td>强（redo log）</td></tr>
+        <tr><td>索引结构</td><td>非聚集（叶子存指针）</td><td>聚簇索引（叶子存数据）</td></tr>
+        <tr><td>主键</td><td>可无主键</td><td>必须有，无则自动生成隐藏主键</td></tr>
+        <tr><td>存储文件</td><td>.frm/.MYD/.MYI 三个文件</td><td>.frm/.ibd</td></tr>
+        <tr><td>缓存</td><td>只缓存索引</td><td>Buffer Pool 缓存数据+索引</td></tr>
+        <tr><td>全文索引</td><td>支持</td><td>5.6+ 支持</td></tr>
+        <tr><td>适用</td><td>只读/日志/小表</td><td>通用/高并发/事务</td></tr>
       </table></div>
+      <p><strong>三、关键差异展开讲：</strong></p>
+      <ul>
+        <li><strong>锁粒度：</strong><br/>MyISAM 只支持表锁，写操作锁全表，并发写性能差；<br/>InnoDB 支持行锁，配合 MVCC 读写不互斥，高并发下性能好。</li>
+        <li><strong>索引结构：</strong><br/>MyISAM 是非聚集索引，索引树叶子节点存数据行地址指针；<br/>InnoDB 是聚簇索引，主键索引叶子节点直接存整行数据，二级索引叶子节点存主键值。</li>
+        <li><strong>事务与外键：</strong><br/>MyISAM 不支持事务和外键；<br/>InnoDB 支持 ACID 事务、外键约束，是业务系统的前提。</li>
+        <li><strong>崩溃恢复：</strong><br/>MyISAM 崩溃后需要修复表（REPAIR TABLE），可能丢数据；<br/>InnoDB 通过 redo log 自动恢复，保证持久性。</li>
+      </ul>
+      <p><strong>💡 为什么 MySQL 默认用 InnoDB：</strong><br/>支持事务、行锁、外键、崩溃恢复，适合绝大多数业务场景。<br/>MyISAM 仅适合只读报表、日志表、数据仓库等低并发场景，<br/>MySQL 5.7 之后 MyISAM 已逐渐边缘化。</p>
     </div>
   </div>
 </div>
@@ -349,13 +510,42 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>基于binlog的异步复制：</strong></p>
+      <p><strong>一、什么是主从复制：</strong><br/>将主库（Master）的数据变更实时同步到一台或多台从库（Slave）的机制。<br/>主库负责写，从库负责读，是读写分离和数据备份的基础。</p>
+      <p><strong>二、为什么要主从复制（目的）：</strong></p>
+      <ul>
+        <li><strong>读写分离：</strong><br/>主库写、从库读，分摊读压力，提升系统并发能力。</li>
+        <li><strong>高可用：</strong><br/>主库宕机后从库可提升为新主库，减少业务中断。</li>
+        <li><strong>数据安全：</strong><br/>从库作为实时备份，防止误操作或单点故障导致数据丢失。</li>
+        <li><strong>离线分析：</strong><br/>报表、统计等重查询放到从库执行，不影响主库性能。</li>
+      </ul>
+      <p><strong>三、原理（基于 binlog，三个线程协作）：</strong></p>
       <ol>
-        <li><strong>Master：</strong>数据变更写入binlog。</li>
-        <li><strong>Slave I/O线程：</strong>连接Master，读取binlog→写入relay log。</li>
-        <li><strong>Slave SQL线程：</strong>读取relay log→重放SQL。</li>
+        <li><strong>Master Binlog Dump 线程：</strong><br/>主库数据变更写入 binlog 后，该线程将 binlog 事件推送给从库。</li>
+        <li><strong>Slave I/O 线程：</strong><br/>连接到主库接收 binlog 事件，写入从库的 relay log（中继日志），并记录复制位点。</li>
+        <li><strong>Slave SQL 线程：</strong><br/>读取 relay log，按顺序重放 SQL，将变更应用到从库。</li>
       </ol>
-      <p><strong>复制模式：</strong>STATEMENT(SQL语句)、ROW(行变更-推荐)、MIXED(混合)。</p>
+      <p><strong>四、复制模式（binlog 记录格式）：</strong></p>
+      <ul>
+        <li><strong>STATEMENT（语句模式）：</strong><br/>记录 SQL 语句，日志量小；<br/>但函数、存储过程等场景可能导致主从不一致。</li>
+        <li><strong>ROW（行模式）：</strong><br/>记录行级变更，最安全一致，生产推荐；<br/>缺点是日志量大。</li>
+        <li><strong>MIXED（混合模式）：</strong><br/>MySQL 默认，两种方式自动切换。</li>
+      </ul>
+      <p><strong>五、同步方式：</strong></p>
+      <ul>
+        <li><strong>异步复制：</strong><br/>主库提交不等从库，延迟最低；<br/>但主库宕机时可能丢失已提交的数据。</li>
+        <li><strong>半同步复制（semi-sync）：</strong><br/>至少一个从库收到并确认 binlog 后主库才提交，安全性提升。</li>
+        <li><strong>全同步复制：</strong><br/>所有从库确认后才提交，最安全但性能最差。</li>
+      </ul>
+      <p><strong>六、注意事项：</strong></p>
+      <ul>
+        <li><strong>主从延迟是常态：</strong><br/>写后立即读等强一致场景要走主库，或等待从库同步完成。</li>
+        <li><strong>binlog 格式：</strong><br/>推荐 ROW 模式，并设置 binlog_row_image=FULL 保证一致性。</li>
+        <li><strong>复制账号最小权限：</strong><br/>只授予 REPLICATION SLAVE 权限，不用 root。</li>
+        <li><strong>每张表都要有主键：</strong><br/>否则 ROW 模式复制效率极低，甚至无法正确同步。</li>
+        <li><strong>从库设置只读：</strong><br/>read_only=1，避免从库被误写导致主从不一致。</li>
+        <li><strong>控制大事务：</strong><br/>大事务会放大主从延迟，应拆分为小事务分批执行。</li>
+        <li><strong>监控延迟：</strong><br/>通过 Seconds_Behind_Master 监控，延迟过大及时告警处理。</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -366,94 +556,1067 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>SQL注入：</strong>攻击者通过输入特殊字符篡改SQL语义，执行恶意操作。</p>
-      <p><strong>防止方式：</strong></p>
+      <p><strong>一、什么是 SQL 注入：</strong></p>
+      <p>攻击者把恶意 SQL 片段拼进用户输入，改变原 SQL 的语义，执行未授权的操作。</p>
+      <p><strong>经典示例：</strong><br/>登录校验：SELECT * FROM user WHERE name='xxx' AND pwd='123'；<br/>输入 ' OR '1'='1 后拼成：<br/>WHERE name='' OR '1'='1' AND pwd='123'，条件恒真，直接绕过登录。</p>
+      <p><strong>二、危害：</strong><br/>拖库（读取全部数据）、篡改/删除数据、绕过认证、<br/>甚至通过存储过程或 UDF 执行系统命令，拿到服务器权限。</p>
+      <p><strong>三、防御手段（面试重点）：</strong></p>
       <ul>
-        <li><strong>PreparedStatement预编译</strong>（最有效）。</li>
-        <li>输入校验和过滤。</li>
-        <li>最小权限原则。</li>
-        <li>ORM框架自动防注入（MyBatis用#{}而非${}）。</li>
+        <li><strong>PreparedStatement 预编译（最有效）：</strong><br/>参数与 SQL 分离，SQL 先由数据库引擎编译，<br/>用户输入只作为参数值传递，无法改变 SQL 语义。</li>
+        <li><strong>MyBatis 用 #{} 不用 ${}：</strong><br/>#{} 是预编译占位符；${} 直接拼接字符串，存在注入风险。<br/>只有表名/列名等动态场景才用 ${}，且必须白名单校验。</li>
+        <li><strong>输入校验与过滤：</strong><br/>白名单校验、长度限制、过滤特殊字符（'、"、;、--）。</li>
+        <li><strong>最小权限原则：</strong><br/>应用账号只授予必要的库表权限，不用 root，<br/>即使被注入也无法造成更大破坏。</li>
+        <li><strong>隐藏错误信息：</strong><br/>关闭详细 SQL 报错回显，避免攻击者利用报错判断注入点。</li>
+        <li><strong>WAF / 数据库防火墙：</strong><br/>拦截常见注入特征，作为纵深防御的最后一道防线。</li>
       </ul>
+      <p><strong>💡 一句话总结：</strong><br/>核心是"参数与 SQL 分离"——预编译 + 参数化查询；<br/>输入校验、权限控制、WAF 等都属于纵深防御。</p>
     </div>
   </div>
 </div>
 
 <!-- Q17 -->
-<div class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">MySQL 主从复制原理和流程？</div><div class="q-tags"><span class="q-tag">主从复制</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>三个线程协作完成：</p><ol><li><strong>Master Binlog Dump Thread：</strong>主库binlog变化→通知从库。</li><li><strong>Slave I/O Thread：</strong>连接主库，接收binlog→写入relay log。</li><li><strong>Slave SQL Thread：</strong>读取relay log→重放SQL→完成复制。</li></ol><p><strong>复制模式：</strong>STATEMENT（语句）、ROW（行）、MIXED（混合，默认）。ROW模式更安全，但日志量大。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">MySQL 主从复制原理和流程？</div><div class="q-tags"><span class="q-tag">主从复制</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、复制流程（三个线程协作）：</strong></p>
+      <ol>
+        <li><strong>Master Binlog Dump Thread：</strong><br/>主库事务提交写 binlog 后，将 binlog 事件发送给从库。</li>
+        <li><strong>Slave I/O Thread：</strong><br/>连接主库拉取 binlog，写入本机 relay log，并记录复制位点（file+pos）。</li>
+        <li><strong>Slave SQL Thread：</strong><br/>顺序读取 relay log 并重放，将变更应用到从库，完成数据同步。</li>
+      </ol>
+      <p><strong>二、binlog 记录格式：</strong></p>
+      <ul>
+        <li><strong>STATEMENT（语句模式）：</strong><br/>记录 SQL 语句，日志量小；<br/>函数、存储过程等场景可能导致主从不一致。</li>
+        <li><strong>ROW（行模式）：</strong><br/>记录行级变更，最安全一致，生产推荐；<br/>缺点是日志量较大。</li>
+        <li><strong>MIXED（混合模式）：</strong><br/>MySQL 默认，两种方式自动切换。</li>
+      </ul>
+      <p><strong>三、复制架构：</strong></p>
+      <ul>
+        <li><strong>一主一从：</strong><br/>基础架构，读写分离入门。</li>
+        <li><strong>一主多从：</strong><br/>多个从库分摊读压力，提升读吞吐。</li>
+        <li><strong>级联复制：</strong><br/>从库再挂从库，减轻主库推送压力；<br/>但链路越长延迟越大。</li>
+        <li><strong>双主互备：</strong><br/>互为主从，配合 keepalived 实现高可用自动切换。</li>
+      </ul>
+      <p><strong>四、GTID 复制：</strong><br/>5.7+ 引入 GTID（全局事务标识），每个事务有全局唯一 ID；<br/>主从切换时无需手动定位 binlog 位点，配置更简单可靠。</p>
+      <p><strong>五、复制方式：</strong><br/>异步复制：延迟最低，但主库宕机可能丢数据；<br/>半同步复制：至少一个从库确认 binlog 才提交；<br/>全同步复制：所有从库确认才提交，性能最差。</p>
+      <p><strong>💡 注意事项：</strong><br/>每张表要有主键，从库设置 read_only=1；<br/>推荐 ROW 模式 + GTID，并通过 Seconds_Behind_Master 监控延迟。</p>
+    </div>
+  </div>
+</div>
 
 <!-- Q18 -->
-<div class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">主从延迟的原因和解决方案？</div><div class="q-tags"><span class="q-tag">主从延迟</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>延迟原因：</strong></p><ul><li>从库性能差/配置低。</li><li>从库并发写入压力大（大事务、大量DML）。</li><li>网络延迟。</li><li>主库写并发高。</li></ul><p><strong>解决方案：</strong></p><ul><li>并行复制（MySQL 5.7+）：slave_parallel_workers。</li><li>分库分表降低单库压力。</li><li>升级硬件和网络。</li><li>读写分离时，核心写后读走主库。</li><li>缓存层降低读压力。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">主从延迟的原因和解决方案？</div><div class="q-tags"><span class="q-tag">主从延迟</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、什么是主从延迟：</strong><br/>主库写完数据，从库没有及时跟上，从库数据落后于主库的现象。<br/>产生窗口 = 主库写入完成到从库重放完成之间的时间差，<br/>可通过 SHOW SLAVE STATUS 的 Seconds_Behind_Master 量化。</p>
+      <p><strong>二、延迟产生的原因：</strong></p>
+      <ul>
+        <li><strong>从库单线程重放：</strong><br/>历史版本从库只有一个 SQL 线程顺序重放 binlog，<br/>主库写入越快，从库越跟不上。</li>
+        <li><strong>大事务：</strong><br/>主库一个大事务的 binlog 到从库后需整体重放，<br/>期间其他事务只能排队等待。</li>
+        <li><strong>从库锁竞争：</strong><br/>从库自身的查询（如报表）占用锁，阻塞 SQL 线程。</li>
+        <li><strong>从库硬件差：</strong><br/>磁盘、CPU、内存配置低于主库。</li>
+        <li><strong>网络延迟：</strong><br/>主从跨机房/跨地域时，I/O 线程拉取 binlog 变慢。</li>
+        <li><strong>主库写并发过高：</strong><br/>产生的 binlog 量超过从库消费能力。</li>
+      </ul>
+      <p><strong>三、解决方案：</strong></p>
+      <ul>
+        <li><strong>并行复制（5.7+）：</strong><br/>配置 slave_parallel_workers，按库/按事务并行重放，提升从库吞吐。</li>
+        <li><strong>拆分大事务：</strong><br/>大批量 DML 分批执行，减小单事务 binlog 体积。</li>
+        <li><strong>读写分离策略：</strong><br/>核心写后读（强一致）走主库；<br/>从库只承担可容忍延迟的读。</li>
+        <li><strong>缓存降读：</strong><br/>热点数据放 Redis，减少打到从库的读压力。</li>
+        <li><strong>架构优化：</strong><br/>分库分表分散写入压力；<br/>从库提升硬件配置，使用 SSD。</li>
+        <li><strong>监控与告警：</strong><br/>SHOW SLAVE STATUS 查看 Seconds_Behind_Master，延迟超标及时告警。</li>
+      </ul>
+      <p><strong>💡 完整业务案例（电商订单系统）：</strong></p>
+      <p><strong>场景：</strong><br/>订单系统采用主写从读架构，某天晚上运营在后台批量执行修改操作。</p>
+      <p><strong>触发 SQL：</strong><br/>UPDATE orders SET status=5 WHERE status=2；<br/>一次性更新 500 万行，事务耗时 15 分钟才提交，binlog 产生约 1GB。</p>
+      <p><strong>现象：</strong><br/>主库一切正常，但前端订单列表（读从库）一直显示旧状态，用户投诉数据不刷新；<br/>执行 SHOW SLAVE STATUS\G 查看：<br/><code>Slave_IO_Running: Yes</code><br/><code>Slave_SQL_Running: Yes</code><br/><code>Seconds_Behind_Master: 900</code><br/>SQL 线程正常但已落后主库 900 秒（15 分钟）。</p>
+      <p><strong>原因分析：</strong><br/>1. 大事务 binlog 体积大，I/O 线程拉取耗时；<br/>2. 从库 SQL 线程单线程重放 500 万行 UPDATE，耗时极长；<br/>3. 期间主库新产生的事务全部在从库排队，延迟持续累积。</p>
+      <p><strong>解决方案：</strong><br/>1. 避免一次性大事务：按 id 分批 UPDATE，每次 5 万行，提交后 sleep(1)；<br/>2. 开启并行复制：slave_parallel_workers=4、slave_parallel_type=LOGICAL_CLOCK；<br/>3. 强一致读取走主库：支付回调、下单结果等核心场景路由到主库；<br/>4. 热点数据加 Redis 缓存，短期读到旧值也可接受。</p>
+      <p><strong>最终结果：</strong><br/>从库延迟从 15 分钟降到 3 秒以内，业务恢复正常。</p>
+      <p><strong>💡 判断延迟命令：</strong><br/>SHOW SLAVE STATUS 的 Seconds_Behind_Master 字段，<br/>为 0 表示无延迟，数值越大表示延迟越严重。</p>
+    </div>
+  </div>
+</div>
 
 <!-- Q19 -->
-<div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">MySQL 分库分表方案有哪些？</div><div class="q-tags"><span class="q-tag">分库分表</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>垂直拆分：</strong></p><ul><li><strong>垂直分库：</strong>按业务（用户库、订单库）。</li><li><strong>垂直分表：</strong>按字段（常用字段和不常用字段分开）。</li></ul><p><strong>水平拆分：</strong></p><ul><li><strong>范围分片：</strong>按时间范围（按月分表）。</li><li><strong>Hash分片：</strong>按key取模（userId%N）。</li><li><strong>一致性Hash：</strong>减少扩缩容时数据迁移。</li><li><strong>地理分片：</strong>按地区。</li></ul><p><strong>中间件：</strong>ShardingSphere（Sharding-JDBC/Proxy）、MyCat。</p><p><strong>问题：</strong>跨库JOIN、分布式事务、全局ID、数据迁移。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">MySQL 分库分表方案有哪些？</div><div class="q-tags"><span class="q-tag">分库分表</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">      <p><strong>一、什么是分库分表：</strong><br/>将原本存储在单库单表的数据拆分到多个数据库和表中，<br/>解决单库性能瓶颈（连接数、磁盘 IO、CPU）和单表数据量过大（查询慢、索引膨胀）的问题。</p>
+      <p><strong>二、为什么要分库分表：</strong></p>
+      <ul>
+        <li><strong>单库性能瓶颈：</strong><br/>连接数上限（默认 151）、CPU 和磁盘 IO 达到上限，<br/>无法通过升级硬件线性扩展。</li>
+        <li><strong>单表数据量过大：</strong><br/>超过千万级后查询变慢、索引维护成本高、DDL 锁表时间极长。</li>
+        <li><strong>高并发写入：</strong><br/>单库写压力大，拆分到多库可分散写入。</li>
+      </ul>
+      <p><strong>三、拆分方式：</strong></p>
+      <p><strong>垂直拆分：</strong></p>
+      <ul>
+        <li><strong>垂直分库：</strong><br/>按业务模块拆分，如用户库、订单库、商品库。<br/>不同业务独立部署，互不干扰。</li>
+        <li><strong>垂直分表：</strong><br/>按字段拆分，把常用字段（id、name、status）和不常用字段（详情、图片、备注）分开。<br/>减少行宽度，提升缓存命中率。</li>
+      </ul>
+      <p><strong>水平拆分：</strong></p>
+      <ul>
+        <li><strong>范围分片：</strong><br/>按时间范围拆分，如按月分表 orders_202401、orders_202402。<br/>优点：扩容简单，新月份直接建新表；<br/>缺点：数据分布不均，热点集中在新表。</li>
+        <li><strong>Hash 分片：</strong><br/>按分片键取模，如 userId % 4 分到 4 张表。<br/>优点：数据分布均匀；<br/>缺点：扩容需迁移大量数据。</li>
+        <li><strong>一致性 Hash：</strong><br/>在 Hash 基础上引入虚拟节点，扩缩容时只影响相邻节点，<br/>减少数据迁移量，适合动态扩缩容场景。</li>
+        <li><strong>地理分片：</strong><br/>按地区拆分，如华东库、华北库，<br/>适合按地域就近访问的业务。</li>
+      </ul>
+      <p><strong>四、分片键选择：</strong><br/>选择高频查询条件字段作为分片键，如用户表选 userId、订单表选 userId 或 orderId。<br/>避免使用自增 ID 作为分片键（热点集中）。</p>
+      <p><strong>五、中间件：</strong></p>
+      <ul>
+        <li><strong>ShardingSphere：</strong><br/>Java 生态主流，支持 Sharding-JDBC（应用层）和 Sharding-Proxy（代理层）两种模式。</li>
+        <li><strong>MyCat：</strong><br/>基于 MySQL 协议的数据库中间件，对应用透明。</li>
+      </ul>
+      <p><strong>六、带来的问题：</strong></p>
+      <ul>
+        <li><strong>跨库 JOIN：</strong><br/>分库后无法直接 JOIN，需先查单库再聚合，或冗余字段到同库。</li>
+        <li><strong>分布式事务：</strong><br/>跨库操作需引入 Seata、TCC、Saga 等分布式事务方案。</li>
+        <li><strong>全局 ID：</strong><br/>自增 ID 不唯一，需改用雪花算法、号段模式等分布式 ID 方案。</li>
+        <li><strong>数据迁移：</strong><br/>扩容或调整分片规则时，需双写 + 数据迁移 + 校验。</li>
+        <li><strong>排序分页：</strong><br/>跨库 ORDER BY / LIMIT 需各库分别查询后内存归并，性能差。</li>
+      </ul>
+      <p><strong>💡 完整业务示例：</strong></p>
+      <p><strong>场景：</strong><br/>电商订单表 orders 数据量达 5000 万，单表查询慢，写入压力大。</p>
+      <p><strong>方案：</strong><br/>1. 先垂直分表：把订单基本信息和订单详情拆成两张表；<br/>2. 再水平分表：按 userId % 8 拆成 8 张表；<br/>3. 分片键选 userId，因为 99% 查询都带 userId 条件；<br/>4. 通过 Sharding-JDBC 配置分片规则，应用层无感知；<br/>5. 订单 ID 改用雪花算法，保证全局唯一。</p>
+      <p><strong>结果：</strong><br/>单表数据量降到 600 万左右，查询响应从 2 秒降到 50 毫秒。</p></div></div></div>
 
 <!-- Q20 -->
-<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">分布式ID 生成方案有哪些？</div><div class="q-tags"><span class="q-tag">分布式ID</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>UUID：</strong>简单但无序，索引性能差。</li><li><strong>数据库自增ID：</strong>单点瓶颈，适合小规模。</li><li><strong>数据库号段模式：</strong>一次取一段ID（如Leaf），减少DB访问。</li><li><strong>Redis incr：</strong>性能高，需持久化。</li><li><strong>Snowflake（雪花算法）：</strong>64位，1位符号+41位时间戳+10位机器ID+12位序列号。高性能、趋势递增。</li><li><strong>美团Leaf：</strong>号段+Snowflake双模式。</li><li><strong>百度UidGenerator：</strong>基于Snowflake改进。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">分布式ID 生成方案有哪些？</div><div class="q-tags"><span class="q-tag">分布式ID</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、什么是分布式 ID：</strong><br/>在分布式、分库分表场景下，需要一种全局唯一、高性能、趋势递增的 ID 生成方案。<br/>数据库自增 ID 在分库后无法保证唯一，因此需要专门的分布式 ID 方案。</p>
+      <p><strong>二、为什么需要分布式 ID：</strong></p>
+      <ul>
+        <li><strong>全局唯一：</strong><br/>分库分表后各库独立自增，ID 必然重复。</li>
+        <li><strong>高性能：</strong><br/>ID 生成不能成为系统瓶颈。</li>
+        <li><strong>趋势递增：</strong><br/>有序 ID 有利于 B+ 树索引顺序写入，避免随机 IO 和页分裂。</li>
+      </ul>
+      <p><strong>三、主流方案对比表：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>方案</th><th>原理</th><th>优点</th><th>缺点</th></tr>
+        <tr><td>UUID</td><td>全局唯一字符串</td><td>无需依赖、绝对唯一</td><td>无序、长度大、索引性能差</td></tr>
+        <tr><td>数据库自增</td><td>AUTO_INCREMENT</td><td>实现简单、有序</td><td>单点瓶颈、分库后冲突</td></tr>
+        <tr><td>号段模式</td><td>一次取一段，内存分配</td><td>DB 压力小、性能高</td><td>依赖 DB，号段用完需拉取</td></tr>
+        <tr><td>Redis incr</td><td>Redis 原子自增</td><td>性能高</td><td>依赖 Redis 可用性和持久化</td></tr>
+        <tr><td>雪花算法</td><td>时间戳+机器+序列</td><td>高性能、趋势递增</td><td>依赖时钟，回拨会重复</td></tr>
+        <tr><td>美团 Leaf</td><td>号段+雪花双模式</td><td>方案成熟、可降级</td><td>需部署独立组件</td></tr>
+      </table></div>
+      <p><strong>四、各方案详解：</strong></p>
+      <ul>
+        <li><strong>UUID：</strong><br/>生成简单，全局绝对唯一；<br/>但 36 位字符串无序且长，作为主键会导致 B+ 树随机插入、页分裂严重，索引性能差。</li>
+        <li><strong>数据库自增 ID：</strong><br/>实现最简单，天然有序；<br/>单库单点瓶颈，分库分表后 ID 冲突，仅适合小规模系统。</li>
+        <li><strong>数据库号段模式：</strong><br/>每次从数据库取一段 ID（如 1000 个）缓存到内存，分配完再取；<br/>大幅减少数据库访问次数，性能好，美团 Leaf 号段模式即此原理。</li>
+        <li><strong>Redis incr：</strong><br/>利用 INCR / INCRBY 原子自增，性能高；<br/>但依赖 Redis 可用性，需要开启持久化防止 ID 丢失。</li>
+        <li><strong>Snowflake（雪花算法）：</strong><br/>64 位组成：1 位符号 + 41 位时间戳 + 10 位机器 ID + 12 位序列号；<br/>单机每秒可生成约 409.6 万个 ID，性能极高且趋势递增；<br/>缺点：依赖服务器时钟，时钟回拨会导致 ID 重复。</li>
+        <li><strong>美团 Leaf：</strong><br/>号段 + 雪花双模式，可自动降级切换，<br/>并解决了雪花算法的时钟回拨问题。</li>
+        <li><strong>百度 UidGenerator：</strong><br/>基于雪花算法改进，用 RingBuffer 预缓存 UID，性能更高。</li>
+      </ul>
+      <p><strong>💡 选择建议：</strong><br/>中小规模：数据库号段模式足够；<br/>高并发大厂：Snowflake 或美团 Leaf；<br/>可接受无序且追求绝对唯一：UUID（或 UUID 转 BIGINT）。</p>
+    </div></div></div>
 
 <!-- Q21 -->
-<div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">SQL 执行慢如何排查和优化？</div><div class="q-tags"><span class="q-tag">慢查询</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ol><li><strong>开启慢查询日志：</strong>slow_query_log，long_query_time设置阈值。</li><li><strong>EXPLAIN分析：</strong>查看type（ALL最差→index→range→ref→const最好）、key（是否走索引）、rows（扫描行数）、Extra。</li><li><strong>检查索引：</strong>是否缺失索引、是否索引失效（函数/类型转换/前导模糊查询）。</li><li><strong>SQL改写：</strong>避免SELECT *、避免大offset分页、子查询改JOIN。</li><li><strong>表结构优化：</strong>字段类型合理、适当冗余减少JOIN。</li><li><strong>profiling：</strong>SHOW PROFILE查看SQL各阶段耗时。</li></ol></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">SQL 执行慢如何排查和优化？</div><div class="q-tags"><span class="q-tag">慢查询</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、排查步骤：</strong></p>
+      <ol>
+        <li><strong>开启慢查询日志：</strong><br/>slow_query_log=ON，long_query_time 设置阈值（如 1s），先定位慢 SQL。</li>
+        <li><strong>EXPLAIN 分析执行计划：</strong><br/>看 type（ALL 最差）、key（是否走索引）、rows（扫描行数）、Extra（是否 filesort/temporary）。</li>
+        <li><strong>SHOW PROFILE 定位耗时阶段：</strong><br/>profiling=ON 后查看 SQL 各阶段耗时，<br/>确认瓶颈在查询本身还是锁等待、网络传输。</li>
+      </ol>
+      <p><strong>二、优化手段：</strong></p>
+      <ul>
+        <li><strong>索引层面：</strong><br/>检查是否缺索引、索引是否失效（函数/类型转换/前导模糊查询）。</li>
+        <li><strong>SQL 改写：</strong><br/>避免 SELECT *、避免大 offset 分页、子查询改 JOIN。</li>
+        <li><strong>表结构层面：</strong><br/>字段类型合理、适当冗余减少 JOIN。</li>
+        <li><strong>架构层面：</strong><br/>大表分库分表、读写分离、引入缓存。</li>
+      </ul>
+      <p><strong>💡 完整排查流程示例：</strong><br/>接口变慢 → 查慢查询日志找到 SQL → EXPLAIN 发现 type=ALL 全表扫描 →<br/>确认缺索引 → 添加联合索引 → 响应时间从 3 秒降到 30 毫秒。</p>
+    </div></div></div>
 
 <!-- Q22 -->
-<div class="card"><div class="card-header"><div class="q-num">22</div><div class="q-meta"><div class="q-title">MySQL 大表如何优化？</div><div class="q-tags"><span class="q-tag">大表优化</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>数据归档：</strong>历史数据迁移到归档表或冷存储。</li><li><strong>分库分表：</strong>水平拆分（Sharding）。</li><li><strong>读写分离：</strong>主库写、从库读。</li><li><strong>优化索引：</strong>避免冗余索引，使用覆盖索引。</li><li><strong>字段优化：</strong>IP用INT存（INET_ATON），用更小的数据类型。</li><li><strong>垂直拆分：</strong>不常用字段拆到扩展表。</li><li><strong>分区表：</strong>按时间RANGE分区（不过分区表维护成本高）。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">22</div><div class="q-meta"><div class="q-title">MySQL 大表如何优化？</div><div class="q-tags"><span class="q-tag">大表优化</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、为什么大表需要优化：</strong><br/>单表数据量过大（如超千万级）会导致：<br/>查询变慢、索引膨胀、DDL 锁表时间长、备份恢复慢、内存命中率下降。</p>
+      <p><strong>二、优化手段：</strong></p>
+      <ul>
+        <li><strong>数据归档：</strong><br/>历史数据迁移到归档表或冷存储，热表只保留近期数据。<br/>例：订单只保留近 3 个月，更早的按月归档。</li>
+        <li><strong>分库分表：</strong><br/>水平拆分，把单表数据量控制在百万到千万级。</li>
+        <li><strong>读写分离：</strong><br/>主库写、从库读，分摊读压力。</li>
+        <li><strong>优化索引：</strong><br/>删除冗余索引、使用覆盖索引、避免无效索引。</li>
+        <li><strong>字段优化：</strong><br/>IP 用 INT 存（INET_ATON/INET_NTOA）、<br/>使用更小的数据类型、字段尽量 NOT NULL。</li>
+        <li><strong>垂直拆分：</strong><br/>不常用字段拆到扩展表，减少行宽度。</li>
+        <li><strong>分区表：</strong><br/>按时间 RANGE 分区，注意分区表维护成本高、<br/>分区键必须出现在 WHERE 中才有效。</li>
+      </ul>
+      <p><strong>💡 优化顺序建议：</strong><br/>先做归档 + 索引 + 字段优化（成本最低），<br/>再考虑垂直拆分，最后才分库分表（成本高、复杂度大）。</p>
+    </div></div></div>
 
 <!-- Q23 -->
-<div class="card"><div class="card-header"><div class="q-num">23</div><div class="q-meta"><div class="q-title">深度分页问题如何解决？</div><div class="q-tags"><span class="q-tag">分页</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>LIMIT 100000,20 会扫描10万条数据，越往后越慢。</p><p><strong>解决方案：</strong></p><ul><li><strong>延迟关联：</strong>先用覆盖索引查主键，再关联原表。<code>SELECT * FROM t INNER JOIN (SELECT id FROM t LIMIT 100000,20) AS tmp USING(id)</code></li><li><strong>游标分页：</strong>用上次查询的最大ID作为条件<code>WHERE id &gt; lastId LIMIT 20</code>，配合索引。</li><li><strong>ES等搜索引擎：</strong>搜索场景走ES。</li><li><strong>禁止跳页：</strong>只允许上一页/下一页。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">23</div><div class="q-meta"><div class="q-title">深度分页问题如何解决？</div><div class="q-tags"><span class="q-tag">分页</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、问题本质：</strong><br/>LIMIT 100000,20 需要先扫描前 10 万条再丢弃，<br/>偏移量越大，扫描的数据越多，查询越慢。</p>
+      <p><strong>二、解决方案：</strong></p>
+      <ul>
+        <li><strong>延迟关联（核心）：</strong><br/>先用覆盖索引查主键，再回原表取完整数据。<br/><code>SELECT * FROM t INNER JOIN (SELECT id FROM t ORDER BY id LIMIT 100000,20) AS tmp USING(id)</code></li>
+        <li><strong>游标分页：</strong><br/>用上次查询的最大 ID 作为条件，配合索引。<br/><code>WHERE id &gt; lastId ORDER BY id LIMIT 20</code><br/>翻页时带上游标，性能恒定，适合 App 场景。</li>
+        <li><strong>禁止跳页：</strong><br/>只允许上一页/下一页（游标式），不允许随意跳页。</li>
+        <li><strong>搜索引擎：</strong><br/>搜索类复杂场景走 ES，不直接查数据库。</li>
+      </ul>
+      <p><strong>💡 对比示例：</strong><br/>传统 LIMIT 100000,20：扫描 10 万行，耗时约 1.5 秒；<br/>游标 WHERE id &gt; 100000 LIMIT 20：仅扫描 20 行，耗时约 10 毫秒。</p>
+    </div></div></div>
 
 <!-- Q24 -->
-<div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">MySQL 连接池参数如何配置？</div><div class="q-tags"><span class="q-tag">连接池</span><span class="q-tag">配置</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>以HikariCP为例：</p><ul><li><strong>maximumPoolSize：</strong>最大连接数，一般=(CPU核心数*2)+磁盘数。</li><li><strong>minimumIdle：</strong>最小空闲连接（默认等于maximumPoolSize）。</li><li><strong>connectionTimeout：</strong>获取连接超时（默认30s）。</li><li><strong>idleTimeout：</strong>空闲超时（10min）。</li><li><strong>maxLifetime：</strong>连接最大存活时间（30min，比数据库wait_timeout短）。</li><li><strong>leakDetectionThreshold：</strong>连接泄漏检测。</li></ul><p>💡 连接数公式：connections = ((core_count * 2) + effective_spindle_count)。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">MySQL 连接池参数如何配置？</div><div class="q-tags"><span class="q-tag">连接池</span><span class="q-tag">配置</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、为什么要用连接池：</strong><br/>数据库连接创建/销毁开销大（TCP 握手 + 认证 + 资源分配），<br/>连接池复用连接，显著降低开销并限制并发。</p>
+      <p><strong>二、核心参数（以 HikariCP 为例）：</strong></p>
+      <ul>
+        <li><strong>maximumPoolSize：</strong><br/>最大连接数，常用公式：<code>(CPU 核心数 * 2) + 磁盘数</code>。<br/>过大会导致数据库端连接堆积，过小则请求排队等待。</li>
+        <li><strong>minimumIdle：</strong><br/>最小空闲连接数，默认等于 maximumPoolSize。<br/>适当调小可减少空闲资源占用。</li>
+        <li><strong>connectionTimeout：</strong><br/>获取连接的超时时间，默认 30s。<br/>过小会误杀慢请求，过大会拖慢故障发现。</li>
+        <li><strong>idleTimeout：</strong><br/>空闲连接存活时间，默认 10 分钟。<br/>仅当 minimumIdle 小于 maximumPoolSize 时生效。</li>
+        <li><strong>maxLifetime：</strong><br/>连接最大存活时间，默认 30 分钟。<br/>必须小于数据库 wait_timeout，防止连接被服务端回收后仍被复用。</li>
+        <li><strong>leakDetectionThreshold：</strong><br/>连接泄漏检测阈值，超过则打印告警日志，<br/>帮助定位未归还连接（程序 bug）。</li>
+      </ul>
+      <p><strong>三、配置建议：</strong><br/>maximumPoolSize 一般 10~50，根据并发和数据库配置调整；<br/>maxLifetime 建议设 29 分钟（数据库 wait_timeout 为 30 分钟）；<br/>禁止超过数据库 max_connections，否则应用启动即报连接耗尽。</p>
+    </div></div></div>
 
 <!-- Q25 -->
-<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">B+Tree 的插入和查询过程是怎样的？</div><div class="q-tags"><span class="q-tag">B+Tree</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>查询：</strong>从根节点开始，每层二分查找确定下一层子节点，直到叶子节点。IO次数=树高度。千万级数据只需3-4层。</p><p><strong>插入：</strong></p><ul><li>找到叶子节点插入。</li><li>若节点满（达到页大小/2），则<strong>分裂</strong>，将中间key提升到父节点。</li><li>若父节点满，递归向上分裂。</li><li>分裂可能导致树高度增加。</li></ul><p><strong>删除：</strong>删除后若节点元素少于阈值，从兄弟节点借调或合并。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">B+Tree 的插入和查询过程是怎样的？</div><div class="q-tags"><span class="q-tag">B+Tree</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、查询过程：</strong></p>
+      <p>1. 从根节点出发，每层通过二分查找确定下一层子节点；<br/>2. 逐层下探，直到叶子节点；<br/>3. 在叶子节点中找到目标记录（聚簇索引）或指针。</p>
+      <p>IO 次数 = 树的高度，千万级数据树高仅 3~4 层，即 3~4 次磁盘 IO。</p>
+      <p><strong>二、插入过程：</strong></p>
+      <ol>
+        <li>先定位到目标叶子节点，按 key 顺序插入记录。</li>
+        <li>若叶子节点已满，执行<strong>分裂</strong>：<br/>一半记录拆到新叶子节点，中间 key 提升到父节点。</li>
+        <li>若父节点也满，递归向上分裂，直到根节点。</li>
+        <li>分裂发生在根节点时，树高度 +1。</li>
+      </ol>
+      <p><strong>三、删除过程：</strong></p>
+      <p>删除记录后，若节点元素数低于阈值（约半满），<br/>先尝试从兄弟节点借调元素；<br/>兄弟节点也不足时与兄弟节点合并，减少层数。</p>
+      <p><strong>💡 完整示例：</strong><br/>查询 id=85：根节点 [50] → 右子树 [60,80] → 叶子节点 [85,90]，共 3 次磁盘 IO；<br/>插入 id=95：先查找到对应叶子节点 → 未满直接插入 → 完成。</p>
+    </div></div></div>
 
 <!-- Q26 -->
-<div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">MySQL 隐式类型转换的坑？</div><div class="q-tags"><span class="q-tag">类型转换</span><span class="q-tag">索引失效</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>字符串与数字比较：</strong>字符串转为数字，索引失效。</li><li><strong>规则：</strong>字符串和数字→字符串转数字。一方是浮点→都转浮点。日期与数字→看作数字。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- phone是varchar，有索引<br>SELECT * FROM t WHERE phone = 13800138000; -- 索引失效！<br>SELECT * FROM t WHERE phone = '13800138000'; -- 走索引</pre></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">MySQL 隐式类型转换的坑？</div><div class="q-tags"><span class="q-tag">类型转换</span><span class="q-tag">索引失效</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、什么是隐式类型转换：</strong><br/>SQL 中字段类型与传入值类型不一致时，MySQL 会自动进行类型转换。<br/>转换若作用于索引列，B+ 树无法按原值定位，只能全表扫描，索引失效。</p>
+      <p><strong>二、转换规则：</strong><br/>字符串和数字比较 → 字符串转数字；<br/>一方是浮点 → 双方转浮点；<br/>日期与数字 → 按数字处理。</p>
+      <p><strong>三、核心坑：</strong><br/>索引列参与类型转换或函数运算时，索引失效、退化为全表扫描。</p>
+      <pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- phone是varchar，有索引
+SELECT * FROM t WHERE phone = 13800138000; -- 数字 → phone被转成数字，索引失效！
+SELECT * FROM t WHERE phone = '13800138000'; -- 加引号，正常走索引
+SELECT * FROM t WHERE id = '1'; -- 主键是数字，字符串'1'转数字，仍可走索引</pre>
+      <p><strong>四、解决方法：</strong><br/>1. 显式转换：CAST(phone AS CHAR)；<br/>2. 加引号，参数类型与字段类型保持一致；<br/>3. 统一字符集与排序规则（utf8mb4），避免 JOIN 时转换。</p>
+      <p><strong>💡 验证方法：</strong><br/>EXPLAIN 查看 type=ALL、key=NULL，即为隐式转换导致索引失效。</p>
+    </div></div></div>
 
 <!-- Q27 -->
-<div class="card"><div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">CHAR 和 VARCHAR 如何选择？TEXT 类型注意事项？</div><div class="q-tags"><span class="q-tag">数据类型</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>CHAR：</strong>定长，适合固定长度（MD5、手机号、身份证）。查询速度快，不用计算长度。</li><li><strong>VARCHAR：</strong>变长，适合长度波动大的（名字、描述）。节省空间但需存储长度信息。</li><li><strong>TEXT：</strong>大文本，不能有默认值，不能全索引（需指定前缀长度）。</li><li><strong>BLOB：</strong>二进制大对象（图片），建议只存路径。</li></ul><p>💡 字段尽量NOT NULL，NULL值会额外占用空间且索引统计不准。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">CHAR 和 VARCHAR 如何选择？TEXT 类型注意事项？</div><div class="q-tags"><span class="q-tag">数据类型</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、CHAR vs VARCHAR：</strong></p>
+      <ul>
+        <li><strong>CHAR(n)：</strong><br/>定长存储，最大 255 字符。<br/>优点：无需额外字节记录长度，查询速度快；<br/>缺点：不足 n 个字符时补空格，浪费空间。<br/>适合：MD5、手机号、身份证号等固定长度字段。</li>
+        <li><strong>VARCHAR(n)：</strong><br/>变长存储，最大 65535 字节。<br/>优点：按实际内容存储，节省空间；<br/>缺点：需额外 1~2 字节记录长度，更新时可能触发行移动。<br/>适合：名字、描述等长度波动大的字段。</li>
+      </ul>
+      <p><strong>二、TEXT 注意事项：</strong></p>
+      <ul>
+        <li>大文本，不能有默认值。</li>
+        <li>不能全字段索引，建索引需指定前缀长度（INDEX(desc(100))）。</li>
+        <li>排序/分组时可能使用磁盘临时表，性能差，应避免 SELECT * 取出大字段。</li>
+      </ul>
+      <p><strong>三、BLOB：</strong><br/>二进制大对象（图片、文件），建议只存路径，<br/>文件本体放对象存储（OSS），不要直接存数据库。</p>
+      <p><strong>💡 通用建议：</strong><br/>字段尽量 NOT NULL，NULL 值会额外占用空间且索引统计不准；<br/>选择口诀：定长用 CHAR，变长用 VARCHAR，大文本上存储服务。</p>
+    </div></div></div>
 
 <!-- Q28 -->
-<div class="card"><div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">EXPLAIN 中 type 字段有哪些？如何判断效率？</div><div class="q-tags"><span class="q-tag">EXPLAIN</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>type表示访问类型，<strong>从好到差</strong>：</p><ul><li><strong>const：</strong>主键/唯一索引等值查询（最优）。</li><li><strong>eq_ref：</strong>联表查询时用主键/唯一索引关联。</li><li><strong>ref：</strong>非唯一索引等值查询。</li><li><strong>range：</strong>索引范围扫描（BETWEEN、&gt;、&lt;、IN）。</li><li><strong>index：</strong>全索引扫描（比ALL好）。</li><li><strong>ALL：</strong>全表扫描（最差，必须优化）。</li></ul><p><strong>Extra关键值：</strong>Using index（覆盖索引）→最好；Using filesort（额外排序）→需优化；Using temporary（临时表）→差。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">EXPLAIN 中 type 字段有哪些？如何判断效率？</div><div class="q-tags"><span class="q-tag">EXPLAIN</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、type 访问类型（从好到差）：</strong></p>
+      <p><strong>const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL</strong></p>
+      <ul>
+        <li><strong>const：</strong><br/>主键/唯一索引等值查询，最多返回一行，最优。<br/>例：WHERE id=1。</li>
+        <li><strong>eq_ref：</strong><br/>联表查询时，被驱动表用主键/唯一索引关联，每行只匹配一条。</li>
+        <li><strong>ref：</strong><br/>非唯一索引等值查询。<br/>例：WHERE name='张三'（name 有普通索引）。</li>
+        <li><strong>range：</strong><br/>索引范围扫描（BETWEEN、&gt;、&lt;、IN）。</li>
+        <li><strong>index：</strong><br/>全索引扫描，比全表快但仍有性能问题。</li>
+        <li><strong>ALL：</strong><br/>全表扫描，最差，必须优化。</li>
+      </ul>
+      <p><strong>二、判断标准：</strong><br/>type 达到 range 及以上才算健康，ref 更优，const 最优；<br/>出现 ALL 时重点排查是否缺索引或索引失效。</p>
+      <p><strong>三、Extra 关键值：</strong></p>
+      <ul>
+        <li><strong>Using index：</strong><br/>覆盖索引，最好。</li>
+        <li><strong>Using filesort：</strong><br/>额外排序，需优化。</li>
+        <li><strong>Using temporary：</strong><br/>使用临时表，性能差，需优化。</li>
+      </ul>
+      <p><strong>💡 示例对比：</strong><br/>WHERE id=1 → const；<br/>WHERE name='张三' → ref；<br/>WHERE age&gt;30 → range；<br/>WHERE sex=1 → ALL（区分度低，优化器放弃索引）。</p>
+    </div></div></div>
 
 <!-- Q29 -->
-<div class="card"><div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">MySQL redo log、undo log、binlog 的区别？</div><div class="q-tags"><span class="q-tag">日志</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>日志</th><th>层级</th><th>作用</th><th>格式</th></tr></thead><tbody><tr><td>redo log</td><td>InnoDB引擎层</td><td>崩溃恢复，保证持久性</td><td>物理日志(页修改)</td></tr><tr><td>undo log</td><td>InnoDB引擎层</td><td>回滚/MVCC，保证原子性</td><td>逻辑日志(相反操作)</td></tr><tr><td>binlog</td><td>Server层</td><td>主从复制/数据恢复</td><td>逻辑日志(SQL语句/行)</td></tr></tbody></table></div><p><strong>两阶段提交：</strong>保证redo log和binlog一致性。prepare→写binlog→commit。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">MySQL redo log、undo log、binlog 的区别？</div><div class="q-tags"><span class="q-tag">日志</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、各日志定义：</strong></p>
+      <ul>
+        <li><strong>redo log（重做日志）：</strong><br/>InnoDB <strong>存储引擎层</strong>独有的日志，记录的是"数据页被修改成了什么"（物理日志），<br/>用于崩溃后重放、恢复数据，保证事务的<strong>持久性（D）</strong>。</li>
+        <li><strong>undo log（回滚日志）：</strong><br/>InnoDB <strong>存储引擎层</strong>独有的日志，记录的是"怎么把修改撤销回去"（反向操作，逻辑日志），<br/>用于事务回滚和 MVCC 快照读，保证事务的<strong>原子性（A）</strong>。</li>
+        <li><strong>binlog（二进制日志）：</strong><br/>MySQL <strong>Server 层</strong>日志，所有存储引擎通用，记录的是"数据变更的 SQL 或行结果"（逻辑日志），<br/>用于主从复制、数据恢复和审计。</li>
+      </ul>
+      <p><strong>二、三种日志对比表：</strong></p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>日志</th><th>层级</th><th>作用</th><th>格式</th><th>写入时机</th></tr></thead>
+        <tbody>
+        <tr><td>redo log</td><td>InnoDB引擎层</td><td>崩溃恢复，保证持久性</td><td>物理日志(页修改)</td><td>数据页每次修改时</td></tr>
+        <tr><td>undo log</td><td>InnoDB引擎层</td><td>回滚/MVCC，保证原子性</td><td>逻辑日志(相反操作)</td><td>写操作开始时</td></tr>
+        <tr><td>binlog</td><td>Server层</td><td>主从复制/数据恢复</td><td>逻辑日志(SQL/行变更)</td><td>事务提交时</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>三、redo log 详解（WAL）：</strong><br/>Write-Ahead Logging：<strong>先写日志，再写数据页</strong>。<br/>数据页修改后不会立即刷盘（随机 IO 慢），而是先顺序写入 redo log，<br/>崩溃时用 redo log 重放恢复，保证持久性（D）。</p>
+      <ul>
+        <li><strong>物理日志：</strong><br/>记录"哪个页、哪个偏移位置、被改成了什么"，重放速度快。</li>
+        <li><strong>环形写入：</strong><br/>文件大小固定（默认 2 个文件、各 48MB，可配置），<br/>写满后循环覆盖旧记录，不会无限膨胀。</li>
+        <li><strong>刷盘策略（innodb_flush_log_at_trx_commit）：</strong><br/>0=每秒刷盘（性能最高，崩溃可能丢 1 秒数据）；<br/>1=每次事务提交都刷盘（最安全，默认）；<br/>2=先写 OS 缓存、每秒刷盘（性能与安全折中）。</li>
+      </ul>
+      <p><strong>四、undo log 详解：</strong><br/>逻辑日志，记录的是<strong>反向操作</strong>，保证原子性（A）。<br/>例：INSERT 记录 DELETE 信息、UPDATE 记录修改前的旧值。</p>
+      <ul>
+        <li><strong>事务回滚：</strong><br/>事务执行失败时，按 undo log 逆向执行，恢复操作前状态。</li>
+        <li><strong>MVCC 快照读：</strong><br/>通过 undo log 构建版本链，配合 ReadView 实现无锁快照读。</li>
+        <li><strong>两种类型：</strong><br/>insert undo log（回滚后即可清理）；<br/>update undo log（还要服务 MVCC，由后台 purge 线程延迟清理）。</li>
+      </ul>
+      <p><strong>五、binlog 详解：</strong><br/>Server 层日志，所有存储引擎通用，追加写、不覆盖。</p>
+      <ul>
+        <li><strong>逻辑日志：</strong><br/>记录 SQL 语句或行变更结果。</li>
+        <li><strong>三种格式：</strong><br/>STATEMENT（记录原始 SQL，量小但不确定/不安全）；<br/>ROW（记录每行变更，最安全，MySQL 8.0 默认）；<br/>MIXED（根据语句自动选择）。</li>
+        <li><strong>用途：</strong><br/>主从复制、基于时间点的数据恢复（误删恢复）、审计。</li>
+        <li><strong>刷盘策略（sync_binlog）：</strong><br/>0=由 OS 决定刷盘；1=每次提交刷盘；N=每 N 次提交刷盘。</li>
+      </ul>
+      <p><strong>六、两阶段提交：</strong><br/>目的：保证 redo log 与 binlog 的一致性，防止主从数据不一致。</p>
+      <ol>
+        <li>先写 redo log，标记 prepare 状态。</li>
+        <li>再写 binlog。</li>
+        <li>最后将 redo log 改为 commit 状态。</li>
+      </ol>
+      <p>崩溃时判断：<br/>redo log prepare 且 binlog 完整 → 事务生效（补 commit）；<br/>redo log prepare 但 binlog 缺失 → 事务回滚。</p>
+      <p><strong>七、redo log 为什么不能替代 binlog：</strong><br/>1. 层级不同：redo 在引擎层，binlog 在 Server 层；<br/>2. 格式不同：redo 是物理日志，binlog 是逻辑日志；<br/>3. 生命周期不同：redo 环形覆盖，binlog 追加保存；<br/>4. 用途不同：redo 用于崩溃恢复，binlog 用于主从复制/数据恢复。</p>
+      <p><strong>💡 高频追问：</strong><br/>安全最佳实践是<strong>双 1 配置</strong>：<br/>innodb_flush_log_at_trx_commit=1 + sync_binlog=1，<br/>每次提交都刷盘，数据最安全。</p>
+      <p><strong>八、MySQL 架构分层（名词解释）：</strong><br/>MySQL 采用<strong>插件式存储引擎架构</strong>，分为两层：</p>
+      <ul>
+        <li><strong>Server 层（服务层）：</strong><br/>负责 SQL 解析、优化、执行计划生成、通用功能（如 binlog、用户权限、连接管理等）。<br/>与存储引擎无关，所有存储引擎共享这一层。</li>
+        <li><strong>存储引擎层：</strong><br/>负责数据的<strong>存储和读取</strong>，不同引擎实现不同的存储机制。<br/>MySQL 支持多种存储引擎（如 InnoDB、MyISAM、Memory 等），<br/>可通过 <code>SHOW ENGINES</code> 查看，创建表时可用 <code>ENGINE=InnoDB</code> 指定。<br/>InnoDB 是 MySQL 5.5+ 的默认引擎，支持事务、行锁、MVCC 等特性。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q30 -->
-<div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">索引下推（ICP）是什么？</div><div class="q-tags"><span class="q-tag">索引优化</span><span class="q-tag">ICP</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Index Condition Pushdown（MySQL 5.6+）。将WHERE中部分条件<strong>下推到存储引擎层过滤</strong>，减少回表次数。</p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- 联合索引 (name, age)<br>SELECT * FROM t WHERE name LIKE '张%' AND age = 25;<br>-- 没有ICP: 回表取所有name LIKE '张%'的行，再Server层过滤age<br>-- 有ICP: 存储引擎直接在索引中过滤age=25，减少回表</pre></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">索引下推（ICP）是什么？</div><div class="q-tags"><span class="q-tag">索引优化</span><span class="q-tag">ICP</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、什么是索引下推（ICP）：</strong><br/>Index Condition Pushdown，MySQL 5.6+ 引入的查询优化。<br/>把 WHERE 中能由索引列判断的条件（如 age=25）下推到存储引擎层，<br/>在读取索引时提前过滤，减少回表次数和 Server 层传输的数据量。</p>
+      <pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- 联合索引 (name, age)
+SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
+-- 没有ICP: 先回表取出所有 name LIKE '张%' 的行，再到Server层过滤 age=25
+-- 有ICP: 存储引擎在索引中直接过滤 age=25，只需回表符合条件的数据</pre>
+      <p><strong>二、核心原理：</strong><br/>没有 ICP：回表取回所有 name LIKE '张%' 的行，Server 层再过滤 age=25，回表次数多；<br/>有 ICP：存储引擎在索引中直接过滤 age=25，只需回表符合条件的数据。</p>
+      <p><strong>三、应用前提：</strong><br/>过滤条件基于索引列，且索引无法直接定位（如 LIKE 前缀匹配后的列）。</p>
+      <p><strong>💡 如何确认启用：</strong><br/>EXPLAIN 的 Extra 出现 Using index condition 即表示启用了 ICP。</p>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>存储引擎层：</strong><br/>MySQL 分 Server 层和存储引擎层：<br/>Server 层负责 SQL 解析、优化、权限等通用功能；<br/>存储引擎层负责数据的<strong>存储和读取</strong>（如 InnoDB、MyISAM）。<br/>ICP 中的"下推"，就是把过滤操作下沉到存储引擎层执行。</li>
+        <li><strong>联合索引：</strong><br/>由多个列组成的索引，如 (name, age)。<br/>遵循<strong>最左前缀</strong>原则：name 在前、age 在后，<br/>索引先按 name 排序，name 相同时再按 age 排序。</li>
+        <li><strong>聚簇索引（主键索引）：</strong><br/>索引顺序与数据行的<strong>物理存储顺序一致</strong>，叶子节点直接存放完整行数据。<br/>InnoDB 中主键索引就是聚簇索引，一张表只有一个。</li>
+        <li><strong>非聚簇索引（二级索引/辅助索引）：</strong><br/>叶子节点存放的是<strong>主键值</strong>（而非完整行数据）。<br/>一张表可有多个非聚簇索引（如普通索引、联合索引）。<br/>通过它查不到整行，需要拿主键再回聚簇索引查一次。</li>
+        <li><strong>回表：</strong><br/>先通过非聚簇索引找到主键值，<br/>再根据主键到聚簇索引中查找完整行数据的操作。<br/>一次回表 = 额外一次随机 IO，回表次数越多性能越差。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q31 -->
-<div class="card"><div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">联合索引匹配原则和索引长度限制？</div><div class="q-tags"><span class="q-tag">联合索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>索引长度限制：</strong>InnoDB单列索引最大767字节（某些字符集达3072字节）。前缀索引可减少长度。</p><p><strong>联合索引设计：</strong></p><ul><li>区分度高的在前（等值查询字段优先）。</li><li>范围查询字段放最后（范围查询后的列不走索引）。</li><li>常用查询字段覆盖。</li><li>ORDER BY / GROUP BY 字段可考虑加在联合索引中。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">联合索引匹配原则和索引长度限制？</div><div class="q-tags"><span class="q-tag">联合索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、联合索引匹配原则（最左前缀）：</strong></p>
+      <ul>
+        <li><strong>必须从最左列开始使用：</strong><br/>联合索引 (a,b,c)，WHERE a=1 AND c=3 只能用到列 a；<br/>WHERE b=1 完全不走索引。</li>
+        <li><strong>等值查询字段优先：</strong><br/>区分度高的字段放前面。</li>
+        <li><strong>范围查询字段放最后：</strong><br/>范围查询（&gt;、&lt;、BETWEEN）之后的列无法走索引。</li>
+        <li><strong>ORDER BY / GROUP BY 字段可加入索引：</strong><br/>避免 filesort，直接利用索引有序性。</li>
+      </ul>
+      <p><strong>二、索引长度限制：</strong><br/>InnoDB 单列索引最大 767 字节（utf8mb4 下约 191 个字符）；<br/>开启 DYNAMIC/COMPRESSED 行格式 + 大前缀后可到 3072 字节。</p>
+      <p><strong>三、解决方案：</strong><br/>1. 使用前缀索引：INDEX(name(20))，减少索引长度；<br/>2. 字段尽量使用更小的类型（int 优于 varchar）；<br/>3. TEXT/BLOB 建索引必须指定前缀长度。</p>
+      <p><strong>💡 示例：</strong><br/>索引 (a,b,c)：<br/>WHERE a=1 AND b=2 AND c=3 → 三列全用；<br/>WHERE a=1 AND b&gt;10 AND c=3 → 只用 a、b，c 失效；<br/>WHERE b=2 AND c=3 → 完全失效。</p>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>联合索引：</strong><br/>由多个列组成的索引，如 (a, b, c)，<br/>先按第 1 列 a 排序，a 相同再按 b，b 相同再按 c。</li>
+        <li><strong>最左前缀原则：</strong><br/>查询条件必须从联合索引的最左列开始<strong>连续匹配</strong>才能用到索引。</li>
+        <li><strong>前缀索引：</strong><br/>只取列的前 N 个字符建立索引，如 INDEX(name(20))，<br/>缩短索引长度、减少磁盘占用和随机 IO。</li>
+        <li><strong>区分度：</strong><br/>字段去重后的值所占比例，<br/>性别区分度低、身份证号区分度高，<br/>区分度高的字段放索引前面。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q32 -->
-<div class="card"><div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">SQL 注入原理和防范？MyBatis 中 #{} 和 ${} 的区别？</div><div class="q-tags"><span class="q-tag">SQL注入</span><span class="q-tag">安全</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>SQL注入：</strong>拼接SQL时恶意输入如 <code>' OR 1=1 --</code>。</p><p><strong>防范：</strong>预编译（PreparedStatement）参数化查询、输入校验过滤、最小权限原则。</p><p><strong>MyBatis中：</strong></p><ul><li><strong>#{}：</strong>预编译占位符，安全。SELECT * FROM t WHERE name=#{name} WHERE name=?。</li><li><strong>${}：</strong>字符串直接替换，有注入风险。仅用于动态表名/列名/ORDER BY等无法预编译的场景，且需白名单校验。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">SQL 注入原理和防范？MyBatis 中 #{} 和 ${} 的区别？</div><div class="q-tags"><span class="q-tag">SQL注入</span><span class="q-tag">安全</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、SQL 注入原理：</strong><br/>拼接 SQL 时，用户输入如 <code>' OR 1=1 --</code> 改变了原 SQL 语义，<br/>可绕过认证、拖库、删库，甚至通过 UDF 执行系统命令。</p>
+      <p><strong>二、防范手段：</strong></p>
+      <ul>
+        <li><strong>预编译（PreparedStatement）：</strong><br/>参数化查询，参数与 SQL 分离，最有效。</li>
+        <li><strong>输入校验过滤：</strong><br/>白名单、长度限制、过滤特殊字符（'、"、;、--）。</li>
+        <li><strong>最小权限原则：</strong><br/>应用账号只授予必要库表权限，不用 root。</li>
+      </ul>
+      <p><strong>三、MyBatis 中 #{} vs ${}：</strong></p>
+      <ul>
+        <li><strong>#{}：</strong><br/>预编译占位符，安全。<br/>SELECT * FROM t WHERE name=#{name} 最终编译为 WHERE name=?，参数只作值传入。</li>
+        <li><strong>${}：</strong><br/>字符串直接替换，有注入风险。<br/>仅用于动态表名/列名/ORDER BY 等无法预编译的场景，且必须白名单校验。</li>
+      </ul>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>SQL 注入：</strong><br/>把用户输入直接拼接进 SQL，使恶意输入改变了 SQL 的原始语义。<br/>例：输入 <code>' OR 1=1 --</code> 使 WHERE 恒成立，绕过登录认证。</li>
+        <li><strong>预编译（PreparedStatement）：</strong><br/>先把 SQL 结构编译好，参数用占位符 ? 替代，<br/>之后只绑定参数值传入，SQL 结构与数据完全分离，<br/>用户输入永远只是"值"，无法改变 SQL 语义。</li>
+        <li><strong>UDF：</strong><br/>User Defined Function，用户自定义函数，<br/>攻击者注入后可通过 UDF 在数据库服务器上执行系统命令。</li>
+        <li><strong>MyBatis：</strong><br/>Java 持久层框架，支持 #{}（预编译占位符）和 ${}（字符串拼接）两种传参方式。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q33 -->
-<div class="card"><div class="card-header"><div class="q-num">33</div><div class="q-meta"><div class="q-title">子查询和 JOIN 哪个效率高？为什么？</div><div class="q-tags"><span class="q-tag">SQL优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>大多数情况<strong>JOIN优于子查询</strong>，原因：</p><ul><li>子查询可能产生临时表和多次查询。</li><li>MySQL优化器对JOIN的优化更成熟（Nested Loop Join/Block Nested Loop）。</li><li>NOT IN子查询有NULL陷阱且性能差，应改写为NOT EXISTS或LEFT JOIN ... IS NULL。</li><li>MySQL 5.6+对子查询优化有所改善（半连接优化），但JOIN仍更可控。</li></ul><p>💡 某些场景子查询更清晰（如EXISTS），优先可读性，再考虑性能。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">33</div><div class="q-meta"><div class="q-title">子查询和 JOIN 哪个效率高？为什么？</div><div class="q-tags"><span class="q-tag">SQL优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、结论：</strong><br/>大多数情况下 JOIN 优于子查询。</p>
+      <p><strong>二、原因：</strong></p>
+      <ul>
+        <li><strong>子查询可能产生临时表和多次查询：</strong><br/>每行都要执行子查询，开销更大。</li>
+        <li><strong>优化器对 JOIN 优化更成熟：</strong><br/>支持 Nested Loop Join、Block Nested Loop、Hash Join（8.0）。</li>
+        <li><strong>NOT IN 子查询有 NULL 陷阱且性能差：</strong><br/>应改写为 NOT EXISTS 或 LEFT JOIN ... IS NULL。</li>
+        <li><strong>MySQL 5.6+ 有半连接优化：</strong><br/>子查询性能有所改善，但 JOIN 仍更可控。</li>
+      </ul>
+      <p><strong>三、什么场景适合子查询：</strong><br/>EXISTS 相关子查询语义更清晰；<br/>优先保证可读性，再考虑性能，复杂场景用 EXPLAIN 实测对比。</p>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>子查询：</strong><br/>嵌套在另一条 SQL 内部的查询，<br/>如 WHERE 子句中再跟一个 SELECT。</li>
+        <li><strong>JOIN：</strong><br/>多表连接查询，把两张表的记录按关联条件组合成结果集。</li>
+        <li><strong>连接算法：</strong><br/>Nested Loop Join（嵌套循环，小表驱动大表）；<br/>Block Nested Loop（驱动表数据放入 join_buffer 批量比较，5.6+）；<br/>Hash Join（先把小表建哈希表再匹配大表，8.0+）。</li>
+        <li><strong>EXISTS / NOT EXISTS：</strong><br/>相关子查询，EXISTS 只要存在匹配记录就返回真，<br/>常用 NOT EXISTS 替代 NOT IN 避免 NULL 陷阱。</li>
+        <li><strong>半连接优化：</strong><br/>MySQL 5.6+ 会把部分 IN 子查询改写为半连接执行，<br/>提前去重、减少无效扫描。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q34 -->
-<div class="card"><div class="card-header"><div class="q-num">34</div><div class="q-meta"><div class="q-title">分布式事务解决方案有哪些？</div><div class="q-tags"><span class="q-tag">分布式事务</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>1. 2PC（两阶段提交）：</strong>协调者→prepare（预提交）→所有参与者yes→commit。XA协议，同步阻塞、单点故障。</p><p><strong>2. TCC（Try-Confirm-Cancel）：</strong>业务层面补偿。Try预留资源→Confirm确认→失败则Cancel释放。Seata支持。</p><p><strong>3. 本地消息表：</strong>本地事务+消息表+MQ+定时任务补偿。最终一致性。</p><p><strong>4. 可靠消息最终一致性：</strong>RocketMQ事务消息。</p><p><strong>5. 最大努力通知：</strong>重复通知+对账。</p><p><strong>6. Saga：</strong>长事务分解为子事务，正向执行+反向补偿。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">34</div><div class="q-meta"><div class="q-title">分布式事务解决方案有哪些？</div><div class="q-tags"><span class="q-tag">分布式事务</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、解决方案有哪些（总览）：</strong><br/>分布式事务主流方案共 <strong>6 种</strong>，按一致性要求分为两类：</p>
+      <ul>
+        <li><strong>强一致（1 种）：</strong>2PC（XA 两阶段提交）。</li>
+        <li><strong>最终一致（5 种）：</strong>TCC、本地消息表、可靠消息最终一致性（RocketMQ 事务消息）、最大努力通知、Saga。</li>
+      </ul>
+      <p><strong>二、逐一讲解每种方案：</strong></p>
+      <ol>
+        <li><strong>2PC（两阶段提交）：</strong><br/>协调者 → 所有参与者 prepare（预提交）→ 全部 yes → commit。<br/>基于 XA 协议，强一致；<br/>缺点：同步阻塞、协调者单点故障。</li>
+        <li><strong>TCC（Try-Confirm-Cancel）：</strong><br/>业务层面补偿，侵入性强。<br/>Try 预留资源 → Confirm 确认 → 失败则 Cancel 释放。<br/>Seata 支持。</li>
+        <li><strong>本地消息表：</strong><br/>本地事务 + 消息表 + MQ + 定时任务补偿，<br/>最终一致性，实现简单但消息表与业务耦合。</li>
+        <li><strong>可靠消息最终一致性：</strong><br/>RocketMQ 事务消息（半消息 + 回查机制），<br/>主流方案，可靠性高。</li>
+        <li><strong>最大努力通知：</strong><br/>重复通知 + 对账补偿，<br/>适合跨平台支付回调等不要求强一致的场景。</li>
+        <li><strong>Saga：</strong><br/>长事务分解为子事务，正向执行 + 反向补偿；<br/>适合长事务、无锁，但缺乏隔离性。</li>
+      </ol>
+      <p><strong>💡 选型建议：</strong><br/>强一致要求 → 2PC；<br/>高并发、可接受最终一致 → TCC / 可靠消息；<br/>长事务、低并发 → Saga。</p>
+      <p><strong>三、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>分布式事务：</strong><br/>一次业务操作涉及多个数据库或微服务，<br/>需要保证这些跨节点操作要么全部成功、要么全部回滚。</li>
+        <li><strong>XA 协议：</strong><br/>数据库层面的分布式事务标准协议，<br/>由事务管理器统一协调各参与者的提交/回滚。</li>
+        <li><strong>2PC（两阶段提交）：</strong><br/>由一个协调者统一管理多个参与者的提交，分两个阶段：<br/>① 准备阶段（prepare）：协调者发 prepare 请求，参与者执行事务但不提交，回复 yes/no；<br/>② 提交阶段（commit/abort）：全部 yes 则统一 commit，任一 no 则统一 rollback。<br/>基于 XA 协议实现，属于强一致方案。</li>
+        <li><strong>TCC（补偿型分布式事务）：</strong><br/>把一次业务拆成三个步骤，由业务代码实现，属于最终一致方案：<br/>① Try（预留资源）：先检查并锁定资源，如冻结账户金额；<br/>② Confirm（确认提交）：Try 全部成功才执行，真正扣款完成操作；<br/>③ Cancel（补偿释放）：Confirm 失败则反向释放资源，如解冻金额。</li>
+        <li><strong>MQ：</strong><br/>消息队列，用于异步解耦，<br/>配合事务消息实现跨系统最终一致。</li>
+        <li><strong>最终一致性：</strong><br/>不要求任何时刻强一致，<br/>只要经过一段时间后各节点数据最终相同。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q35 -->
-<div class="card"><div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">count(*)、count(1)、count(列名) 的区别？</div><div class="q-tags"><span class="q-tag">高频</span><span class="q-tag">聚合</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>count(*)：</strong>统计所有行数（包括NULL），MySQL优化器专门优化，效率最高。</li><li><strong>count(1)：</strong>同count(*)，每行填充1再统计。</li><li><strong>count(列名)：</strong>统计该列<strong>非NULL</strong>的行数。</li><li><strong>count(distinct 列)：</strong>去重计数。</li></ul><p>💡 MyISAM中count(*)没有WHERE条件时O(1)（行数存在表头），InnoDB必须全表/全索引扫描。推荐count(*)。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">count(*)、count(1)、count(列名) 的区别？</div><div class="q-tags"><span class="q-tag">高频</span><span class="q-tag">聚合</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、四种写法对比：</strong></p>
+      <ul>
+        <li><strong>count(*)：</strong><br/>统计所有行数（包括 NULL），<br/>MySQL 优化器专门优化，效率最高，推荐使用。</li>
+        <li><strong>count(1)：</strong><br/>同 count(*)，每行填充常量 1 再统计，性能基本相同。</li>
+        <li><strong>count(列名)：</strong><br/>统计该列<strong>非 NULL</strong>的行数；<br/>若该列大量为 NULL，结果会小于实际行数。</li>
+        <li><strong>count(distinct 列)：</strong><br/>去重后计数。</li>
+      </ul>
+      <p><strong>二、效率对比：</strong><br/>InnoDB 中 count(*) 与 count(1) 性能基本一致，都优于 count(列名)；<br/>count(列名) 需要判断 NULL，且可能触发额外回表。</p>
+      <p><strong>💡 注意：</strong><br/>MyISAM 中 count(*) 无 WHERE 条件时 O(1)（行数存于表头）；<br/>InnoDB 必须全表/全索引扫描，因此统一推荐 count(*)。</p>
+      <p><strong>三、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>count()：</strong><br/>MySQL 聚合函数，用于统计记录行数。</li>
+        <li><strong>NULL：</strong><br/>表示"未知/没有值"，既不是 0 也不是空字符串，<br/>count(列名) 会跳过 NULL 值，参与运算结果也为 NULL。</li>
+        <li><strong>InnoDB / MyISAM 计数差异：</strong><br/>MyISAM 把表总行数存在表头，count(*) 无过滤条件时 O(1)；<br/>InnoDB 需按索引逐行扫描计数（受 MVCC/事务影响，不缓存总行数）。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q36 -->
-<div class="card"><div class="card-header"><div class="q-num">36</div><div class="q-meta"><div class="q-title">MVCC 读提交(RC)和可重复读(RR)下 ReadView 生成时机有何不同？</div><div class="q-tags"><span class="q-tag">MVCC</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>RC：</strong>每次快照读都生成新的ReadView 能读到其他事务已提交的修改 不可重复读。</li><li><strong>RR：</strong>事务中第一次快照读生成ReadView，后续复用 读到的数据始终一致 可重复读。</li></ul><p>💡 这就是为什么RR能避免不可重复读的原因——ReadView复用了。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">36</div><div class="q-meta"><div class="q-title">MVCC 读提交(RC)和可重复读(RR)下 ReadView 生成时机有何不同？</div><div class="q-tags"><span class="q-tag">MVCC</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、MVCC 回顾：</strong><br/>ReadView（读视图）记录生成时点活跃事务列表，<br/>用于判断版本链中哪个版本对当前事务可见。</p>
+      <p><strong>二、生成时机差异：</strong></p>
+      <ul>
+        <li><strong>RC（读已提交）：</strong><br/>每次快照读（普通 SELECT）都重新生成一个新的 ReadView。<br/>因此能读到其他事务已提交的最新修改，导致不可重复读。</li>
+        <li><strong>RR（可重复读）：</strong><br/>只在事务内第一次快照读时生成 ReadView，<br/>后续的快照读复用同一个。<br/>读到的数据始终是第一次快照时的状态，实现可重复读。</li>
+      </ul>
+      <p><strong>💡 根本原因：</strong><br/>这就是 RR 能避免不可重复读的原因——ReadView 只生成一次并复用。</p>
+      <p><strong>注意：</strong><br/>当前读（SELECT ... FOR UPDATE / LOCK IN SHARE MODE / UPDATE / DELETE）<br/>不依赖快照，始终读最新已提交数据，<br/>RR 下通过 Next-Key Lock 解决幻读。</p>
+      <p><strong>三、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>MVCC：</strong><br/>Multi-Version Concurrency Control，多版本并发控制，<br/>同一行数据保存多个历史版本，读操作不加锁即可读到一致快照。</li>
+        <li><strong>版本链：</strong><br/>每次修改基于 undo log 生成一个新版本，<br/>各版本按时间串联成链，供 MVCC 判断可见性。</li>
+        <li><strong>ReadView（读视图）：</strong><br/>记录生成时点还未提交的活跃事务 ID 列表，<br/>用来判断版本链中哪个版本对当前事务可见。</li>
+        <li><strong>快照读 vs 当前读：</strong><br/>快照读（普通 SELECT）读历史版本、不加锁；<br/>当前读（UPDATE/DELETE/加锁 SELECT）读最新已提交数据、需加锁。</li>
+        <li><strong>RC（读已提交，Read Committed）：</strong><br/>事务只能读到<strong>其他事务已提交</strong>的数据；<br/>每次快照读都重新生成 ReadView，<br/>能读到别的事务最新提交的修改，<br/>因此同一事务内两次查询结果可能不同（不可重复读）。</li>
+        <li><strong>RR（可重复读，Repeatable Read）：</strong><br/>事务内多次读取结果<strong>保持一致</strong>；<br/>第一次快照读生成 ReadView 后复用，后续读到同一个快照，<br/>其他事务的修改对当前事务不可见。<br/>它是 MySQL InnoDB 的默认隔离级别。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q37 -->
-<div class="card"><div class="card-header"><div class="q-num">37</div><div class="q-meta"><div class="q-title">AUTO_INCREMENT 自增主键的坑？自增ID用完了怎么办？</div><div class="q-tags"><span class="q-tag">自增</span><span class="q-tag">主键</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li>自增ID不一定连续（回滚/删除后不回收）。</li><li>insert...select等批量插入可能导致ID分配不均。</li><li>自增ID用完后INSERT会报主键冲突错误。</li></ul><p><strong>Int自增上限：</strong>有符号21.47亿，无符号42.94亿。单表日增百万，几年就用完。</p><p><strong>解决方案：</strong>提前用BIGINT（9.22*10^18）、分库分表、业务主键替代自增。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">37</div><div class="q-meta"><div class="q-title">AUTO_INCREMENT 自增主键的坑？自增ID用完了怎么办？</div><div class="q-tags"><span class="q-tag">自增</span><span class="q-tag">主键</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、自增主键的坑：</strong></p>
+      <ul>
+        <li><strong>ID 不一定连续：</strong><br/>事务回滚、删除后不会回收，存在空洞。</li>
+        <li><strong>批量插入分配不均：</strong><br/>insert...select、批量插入会预分配大段 ID。</li>
+        <li><strong>自增 ID 用完后：</strong><br/>INSERT 报主键冲突错误（Duplicate entry），业务直接异常。</li>
+        <li><strong>双主场景可能冲突：</strong><br/>自增偏移（auto_increment_offset）配置不当会 ID 冲突。</li>
+      </ul>
+      <p><strong>二、Int 自增上限：</strong><br/>有符号 21.47 亿，无符号 42.94 亿；<br/>单表日增百万，几年就会用完。</p>
+      <p><strong>三、解决方案：</strong><br/>1. 提前用 BIGINT（约 9.22×10^18，几乎用不完）；<br/>2. 分库分表，降低单表写入量；<br/>3. 用雪花算法等分布式 ID 替代自增主键。</p>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>AUTO_INCREMENT：</strong><br/>自增列属性，插入时不指定值，由数据库自动分配递增整数。</li>
+        <li><strong>主键：</strong><br/>唯一标识一行记录的列/组合；<br/>主键冲突（Duplicate entry）时该行插入失败。</li>
+        <li><strong>分库分表：</strong><br/>把一张大表按规则（如取模、范围）拆到多个库/多张表，<br/>降低单表数据量和写入压力。</li>
+        <li><strong>分布式 ID：</strong><br/>全局唯一 ID 生成方案，如雪花算法（Snowflake），<br/>由时间戳 + 机器号 + 序列号组成，全局唯一且趋势递增。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q38 -->
-<div class="card"><div class="card-header"><div class="q-num">38</div><div class="q-meta"><div class="q-title">MySQL 中 EXPLAIN 的 Extra 字段 Using filesort 和 Using temporary 是什么意思？</div><div class="q-tags"><span class="q-tag">EXPLAIN</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Using filesort：</strong>无法用索引排序，需要额外排序操作（内存sort_buffer或磁盘临时文件）。优化方向：让ORDER BY也走索引。</li><li><strong>Using temporary：</strong>创建临时表处理查询（GROUP BY、DISTINCT、UNION）。优化方向：加索引避免临时表。</li><li><strong>Using index：</strong>覆盖索引，无需回表（最好）。</li><li><strong>Using where：</strong>Server层过滤（存储引擎返回后在Server层再过滤）。</li><li><strong>Using index condition：</strong>使用了索引下推（ICP）。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">38</div><div class="q-meta"><div class="q-title">MySQL 中 EXPLAIN 的 Extra 字段 Using filesort 和 Using temporary 是什么意思？</div><div class="q-tags"><span class="q-tag">EXPLAIN</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、Using filesort：</strong><br/>无法用索引排序，需要额外排序操作（内存 sort_buffer 或磁盘临时文件）。<br/>优化方向：让 ORDER BY 也走索引。</p>
+      <p><strong>二、Using temporary：</strong><br/>创建临时表处理查询（GROUP BY、DISTINCT、UNION）。<br/>优化方向：加索引避免临时表。</p>
+      <p><strong>三、其他 Extra 值：</strong></p>
+      <ul>
+        <li><strong>Using index：</strong><br/>覆盖索引，无需回表（最好）。</li>
+        <li><strong>Using where：</strong><br/>Server 层过滤（存储引擎返回后在 Server 层再过滤）。</li>
+        <li><strong>Using index condition：</strong><br/>使用了索引下推（ICP）。</li>
+      </ul>
+      <p><strong>💡 判断口诀：</strong><br/>出现 filesort 或 temporary 说明排序/分组没走索引，<br/>优先通过联合索引让排序分组利用索引的有序性。</p>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>EXPLAIN：</strong><br/>查看 SQL 执行计划的命令，<br/>EXPLAIN SELECT ... 可看到优化器如何执行该 SQL。</li>
+        <li><strong>Extra：</strong><br/>EXPLAIN 输出中的一列，存放额外执行信息，<br/>如是否用了临时表、是否额外排序、是否覆盖索引等。</li>
+        <li><strong>filesort：</strong><br/>索引无法提供有序结果时触发的额外排序，<br/>数据少在内存 sort_buffer 排序，数据多则落磁盘临时文件。</li>
+        <li><strong>临时表：</strong><br/>执行 GROUP BY / DISTINCT / UNION 时优化器创建的中间表，<br/>数据量大时落到磁盘，性能差。</li>
+        <li><strong>覆盖索引：</strong><br/>索引中已包含查询所需的全部字段，查询直接从索引取数、无需回表。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q39 -->
-<div class="card"><div class="card-header"><div class="q-num">39</div><div class="q-meta"><div class="q-title">MySQL 8.0 有哪些重要新特性？</div><div class="q-tags"><span class="q-tag">MySQL8</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>默认字符集utf8mb4：</strong>支持emoji。</li><li><strong>窗口函数：</strong>ROW_NUMBER()、RANK()等。</li><li><strong>CTE（公用表表达式）：</strong>WITH语句，递归查询。</li><li><strong>降序索引：</strong>真正支持DESC索引。</li><li><strong>不可见索引：</strong>测试删除索引的影响。</li><li><strong>直方图：</strong>优化器统计信息更准确。</li><li><strong>hash join：</strong>替代部分BNL。</li><li><strong>JSON增强：</strong>JSON_TABLE等函数。</li><li><strong>角色管理：</strong>支持role。</li><li><strong>原子DDL：</strong>DDL原子性。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">39</div><div class="q-meta"><div class="q-title">MySQL 8.0 有哪些重要新特性？</div><div class="q-tags"><span class="q-tag">MySQL8</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、重要新特性有哪些（总览）：</strong><br/>MySQL 8.0 相比 5.7 的重要新特性共 <strong>10 项</strong>，分为三类：</p>
+      <ul>
+        <li><strong>存储与性能类（6 项）：</strong><br/>默认字符集 utf8mb4、降序索引、不可见索引、直方图、Hash Join、原子 DDL。</li>
+        <li><strong>SQL 能力类（3 项）：</strong><br/>窗口函数、CTE（公用表表达式）、JSON 增强。</li>
+        <li><strong>安全与管理类（1 项）：</strong><br/>角色管理（role）。</li>
+      </ul>
+      <p><strong>二、存储与性能类：</strong></p>
+      <ul>
+        <li><strong>默认字符集 utf8mb4：</strong><br/>支持 emoji，全局默认。</li>
+        <li><strong>降序索引：</strong><br/>真正支持 DESC 索引，多列混合排序可走索引。</li>
+        <li><strong>不可见索引：</strong><br/>可测试删除索引的影响，不影响现有 SQL。</li>
+        <li><strong>直方图：</strong><br/>优化器统计信息更准确，提升执行计划质量。</li>
+        <li><strong>Hash Join：</strong><br/>替代部分 Block Nested Loop，JOIN 性能提升。</li>
+        <li><strong>原子 DDL：</strong><br/>DDL 失败自动回滚，不留下半成品表。</li>
+      </ul>
+      <p><strong>三、SQL 能力类：</strong></p>
+      <ul>
+        <li><strong>窗口函数：</strong><br/>ROW_NUMBER()、RANK()、DENSE_RANK() 等，<br/>排名、分组 TopN 更简单高效。</li>
+        <li><strong>CTE（公用表表达式）：</strong><br/>WITH 语句，支持递归查询。</li>
+        <li><strong>JSON 增强：</strong><br/>JSON_TABLE、JSON_OVERLAPS 等函数。</li>
+      </ul>
+      <p><strong>四、安全与管理类：</strong><br/>角色管理（role），权限管理更灵活。</p>
+      <p><strong>💡 高频考点：</strong><br/>窗口函数、CTE、降序索引、Hash Join。</p>
+      <p><strong>五、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>窗口函数：</strong><br/>在"窗口"（分组范围内）对每行做聚合/排名计算，<br/>如 ROW_NUMBER()、RANK()、DENSE_RANK()，不合并行、保留明细。</li>
+        <li><strong>CTE：</strong><br/>公用表表达式，用 WITH 定义临时命名查询，<br/>可被后续 SQL 多次引用，且支持递归查询。</li>
+        <li><strong>Hash Join：</strong><br/>先把小表构建哈希表，再遍历大表匹配，<br/>替代旧版 Block Nested Loop，等值连接性能更高。</li>
+        <li><strong>直方图：</strong><br/>对列数据分布的统计信息，<br/>帮助优化器更准确估算行数、生成更优执行计划。</li>
+      </ul>
+    </div></div></div>
 
 <!-- Q40 -->
-<div class="card"><div class="card-header"><div class="q-num">40</div><div class="q-meta"><div class="q-title">什么是回表？如何避免回表？</div><div class="q-tags"><span class="q-tag">回表</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>回表：</strong>通过二级索引找到主键→再到聚簇索引中查完整行数据的操作。</p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- name有普通索引，非主键
-SELECT * FROM t WHERE name='test'; -- 需要回表
-SELECT id, name FROM t WHERE name='test'; -- 覆盖索引，无需回表</pre><p><strong>避免回表：</strong></p><ul><li><strong>覆盖索引：</strong>索引包含所有查询字段。</li><li><strong>减少SELECT *：</strong>只查需要的列。</li><li><strong>联合索引：</strong>把常用查询字段加入联合索引。</li><li><strong>索引下推(ICP)：</strong>减少不必要的回表。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">40</div><div class="q-meta"><div class="q-title">什么是回表？如何避免回表？</div><div class="q-tags"><span class="q-tag">回表</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一、什么是回表：</strong><br/>先通过二级索引（非聚簇索引）找到主键值，<br/>再根据主键到聚簇索引（主键索引）中查找完整行数据的操作。</p>
+      <pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- name有普通索引，非主键
+SELECT * FROM t WHERE name='test'; -- 二级索引查到主键id → 再回聚簇索引查整行（回表）
+SELECT id, name FROM t WHERE name='test'; -- 所需列都在索引中，覆盖索引，无需回表</pre>
+      <p><strong>二、为什么回表慢：</strong><br/>一次回表 = 额外一次随机 IO，<br/>回表次数多时性能急剧下降。</p>
+      <p><strong>三、如何避免回表：</strong></p>
+      <ul>
+        <li><strong>覆盖索引：</strong><br/>索引中包含查询所需的全部字段，<br/>无需回表（Extra 显示 Using index）。</li>
+        <li><strong>减少 SELECT *：</strong><br/>只查需要的列，提高覆盖索引命中概率。</li>
+        <li><strong>合理设计联合索引：</strong><br/>把高频查询字段都放进索引。</li>
+        <li><strong>索引下推（ICP）：</strong><br/>在索引层提前过滤，减少无谓回表。</li>
+      </ul>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>聚簇索引（主键索引）：</strong><br/>叶子节点直接存放完整行数据，表数据物理顺序与索引顺序一致；<br/>InnoDB 主键索引即聚簇索引，一张表只有一个。</li>
+        <li><strong>二级索引（非聚簇索引）：</strong><br/>叶子节点只存主键值，而非完整行数据；<br/>普通索引、联合索引都属于二级索引，一张表可有多个。</li>
+        <li><strong>覆盖索引：</strong><br/>索引中已包含查询所需的全部字段，<br/>查询直接从索引取数，无需回表。</li>
+        <li><strong>随机 IO：</strong><br/>每次按主键跳转到不同数据页读取，磁盘寻道开销大，<br/>性能远低于顺序 IO。</li>
+      </ul>
+    </div></div></div>
 
+<!-- Q41 -->
+<div class="card"><div class="card-header"><div class="q-num">41</div><div class="q-meta"><div class="q-title">什么是索引？为什么要使用索引？索引有哪些优缺点？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>索引是数据库为加速查询而额外维护的"目录"数据结构，<br/>本质是以空间换时间，把无序数据变成可快速定位的有序结构；<br/>它大幅提升查询速度，但会牺牲写入性能并占用额外空间。</p>
+      <p><strong>一、什么是索引（定义、作用、原理）：</strong></p>
+      <ul>
+        <li><strong>定义：</strong><br/>索引是一种用于快速查询和检索数据的数据结构，<br/>常见索引结构有 B 树、B+ 树和 Hash。</li>
+        <li><strong>作用：</strong><br/>索引的作用相当于书的目录，<br/>没有目录时只能一页页翻找，有了目录直接定位页码即可。</li>
+        <li><strong>原理：</strong><br/>索引对列的值排序后额外存储，并记录对应的物理位置，<br/>查询时先在索引中二分定位，再按位置读取数据，避免全表扫描。</li>
+      </ul>
+      <p><strong>二、为什么要使用索引（索引的优点）：</strong></p>
+      <ul>
+        <li><strong>保证数据唯一性：</strong><br/>通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。</li>
+        <li><strong>大大加快检索速度：</strong><br/>大幅减少检索的数据量，这是创建索引最主要的原因，<br/>毕竟大部分系统的读请求总是大于写请求的。</li>
+        <li><strong>帮助服务器避免排序和临时表：</strong><br/>索引本身有序，可满足 ORDER BY、GROUP BY、DISTINCT 等操作，<br/>避免额外排序和建立临时表。</li>
+        <li><strong>将随机 IO 变为顺序 IO：</strong><br/>按索引顺序读取数据，减少磁盘寻道开销，加速范围查询。</li>
+        <li><strong>加速表和表之间的连接：</strong><br/>在经常用于连接的列（外键）上建索引，加快连接速度，<br/>在实现数据的参考完整性方面特别有意义。</li>
+      </ul>
+      <p><strong>三、索引的缺点（为什么不对每一列建索引）：</strong></p>
+      <ul>
+        <li><strong>降低增删改速度：</strong><br/>当对表中的数据进行增、删、改时，索引也要动态维护，<br/>降低了数据的维护速度（如 InnoDB 的 B+ 树要重新调整）。</li>
+        <li><strong>占用物理空间：</strong><br/>索引需要使用物理文件存储，每一个索引都要占一定的物理空间，<br/>如果要建立聚簇索引，需要的空间就会更大。</li>
+        <li><strong>耗费创建和维护时间：</strong><br/>创建索引和维护索引要耗费时间，<br/>这种时间随着数据量的增加而增加。</li>
+      </ul>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>数据结构：</strong><br/>数据在计算机中的组织方式，如 B 树、B+ 树、Hash、链表等，<br/>决定了数据的存取效率。</li>
+        <li><strong>全表扫描：</strong><br/>从头到尾逐行遍历整张表查找数据，时间复杂度 O(n)，<br/>数据量大时性能极差。</li>
+        <li><strong>随机 IO / 顺序 IO：</strong><br/>随机 IO 需要多次磁盘寻道，开销大；<br/>顺序 IO 连续读取，性能远高于随机 IO。</li>
+        <li><strong>聚簇索引：</strong><br/>索引结构与数据一起存放的索引，如 InnoDB 的主键索引，<br/>叶子节点直接存放完整行数据。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q42 -->
+<div class="card"><div class="card-header"><div class="q-num">42</div><div class="q-meta"><div class="q-title">B 树和 B+ 树的区别？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">数据结构</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>B 树所有节点都存 key 和数据、叶子节点相互独立；<br/>B+ 树只有叶子节点存数据、叶子节点用链表串联、检索稳定，<br/>因此 B+ 树更适合作数据库索引。</p>
+      <p><strong>一、先讲两个概念（定义）：</strong></p>
+      <ul>
+        <li><strong>B 树：</strong><br/>多路平衡查找树，所有节点既存放键（key）也存放数据（data），<br/>树内节点都有实际数据，检索可能提前结束。</li>
+        <li><strong>B+ 树：</strong><br/>B 树的变体，只有叶子节点存放 key 和 data，<br/>其他内部节点只存放 key 作为路由，叶子节点用链表相连。</li>
+      </ul>
+      <p><strong>二、核心区别：</strong></p>
+      <ul>
+        <li><strong>数据存放位置不同：</strong><br/>B 树所有节点既存 key 也存 data；<br/>B+ 树只有叶子节点存 key 和 data，内部节点只存 key。</li>
+        <li><strong>叶子节点结构不同：</strong><br/>B 树的叶子节点都是独立的；<br/>B+ 树的叶子节点有一条引用链（双向链表）指向相邻叶子节点，天然有序。</li>
+        <li><strong>检索过程不同：</strong><br/>B 树检索相当于对范围内每个节点的关键字做二分查找，<br/>可能还没到达叶子节点检索就结束了；<br/>B+ 树任何查找都是从根节点到叶子节点的过程，效率稳定，<br/>叶子节点支持顺序检索。</li>
+        <li><strong>磁盘 IO 不同：</strong><br/>B+ 树内部节点只存 key，一个页能容纳更多 key，树更矮、IO 更少；<br/>B 树每个节点都存数据，key 容量小，树更高、IO 更多。</li>
+      </ul>
+      <p><strong>三、为什么数据库选 B+ 树：</strong><br/>叶子节点有序链表天然支持范围查询，<br/>内部节点不存数据使树更矮，查询 IO 次数固定且稳定，<br/>更契合磁盘顺序读写的特性。</p>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>多路平衡查找树：</strong><br/>每个节点可以有多个子节点的平衡树，<br/>相比二叉树更矮，可减少磁盘寻道次数。</li>
+        <li><strong>叶子节点：</strong><br/>树的最底层节点，没有子节点，B+ 树中存放全部数据。</li>
+        <li><strong>内部节点：</strong><br/>除叶子节点外的中间节点，B+ 树中只作索引路由使用。</li>
+        <li><strong>范围查询：</strong><br/>检索某一区间内的数据，如 id BETWEEN 100 AND 200，<br/>B+ 树一次定位后沿链表顺序扫描即可。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q43 -->
+<div class="card"><div class="card-header"><div class="q-num">43</div><div class="q-meta"><div class="q-title">Hash 索引和 B+ 树索引的优劣对比？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">数据结构</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>Hash 索引等值查询极快但不支持排序和范围查询；<br/>B+ 树索引有序、支持范围查询和排序，是 MySQL 的主流选择。</p>
+      <p><strong>一、Hash 索引（定义与特点）：</strong></p>
+      <ul>
+        <li><strong>定义：</strong><br/>底层就是哈希表，通过 Hash 函数把 key 映射到存储位置。</li>
+        <li><strong>优点·定位快：</strong><br/>最大的优点是能够在很短的时间内，根据 Hash 函数定位到数据所在的位置，<br/>这是 B+ 树所不能比的。</li>
+        <li><strong>缺点·Hash 冲突：</strong><br/>多个 key 可能映射到同一位置，需要额外机制处理冲突，<br/>同 HashMap/Hashtable 一样存在 Hash 冲突问题。</li>
+        <li><strong>缺点·不支持顺序和范围查询（最大缺点）：</strong><br/>B+ 树是有序的，范围查询直接遍历比某个值小的叶子节点即可；<br/>而 Hash 索引是根据 hash 算法定位的，<br/>范围查询需要把区间内每个数据都做一次 hash 计算来定位，性能极差。<br/>如 SELECT * FROM tb1 WHERE id &lt; 500 这类查询 Hash 索引无法高效支持。</li>
+      </ul>
+      <p><strong>二、B+ 树索引（定义与特点）：</strong></p>
+      <ul>
+        <li><strong>定义：</strong><br/>基于 B+ 树结构的有序索引，叶子节点按 key 排序并双向链接。</li>
+        <li><strong>优点·有序支持范围查询：</strong><br/>范围查询时直接遍历比目标值小的叶子节点即可，优势非常大；<br/>同时天然支持 ORDER BY 排序。</li>
+        <li><strong>优点·支持前缀匹配：</strong><br/>有序结构支持 LIKE 'abc%' 类型的前缀模糊查询。</li>
+        <li><strong>缺点·等值查询略慢：</strong><br/>单条等值查询需要从根节点走到叶子节点，多次 IO，<br/>不如 Hash 索引直接定位快。</li>
+      </ul>
+      <p><strong>三、如何选择：</strong><br/>绝大多数需求为单条记录查询时可选择 Hash 索引（如 MEMORY 引擎）；<br/>其余大部分场景建议选择 BTree（B+ 树）索引。</p>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>哈希函数：</strong><br/>把任意长度的 key 计算成固定长度存储地址的函数，<br/>是哈希表的定位依据。</li>
+        <li><strong>哈希冲突：</strong><br/>不同 key 计算出相同地址的现象，<br/>需通过链地址法或开放寻址法解决。</li>
+        <li><strong>等值查询：</strong><br/>WHERE 条件为精确值匹配（如 id = 5），<br/>Hash 索引只擅长此类查询。</li>
+        <li><strong>MEMORY 引擎：</strong><br/>MySQL 将数据保存在内存中的存储引擎，<br/>默认索引结构即 Hash 索引。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q44 -->
+<div class="card"><div class="card-header"><div class="q-num">44</div><div class="q-meta"><div class="q-title">MySQL 索引有哪些类型？如何添加索引？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>MySQL 索引按功能分为主键索引、唯一索引、普通索引、前缀索引、全文索引；<br/>按列数分为单列索引和联合索引，<br/>其中主键索引（聚簇索引）之外的都叫二级索引。</p>
+      <p><strong>一、主键索引（Primary Key）：</strong><br/>数据表的主键列使用的就是主键索引。</p>
+      <ul>
+        <li>一张数据表只能有一个主键，且主键不能为 null、不能重复。</li>
+        <li>InnoDB 表中没有显式指定主键时，<br/>会先检查是否有唯一索引字段，若有则选其为默认主键，<br/>否则自动创建一个 6 Byte 的自增主键。</li>
+        <li>InnoDB 的主键索引即聚簇索引，叶子节点存完整行数据。</li>
+      </ul>
+      <p><strong>二、二级索引（辅助索引）：</strong><br/>二级索引的叶子节点存储的数据是主键，<br/>通过二级索引可以定位主键的位置，再回表查询完整数据。<br/>唯一索引、普通索引、前缀索引等都属于二级索引。</p>
+      <ul>
+        <li><strong>唯一索引（Unique Key）：</strong><br/>属性列不能出现重复数据，但允许数据为 NULL，<br/>一张表允许创建多个唯一索引；<br/>建立目的大部分时候是为了保证数据的唯一性，而非查询效率。</li>
+        <li><strong>普通索引（Index）：</strong><br/>唯一作用就是快速查询数据，<br/>一张表允许创建多个，允许数据重复和 NULL。</li>
+        <li><strong>前缀索引（Prefix）：</strong><br/>只适用于字符串类型的数据，对文本的前几个字符创建索引，<br/>相比普通索引占用空间更小，因为只取前几个字符。</li>
+        <li><strong>全文索引（Full Text）：</strong><br/>主要为了检索大文本数据中的关键字信息，<br/>是搜索引擎数据库常用的一种技术；<br/>MySQL 5.6 之前只有 MyISAM 引擎支持，5.6 之后 InnoDB 也支持。</li>
+      </ul>
+      <p><strong>三、按列数分类：</strong></p>
+      <ul>
+        <li><strong>单列索引：</strong><br/>即由一列属性组成的索引。</li>
+        <li><strong>联合索引（多列索引）：</strong><br/>即由多列属性组成的索引，<br/>查询遵循最左前缀原则，尽量把查询最频繁的字段放最左。</li>
+      </ul>
+      <p><strong>四、如何为表字段添加索引（示例）：</strong></p>
+      <pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- 添加主键索引
+ALTER TABLE `table_name` ADD PRIMARY KEY ( `column` );
+-- 添加唯一索引
+ALTER TABLE `table_name` ADD UNIQUE ( `column` );
+-- 添加普通索引
+ALTER TABLE `table_name` ADD INDEX index_name ( `column` );
+-- 添加全文索引
+ALTER TABLE `table_name` ADD FULLTEXT ( `column` );
+-- 添加多列索引（联合索引）
+ALTER TABLE `table_name` ADD INDEX index_name ( `column1`, `column2`, `column3` );</pre>
+      <p><strong>五、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>聚簇索引：</strong><br/>索引结构与数据一起存放的索引，InnoDB 主键索引即聚簇索引，<br/>一张表只能有一个。</li>
+        <li><strong>回表：</strong><br/>先通过二级索引找到主键，再根据主键到聚簇索引查完整行数据的过程。</li>
+        <li><strong>索引组织表：</strong><br/>InnoDB 中表数据按主键顺序组织存放，<br/>数据的存储顺序和索引顺序一致。</li>
+        <li><strong>最左前缀原则：</strong><br/>联合索引必须从最左列开始连续匹配才能命中，<br/>如 (name,city) 索引，name=xx 可命中、city=xx 无法命中。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q45 -->
+<div class="card"><div class="card-header"><div class="q-num">45</div><div class="q-meta"><div class="q-title">为什么索引能提高查询速度？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">原理</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>索引把无序的数据变成有序结构，<br/>通过"目录 + 二分查找"将全表遍历的 O(n) 优化为 O(logn)，<br/>底层实现就是 B+ 树。</p>
+      <p><strong>一、先从 MySQL 的基本存储结构说起：</strong></p>
+      <ul>
+        <li><strong>页（Page）：</strong><br/>MySQL 的基本存储结构，记录都存放在页里边，<br/>默认每页 16KB。</li>
+        <li><strong>双向链表：</strong><br/>各个数据页可以组成一个双向链表，<br/>定位记录所在页需要遍历这个链表。</li>
+        <li><strong>单向链表：</strong><br/>每个数据页中的记录又组成一个单向链表。</li>
+        <li><strong>页目录：</strong><br/>每个数据页都会为存储在里边的记录生成一个页目录，<br/>通过主键查找时可在页目录中用二分法快速定位到对应的槽，<br/>再遍历该槽对应分组中的记录即可快速找到指定记录。</li>
+      </ul>
+      <p><strong>二、没有索引时的查找过程（为什么慢）：</strong><br/>以 select * from user where indexname = 'xxx' 为例：</p>
+      <ul>
+        <li>定位到记录所在的页：需要遍历双向链表，找到所在的页。</li>
+        <li>从所在的页内查找记录：由于不是根据主键查询，<br/>只能遍历所在页的单链表。</li>
+        <li>在数据量很大的情况下这样查找会很慢，<br/>时间复杂度为 O(n)。</li>
+      </ul>
+      <p><strong>三、使用索引之后（为什么快）：</strong><br/>索引做了些什么让我们查询加快速度呢？其实就是将无序的数据变成有序（相对）：</p>
+      <ul>
+        <li>没有索引时需要遍历双向链表来定位对应的页，<br/>通过"目录"（索引）就可以很快定位到对应的页。</li>
+        <li>通过二分查找，时间复杂度近似为 O(logn)。</li>
+        <li>底层结构就是 B+ 树，作为树的一种实现，<br/>能够让我们很快地查找出对应的记录。</li>
+      </ul>
+      <p><strong>四、选择索引和编写索引查询的 3 个原则：</strong></p>
+      <ul>
+        <li><strong>单行访问是很慢的：</strong><br/>如果服务器从存储中读取一个数据块只是为了获取其中一行，<br/>就浪费了很多工作，最好读取的块中能包含尽可能多所需要的行。</li>
+        <li><strong>按顺序访问范围数据是很快的：</strong><br/>顺序 IO 不需要多次磁盘寻道，所以比随机 IO 快很多；<br/>且不再需要额外的排序操作，GROUP BY 也无须再排序和聚合计算。</li>
+        <li><strong>索引覆盖查询是很快的：</strong><br/>如果一个索引包含了查询需要的所有列，<br/>存储引擎就不需要再回表查找行，避免了大量的单行访问。</li>
+      </ul>
+      <p><strong>五、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>二分查找：</strong><br/>在有序序列中每次取中间值比较，排除一半数据，<br/>时间复杂度 O(logn)。</li>
+        <li><strong>页目录：</strong><br/>数据页内部为记录建立的目录，<br/>记录被分成若干槽，支持二分定位。</li>
+        <li><strong>覆盖索引：</strong><br/>索引包含查询所需的全部字段，无需回表，<br/>Extra 显示 Using index。</li>
+        <li><strong>B+ 树：</strong><br/>多路平衡查找树，内部节点只存 key、叶子节点存数据且有序，<br/>是 InnoDB/MyISAM 的默认索引结构。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q46 -->
+<div class="card"><div class="card-header"><div class="q-num">46</div><div class="q-meta"><div class="q-title">使用索引的注意事项有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>在经常搜索、WHERE 条件、排序、连接的列上建索引，<br/>避免对索引列施加函数、避免 NULL、及时清理无用索引，<br/>且索引并非越多越好、数据量小时收益有限。</p>
+      <p><strong>一、使用索引的注意事项：</strong></p>
+      <ul>
+        <li><strong>在经常搜索的列上建索引：</strong><br/>可以加快搜索的速度。</li>
+        <li><strong>在 WHERE 子句的列上建索引：</strong><br/>加快条件的判断速度。</li>
+        <li><strong>在经常排序的列上建索引：</strong><br/>索引已经有序，查询可以利用索引的排序，加快排序查询时间。</li>
+        <li><strong>中到大型表建索引有效：</strong><br/>对于中到大型表索引非常有效，<br/>但特大型表维护开销会很大，不适合建索引。</li>
+        <li><strong>在经常连接的列（外键）上建索引：</strong><br/>可以加快连接的速度。</li>
+        <li><strong>避免 where 子句中对字段施加函数：</strong><br/>这会造成无法命中索引。</li>
+        <li><strong>InnoDB 使用与业务无关的自增主键：</strong><br/>即使用逻辑主键，而不要使用业务主键，<br/>避免主索引频繁分裂。</li>
+        <li><strong>索引列设置为 NOT NULL：</strong><br/>否则将导致引擎放弃使用索引而进行全表扫描。</li>
+        <li><strong>删除长期未使用的索引：</strong><br/>不用的索引存在会造成不必要的性能损耗；<br/>MySQL 5.7 可通过查询 sys 库的 schema_unused_indexes 视图<br/>查看哪些索引从未被使用。</li>
+        <li><strong>limit offset 查询缓慢时借助索引：</strong><br/>使用 LIMIT OFFSET 查询缓慢时，可以借助索引来提高性能。</li>
+      </ul>
+      <p><strong>二、使用索引一定能提高查询性能吗：</strong></p>
+      <ul>
+        <li>大多数情况下，索引查询都比全表扫描要快。</li>
+        <li>但如果数据库的数据量不大，<br/>使用索引也不一定能够带来很大提升。</li>
+      </ul>
+      <p><strong>三、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>逻辑主键：</strong><br/>与业务无关的自增主键，如 AUTO_INCREMENT 的 id，<br/>避免使用业务字段作主键导致索引频繁调整。</li>
+        <li><strong>全表扫描：</strong><br/>不使用索引时逐行遍历整张表，复杂度 O(n)，<br/>引擎会在某些情况下（如索引列含 NULL）放弃索引。</li>
+        <li><strong>LIMIT OFFSET：</strong><br/>分页查询语法，OFFSET 越大扫描越深，性能越差，<br/>可用索引定位优化。</li>
+        <li><strong>sys 库：</strong><br/>MySQL 5.7 提供的性能诊断库，<br/>内含 schema_unused_indexes、schema_redundant_indexes 等视图。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q47 -->
+<div class="card"><div class="card-header"><div class="q-num">47</div><div class="q-meta"><div class="q-title">索引的创建原则和注意点有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>在不为 NULL、频繁查询、条件过滤、频繁连接的字段上建索引；<br/>频繁更新、不常查询的字段慎建索引；<br/>优先联合索引、避免冗余索引、字符串可用前缀索引。</p>
+      <p><strong>一、选择合适的字段（适合建索引）：</strong></p>
+      <ul>
+        <li><strong>不为 NULL 的字段：</strong><br/>索引字段的数据应该尽量不为 NULL，<br/>因为对于数据为 NULL 的字段，数据库较难优化；<br/>如果字段频繁被查询又避免不了 NULL，<br/>建议使用 0、1、true、false 等语义清晰的短值或短字符替代。</li>
+        <li><strong>被频繁查询的字段：</strong><br/>创建索引的字段应该是查询操作非常频繁的字段。</li>
+        <li><strong>被作为 WHERE 条件查询的字段：</strong><br/>被作为条件查询的字段，应该考虑建立索引。</li>
+        <li><strong>被经常用于连接的字段：</strong><br/>经常用于连接的字段可能是一些外键列，<br/>对于频繁被连接查询的字段，可以考虑建立索引，提高多表连接查询的效率。</li>
+      </ul>
+      <p><strong>二、不合适创建索引的字段（慎建索引）：</strong></p>
+      <ul>
+        <li><strong>被频繁更新的字段：</strong><br/>虽然索引能带来查询上的效率，但维护索引的成本也不小，<br/>一个字段不被经常查询反而被经常修改，就不应该建索引。</li>
+        <li><strong>不被经常查询的字段：</strong><br/>没有查询价值的字段没有必要建立索引。</li>
+      </ul>
+      <p><strong>三、创建索引的注意点：</strong></p>
+      <ul>
+        <li><strong>尽可能考虑联合索引而不是单列索引：</strong><br/>每个索引都对应一颗 B+ 树、占用磁盘空间，<br/>字段过多、索引过多会占很多空间且修改耗时；<br/>联合索引多个字段在一个索引上，节约磁盘空间、提升修改效率。</li>
+        <li><strong>遵守最左前缀原则：</strong><br/>查询条件精确匹配索引左边连续一列或几列时才能命中；<br/>创建联合索引时字段顺序要考虑字段值去重后的个数，较多的放前面；<br/>ORDER BY 子句也遵循此规则。</li>
+        <li><strong>注意避免冗余索引：</strong><br/>冗余索引指索引功能相同，能命中后者就肯定能命中前者，<br/>如 (name,city) 和 (name) 就是冗余索引；<br/>大多数情况下应该尽量扩展已有的索引而不是创建新索引；<br/>MySQL 5.7 后可通过 sys 库的 schema_redundant_indexes 表查看冗余索引。</li>
+        <li><strong>字符串类型优先考虑前缀索引：</strong><br/>前缀索引只取字符串前几个字符建索引，<br/>相比普通索引占用更小空间，<br/>可考虑用前缀索引代替普通索引。</li>
+      </ul>
+      <p><strong>四、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>联合索引：</strong><br/>多个字段组成的索引，如 (name, city)，<br/>减少索引数量、提高查询效率。</li>
+        <li><strong>最左前缀原则：</strong><br/>联合索引查询须从最左列开始连续匹配，<br/>如 (name,city) 索引下 city=xx 单独查询无法命中。</li>
+        <li><strong>冗余索引：</strong><br/>功能重复的索引，浪费空间、拖慢写入性能。</li>
+        <li><strong>前缀索引：</strong><br/>取字符串列前 N 个字符建立的索引，<br/>适合长字符串列，节省空间。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q48 -->
+<div class="card"><div class="card-header"><div class="q-num">48</div><div class="q-meta"><div class="q-title">MySQL 数据库命名和基本设计规范有哪些？</div><div class="q-tags"><span class="q-tag">设计规范</span><span class="q-tag">规范</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>命名要小写加下划线、见名识意、不使用保留字；<br/>设计上统一 InnoDB + UTF8、加注释、控制数据量、分离冷热数据，<br/>从源头保证规范性和可维护性。</p>
+      <p><strong>一、数据库命令规范：</strong></p>
+      <ul>
+        <li>所有数据库对象名称必须使用小写字母并用下划线分割。</li>
+        <li>所有数据库对象名称禁止使用 MySQL 保留关键字，<br/>如果表名中包含关键字查询时，需要将其用单引号括起来。</li>
+        <li>数据库对象的命名要能做到见名识意，<br/>并且最好不要超过 32 个字符。</li>
+        <li>临时库表必须以 tmp 为前缀并以日期为后缀，<br/>备份表必须以 bak 为前缀并以日期（时间戳）为后缀。</li>
+        <li>所有存储相同数据的列名和列类型必须一致（一般作为关联列），<br/>如果查询时关联列类型不一致会自动进行数据类型隐式转换，<br/>会造成列上的索引失效，导致查询效率降低。</li>
+      </ul>
+      <p><strong>二、数据库基本设计规范：</strong></p>
+      <ul>
+        <li><strong>所有表必须使用 InnoDB 存储引擎：</strong><br/>没有特殊要求（如列存储、存储空间数据等）时，所有表使用 InnoDB；<br/>MySQL 5.5 之前默认 MyISAM，5.6 以后默认 InnoDB；<br/>InnoDB 支持事务、行级锁、更好的恢复性，高并发下性能更好。</li>
+        <li><strong>数据库和表字符集统一使用 UTF8：</strong><br/>统一字符集可避免字符集转换产生的乱码和索引失效；<br/>如果有存储 emoji 表情的需要，字符集需采用 utf8mb4。</li>
+        <li><strong>所有表和字段都需要添加注释：</strong><br/>使用 comment 从句添加表和列的备注，<br/>从一开始就进行数据字典的维护。</li>
+        <li><strong>尽量控制单表数据量在 500 万以内：</strong><br/>500 万并不是 MySQL 数据库的限制，<br/>过大会造成修改表结构、备份、恢复困难；<br/>可用历史数据归档（日志数据）、分库分表（业务数据）控制数据量。</li>
+        <li><strong>谨慎使用 MySQL 分区表：</strong><br/>分区表物理上表现为多个文件、逻辑上表现为一个表；<br/>谨慎选择分区键，跨分区查询效率可能更低；<br/>建议采用物理分表的方式管理大数据。</li>
+        <li><strong>尽量做到冷热数据分离、减小表的宽度：</strong><br/>MySQL 限制每个表最多 4096 列，每行数据大小不能超过 65535 字节；<br/>减少磁盘 IO、保证热数据的内存缓存命中率；<br/>经常一起使用的列放到一个表中，避免更多的关联操作。</li>
+        <li><strong>禁止在表中建立预留字段：</strong><br/>预留字段的命名很难做到见名识义；<br/>无法确认存储的数据类型，无法选择合适的类型；<br/>对预留字段类型的修改，会对表进行锁定。</li>
+        <li><strong>禁止存储图片、文件等大的二进制数据：</strong><br/>文件很大时 IO 操作很耗时，且数据库读取会进行大量随机 IO；<br/>通常存储于文件服务器，数据库只存储文件地址信息。</li>
+        <li><strong>禁止在线上做数据库压力测试。</strong></li>
+        <li><strong>禁止从开发环境、测试环境直接连接生产环境数据库。</strong></li>
+      </ul>
+      <p><strong>三、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>保留关键字：</strong><br/>SQL 中保留特殊含义的单词，如 select、where、order 等，<br/>作表名/列名时需特殊处理或避免使用。</li>
+        <li><strong>隐式类型转换：</strong><br/>比较时类型不一致自动转换类型，<br/>会导致索引失效、查询变慢。</li>
+        <li><strong>冷热数据：</strong><br/>热数据访问频繁、冷数据访问很少，<br/>分离存储可提高缓存命中率。</li>
+        <li><strong>分区表：</strong><br/>逻辑上一张表、物理上多个文件，<br/>按分区键把数据拆到不同分区文件。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q49 -->
+<div class="card"><div class="card-header"><div class="q-num">49</div><div class="q-meta"><div class="q-title">MySQL 字段设计规范有哪些？</div><div class="q-tags"><span class="q-tag">设计规范</span><span class="q-tag">字段</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>字段设计核心是"够用就好"：用最小的合适类型、避免 TEXT/BLOB 和 ENUM、<br/>尽量 NOT NULL、时间用 TIMESTAMP/DATETIME、金额用 DECIMAL。</p>
+      <p><strong>一、优先选择符合存储需要的最小的数据类型：</strong></p>
+      <ul>
+        <li><strong>原因：</strong><br/>字段越大，建立索引时所需空间越大，<br/>一页中能存储的索引节点数量越少，<br/>遍历时所需 IO 次数越多，索引性能越差。</li>
+        <li><strong>方法 a·字符串转数字存储：</strong><br/>如将 IP 地址转换成整型数据，<br/>inet_aton 把 ip 转为无符号整型（4~8 位），<br/>inet_ntoa 把整型的 ip 转为地址。</li>
+        <li><strong>方法 b·非负数据用无符号整型：</strong><br/>如自增 ID、整型 IP 优先使用无符号整型，<br/>无符号相对于有符号可以多出一倍的存储空间。</li>
+        <li><strong>注意 VARCHAR(N) 的 N 是字符数：</strong><br/>使用 UTF8 存储 255 个汉字 Varchar(255)=765 个字节，<br/>过大的长度会消耗更多的内存。</li>
+      </ul>
+      <p><strong>二、避免使用 TEXT、BLOB 数据类型：</strong></p>
+      <ul>
+        <li>最常见的 TEXT 类型可以存储 64k 的数据。</li>
+        <li>MySQL 内存临时表不支持 TEXT、BLOB 这样的大数据类型，<br/>排序等操作时必须使用磁盘临时表，SQL 性能变差；<br/>且 MySQL 对这种数据要进行二次查询。</li>
+        <li>如果一定要使用，建议把 BLOB 或 TEXT 列分离到单独的扩展表中，<br/>查询时不要用 select *，只取出必要的列，<br/>不需要 TEXT 列数据时不要对该列进行查询。</li>
+        <li>由于 MySQL 对索引字段长度有限制，TEXT 或 BLOB 类型只能使用前缀索引，<br/>并且 TEXT 列上不能有默认值。</li>
+      </ul>
+      <p><strong>三、避免使用 ENUM 类型：</strong></p>
+      <ul>
+        <li>修改 ENUM 值需要使用 ALTER 语句。</li>
+        <li>ENUM 类型的 ORDER BY 操作效率低，需要额外操作。</li>
+        <li>禁止使用数值作为 ENUM 的枚举值。</li>
+      </ul>
+      <p><strong>四、尽可能把所有列定义为 NOT NULL：</strong></p>
+      <ul>
+        <li>索引 NULL 列需要额外的空间来保存，所以要占用更多的空间。</li>
+        <li>进行比较和计算时要对 NULL 值做特别处理。</li>
+      </ul>
+      <p><strong>五、使用 TIMESTAMP 或 DATETIME 类型存储时间：</strong></p>
+      <ul>
+        <li><strong>TIMESTAMP：</strong><br/>占用 4 个字节，范围 1970-01-01 00:00:01 ~ 2038-01-19 03:14:07，<br/>和 INT 相同但可读性高。</li>
+        <li><strong>DATETIME：</strong><br/>占用 8 个字节，超出 TIMESTAMP 取值范围时使用。</li>
+        <li>不要用字符串存储日期：<br/>无法用日期函数进行计算和比较，且占用更多空间。</li>
+      </ul>
+      <p><strong>六、金额类数据必须使用 decimal 类型：</strong></p>
+      <ul>
+        <li>非精准浮点：float、double，计算会丢失精度。</li>
+        <li>精准浮点：decimal，计算时不会丢失精度；<br/>占用空间由定义宽度决定，每 4 个字节可存储 9 位数字，<br/>小数点占用一个字节，可存储比 bigint 更大的整型数据。</li>
+      </ul>
+      <p><strong>七、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>TEXT/BLOB：</strong><br/>大文本/二进制类型，TEXT 存文本（最大 64KB），BLOB 存二进制，<br/>不适合索引、会降低排序性能。</li>
+        <li><strong>ENUM：</strong><br/>枚举类型，值从预定义集合中选取，<br/>修改枚举值成本高。</li>
+        <li><strong>前缀索引：</strong><br/>对文本前几个字符建索引，TEXT 只能使用前缀索引。</li>
+        <li><strong>精度：</strong><br/>浮点数计算的精确程度，DECIMAL 精准、FLOAT/DOUBLE 不精准。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q50 -->
+<div class="card"><div class="card-header"><div class="q-num">50</div><div class="q-meta"><div class="q-title">MySQL 索引设计规范有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">设计规范</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>索引设计规范核心是：数量适中（≤5）、每个 InnoDB 表必有自增主键、<br/>索引列选高区分度、避免冗余/重复索引、优先覆盖索引、少用外键。</p>
+      <p><strong>一、限制每张表上的索引数量（建议不超过 5 个）：</strong></p>
+      <ul>
+        <li>索引并不是越多越好，可以增加查询效率，同样可以降低效率。</li>
+        <li>索引会降低插入和更新的效率。</li>
+        <li>MySQL 优化器生成执行计划时会对每个可用索引评估，<br/>索引过多会增加优化器生成执行计划的时间，同样降低查询性能。</li>
+      </ul>
+      <p><strong>二、禁止给表中的每一列都建立单独的索引：</strong></p>
+      <ul>
+        <li>5.6 版本之前，一个 SQL 只能使用到一个表中的一个索引。</li>
+        <li>5.6 以后虽然有了合并索引的优化方式，<br/>但还是远远没有使用一个联合索引的查询方式好。</li>
+      </ul>
+      <p><strong>三、每个 InnoDB 表必须有个主键：</strong></p>
+      <ul>
+        <li>InnoDB 是一种索引组织表，数据的存储逻辑顺序和索引顺序相同，<br/>按照主键索引的顺序组织表。</li>
+        <li>不要使用更新频繁的列作为主键，不要使用多列主键（相当于联合索引）。</li>
+        <li>不要使用 UUID、MD5、HASH、字符串列作为主键（无法保证数据的顺序增长）。</li>
+        <li>主键建议使用自增 ID 值。</li>
+      </ul>
+      <p><strong>四、常见索引列建议：</strong></p>
+      <ul>
+        <li>出现在 SELECT、UPDATE、DELETE 语句的 WHERE 从句中的列。</li>
+        <li>包含在 ORDER BY、GROUP BY、DISTINCT 中的字段。</li>
+        <li>不要将符合上面两点的字段都建立一个索引，<br/>通常将它们建立联合索引效果更好。</li>
+        <li>多表 join 的关联列。</li>
+      </ul>
+      <p><strong>五、如何选择索引列的顺序：</strong><br/>建立索引的目的是减少随机 IO、增加查询性能，<br/>索引能过滤出越少的数据，则从磁盘读入的数据也就越少。</p>
+      <ul>
+        <li>区分度最高的放在联合索引的最左侧<br/>（区分度 = 列中不同值的数量 / 列的总行数）。</li>
+        <li>尽量把字段长度小的列放在联合索引的最左侧<br/>（字段长度越小，一页能存储的数据量越大，IO 性能越好）。</li>
+        <li>使用最频繁的列放到联合索引的左侧（可以比较少的建立一些索引）。</li>
+      </ul>
+      <p><strong>六、避免建立冗余索引和重复索引：</strong><br/>冗余和重复索引会增加查询优化器生成执行计划的时间。</p>
+      <ul>
+        <li>重复索引示例：primary key(id)、index(id)、unique index(id)。</li>
+        <li>冗余索引示例：index(a,b,c)、index(a,b)、index(a)。</li>
+      </ul>
+      <p><strong>七、对于频繁的查询优先考虑使用覆盖索引：</strong><br/>覆盖索引就是包含了所有查询字段（where、select、order by、group by 包含的字段）的索引。</p>
+      <ul>
+        <li><strong>避免 InnoDB 表进行索引的二次查询：</strong><br/>InnoDB 二级索引叶子节点存主键信息，<br/>用二级索引查询时要通过主键二次查询才能获取真实数据；<br/>覆盖索引的键值中可获取所有数据，避免二次查询、减少 IO。</li>
+        <li><strong>把随机 IO 变成顺序 IO：</strong><br/>覆盖索引按键值顺序存储，<br/>对 IO 密集型的范围查找，对比随机从磁盘读取每一行数据 IO 少得多。</li>
+      </ul>
+      <p><strong>八、尽量避免使用外键约束：</strong></p>
+      <ul>
+        <li>不建议使用外键约束（foreign key），<br/>但一定要在表与表之间的关联键上建立索引。</li>
+        <li>外键可用于保证数据的参照完整性，但建议在业务端实现。</li>
+        <li>外键会影响父表和子表的写操作从而降低性能。</li>
+      </ul>
+      <p><strong>九、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>索引组织表：</strong><br/>数据按主键索引顺序组织的表，InnoDB 即索引组织表。</li>
+        <li><strong>区分度：</strong><br/>列中不同值数量与总行数的比值，<br/>区分度越高，索引过滤效果越好。</li>
+        <li><strong>冗余索引/重复索引：</strong><br/>功能重复、浪费空间并拖慢写入的索引。</li>
+        <li><strong>覆盖索引：</strong><br/>索引包含查询所需全部字段，无需回表。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q51 -->
+<div class="card"><div class="card-header"><div class="q-num">51</div><div class="q-meta"><div class="q-title">MySQL SQL 开发规范有哪些？</div><div class="q-tags"><span class="q-tag">SQL</span><span class="q-tag">规范</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>SQL 开发规范核心：预编译防注入、避免隐式转换和函数计算、<br/>不用 select *、子查询转 join、限制 join 表数、拆大 SQL，<br/>让每条 SQL 尽量命中索引且开销最小。</p>
+      <p><strong>一、建议使用预编译语句进行数据库操作：</strong></p>
+      <ul>
+        <li>预编译语句可以重复使用执行计划，减少 SQL 编译时间，<br/>还可以解决动态 SQL 所带来的 SQL 注入问题。</li>
+        <li>只传参数，比传递 SQL 语句更高效；<br/>相同语句可以一次解析、多次使用，提高处理效率。</li>
+      </ul>
+      <p><strong>二、避免数据类型的隐式转换：</strong><br/>隐式转换会导致索引失效。</p>
+      <pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- id 是整型，却用字符串查询，触发隐式转换、索引失效
+select name, phone from customer where id = '111';</pre>
+      <p><strong>三、充分利用表上已经存在的索引：</strong></p>
+      <ul>
+        <li>避免使用双 % 号的查询条件：<br/>a like '%123%' 无法用索引；<br/>只有后置 %（如 '123%'）可以用到列上的索引。</li>
+        <li>一个 SQL 只能利用复合索引中的一列进行范围查询：<br/>如有 a、b、c 列的联合索引，a 列用范围查询时，<br/>b、c 列上的索引将不会被用到；<br/>若 a 列要范围查找，就把 a 列放到联合索引的右侧。</li>
+        <li>使用 left join 或 not exists 来优化 not in 操作，<br/>因为 not in 也通常会使用索引失效。</li>
+      </ul>
+      <p><strong>四、数据库设计时考虑扩展、账号隔离：</strong></p>
+      <ul>
+        <li>程序连接不同的数据库使用不同的账号，禁止跨库查询，<br/>为数据库迁移和分库分表留出余地、降低业务耦合度、避免权限过大。</li>
+      </ul>
+      <p><strong>五、禁止使用 SELECT *，必须使用 SELECT &lt;字段列表&gt;：</strong></p>
+      <ul>
+        <li>消耗更多的 CPU、IO 以及网络带宽资源。</li>
+        <li>无法使用覆盖索引。</li>
+        <li>可减少表结构变更带来的影响。</li>
+      </ul>
+      <p><strong>六、禁止使用不含字段列表的 INSERT 语句：</strong></p>
+      <pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- 禁止
+insert into values ('a','b','c');
+-- 应使用
+insert into t(c1,c2,c3) values ('a','b','c');</pre>
+      <p><strong>七、避免使用子查询，可以把子查询优化为 join 操作：</strong></p>
+      <ul>
+        <li>子查询的结果集无法使用索引，通常会被存储到临时表中，<br/>临时表（内存或磁盘）都没有索引，查询性能受影响；<br/>子查询结果集越大，对查询性能影响越大。</li>
+        <li>子查询会产生大量临时表且没有索引，<br/>消耗过多 CPU 和 IO 资源，产生大量慢查询。</li>
+        <li>子查询为简单 SQL（不含 union、group by、order by、limit）时，<br/>才可以把子查询转化为关联查询进行优化。</li>
+      </ul>
+      <p><strong>八、避免使用 JOIN 关联太多的表：</strong></p>
+      <ul>
+        <li>MySQL 存在关联缓存，大小由 join_buffer_size 参数设置，<br/>同一个 SQL 每多关联一个表就多分配一个关联缓存，<br/>关联的表越多占用的内存越大，容易造成服务器内存溢出。</li>
+        <li>关联操作会产生临时表操作，影响查询效率；<br/>MySQL 最多允许关联 61 个表，建议不超过 5 个。</li>
+      </ul>
+      <p><strong>九、减少同数据库的交互次数：</strong><br/>数据库更适合处理批量操作，合并多个相同的操作到一起，可以提高处理效率。</p>
+      <p><strong>十、对同一列进行 or 判断时，使用 in 代替 or：</strong></p>
+      <ul>
+        <li>in 的值不要超过 500 个。</li>
+        <li>in 操作可以更有效地利用索引，or 大多数情况下很少能利用到索引。</li>
+      </ul>
+      <p><strong>十一、禁止使用 order by rand() 进行随机排序：</strong></p>
+      <ul>
+        <li>order by rand() 会把表中所有符合条件的数据装载到内存中，<br/>然后对所有数据根据随机生成的值排序，<br/>可能会对每一行都生成一个随机值，<br/>数据集大时消耗大量 CPU、IO 及内存资源。</li>
+        <li>推荐在程序中获取一个随机值，<br/>然后从数据库中获取数据的方式。</li>
+      </ul>
+      <p><strong>十二、WHERE 从句中禁止对列进行函数转换和计算：</strong><br/>对列进行函数转换或计算时会导致无法使用索引。</p>
+      <pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- 不推荐
+where date(create_time) = '20190101'
+-- 推荐
+where create_time >= '20190101' and create_time &lt; '20190102'</pre>
+      <p><strong>十三、在明显不会有重复值时使用 UNION ALL 而不是 UNION：</strong></p>
+      <ul>
+        <li>UNION 会把两个结果集的所有数据放到临时表中后再进行去重操作。</li>
+        <li>UNION ALL 不会再对结果集进行去重操作，性能更高。</li>
+      </ul>
+      <p><strong>十四、拆分复杂的大 SQL 为多个小 SQL：</strong></p>
+      <ul>
+        <li>大 SQL 逻辑复杂，需要占用大量 CPU 进行计算。</li>
+        <li>MySQL 中一个 SQL 只能使用一个 CPU 进行计算，<br/>SQL 拆分后可以通过并行执行来提高处理效率。</li>
+      </ul>
+      <p><strong>十五、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>预编译语句：</strong><br/>先编译 SQL 骨架再传参执行的语句，<br/>防止注入、复用执行计划。</li>
+        <li><strong>隐式转换：</strong><br/>比较时类型不一致自动转换，导致索引失效。</li>
+        <li><strong>子查询/临时表：</strong><br/>嵌套查询的结果集放入临时表，无索引、开销大。</li>
+        <li><strong>join_buffer_size：</strong><br/>关联查询的缓存大小参数，关联表越多占用越大。</li>
+      </ul>
+    </div></div></div>
+
+<!-- Q52 -->
+<div class="card"><div class="card-header"><div class="q-num">52</div><div class="q-meta"><div class="q-title">MySQL 数据库操作行为规范有哪些？</div><div class="q-tags"><span class="q-tag">规范</span><span class="q-tag">运维</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+      <p><strong>一句话概括：</strong><br/>操作行为规范核心：大批量写操作分批执行、<br/>大表用 pt-online-schema-change 改结构、<br/>不给程序账号 super 权限、账号遵循权限最小原则。</p>
+      <p><strong>一、超 100 万行的批量写操作（UPDATE、DELETE、INSERT）要分批多次进行操作：</strong></p>
+      <ul>
+        <li><strong>大批量操作可能造成严重的主从延迟：</strong><br/>主从环境中，大批量写操作一般需要执行一定长的时间，<br/>只有当主库上执行完成后才会在其他从库上执行，<br/>会造成主库与从库长时间的延迟。</li>
+        <li><strong>binlog 日志为 row 格式时会产生大量日志：</strong><br/>row 格式会记录每一行数据的修改，<br/>一次修改的数据越多产生的日志量越大，<br/>日志的传输和恢复所需时间越长，这也是主从延迟的原因之一。</li>
+        <li><strong>避免产生大事务操作：</strong><br/>大批量修改数据一定在一个事务中进行，<br/>会造成表中大批量数据被锁定、产生大量阻塞；<br/>长时间的阻塞会占满所有数据库可用连接，<br/>使生产环境中的其他应用无法连接数据库。</li>
+      </ul>
+      <p><strong>二、对于大表使用 pt-online-schema-change 修改表结构：</strong></p>
+      <ul>
+        <li>避免大表修改产生的主从延迟。</li>
+        <li>避免在对表字段进行修改时进行锁表，<br/>大表数据结构的修改会造成严重的锁表操作，<br/>尤其是生产环境，是不能容忍的。</li>
+        <li><strong>原理：</strong><br/>首先建立一个与原表结构相同的新表，在新表上进行表结构修改；<br/>再把原表中的数据复制到新表中，并在原表中增加触发器，<br/>把原表新增的数据也同步复制到新表；<br/>所有数据复制完成之后，把新表命名成原表，并把原来的表删除掉；<br/>把原来一个 DDL 操作分解成多个小的批次进行。</li>
+      </ul>
+      <p><strong>三、禁止为程序使用的账号赋予 super 权限：</strong></p>
+      <ul>
+        <li>当达到最大连接数限制时，还允许 1 个有 super 权限的用户连接。</li>
+        <li>super 权限只能留给 DBA 处理问题的账号使用。</li>
+      </ul>
+      <p><strong>四、对于程序连接数据库账号，遵循权限最小原则：</strong></p>
+      <ul>
+        <li>程序使用数据库账号只能在一个 DB 下使用，不准跨库。</li>
+        <li>程序使用的账号原则上不准有 drop 权限。</li>
+      </ul>
+      <p><strong>五、前置概念（名词解释）：</strong></p>
+      <ul>
+        <li><strong>主从延迟：</strong><br/>从库复制主库 binlog 的滞后时间，<br/>大批量操作会加剧延迟。</li>
+        <li><strong>binlog：</strong><br/>MySQL 二进制日志，记录数据变更，<br/>用于主从复制和数据恢复。</li>
+        <li><strong>pt-online-schema-change：</strong><br/>Percona 提供的在线改表工具，<br/>通过触发器 + 分批复制避免锁表和主从延迟。</li>
+        <li><strong>super 权限：</strong><br/>MySQL 超级权限，可绕过最大连接数限制，<br/>仅限 DBA 使用。</li>
+      </ul>
+    </div></div></div>
 <div class="footer">
-  📌 05 · MySQL · 共40题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_06_Redis.html" style="color:var(--primary)">下一板块 →</a>
+  📌 05 · MySQL · 共52题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_06_Redis.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -520,6 +1683,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=39')}</script>
 </body>
 </html>
