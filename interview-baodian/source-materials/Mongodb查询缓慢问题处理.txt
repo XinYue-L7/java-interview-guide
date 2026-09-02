@@ -1,3 +1,4 @@
+=== PAGE 1 ===
 早上突然收到配置中心服务告警，Http check出现问题，赶紧访问下服务看看是否Cabot监控系统的误
 报，发现服务时而正常，时而出现500内部服务器错误，赶紧排查问题。
 1、问题定位
@@ -30,6 +31,7 @@ w
 那就登录到几台数据库服务器上面，看看Mongodb进程，发现进程都还在的，那么再看看master上面 微
 的数据库日志：
 ps -ef | grep mongo
+=== PAGE 2 ===
 n
 c
 e n
@@ -75,6 +77,7 @@ this session will block waiting for a socket to be available. The default limit
 is 4096.
 这里面写道，默认情况下，Mgo的最大连接数限制是4096，那么当然高过Mongodb默认的最大819限
 制了，添加限制，先设置为200：
+=== PAGE 3 ===
 Session.SetPoolLimit(200)
 都改好，重启服务，感觉又要解决一个问题了~
 3、出现新的问题
@@ -116,6 +119,7 @@ top下看看CPU、负载、内存使用率，这不看不知道，一看吓了�
 首先分析是不是频繁的IO导致服务器CPU消耗过大：
 iostat
 微
+=== PAGE 4 ===
 看到IO并不是CPU高占比的原因。
 重新分析一遍问题，先前是时而正常时而有问题，现在的问题比之前更频繁得多，那么跟第一次修复的
 连接数肯定有一定关系。
@@ -161,6 +165,7 @@ db.system.profile.find()
 db.user_config.ensureIndex({"portal_id":1})
 因为每次用户查询的索引值都是portal_id，所以仅需要对portal_id做索引。
 为防止自己忘记，在代码里面也添加自动索引的内容：
+=== PAGE 5 ===
 func init() {
 db := mongodb.ConnectMongo()
 defer db.Session.Close()

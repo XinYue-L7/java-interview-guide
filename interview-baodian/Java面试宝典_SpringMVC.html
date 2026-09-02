@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="gold">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · SpringMVC</title>
 <style>
+html{margin:0;padding:0;background:var(--hero-from)}
 :root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
 [data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
-.search-input::placeholder{color:rgba(255,255,255,.6)}
-.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
-.search-btn:hover{background:rgba(255,255,255,.35)}
-.search-history .search-history .clear-btn:hover{text-decoration:underline}
 
 .nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover{background:rgba(255,255,255,.2)}
-.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
-.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.theme-btn:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
 .q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
-.card-body{padding:12px 18px 16px}
 .toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
@@ -64,7 +63,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .switch input:checked + .slider{background:var(--primary)}
 .switch input:checked + .slider:before{transform:translateX(19px)}
 </style>
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#1a1a2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="面试宝典">
@@ -78,7 +77,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </label>
 
   <h1>SpringMVC</h1>
-  <p>2道高频题 · SpringMVC核心考点</p>
+  <p>3道高频题 · SpringMVC核心考点</p>
 <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_SpringBoot.html">← SpringBoot</a>
@@ -92,20 +91,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
       <p class="sec-title">一句话概括</p>
-      <p>Spring MVC 的请求处理流程，就是一条<strong>"流水线"</strong>：请求先由<strong>DispatcherServlet</strong>（前端控制器）统一接收，然后通过<strong>HandlerMapping</strong>找到该由哪个 Controller 处理，再由<strong>HandlerAdapter</strong>调用 Controller 执行业务逻辑，最后通过<strong>ViewResolver</strong>找到视图并渲染，把结果返回给浏览器。</p>
+      <p>Spring MVC 的请求处理流程，就是一条<strong>"流水线"</strong>：</p>
+      <p>请求先由<strong>DispatcherServlet</strong>（前端控制器）统一接收，然后通过<strong>HandlerMapping</strong>找到该由哪个 Controller 处理，再由<strong>HandlerAdapter</strong>调用 Controller 执行业务逻辑，最后通过<strong>ViewResolver</strong>找到视图并渲染，把结果返回给浏览器。</p>
       <p class="sec-title">核心组件及作用</p>
       <div class="table-wrap"><table><thead><tr><th>组件</th><th>作用</th><th>类比</th></tr></thead><tbody><tr><td><strong>DispatcherServlet</strong></td><td>前端控制器，<strong>统一入口</strong>，所有请求都先经过它</td><td>像公司前台，所有人来访先找前台登记</td></tr><tr><td><strong>HandlerMapping</strong></td><td>根据 URL 找到对应的 Handler（Controller + 方法）</td><td>像前台的"楼层导航牌"，告诉你去几楼找谁</td></tr><tr><td><strong>HandlerAdapter</strong></td><td>适配调用 Handler，支持多种 Controller 类型（如 @Controller、HttpRequestHandler）</td><td>像"翻译官"，不同部门的人说话方式不同，翻译官统一转成老板能听懂的方式</td></tr><tr><td><strong>Handler（Controller）</strong></td><td>执行业务逻辑，返回 ModelAndView 或数据</td><td>像业务部门的同事，真正干活的人</td></tr><tr><td><strong>ViewResolver</strong></td><td>解析视图名称，找到具体的视图文件（如 JSP、Thymeleaf）</td><td>像"排版部"，把业务同事写的内容排成漂亮的页面</td></tr><tr><td><strong>View</strong></td><td>渲染视图，生成最终的 HTML 响应</td><td>像"印刷厂"，把排版好的内容印出来给用户看</td></tr></tbody></table></div>
       <p class="sec-title">六步流程</p>
       <ol>
-        <li><strong>接收请求：</strong>浏览器发来 HTTP 请求，<strong>DispatcherServlet</strong> 统一接收。</li>
-        <li><strong>查找处理器：</strong><strong>HandlerMapping</strong> 根据 URL 匹配规则，找到对应的 Controller 方法。</li>
-        <li><strong>适配调用：</strong><strong>HandlerAdapter</strong> 适配并调用 Controller 方法，传入解析好的参数。</li>
-        <li><strong>执行业务：</strong>Controller 里的业务逻辑执行完毕，返回 ModelAndView（或 @ResponseBody 直接返回数据）。</li>
-        <li><strong>解析视图：</strong><strong>ViewResolver</strong> 根据视图名称找到具体的视图模板。</li>
-        <li><strong>渲染响应：</strong><strong>View</strong> 把模型数据填充到视图模板中，生成 HTML，返回给浏览器。</li>
+        <li><strong>接收请求：</strong><br/>浏览器发来 HTTP 请求，<strong>DispatcherServlet</strong> 统一接收。</li>
+        <li><strong>查找处理器：</strong><br/><strong>HandlerMapping</strong> 根据 URL 匹配规则，找到对应的 Controller 方法。</li>
+        <li><strong>适配调用：</strong><br/><strong>HandlerAdapter</strong> 适配并调用 Controller 方法，传入解析好的参数。</li>
+        <li><strong>执行业务：</strong><br/>Controller 里的业务逻辑执行完毕，返回 ModelAndView（或 @ResponseBody 直接返回数据）。</li>
+        <li><strong>解析视图：</strong><br/><strong>ViewResolver</strong> 根据视图名称找到具体的视图模板。</li>
+        <li><strong>渲染响应：</strong><br/><strong>View</strong> 把模型数据填充到视图模板中，生成 HTML，返回给浏览器。</li>
       </ol>
       <p class="sec-title">举例讲解</p>
-      <p><strong>场景：用户访问 /user/123 查看用户信息</strong></p>
+      <p><strong>场景：</strong></p>
+      <p>用户访问 /user/123 查看用户信息</p>
       <ol>
         <li>浏览器发请求 <code>GET /user/123</code>。</li>
         <li>DispatcherServlet 收到请求，交给 HandlerMapping。</li>
@@ -118,7 +119,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Spring MVC 处理请求的完整流程？</div><div class="q-tags"><span class="q-tag">SpringMVC</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p class="sec-title">一句话概括</p><p>Spring MVC 处理请求的完整流程，在第1题六步的基础上，<strong>更加细化</strong>：加入了<strong>拦截器</strong>（preHandle/postHandle/afterCompletion）、<strong>参数解析</strong>（把请求参数转成方法参数）、<strong>返回值处理</strong>（把方法返回值转成响应），以及 <strong>@ResponseBody</strong> 场景下跳过视图渲染、直接用 HttpMessageConverter 序列化 JSON 返回。</p><p class="sec-title">完整流程（含内部细节）</p><ol><li><strong>请求到达 DispatcherServlet</strong><br>所有请求先经过这个前端控制器，它是整个 Spring MVC 的"总调度"。</li><li><strong>拦截器 preHandle()<br></strong>DispatcherServlet 先调用<strong>拦截器链</strong>的 <code>preHandle()</code>。如果某个拦截器返回 <code>false</code>，请求直接中断，不会继续往下走。</li><li><strong>HandlerMapping 查找 Handler<br></strong>根据 URL 找到对应的 Controller 方法（Handler）。</li><li><strong>HandlerAdapter 适配调用</strong><ul><li><strong>参数解析：</strong>HandlerMethodArgumentResolver 把请求里的参数（URL 参数、表单数据、JSON 体、PathVariable 等）解析成方法参数。</li><li><strong>反射调用 Controller 方法：</strong>执行业务逻辑。</li></ul></li><li><strong>返回值处理</strong><ul><li>如果是 <code>ModelAndView</code>：交给 ViewResolver 解析视图。</li><li>如果是 <code>@ResponseBody</code>：跳过视图，由 <strong>HttpMessageConverter</strong>（如 MappingJackson2HttpMessageConverter）把返回值序列化成 JSON/XML，直接写入响应体。</li></ul></li><li><strong>拦截器 postHandle()</strong><br>Controller 执行完但<strong>视图还没渲染</strong>之前调用。可以在这里修改 Model 数据。</li><li><strong>视图渲染（如有）</strong><br>ViewResolver 解析视图名 → View 渲染 → 生成 HTML。</li><li><strong>拦截器 afterCompletion()</strong><br>整个请求处理完（包括视图渲染）后调用，用于<strong>资源清理、日志记录</strong>等。无论前面是否异常，这个方法都会执行。</li><li><strong>响应返回</strong><br>把最终的响应数据写给浏览器。</li></ol><p class="sec-title">关键扩展点</p><div class="table-wrap"><table><thead><tr><th>扩展点</th><th>作用</th><th>使用场景</th></tr></thead><tbody><tr><td><strong>HandlerInterceptor</strong></td><td>preHandle / postHandle / afterCompletion</td><td>登录校验、权限检查、日志记录</td></tr><tr><td><strong>HandlerMethodArgumentResolver</strong></td><td>自定义参数解析</td><td>把 Token 解析成当前用户对象注入方法参数</td></tr><tr><td><strong>HandlerMethodReturnValueHandler</strong></td><td>自定义返回值处理</td><td>统一包装返回值（如 {"code":0, "data":xxx}）</td></tr><tr><td><strong>HttpMessageConverter</strong></td><td>请求体/响应体的序列化反序列化</td><td>@RequestBody 接收 JSON、@ResponseBody 返回 JSON</td></tr><tr><td><strong>ExceptionHandler</strong></td><td>统一异常处理</td><td>@ControllerAdvice + @ExceptionHandler 全局捕获异常</td></tr></tbody></table></div><p class="sec-title">第1题 vs 第2题的区别</p><ul><li>第1题回答的是<strong>宏观的六步流程</strong>，适合快速概述。</li><li>第2题回答的是<strong>完整的内部细节</strong>，包含拦截器的三个阶段、参数解析、返回值处理、@ResponseBody 的 JSON 序列化等，适合深入追问。</li></ul><p class="sec-title">举例讲解</p><p><strong>场景：用户提交登录表单，@ResponseBody 返回 JSON</strong></p><ol><li>浏览器 POST <code>/api/login</code>，带上 JSON 请求体 <code>{"username":"tom","password":"123"}</code>。</li><li>DispatcherServlet 接收请求。</li><li>拦截器 A（登录校验）的 <code>preHandle()</code> 发现这是登录接口，放行返回 <code>true</code>。</li><li>HandlerMapping 匹配到 <code>AuthController.login()</code>。</li><li>HandlerAdapter 调用参数解析器：@RequestBody 对应的 HttpMessageConverter 把 JSON 请求体反序列化成 <code>LoginRequest</code> 对象。</li><li>反射调用 <code>login(loginRequest)</code>，Controller 查数据库验证密码，生成 Token。</li><li>方法返回 <code>Result.success(token)</code>，因为加了 @ResponseBody，返回值处理器调用 Jackson 把 Result 对象序列化成 JSON。</li><li>拦截器 A 的 <code>postHandle()</code> 被调用（视图已跳过，这里可以做一些后处理）。</li><li>拦截器 A 的 <code>afterCompletion()</code> 记录本次请求的耗时日志。</li><li>JSON 响应 <code>{"code":0,"data":"eyJhbGc..."}</code> 返回给浏览器。</li></ol></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Spring MVC 处理请求的完整流程？</div><div class="q-tags"><span class="q-tag">SpringMVC</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p class="sec-title">一句话概括</p><p>Spring MVC 处理请求的完整流程，在第1题六步的基础上，<strong>更加细化</strong>：</p>
+      <p>加入了<strong>拦截器</strong>（preHandle/postHandle/afterCompletion）、<strong>参数解析</strong>（把请求参数转成方法参数）、<strong>返回值处理</strong>（把方法返回值转成响应），以及 <strong>@ResponseBody</strong> 场景下跳过视图渲染、直接用 HttpMessageConverter 序列化 JSON 返回。</p><p class="sec-title">完整流程（含内部细节）</p><ol><li><strong>请求到达 DispatcherServlet</strong><br>所有请求先经过这个前端控制器，它是整个 Spring MVC 的"总调度"。</li><li><strong>拦截器 preHandle()<br></strong>DispatcherServlet 先调用<strong>拦截器链</strong>的 <code>preHandle()</code>。<br/>如果某个拦截器返回 <code>false</code>，请求直接中断，不会继续往下走。</li><li><strong>HandlerMapping 查找 Handler<br></strong>根据 URL 找到对应的 Controller 方法（Handler）。</li><li><strong>HandlerAdapter 适配调用</strong><ul><li><strong>参数解析：</strong><br/>HandlerMethodArgumentResolver 把请求里的参数（URL 参数、表单数据、JSON 体、PathVariable 等）解析成方法参数。</li><li><strong>反射调用 Controller 方法：</strong><br/>执行业务逻辑。</li></ul></li><li><strong>返回值处理</strong><ul><li>如果是 <code>ModelAndView</code>：<br/>交给 ViewResolver 解析视图。</li><li>如果是 <code>@ResponseBody</code>：<br/>跳过视图，由 <strong>HttpMessageConverter</strong>（如 MappingJackson2HttpMessageConverter）把返回值序列化成 JSON/XML，直接写入响应体。</li></ul></li><li><strong>拦截器 postHandle()</strong><br>Controller 执行完但<strong>视图还没渲染</strong>之前调用。<br/>可以在这里修改 Model 数据。</li><li><strong>视图渲染（如有）</strong><br>ViewResolver 解析视图名 → View 渲染 → 生成 HTML。</li><li><strong>拦截器 afterCompletion()</strong><br>整个请求处理完（包括视图渲染）后调用，用于<strong>资源清理、日志记录</strong>等。<br/>无论前面是否异常，这个方法都会执行。</li><li><strong>响应返回</strong><br>把最终的响应数据写给浏览器。</li></ol><p class="sec-title">关键扩展点</p><div class="table-wrap"><table><thead><tr><th>扩展点</th><th>作用</th><th>使用场景</th></tr></thead><tbody><tr><td><strong>HandlerInterceptor</strong></td><td>preHandle / postHandle / afterCompletion</td><td>登录校验、权限检查、日志记录</td></tr><tr><td><strong>HandlerMethodArgumentResolver</strong></td><td>自定义参数解析</td><td>把 Token 解析成当前用户对象注入方法参数</td></tr><tr><td><strong>HandlerMethodReturnValueHandler</strong></td><td>自定义返回值处理</td><td>统一包装返回值（如 {"code":0, "data":xxx}）</td></tr><tr><td><strong>HttpMessageConverter</strong></td><td>请求体/响应体的序列化反序列化</td><td>@RequestBody 接收 JSON、@ResponseBody 返回 JSON</td></tr><tr><td><strong>ExceptionHandler</strong></td><td>统一异常处理</td><td>@ControllerAdvice + @ExceptionHandler 全局捕获异常</td></tr></tbody></table></div><p class="sec-title">第1题 vs 第2题的区别</p><ul><li>第1题回答的是<strong>宏观的六步流程</strong>，适合快速概述。</li><li>第2题回答的是<strong>完整的内部细节</strong>，包含拦截器的三个阶段、参数解析、返回值处理、@ResponseBody 的 JSON 序列化等，适合深入追问。</li></ul><p class="sec-title">举例讲解</p><p><strong>场景：</strong></p>
+      <p>用户提交登录表单，@ResponseBody 返回 JSON</p><ol><li>浏览器 POST <code>/api/login</code>，带上 JSON 请求体 <code>{"username":"tom","password":"123"}</code>。</li><li>DispatcherServlet 接收请求。</li><li>拦截器 A（登录校验）的 <code>preHandle()</code> 发现这是登录接口，放行返回 <code>true</code>。</li><li>HandlerMapping 匹配到 <code>AuthController.login()</code>。</li><li>HandlerAdapter 调用参数解析器：<br/>@RequestBody 对应的 HttpMessageConverter 把 JSON 请求体反序列化成 <code>LoginRequest</code> 对象。</li><li>反射调用 <code>login(loginRequest)</code>，Controller 查数据库验证密码，生成 Token。</li><li>方法返回 <code>Result.success(token)</code>，因为加了 @ResponseBody，返回值处理器调用 Jackson 把 Result 对象序列化成 JSON。</li><li>拦截器 A 的 <code>postHandle()</code> 被调用（视图已跳过，这里可以做一些后处理）。</li><li>拦截器 A 的 <code>afterCompletion()</code> 记录本次请求的耗时日志。</li><li>JSON 响应 <code>{"code":0,"data":"eyJhbGc..."}</code> 返回给浏览器。</li></ol></div></div></div>
+
+
+<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">说说你对 Spring MVC 的了解？</div><div class="q-tags"><span class="q-tag">SpringMVC</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p class="sec-title">一句话概括</p><p>Spring MVC 是 Spring 家族中基于 <strong>Servlet</strong> 的 <strong>MVC 轻量级 Web 框架</strong>，核心是前端控制器 <strong>DispatcherServlet</strong>：</p>
+      <p><strong>所有请求统一由它接收，再分发给 Controller 处理，配合视图解析完成页面或 JSON 响应。</strong></p><p class="sec-title">MVC 是什么</p><ul><li><strong>M（Model）模型：</strong><br/>业务数据与逻辑，如 Service、DAO。</li><li><strong>V（View）视图：</strong><br/>展示层，如 JSP / Thymeleaf / JSON。</li><li><strong>C（Controller）控制器：</strong><br/>接收请求、调用模型、选择视图。</li></ul><p class="sec-title">Web 开发模式演进</p><div class="table-wrap"><table><thead><tr><th>阶段</th><th>模式</th><th>特点</th></tr></thead><tbody><tr><td>Model 1</td><td>JSP 直接处理请求+展示</td><td>控制逻辑和页面混在一起，维护困难</td></tr><tr><td>Model 2</td><td>JSP + Servlet + JavaBean</td><td>Servlet 控制、JavaBean 模型、JSP 展示，即 MVC 雏形</td></tr><tr><td>框架化</td><td>Spring MVC / Struts2</td><td>框架封装了控制器分发、参数绑定、视图解析，开发效率大幅提升</td></tr></tbody></table></div><p class="sec-title">Spring MVC 的核心特点</p><ul><li><strong>基于 Servlet：</strong><br/>以 DispatcherServlet 为统一入口，天然兼容 Servlet 容器（Tomcat 等）。</li><li><strong>注解驱动：</strong><br/>@Controller、@RequestMapping、@GetMapping 等，告别 XML 配置。</li><li><strong>视图灵活：</strong><br/>支持 JSP / Thymeleaf / FreeMarker；<br/>@ResponseBody 可直接返回 JSON。</li><li><strong>与 Spring 无缝集成：</strong><br/>IoC 管理 Controller、AOP 支持事务、参数自动注入。</li><li><strong>扩展点丰富：</strong><br/>拦截器（HandlerInterceptor）、参数解析器、HttpMessageConverter、@ControllerAdvice 统一异常处理。</li></ul><p class="sec-title">与其他框架对比（Struts2）</p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>Spring MVC</th><th>Struts2</th></tr></thead><tbody><tr><td>入口</td><td>DispatcherServlet（单例）</td><td>Filter 拦截</td></tr><tr><td>映射粒度</td><td>方法级（@RequestMapping）</td><td>类级（Action）</td></tr><tr><td>性能</td><td>方法直接调用，更快</td><td>Action 实例创建开销较大</td></tr><tr><td>集成</td><td>与 Spring 原生一体</td><td>需要额外整合</td></tr></tbody></table></div><p class="sec-title">举例讲解</p><p>一个典型的 Spring MVC 接口：</p>
+      <p><code>@RestController</code> + <code>@GetMapping("/hello")</code>，浏览器访问后 DispatcherServlet 找到对应方法、注入参数、执行业务、返回 JSON —— 全程无需手动 new Servlet，开发体验简单高效。</p><p class="sec-title">💡 面试点</p><p>回答"对 Spring MVC 的了解"时，按<strong>"什么是 MVC → 演进历史 → 核心组件 DispatcherServlet → 特点与优势"</strong>的层次展开；</p>
+      <p>详细请求流程见 Q1 / Q2。</p></div></div></div>
 
 </div>
 
@@ -179,10 +188,10 @@ window.addEventListener('scroll',onScroll);onScroll();
 </script>
 
 <div class="footer">
-  📌 11 · Spring MVC · 共2题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_MyBatis.html" style="color:var(--primary)">下一板块 →</a>
+  📌 11 · Spring MVC · 共3题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_MyBatis.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=39')}</script>
 </body>
 </html>

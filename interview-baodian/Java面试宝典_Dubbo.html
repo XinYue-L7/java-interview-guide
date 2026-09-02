@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="gold">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Java 面试宝典 · Dubbo</title>
 <style>
+html{margin:0;padding:0;background:var(--hero-from)}
 :root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
 [data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
 [data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
 [data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
 [data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
 .hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
 .hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
 .hero p{opacity:.85;font-size:14px}
 .hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
-.search-input::placeholder{color:rgba(255,255,255,.6)}
-.search-input:focus{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
-.search-btn:hover{background:rgba(255,255,255,.35)}
-.search-history .search-history .clear-btn:hover{text-decoration:underline}
 
 .nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
 .nav-row a:hover{background:rgba(255,255,255,.2)}
-.theme-btn:hover,.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
-.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.theme-btn:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
 .card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
 .card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
 .q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .q-meta{flex:1;min-width:0}
 .q-title{font-size:16px;font-weight:700;color:var(--text)}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
-.card-body{padding:12px 18px 16px}
 .toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
 .toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
 .toggle-btn .arrow{font-size:10px;transition:transform .2s}
@@ -63,7 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .switch input:checked + .slider{background:var(--primary)}
 .switch input:checked + .slider:before{transform:translateX(19px)}
 </style>
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#1a1a2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="面试宝典">
@@ -90,7 +89,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong>核心组件：</strong>Provider(服务提供者)、Consumer(消费者)、Registry(注册中心)、Monitor(监控中心)。</p>
+      <p><strong>核心组件：</strong></p>
+      <p>Provider(服务提供者)、Consumer(消费者)、Registry(注册中心)、Monitor(监控中心)。</p>
       <p><strong>调用流程：</strong></p>
       <ol>
         <li>Provider向Registry注册服务。</li>
@@ -104,11 +104,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Dubbo 的核心原理和调用流程？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">RPC</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Dubbo是高性能RPC框架，核心流程：</p><ol><li><strong>注册：</strong>Provider向Registry注册服务。</li><li><strong>订阅：</strong>Consumer从Registry订阅服务（拉取+监听变更）。</li><li><strong>调用：</strong>Consumer通过动态代理（Proxy）发起远程调用→经过Filter链→负载均衡选择Provider→Netty网络传输→Provider反序列化→执行→返回。</li><li><strong>监控：</strong>Monitor统计调用次数和耗时。</li></ol><p><strong>注册中心：</strong>ZooKeeper（默认）、Nacos、Redis、Consul。</p></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Dubbo 的核心原理和调用流程？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">RPC</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Dubbo是高性能RPC框架，核心流程：</p><ol><li><strong>注册：</strong><br/><br/>Provider向Registry注册服务。</li><li><strong>订阅：</strong><br/><br/>Consumer从Registry订阅服务（拉取+监听变更）。</li><li><strong>调用：</strong><br/><br/>Consumer通过动态代理（Proxy）发起远程调用→经过Filter链→负载均衡选择Provider→Netty网络传输→Provider反序列化→执行→返回。</li><li><strong>监控：</strong><br/><br/>Monitor统计调用次数和耗时。</li></ol><p><strong>注册中心：</strong></p>
+      <p>ZooKeeper（默认）、Nacos、Redis、Consul。</p></div></div></div>
 
-<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Dubbo 负载均衡策略有哪些？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">负载均衡</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Random（默认）：</strong>加权随机，按权重随机。</li><li><strong>RoundRobin：</strong>加权轮询。</li><li><strong>LeastActive：</strong>最少活跃调用数（处理快的节点分配更多）。</li><li><strong>ConsistentHash：</strong>一致性Hash，相同参数的请求始终发到同一Provider。</li><li><strong>ShortestResponse：</strong>最短响应时间（Dubbo 2.7+）。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Dubbo 负载均衡策略有哪些？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">负载均衡</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Random（默认）：</strong><br/><br/>加权随机，按权重随机。</li><li><strong>RoundRobin：</strong><br/><br/>加权轮询。</li><li><strong>LeastActive：</strong><br/><br/>最少活跃调用数（处理快的节点分配更多）。</li><li><strong>ConsistentHash：</strong><br/><br/>一致性Hash，相同参数的请求始终发到同一Provider。</li><li><strong>ShortestResponse：</strong><br/><br/>最短响应时间（Dubbo 2.7+）。</li></ul></div></div></div>
 
-<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Dubbo 的集群容错策略有哪些？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">容错</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Failfast：</strong>快速失败，立即抛异常。适合非幂等写操作。</li><li><strong>Failsafe：</strong>失败安全，忽略异常。适合写入日志。</li><li><strong>Failover（默认）：</strong>失败自动切换重试（默认2次+本机1次=3次）。适合幂等读操作。</li><li><strong>Failback：</strong>失败自动恢复，后台定时重发。</li><li><strong>Forking：</strong>并行调用多个Provider，一个成功即返回。</li><li><strong>Broadcast：</strong>广播调用所有Provider，一个失败即失败。</li></ul></div></div></div>
+<div class="card"><div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Dubbo 的集群容错策略有哪些？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">容错</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Failfast：</strong><br/><br/>快速失败，立即抛异常。<br/><br/>适合非幂等写操作。</li><li><strong>Failsafe：</strong><br/><br/>失败安全，忽略异常。<br/><br/>适合写入日志。</li><li><strong>Failover（默认）：</strong><br/><br/>失败自动切换重试（默认2次+本机1次=3次）。<br/><br/>适合幂等读操作。</li><li><strong>Failback：</strong><br/><br/>失败自动恢复，后台定时重发。</li><li><strong>Forking：</strong><br/><br/>并行调用多个Provider，一个成功即返回。</li><li><strong>Broadcast：</strong><br/><br/>广播调用所有Provider，一个失败即失败。</li></ul></div></div></div>
 
 <div class="card"><div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Dubbo 服务暴露和服务引入流程？</div><div class="q-tags"><span class="q-tag">Dubbo</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>服务暴露：</strong></p><ol><li>Spring容器刷新→ServiceBean.onApplicationEvent→export()。</li><li>服务配置转URL→适配协议(dubbo/http等)→开启Netty服务器监听端口。</li><li>注册到注册中心(ZooKeeper/Nacos)。</li></ol><p><strong>服务引入：</strong></p><ol><li>ReferenceBean.getObject()→init()。</li><li>连接注册中心→订阅服务→获取Provider列表。</li><li>动态代理生成接口实现类（InvokerInvocationHandler）。</li></ol></div></div></div>
 
@@ -175,6 +176,6 @@ window.addEventListener('scroll',onScroll);onScroll();
 </div>
 </div>
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=22')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=39')}</script>
 </body>
 </html>
