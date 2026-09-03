@@ -76,7 +76,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </label>
 
   <h1>Zookeeper</h1>
-  <p>1道高频题 · Zookeeper核心考点</p>
+  <p>2道高频题 · Zookeeper核心考点</p>
 <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_Netty.html">← Netty</a>
@@ -100,6 +100,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
         <li><strong>分布式队列。</strong></li>
       </ul>
       <p>💡 ZAB协议(Zookeeper Atomic Broadcast)保证数据一致性，支持崩溃恢复+消息广播。</p>
+    </div>
+  </div>
+</div>
+<!-- Q2 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Zookeeper 的工作原理是怎么样的？</div><div class="q-tags"><span class="q-tag">Zookeeper</span><span class="q-tag">ZAB协议</span><span class="q-tag">Leader选举</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>Zookeeper 是一个开源的分布式协调服务，<br/>基于 ZAB 协议保证分布式环境下数据的一致性，<br/>为其他分布式系统提供配置管理、命名服务、分布式锁、集群管理等功能。</p>
+      <p><strong>二、作用：</strong><br/>解决分布式系统中最难的"一致性问题"和"协调问题"，<br/>让多个节点像单个节点一样协同工作，<br/>是 Dubbo、Kafka、Hadoop 等框架的底层协调组件。</p>
+      <p><strong>三、工作原理：</strong><br/>Zookeeper 采用"Leader + Follower"的集群架构，<br/>整个工作过程分为四个阶段：选举、同步、广播、监听。</p>
+      <ul>
+        <li><strong>1. Leader 选举：</strong><br/>集群启动或 Leader 宕机时触发选举，<br/>各节点通过 ZAB 协议选出新 Leader，<br/>过半机制（多数派）保证选出的 Leader 唯一且权威，<br/>例如 3 节点集群需要 2 票，5 节点集群需要 3 票。</li>
+        <li><strong>2. 数据同步：</strong><br/>新 Leader 选出后，<br/>会将自己的事务日志同步给所有 Follower，<br/>保证集群内所有节点数据一致，<br/>未同步完成的节点暂时不对外服务。</li>
+        <li><strong>3. 请求处理（读写分工）：</strong><br/>写请求：统一由 Leader 处理，<br/>Leader 将事务广播给所有 Follower，<br/>过半 Follower 确认后写入成功（两阶段提交），<br/>保证数据不丢失。<br/>读请求：可直接由任意 Follower 处理，<br/>提升读性能，<br/>但可能读到旧数据（顺序一致性）。</li>
+        <li><strong>4. Watch 通知：</strong><br/>客户端监听某个 ZNode，<br/>该节点数据变化时 Zookeeper 主动推送通知，<br/>通知一次性有效，<br/>客户端需重新注册才能继续监听。</li>
+      </ul>
+      <p><strong>四、示例：</strong><br/>以"分布式锁"为例：<br/>多个客户端竞争创建同一个临时顺序节点（如 /lock/lock_0001），<br/>创建成功的客户端拿到锁；<br/>其它客户端监听前一个节点，<br/>当前一个节点被删除时收到通知，<br/>再尝试获取锁，<br/>实现"公平锁"的排队效果。</p>
+      <p><strong>五、注意事项：</strong><br/>1. 过半机制：集群节点建议为奇数（3、5、7），<br/>因为选举和写入都需要过半投票，<br/>偶数节点会造成资源浪费且可能脑裂；<br/>2. Watch 一次性：通知后需重新注册，<br/>防止丢失后续变更；<br/>3. 顺序一致性：读请求可能读到旧数据，<br/>对强一致要求高的场景需走 Leader 读；<br/>4. 临时节点与会话绑定：<br/>会话超时后临时节点自动删除，<br/>常用于检测客户端宕机。</p>
+      <p><strong>六、前置概念：</strong><br/>理解上述原理前，<br/>先认识三个核心名词：ZNode、Watch、ZAB 协议。</p>
+      <ul>
+        <li><strong>ZNode（数据节点）：</strong><br/>定义：Zookeeper 数据模型中最小的存储单元，<br/>所有数据以树形结构组织在 ZNode 中。<br/>作用：保存业务数据，<br/>每个 ZNode 有唯一的路径（如 /dubbo/service）。<br/>分类：持久节点、临时节点、顺序节点，<br/>临时节点在会话结束后自动删除。</li>
+        <li><strong>Watch（监听机制）：</strong><br/>定义：客户端对某个 ZNode 注册的监听器。<br/>作用：当该 ZNode 数据变化或子节点变化时，<br/>Zookeeper 会主动通知客户端，<br/>实现"发布-订阅"模式的实时感知。</li>
+        <li><strong>ZAB 协议（Zookeeper Atomic Broadcast）：</strong><br/>定义：Zookeeper 用于保证数据一致性的核心协议，<br/>全称"Zookeeper 原子广播协议"。<br/>作用：保证所有节点的数据最终一致，<br/>即使发生 Leader 崩溃也能自动恢复并继续对外服务。</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -163,7 +189,7 @@ window.addEventListener('scroll',onScroll);onScroll();
 </script>
 
 <div class="footer">
-  📌 15 · Zookeeper · 共1题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_分布式理论.html" style="color:var(--primary)">下一板块 →</a>
+  📌 15 · Zookeeper · 共2题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_分布式理论.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 

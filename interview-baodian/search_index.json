@@ -3963,17 +3963,6 @@
   "content": "一句话概括 TCP 是面向流的协议，本身没有消息边界，所以发送方多次写入的数据可能被接收方一次性读完（ 粘包 ），也可能一个大消息被分多次才读完（ 拆包 ）。 Netty 提供了多种 解码器（Decoder） 在 ChannelPipeline 里自动识别消息边界。 定义 粘包 ： 发送方连续发送多条小消息，TCP 协议栈为了提升效率会把它们合并到一个 TCP 报文中发出，接收方一次 read 就读到了多条消息的内容。 拆包 ： 发送方发送了一条大消息，但 TCP 报文有大小限制（MSS），这条消息被拆成多个报文发送，接收方需要多次 read 才能拼出完整消息。 作用 如果不对粘包/拆包做处理，接收方拿到的字节流是\"糊成一团\"的，无法区分哪里是一条完整消息的结束、下一条消息的开始。 解码器的作用就是在字节流到达业务 Handler 之前，先把\"散装\"的字节流切成一条条完整的消息帧。 原理与方案对比 解码器 核心原理 适用场景 生活类比 FixedLengthFrameDecoder 按固定字节长度切分 消息长度固定，如心跳包 每页纸刚好印 100 个字，读到 100 字就是一页 LineBasedFrameDecoder 按换行符 \\n 或 \\r\\n 切分 文本协议，如 Redis 协议、SMTP 一句话一行，看到回车就知道这句讲完了 DelimiterBasedFrameDecoder 按自定义分隔符切分 消息以特定字符结尾，如 CSV 逗号分隔表格，看到逗号就知道一个单元格结束 LengthFieldBasedFrameDecoder 消息头包含\"长度字段\"，先读长度再按长度读数据 二进制协议， 企业级最常用 快递单上写了包裹尺寸，先看清尺寸再拆开 自定义协议 魔数 + 版本号 + 长度 + 数据 + 校验和 RPC 框架、游戏服务器 信封格式统一：特殊暗号 + 页数 + 正文 + 防伪码 举例讲解 想象两个人隔着一根长长的透明水管传纸条： 粘包 ： 第一个人连续扔了 3 张纸条进水口，第二个人在水管出口一次捞上来 3 张粘在一起的纸条，分不清哪句话是谁的、从哪里断句。 拆包 ： 第一个人写了一张很长的纸条（比如 1000 字），但水管一次只能传 200 字，第二个人分 5 次才捞完，前 4 次都是\"没说完的半句话\"。 解决办法就是在纸条上做标记： 如果每句话都裁成 固定 50 字 ，捞够 50 字就是一条完整消息 → FixedLengthFrameDecoder 。 如果每句话末尾都画一条 横线（换行） ，看到横线就知道这句完了 → LineBasedFrameDecoder 。 如果纸条开头写了\" 本消息共 300 字 \"，对方先读长度，再按 300 字精确截取 → LengthFieldBasedFrameDecoder （最靠谱，也是 Dubbo、RocketMQ 等框架的首选）。 面试速记口诀 \"TCP 粘包拆包是天生缺陷，Netty 五种解码器来补刀——定长、换行、分隔符、长度字段最常用，复杂场景自定义协议。 生产环境首选 LengthFieldBasedFrameDecoder，简单文本用换行，固定长度心跳包用定长。 \""
  },
  {
-  "module": "Zookeeper",
-  "file": "Java面试宝典_Zookeeper.html",
-  "num": 1,
-  "title": "Zookeeper 的核心概念和应用场景？",
-  "tags": [
-   "Zookeeper",
-   "分布式协调"
-  ],
-  "content": ""
- },
- {
   "module": "分布式理论",
   "file": "Java面试宝典_分布式理论.html",
   "num": 1,
@@ -4093,6 +4082,116 @@
    "微服务"
   ],
   "content": "作用： 统一入口、路由转发、鉴权认证、限流熔断、日志监控、灰度发布、协议转换。 常见选型： Spring Cloud Gateway： 响应式、非阻塞、Spring生态好。 国内首选。 Zuul 2： Netflix，非阻塞。 Kong： 基于OpenResty/Nginx，插件丰富。 Nginx+Lua/OpenResty： 高性能、灵活。"
+ },
+ {
+  "module": "分布式组件",
+  "file": "Java面试宝典_分布式组件.html",
+  "num": 1,
+  "title": "Spring Cloud 核心组件有哪些？分别负责什么？",
+  "tags": [
+   "微服务",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式组件",
+  "file": "Java面试宝典_分布式组件.html",
+  "num": 2,
+  "title": "Eureka 注册中心的工作原理？",
+  "tags": [
+   "Eureka",
+   "注册中心"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式组件",
+  "file": "Java面试宝典_分布式组件.html",
+  "num": 3,
+  "title": "Ribbon 负载均衡的原理和策略？",
+  "tags": [
+   "Ribbon",
+   "负载均衡"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式组件",
+  "file": "Java面试宝典_分布式组件.html",
+  "num": 4,
+  "title": "OpenFeign 的实现原理？",
+  "tags": [
+   "Feign",
+   "服务调用"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式组件",
+  "file": "Java面试宝典_分布式组件.html",
+  "num": 5,
+  "title": "Spring Cloud Gateway 的核心原理？",
+  "tags": [
+   "网关",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式组件",
+  "file": "Java面试宝典_分布式组件.html",
+  "num": 6,
+  "title": "Nacos 作为注册中心的原理？",
+  "tags": [
+   "Nacos",
+   "注册中心"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式组件",
+  "file": "Java面试宝典_分布式组件.html",
+  "num": 7,
+  "title": "Sentinel 限流、熔断、降级的工作原理？",
+  "tags": [
+   "Sentinel",
+   "高可用"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式组件",
+  "file": "Java面试宝典_分布式组件.html",
+  "num": 8,
+  "title": "分布式配置中心的作用和实现原理？",
+  "tags": [
+   "配置中心",
+   "Nacos Config"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式组件",
+  "file": "Java面试宝典_分布式组件.html",
+  "num": 9,
+  "title": "链路追踪（Sleuth + Zipkin）的原理？",
+  "tags": [
+   "链路追踪",
+   "排障"
+  ],
+  "content": ""
+ },
+ {
+  "module": "分布式组件",
+  "file": "Java面试宝典_分布式组件.html",
+  "num": 10,
+  "title": "Spring Cloud 和 Dubbo 有什么区别？",
+  "tags": [
+   "对比",
+   "高频"
+  ],
+  "content": ""
  },
  {
   "module": "消息队列",
@@ -4766,6 +4865,29 @@
   "title": "面试官补充介绍及反问环节",
   "tags": [
    "求职"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Zookeeper",
+  "file": "Java面试宝典_Zookeeper.html",
+  "num": 1,
+  "title": "Zookeeper 的核心概念和应用场景？",
+  "tags": [
+   "Zookeeper",
+   "分布式协调"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Zookeeper",
+  "file": "Java面试宝典_Zookeeper.html",
+  "num": 2,
+  "title": "Zookeeper 的工作原理是怎么样的？",
+  "tags": [
+   "Zookeeper",
+   "ZAB协议",
+   "Leader选举"
   ],
   "content": ""
  }

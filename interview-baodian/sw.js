@@ -1,10 +1,10 @@
-// Service Worker v39 - Java面试宝典 PWA 离线缓存
+// Service Worker v40 - Java面试宝典 PWA 离线缓存
 // 策略：安装时预缓存全部页面（首访后完全离线可用），网络优先 + 缓存兜底
-var CACHE_NAME = 'interview-baodian-v39';
-var RUNTIME_CACHE = 'interview-baodian-runtime-v39';
+var CACHE_NAME = 'interview-baodian-v40';
+var RUNTIME_CACHE = 'interview-baodian-runtime-v40';
 
 // 预缓存清单（安装时下载）
-var PAGES = ["Java面试宝典_01_Java基础.html", "Java面试宝典_02_集合容器.html", "Java面试宝典_03_JVM.html", "Java面试宝典_04_并发编程.html", "Java面试宝典_05_MySQL.html", "Java面试宝典_06_Redis.html", "Java面试宝典_07_MongoDB.html", "Java面试宝典_08_Elasticsearch.html", "Java面试宝典_Dubbo.html", "Java面试宝典_MyBatis.html", "Java面试宝典_Netty.html", "Java面试宝典_Spring.html", "Java面试宝典_SpringBoot.html", "Java面试宝典_SpringMVC.html", "Java面试宝典_Zookeeper.html", "Java面试宝典_分布式理论.html", "Java面试宝典_总目录.html", "Java面试宝典_汇丰银行面试题2026年8月.html", "Java面试宝典_消息队列.html", "Java面试宝典_系统设计.html", "Java面试宝典_网络协议.html", "Java面试宝典_设计模式.html"];
+var PAGES = ["Java面试宝典_01_Java基础.html", "Java面试宝典_02_集合容器.html", "Java面试宝典_03_JVM.html", "Java面试宝典_04_并发编程.html", "Java面试宝典_05_MySQL.html", "Java面试宝典_06_Redis.html", "Java面试宝典_07_MongoDB.html", "Java面试宝典_08_Elasticsearch.html", "Java面试宝典_Dubbo.html", "Java面试宝典_MyBatis.html", "Java面试宝典_Netty.html", "Java面试宝典_Spring.html", "Java面试宝典_SpringBoot.html", "Java面试宝典_SpringMVC.html", "Java面试宝典_Zookeeper.html", "Java面试宝典_分布式理论.html", "Java面试宝典_分布式组件.html", "Java面试宝典_总目录.html", "Java面试宝典_汇丰银行面试题2026年8月.html", "Java面试宝典_消息队列.html", "Java面试宝典_系统设计.html", "Java面试宝典_网络协议.html", "Java面试宝典_设计模式.html"];
 
 var EXTRA_FILES = ['manifest.json', 'search_index.json', 'icon.svg', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'qrcode.min.js'];
 

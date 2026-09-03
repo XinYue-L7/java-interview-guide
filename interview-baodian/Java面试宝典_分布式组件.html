@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 分布式组件</title>
+<style>
+html{margin:0;padding:0;background:var(--hero-from)}
+::root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.theme-btn:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+</style>
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body data-section="17">
+<div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+
+  <h1>分布式组件</h1>
+  <p>10道高频题 · 注册中心 · 负载均衡 · 服务调用 · 网关 · 链路追踪</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_分布式理论.html">← 分布式理论</a>
+    <a href="Java面试宝典_消息队列.html">消息队列 →</a>
+  </div>
+</div>
+<div class="container">
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">Spring Cloud 核心组件有哪些？分别负责什么？</div><div class="q-tags"><span class="q-tag">微服务</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>Spring Cloud 是一套基于 Spring Boot 的微服务解决方案集合，<br/>把注册中心、配置中心、网关、负载均衡等组件打包整合，<br/>让开发者快速搭建分布式系统。</p>
+      <p><strong>二、作用：</strong><br/>统一解决微服务架构中的服务治理、服务调用、流量控制、配置管理等共性问题，<br/>避免每个项目重复造轮子。</p>
+      <p><strong>三、核心组件（先讲定义、再讲作用）：</strong></p>
+      <ul>
+        <li><strong>服务注册中心（Eureka / Nacos）：</strong><br/>定义：管理所有服务地址的"通讯录"。<br/>作用：服务启动时注册自己的地址，<br/>服务调用时从注册中心拉取目标地址。</li>
+        <li><strong>负载均衡（Ribbon / LoadBalancer）：</strong><br/>定义：把请求按策略分发到多个服务实例的组件。<br/>作用：分散压力，提升系统吞吐量。</li>
+        <li><strong>服务调用（OpenFeign）：</strong><br/>定义：声明式 HTTP 客户端。<br/>作用：像调用本地方法一样调用远程服务，<br/>内部自动完成 HTTP 封装和负载均衡。</li>
+        <li><strong>服务熔断降级（Hystrix / Sentinel）：</strong><br/>定义：防止单个服务故障拖垮整个系统的保护组件。<br/>作用：熔断、降级、限流，实现快速失败。</li>
+        <li><strong>网关（Gateway / Zuul）：</strong><br/>定义：所有请求的统一入口。<br/>作用：路由转发、鉴权、限流、日志。</li>
+        <li><strong>配置中心（Config / Nacos Config）：</strong><br/>定义：统一管理各服务配置的组件。<br/>作用：配置修改实时生效，无需重启服务。</li>
+        <li><strong>链路追踪（Sleuth + Zipkin）：</strong><br/>定义：记录一次请求跨多个服务的完整调用链的组件。<br/>作用：快速定位慢请求、排查故障。</li>
+      </ul>
+      <p><strong>四、示例：</strong><br/>用户点击下单，<br/>请求先进入 Gateway → 经 Ribbon 负载均衡 → Feign 调用订单服务 → 订单服务再调用库存服务，<br/>整个过程由 Sleuth 记录链路，由 Sentinel 保护。</p>
+      <p><strong>五、注意事项：</strong><br/>1. 组件版本需与 Spring Boot 版本匹配，<br/>否则启动报错；<br/>2. 国内主流用 Spring Cloud Alibaba 全家桶（Nacos + Sentinel + Seata），<br/>原 Netflix 组件部分已停止维护。</p>
+      <p><strong>六、前置概念：</strong><br/>微服务：把一个大型应用拆成多个独立部署的小服务，<br/>每个服务只负责一个业务模块，<br/>服务之间通过网络通信。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Eureka 注册中心的工作原理？</div><div class="q-tags"><span class="q-tag">Eureka</span><span class="q-tag">注册中心</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>Eureka 是 Netflix 开源的注册中心组件，<br/>采用"客户端-服务端"模式管理微服务地址。</p>
+      <p><strong>二、作用：</strong><br/>实现服务的注册、发现与健康检查，<br/>让服务之间无需硬编码地址即可互相调用。</p>
+      <p><strong>三、工作原理：</strong><br/>核心角色有两个：Eureka Server 和 Eureka Client，<br/>工作流程分四步。</p>
+      <ul>
+        <li><strong>1. 服务注册：</strong><br/>服务提供者启动时，<br/>向 Eureka Server 发送注册请求，<br/>携带服务名和实例地址。</li>
+        <li><strong>2. 心跳续约：</strong><br/>服务提供者每隔 30 秒发送一次心跳（Renew），<br/>告诉 Server 自己还活着，<br/>默认 90 秒收不到心跳则剔除该实例。</li>
+        <li><strong>3. 服务发现：</strong><br/>服务消费者启动时，<br/>从 Server 拉取服务实例列表并缓存在本地，<br/>之后调用时直接走本地缓存。</li>
+        <li><strong>4. 自我保护机制：</strong><br/>当短时间内大量心跳丢失（如网络分区），<br/>Eureka 不会立刻剔除实例，<br/>而是进入自我保护模式，<br/>宁可保留可能已挂的实例，也不误删健康实例。</li>
+      </ul>
+      <p><strong>四、示例：</strong><br/>订单服务（provider）注册到 Eureka，<br/>用户服务（consumer）通过服务名"order-service"找到订单服务地址并调用，<br/>订单服务下线后 90 秒内被剔除。</p>
+      <p><strong>五、注意事项：</strong><br/>1. 自我保护模式下可能调用到已宕机的实例，<br/>需配合重试机制；<br/>2. Eureka 是 AP 模型，<br/>保证可用性但不保证强一致，<br/>读到的实例列表可能短暂不一致。</p>
+      <p><strong>六、前置概念：</strong><br/>注册中心：微服务架构中的"服务通讯录"，<br/>记录所有服务的名称与地址，<br/>是服务治理的基础设施。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Ribbon 负载均衡的原理和策略？</div><div class="q-tags"><span class="q-tag">Ribbon</span><span class="q-tag">负载均衡</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>Ribbon 是 Netflix 开源的客户端负载均衡器，<br/>运行在服务消费方，<br/>从注册中心拿到实例列表后在本地选择目标实例。</p>
+      <p><strong>二、作用：</strong><br/>在多个服务实例之间智能分发请求，<br/>避免单个实例过载，<br/>提升系统整体可用性。</p>
+      <p><strong>三、工作原理：</strong><br/>Ribbon 采用"客户端负载均衡"模式，<br/>核心分三步。</p>
+      <ul>
+        <li><strong>1. 获取服务列表：</strong><br/>与注册中心（Eureka/Nacos）整合，<br/>定时拉取并缓存服务实例列表。</li>
+        <li><strong>2. 负载均衡算法选实例：</strong><br/>根据配置的策略（如轮询、随机），<br/>从实例列表中选出一个目标地址。</li>
+        <li><strong>3. 发起 HTTP 请求：</strong><br/>由 RestTemplate 或 Feign 发起真实调用，<br/>并支持失败重试到下一个实例。</li>
+      </ul>
+      <p><strong>四、负载均衡策略：</strong></p>
+      <ul>
+        <li><strong>轮询（RoundRobinRule）：</strong><br/>按顺序轮流选择实例，<br/>默认策略。</li>
+        <li><strong>随机（RandomRule）：</strong><br/>随机选择一个实例。</li>
+        <li><strong>权重（WeightedResponseTimeRule）：</strong><br/>响应时间越短权重越大，<br/>选中的概率越高。</li>
+        <li><strong>重试（RetryRule）：</strong><br/>选中实例失败后自动重试其他实例。</li>
+        <li><strong>可用性过滤（AvailabilityFilteringRule）：</strong><br/>先过滤掉熔断、高并发的实例，<br/>再从剩余实例中轮询。</li>
+      </ul>
+      <p><strong>五、示例：</strong><br/>订单服务有 3 个实例（order-1、order-2、order-3），<br/>用户服务用 Ribbon 轮询调用，<br/>第 1 次请求 → order-1，第 2 次 → order-2，第 3 次 → order-3，循环往复。</p>
+      <p><strong>六、注意事项：</strong><br/>1. 客户端负载均衡要求消费方本地缓存实例列表，<br/>列表更新有延迟；<br/>2. 服务端负载均衡（如 Nginx）在网关层做，<br/>客户端负载均衡在调用方做，<br/>两者可同时存在。</p>
+      <p><strong>七、前置概念：</strong><br/>负载均衡：把请求均匀分发到多个服务实例的技术，<br/>目的是提高吞吐量和可用性，<br/>分为客户端负载均衡和服务端负载均衡两种。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">OpenFeign 的实现原理？</div><div class="q-tags"><span class="q-tag">Feign</span><span class="q-tag">服务调用</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>OpenFeign 是一个声明式 HTTP 客户端，<br/>只需定义接口并加注解，<br/>就能像调用本地方法一样调用远程服务。</p>
+      <p><strong>二、作用：</strong><br/>简化服务间调用代码，<br/>自动集成负载均衡和熔断，<br/>提高开发效率。</p>
+      <p><strong>三、工作原理：</strong><br/>核心机制是"动态代理 + 接口解析"，<br/>分四步。</p>
+      <ul>
+        <li><strong>1. 扫描注解：</strong><br/>启动时扫描 @FeignClient 注解的接口，<br/>为每个接口生成一个 JDK 动态代理对象。</li>
+        <li><strong>2. 生成请求模板：</strong><br/>解析接口方法上的注解（@GetMapping 等），<br/>生成包含 URL、请求方式、参数的 RequestTemplate。</li>
+        <li><strong>3. 负载均衡：</strong><br/>调用时交给 Ribbon/LoadBalancer，<br/>根据服务名解析出真实实例地址。</li>
+        <li><strong>4. 发送请求：</strong><br/>通过 HttpURLConnection / HttpClient 发送请求，<br/>把响应结果反序列化为接口返回值，<br/>完成一次"本地方法调用"。</li>
+      </ul>
+      <p><strong>四、示例：</strong><br/>定义接口：<br/>@FeignClient("order-service")<br/>public interface OrderClient {<br/>&nbsp;&nbsp;@GetMapping("/order/{id}")<br/>&nbsp;&nbsp;Order getOrder(@PathVariable("id") Long id);<br/>}<br/>调用 OrderClient.getOrder(1L)，<br/>实际是向 order-service 的 /order/1 发起了 HTTP GET 请求。</p>
+      <p><strong>五、注意事项：</strong><br/>1. 接口上的 @PathVariable 必须显式指定 value，<br/>否则报错；<br/>2. 超时时间默认 1 秒，<br/>需要按业务调整；<br/>3. 开启熔断需引入 sentinel/hystrix 依赖并配置。</p>
+      <p><strong>六、前置概念：</strong><br/>动态代理：运行时为接口生成代理对象的技术，<br/>调用方法时先经过代理逻辑，<br/>再转发到真实实现，<br/>是 Feign、MyBatis Mapper 等框架的共同底层原理。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Spring Cloud Gateway 的核心原理？</div><div class="q-tags"><span class="q-tag">网关</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>Spring Cloud Gateway 是基于 WebFlux 的响应式 API 网关，<br/>是 Spring Cloud 官方推荐的网关组件。</p>
+      <p><strong>二、作用：</strong><br/>作为所有请求的统一入口，<br/>负责路由转发、鉴权认证、限流熔断、日志监控。</p>
+      <p><strong>三、工作原理：</strong><br/>核心由三部分组成：Route（路由）、Predicate（断言）、Filter（过滤器），<br/>处理流程分三步。</p>
+      <ul>
+        <li><strong>1. 路由匹配（Predicate）：</strong><br/>请求到达网关后，<br/>按配置的断言规则（路径、请求头、参数等）判断该请求匹配哪个路由。</li>
+        <li><strong>2. 过滤器链（Filter）：</strong><br/>匹配成功后进入过滤器链，<br/>分为全局过滤器和网关过滤器，<br/>先执行 pre 逻辑（鉴权、限流、改请求头），<br/>再转发到下游服务，<br/>最后执行 post 逻辑（记录日志、改响应）。</li>
+        <li><strong>3. 负载均衡转发：</strong><br/>使用 lb://服务名 协议转发，<br/>结合 LoadBalancer 把请求分发到具体实例。</li>
+      </ul>
+      <p><strong>四、示例：</strong><br/>配置路由：<br/>spring.cloud.gateway.routes[0]<br/>&nbsp;&nbsp;id: order-route<br/>&nbsp;&nbsp;uri: lb://order-service<br/>&nbsp;&nbsp;predicates: Path=/api/order/**<br/>当请求 /api/order/1 到达网关时，<br/>命中 order-route，<br/>转发到 order-service 的 /1。</p>
+      <p><strong>五、注意事项：</strong><br/>1. 基于 WebFlux 非阻塞模型，<br/>不支持 Servlet 相关依赖（如 spring-boot-starter-web）；<br/>2. 网关是流量入口，<br/>必须做限流，<br/>防止被刷；<br/>3. 网关层尽量保持轻量，<br/>避免放业务逻辑。</p>
+      <p><strong>六、前置概念：</strong><br/>响应式编程（WebFlux）：基于事件驱动和非阻塞 IO 的编程模型，<br/>用少量线程支撑高并发请求，<br/>底层依赖 Netty。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">Nacos 作为注册中心的原理？</div><div class="q-tags"><span class="q-tag">Nacos</span><span class="q-tag">注册中心</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>Nacos 是阿里巴巴开源的一站式服务治理平台，<br/>同时具备注册中心和配置中心两大能力。</p>
+      <p><strong>二、作用：</strong><br/>实现服务注册、发现、配置管理和动态下发，<br/>是 Spring Cloud Alibaba 生态的核心组件。</p>
+      <p><strong>三、工作原理：</strong><br/>Nacos 支持临时实例和持久化实例两种模型，<br/>机制不同。</p>
+      <ul>
+        <li><strong>1. 临时实例（默认）：</strong><br/>采用 Distro 协议，AP 模型，<br/>客户端每 5 秒发送心跳，<br/>服务端超过 15 秒未收到心跳则标记不健康，<br/>超过 30 秒剔除实例。</li>
+        <li><strong>2. 持久化实例：</strong><br/>采用 Raft 协议，CP 模型，<br/>实例数据持久化到磁盘，<br/>通过 Raft 选举保证强一致。</li>
+        <li><strong>3. 服务发现：</strong><br/>消费者通过服务名拉取实例列表，<br/>并支持 UDP 推送变更通知，<br/>比 Eureka 的定时拉取更实时。</li>
+        <li><strong>4. 健康检查：</strong><br/>客户端主动上报心跳 + 服务端主动探测（TCP/HTTP），<br/>双保险保障实例状态准确。</li>
+      </ul>
+      <p><strong>四、示例：</strong><br/>订单服务启动后注册到 Nacos（临时实例），<br/>注册成功后每 5 秒发心跳；<br/>订单服务宕机，<br/>30 秒内被 Nacos 剔除，<br/>消费者通过推送通知立刻感知，<br/>不再把请求发到宕机实例。</p>
+      <p><strong>五、注意事项：</strong><br/>1. 集群部署建议 3 台以上，<br/>并配置 MySQL 存储持久化数据；<br/>2. 临时实例模式是 AP，<br/>可能出现短暂不一致；<br/>3. 与 Eureka 相比，<br/>Nacos 支持服务端主动推送，<br/>变更感知更快。</p>
+      <p><strong>六、前置概念：</strong><br/>CAP 理论：分布式系统只能同时满足一致性（C）、可用性（A）、分区容错性（P）中的两个，<br/>Nacos 临时实例选 AP，<br/>持久化实例选 CP。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">Sentinel 限流、熔断、降级的工作原理？</div><div class="q-tags"><span class="q-tag">Sentinel</span><span class="q-tag">高可用</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>Sentinel 是阿里巴巴开源的流量控制与高可用保护组件，<br/>主要提供限流、熔断、降级三大能力。</p>
+      <p><strong>二、作用：</strong><br/>保护系统在高并发或依赖故障时不被拖垮，<br/>保证核心业务的可用性。</p>
+      <p><strong>三、工作原理：</strong><br/>核心思路是"资源 + 规则"，<br/>所有被保护的方法都视为资源，<br/>规则决定保护策略，<br/>处理流程分三步。</p>
+      <ul>
+        <li><strong>1. 资源定义：</strong><br/>通过 @SentinelResource 注解或代码块标记受保护的资源，<br/>每次请求进入资源时触发规则检查。</li>
+        <li><strong>2. 限流（FlowRule）：</strong><br/>支持 QPS 限流和并发线程数限流，<br/>超过阈值直接拒绝或排队等待，<br/>可选基于调用关系的关联限流、链路限流。</li>
+        <li><strong>3. 熔断降级（DegradeRule）：</strong><br/>三种策略：<br/>慢调用比例：响应时间超阈值且比例达标 → 熔断；<br/>异常比例：异常占比超阈值 → 熔断；<br/>异常数：单位时间内异常数超阈值 → 熔断。<br/>熔断后进入降级逻辑（返回兜底值），<br/>熔断窗口结束后自动恢复探测。</li>
+      </ul>
+      <p><strong>四、示例：</strong><br/>接口 QPS 限流 100，<br/>第 101 个请求直接被拒绝；<br/>下游服务 1 秒内异常数超过 20，<br/>触发熔断 10 秒，<br/>期间直接返回兜底数据"系统繁忙，请稍后再试"。</p>
+      <p><strong>五、注意事项：</strong><br/>1. 规则支持推模式（控制台 → Nacos → Sentinel），<br/>实现动态下发、实时生效；<br/>2. 限流阈值要基于压测数据设定，<br/>避免误伤正常流量；<br/>3. 降级兜底方法要与业务隔离，<br/>保证快速返回。</p>
+      <p><strong>六、前置概念：</strong><br/>熔断：连续失败达到阈值后主动"断电"，<br/>快速失败保护系统，<br/>类似家用电器的保险丝，<br/>一段时间后自动恢复尝试。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">分布式配置中心的作用和实现原理？</div><div class="q-tags"><span class="q-tag">配置中心</span><span class="q-tag">Nacos Config</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>分布式配置中心是一个统一管理所有微服务配置的服务端组件，<br/>常见实现有 Nacos Config、Spring Cloud Config + Bus。</p>
+      <p><strong>二、作用：</strong><br/>把配置从代码中剥离出来集中管理，<br/>支持多环境隔离、配置热更新、版本回滚，<br/>修改配置无需重启服务。</p>
+      <p><strong>三、工作原理：</strong><br/>核心角色有三个：配置服务端、客户端、变更通知，<br/>流程分四步。</p>
+      <ul>
+        <li><strong>1. 配置存储：</strong><br/>配置保存在配置中心（Nacos 存于 MySQL，Config 存于 Git 仓库），<br/>按 DataId、Group、Namespace 三级隔离。</li>
+        <li><strong>2. 客户端拉取：</strong><br/>服务启动时从配置中心拉取配置，<br/>本地会缓存一份，<br/>防止配置中心宕机时服务无法启动。</li>
+        <li><strong>3. 动态刷新：</strong><br/>Nacos 客户端每 10 秒轮询 + 服务端 UDP 推送，<br/>感知配置变更后更新本地缓存，<br/>通过 @RefreshScope 重新注入 Bean。</li>
+        <li><strong>4. 广播通知（Config + Bus）：</strong><br/>Spring Cloud Bus 基于消息队列广播"配置已变更"事件，<br/>所有实例同时刷新配置。</li>
+      </ul>
+      <p><strong>四、示例：</strong><br/>把数据库连接池大小配置放到 Nacos，<br/>线上想调整连接数，<br/>直接在控制台修改并发布，<br/>所有服务 10 秒内自动生效，<br/>无需逐个重启。</p>
+      <p><strong>五、注意事项：</strong><br/>1. 配置中心是高危依赖，<br/>必须做高可用集群部署；<br/>2. 敏感配置（密码、密钥）需加密存储；<br/>3. 配置变更要有变更记录和版本回滚能力。</p>
+      <p><strong>六、前置概念：</strong><br/>配置热更新：运行时动态修改配置并立即生效的能力，<br/>本质是"配置变更 → 监听通知 → Bean 重建"的过程。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">链路追踪（Sleuth + Zipkin）的原理？</div><div class="q-tags"><span class="q-tag">链路追踪</span><span class="q-tag">排障</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>链路追踪是记录一次请求从入口到出口、跨越所有服务调用过程的技术，<br/>Sleuth 负责生成和传递追踪信息，<br/>Zipkin 负责收集和可视化展示。</p>
+      <p><strong>二、作用：</strong><br/>在微服务架构中快速定位"请求到底卡在哪个服务"，<br/>排查慢请求、分析依赖关系、统计各服务耗时。</p>
+      <p><strong>三、工作原理：</strong><br/>核心模型有两个：Trace（追踪）和 Span（跨度），<br/>流程分三步。</p>
+      <ul>
+        <li><strong>1. 生成 TraceId / SpanId：</strong><br/>请求进入系统时生成全局唯一的 TraceId，<br/>每次跨服务调用生成新的 SpanId，<br/>并记录父 SpanId 形成树状调用链。</li>
+        <li><strong>2. 透传上下文：</strong><br/>TraceId 和 SpanId 通过 HTTP 请求头（如 X-B3-TraceId）传递给下游服务，<br/>保证整条链路使用同一个 TraceId。</li>
+        <li><strong>3. 收集上报：</strong><br/>每个服务把 Span 数据（开始时间、耗时、标签）异步上报给 Zipkin，<br/>Zipkin 汇总后按 TraceId 串联成完整调用链，<br/>在 Web UI 上可视化展示。</li>
+      </ul>
+      <p><strong>四、示例：</strong><br/>一次下单请求 TraceId=abc123，<br/>经过 Gateway（耗时 10ms）→ 订单服务（耗时 200ms）→ 库存服务（耗时 1500ms），<br/>在 Zipkin 界面能看到库存服务耗时最长，<br/>立刻定位到性能瓶颈。</p>
+      <p><strong>五、注意事项：</strong><br/>1. 采样率默认 10%，<br/>生产环境按需调整，<br/>全量采样会带来额外开销；<br/>2. 异步线程、消息队列场景需手动传递 TraceId，<br/>否则链路会断裂。</p>
+      <p><strong>六、前置概念：</strong><br/>Trace 与 Span：Trace 是一条完整请求链路，<br/>Span 是链路上的每一次调用，<br/>多个 Span 通过父子关系组成一条 Trace，<br/>类似一棵树。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">Spring Cloud 和 Dubbo 有什么区别？</div><div class="q-tags"><span class="q-tag">对比</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一、定义：</strong><br/>Spring Cloud 是一整套微服务解决方案全家桶，<br/>Dubbo 是阿里巴巴开源的 RPC 服务调用框架。</p>
+      <p><strong>二、作用：</strong><br/>两者都用于解决服务之间的调用与治理，<br/>但侧重点不同：<br/>Spring Cloud 覆盖注册、配置、网关、追踪全链路，<br/>Dubbo 专注高性能服务调用。</p>
+      <p><strong>三、核心区别：</strong></p>
+      <ul>
+        <li><strong>通信协议：</strong><br/>Dubbo：RPC，二进制传输（Hessian2 序列化），<br/>性能高、传输体积小。<br/>Spring Cloud：HTTP + JSON（RESTful），<br/>通用性好、跨语言。</li>
+        <li><strong>负载均衡：</strong><br/>Dubbo：客户端负载均衡，<br/>支持随机、轮询、一致性哈希等。<br/>Spring Cloud：Ribbon/LoadBalancer 客户端负载均衡。</li>
+        <li><strong>生态能力：</strong><br/>Spring Cloud：注册中心、配置中心、网关、链路追踪全家桶。<br/>Dubbo：需配合 Zookeeper/Nacos 做注册，<br/>与 Spring Cloud Alibaba 组合后能力补齐。</li>
+        <li><strong>性能：</strong><br/>Dubbo 底层 TCP 长连接 + NIO，<br/>性能更高；<br/>Spring Cloud 每次 HTTP 短连接，<br/>性能略低但开发简单。</li>
+        <li><strong>跨语言：</strong><br/>Spring Cloud 的 HTTP 协议天然跨语言；<br/>Dubbo 主要面向 Java 生态。</li>
+      </ul>
+      <p><strong>四、选型建议：</strong><br/>1. 对性能要求高、内部 Java 服务 → 选 Dubbo；<br/>2. 追求生态完整、需要网关/配置/追踪 → 选 Spring Cloud；<br/>3. 国内很多公司用 Dubbo + Nacos + Sentinel 组合，<br/>兼顾性能与治理能力。</p>
+      <p><strong>五、注意事项：</strong><br/>1. Dubbo 3.x 已支持应用级注册和 Triple 协议，<br/>可与 Spring Cloud 融合；<br/>2. 面试重点不是"谁更好"，<br/>而是结合场景说清各自优劣。</p>
+      <p><strong>六、前置概念：</strong><br/>RPC（远程过程调用）：像调用本地方法一样调用远程服务的技术，<br/>屏蔽网络通信细节，<br/>与 HTTP 相比性能更高，<br/>但通常要求同语言生态。</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  📌 17 · 分布式组件 · 共10题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_消息队列.html" style="color:var(--primary)">下一板块 →</a>
+</div>
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=40')}</script>
+</body>
+</html>
