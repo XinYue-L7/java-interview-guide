@@ -76,7 +76,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </label>
 
   <h1>MySQL 数据库</h1>
-  <p>52道高频题 · 索引 · 事务 · 锁 · SQL优化 · 分库分表 · 执行流程</p>
+  <p>54道高频题 · 索引 · 事务 · 锁 · SQL优化 · 分库分表 · 执行流程</p>
 <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_04_并发编程.html">← 并发编程</a>
@@ -88,7 +88,78 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 <!-- Q1 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">一条SQL语句的执行流程是怎样的？</div><div class="q-tags"><span class="q-tag">架构</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">数据库的三大范式是什么？</div><div class="q-tags"><span class="q-tag">范式</span><span class="q-tag">设计</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一句话概括：</strong><br/>三大范式是设计关系型数据库表结构时的三层规范化准则，<br/>用于消除数据冗余、避免插入/更新/删除异常，<br/>依次为第一范式（1NF）、第二范式（2NF）、第三范式（3NF）。</p>
+      <p><strong>一、三种范式的递进定义：</strong></p>
+      <ol>
+        <li><strong>1NF（第一范式）—— 字段原子性：</strong><br/>表中的每一列都不可再分，<br/>每个字段只能存一个值，不能存集合、数组或复合值。<br/><strong>反例：</strong>字段存“爱好：篮球、足球”或“地址：北京市海淀区”，<br/>需要按城市维度查询，说明字段可再分，违反 1NF。</li>
+        <li><strong>2NF（第二范式）—— 消除部分依赖：</strong><br/>在满足 1NF 基础上，<br/>非主键列必须完全依赖主键，<br/>不能只依赖联合主键的一部分。<br/><strong>反例：</strong>选课表（学号、课程号、课程名、成绩）中，<br/>课程名只依赖课程号、与学号无关，产生部分依赖，<br/>应拆出课程表。</li>
+        <li><strong>3NF（第三范式）—— 消除传递依赖：</strong><br/>在满足 2NF 基础上，<br/>非主键列只能直接依赖主键，<br/>不能通过其他非主键列间接依赖主键。<br/><strong>反例：</strong>学生表（学号、班级、班主任）中班主任通过班级传递依赖学号，<br/>应拆成学生表与班级表。</li>
+      </ol>
+      <p><strong>二、作用：</strong></p>
+      <ul>
+        <li>减少数据冗余，节省存储空间。</li>
+        <li>避免插入异常：主键信息缺失时无法写入不完整数据。</li>
+        <li>避免更新异常：同一信息只存一处，修改不会漏改或改错。</li>
+        <li>避免删除异常：删除一条数据不会连带丢失其他有效信息。</li>
+      </ul>
+      <p><strong>三、示例：</strong><br/>把一张“学生选课大表”逐步拆分为学生表、课程表、选课关系表，<br/>使每张表职责单一、只依赖自己的主键，<br/>即完成 1NF → 2NF → 3NF 的规范化。</p>
+      <p><strong>四、反范式化（反三大范式）—— 高频追问点：</strong><br/>反范式化不是"违背"范式，而是<b>在完成 3NF 设计后，故意引入适度冗余，<br/>用空间换时间、用冗余换 JOIN</b>，让高频查询更快，<br/>它是规范化的反向操作，核心目的是为"读"让路。</p>
+      <p><strong>（1）为什么需要反范式：</strong></p>
+      <ul>
+        <li>严格按 3NF 拆表后，一次查询常要关联 5~8 张表，<br/>大表 JOIN 慢、索引难命中，接口延迟高。</li>
+        <li>互联网场景读多写少，热点数据（订单、商品、用户）被反复查询，<br/>每次都 JOIN 的成本远大于冗余几列的存储成本。</li>
+        <li>存储越来越便宜，而 CPU、数据库连接数很贵，<br/>于是倾向"多存一点、少算一点"。</li>
+      </ul>
+      <p><strong>（2）常见反范式手段：</strong></p>
+      <ul>
+        <li><strong>冗余字段：</strong>订单表直接存"用户名、商品名、单价快照"，<br/>查询时免 JOIN 用户表/商品表，典型如电商订单。</li>
+        <li><strong>预计算列 / 汇总表：</strong>商品表冗余"销量、评论数"，<br/>或建统计表定时汇总，避免对大表实时 count()。</li>
+        <li><strong>适度合并表：</strong>把经常一起查的 1:1 关系表合并成一张，<br/>如用户主表与用户扩展资料表合并，减少一次 JOIN。</li>
+        <li><strong>缓存表 / 物化视图：</strong>把复杂报表结果提前算好落表，<br/>查询直接读结果（MySQL 无原生物化视图，可用定时任务刷新替代）。</li>
+      </ul>
+      <p><strong>（3）反范式的代价（面试主动说出更显全面）：</strong></p>
+      <ul>
+        <li><strong>更新异常回归：</strong>冗余字段存多份，修改时需同步多处，<br/>漏更即数据不一致，如改了用户名、历史订单快照仍是旧名。</li>
+        <li><strong>写放大与锁竞争：</strong>写入/更新成本上升，<br/>高并发更新同一冗余列时锁等待加剧。</li>
+        <li><strong>一致性依赖人工：</strong>通常靠"事务 + 应用层同步修改 + 对账/补偿任务"兜底。</li>
+      </ul>
+      <p><strong>（4）经验法则：</strong><br/>建模阶段先严格按 3NF 设计，保证数据一致、易维护；<br/>遇到高频慢查询，再针对该场景定向反范式（冗余字段/汇总表），<br/>并在代码与文档里注明冗余来源，方便后人维护。<br/>一句话总结：<b>范式保一致，反范式保性能——先规范、后优化、冗余要记账。</b></p>
+      <p>💡 <strong>注意事项：</strong><br/>范式越高拆的表越多、查询越要 JOIN，性能反而可能下降，<br/>所以实际开发往往是"先 3NF 建模，再按需反范式"。<br/>无论怎么反范式，都建议用事务或对账机制守住最终一致性。</p>
+      <p>💡 <strong>延伸（名词解释）：</strong><br/>BCNF 是 3NF 的加强版，要求所有决定因素都是候选键，<br/>面试重点掌握 1NF ~ 3NF，加上反范式思想即可。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">MySQL 的事务是什么？</div><div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>一句话概括：</strong><br/>事务是数据库执行的最小逻辑工作单元，<br/>由一组 SQL 组成，要么全部成功提交，要么全部失败回滚，<br/>通过 ACID 四大特性保证数据的一致与可靠。</p>
+      <p><strong>一、事务的定义：</strong><br/>把多条 SQL 打包成一个整体执行，<br/>用 BEGIN / START TRANSACTION 开启，<br/>COMMIT 提交生效，ROLLBACK 回滚撤销。</p>
+      <p><strong>二、ACID 四大特性：</strong></p>
+      <ul>
+        <li><strong>原子性（Atomicity）：</strong><br/>事务内操作要么全成功要么全失败，<br/>由 undo log 实现，回滚时按日志还原数据。</li>
+        <li><strong>一致性（Consistency）：</strong><br/>事务执行前后数据都满足业务约束，<br/>由原子性与隔离性共同保证。</li>
+        <li><strong>隔离性（Isolation）：</strong><br/>并发事务之间互不干扰，<br/>由锁机制与 MVCC 实现。</li>
+        <li><strong>持久性（Durability）：</strong><br/>事务提交后数据永久保存，<br/>由 redo log 实现崩溃恢复。</li>
+      </ul>
+      <p><strong>三、隔离级别（由低到高）：</strong><br/>读未提交（脏读）、读已提交（不可重复读）、<br/>可重复读（幻读，InnoDB 默认）、串行化。</p>
+      <p><strong>四、事务的实现原理：</strong><br/>undo log 支撑原子性与 MVCC 版本链，<br/>redo log 通过 WAL（先写日志再落盘）保证持久性，<br/>锁 + MVCC 实现不同隔离级别。</p>
+      <p><strong>五、示例：</strong><br/>转账场景：扣 A 账户 100 元与给 B 账户加 100 元放同一事务，<br/>任一步失败即 ROLLBACK，<br/>不会出现钱已扣但未到账或凭空多钱的状态。</p>
+      <p>💡 <strong>注意事项：</strong><br/>避免大事务与长事务，否则锁占用、undo 膨胀会拖垮性能；<br/>事务内不要包住远程调用、慢查询等无关操作；<br/>详细展开可看本模块“事务的四大特性（ACID）”“事务的隔离级别”“MVCC 的实现原理”等题。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">一条SQL语句的执行流程是怎样的？</div><div class="q-tags"><span class="q-tag">架构</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -105,9 +176,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q2 -->
+<!-- Q4 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">InnoDB 的索引数据结构是什么？为什么用 B+ 树？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">InnoDB 的索引数据结构是什么？为什么用 B+ 树？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -138,9 +209,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q3 -->
+<!-- Q5 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">聚集索引和非聚集索引的区别？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">聚集索引和非聚集索引的区别？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -158,9 +229,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q4 -->
+<!-- Q6 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">什么是覆盖索引？索引最左前缀原则？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">优化</span></div></div></div>
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">什么是覆盖索引？索引最左前缀原则？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">优化</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -179,9 +250,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q5 -->
+<!-- Q7 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">事务的四大特性（ACID）？</div><div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">事务的四大特性（ACID）？</div><div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -197,9 +268,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q6 -->
+<!-- Q8 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">事务的隔离级别有哪些？解决了什么问题？</div><div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">事务的隔离级别有哪些？解决了什么问题？</div><div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -229,9 +300,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q7 -->
+<!-- Q9 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">MVCC 的实现原理？</div><div class="q-tags"><span class="q-tag">MVCC</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">MVCC 的实现原理？</div><div class="q-tags"><span class="q-tag">MVCC</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -249,9 +320,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q8 -->
+<!-- Q10 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">redo log、undo log、binlog 的区别？</div><div class="q-tags"><span class="q-tag">日志</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">redo log、undo log、binlog 的区别？</div><div class="q-tags"><span class="q-tag">日志</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -300,9 +371,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q9 -->
+<!-- Q11 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">MySQL 的锁有哪些类型？</div><div class="q-tags"><span class="q-tag">锁</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">MySQL 的锁有哪些类型？</div><div class="q-tags"><span class="q-tag">锁</span><span class="q-tag">高频</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -349,9 +420,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q10 -->
+<!-- Q12 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">索引失效的场景有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">优化</span></div></div></div>
+  <div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">索引失效的场景有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">优化</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -376,9 +447,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q11 -->
+<!-- Q13 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">EXPLAIN 的关键字段含义？</div><div class="q-tags"><span class="q-tag">优化</span><span class="q-tag">实战</span></div></div></div>
+  <div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">EXPLAIN 的关键字段含义？</div><div class="q-tags"><span class="q-tag">优化</span><span class="q-tag">实战</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -400,9 +471,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q12 -->
+<!-- Q14 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">SQL 优化有哪些思路？</div><div class="q-tags"><span class="q-tag">优化</span><span class="q-tag">实战</span></div></div></div>
+  <div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">SQL 优化有哪些思路？</div><div class="q-tags"><span class="q-tag">优化</span><span class="q-tag">实战</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -444,9 +515,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q13 -->
+<!-- Q15 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">分库分表的方案有哪些？</div><div class="q-tags"><span class="q-tag">分库分表</span><span class="q-tag">架构</span></div></div></div>
+  <div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">分库分表的方案有哪些？</div><div class="q-tags"><span class="q-tag">分库分表</span><span class="q-tag">架构</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -467,9 +538,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q14 -->
+<!-- Q16 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">MyISAM 和 InnoDB 的区别？</div><div class="q-tags"><span class="q-tag">引擎</span><span class="q-tag">基础</span></div></div></div>
+  <div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">MyISAM 和 InnoDB 的区别？</div><div class="q-tags"><span class="q-tag">引擎</span><span class="q-tag">基础</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -504,9 +575,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q15 -->
+<!-- Q17 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">MySQL 主从复制的原理？</div><div class="q-tags"><span class="q-tag">主从</span><span class="q-tag">架构</span></div></div></div>
+  <div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">MySQL 主从复制的原理？</div><div class="q-tags"><span class="q-tag">主从</span><span class="q-tag">架构</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -550,9 +621,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q16 -->
+<!-- Q18 -->
 <div class="card">
-  <div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">什么是SQL注入？如何防止？</div><div class="q-tags"><span class="q-tag">安全</span><span class="q-tag">基础</span></div></div></div>
+  <div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">什么是SQL注入？如何防止？</div><div class="q-tags"><span class="q-tag">安全</span><span class="q-tag">基础</span></div></div></div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
@@ -574,8 +645,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q17 -->
-<div class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">MySQL 主从复制原理和流程？</div><div class="q-tags"><span class="q-tag">主从复制</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q19 -->
+<div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">MySQL 主从复制原理和流程？</div><div class="q-tags"><span class="q-tag">主从复制</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、复制流程（三个线程协作）：</strong></p>
       <ol>
         <li><strong>Master Binlog Dump Thread：</strong><br/>主库事务提交写 binlog 后，将 binlog 事件发送给从库。</li>
@@ -602,8 +673,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q18 -->
-<div class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">主从延迟的原因和解决方案？</div><div class="q-tags"><span class="q-tag">主从延迟</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q20 -->
+<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">主从延迟的原因和解决方案？</div><div class="q-tags"><span class="q-tag">主从延迟</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、什么是主从延迟：</strong><br/>主库写完数据，从库没有及时跟上，从库数据落后于主库的现象。<br/>产生窗口 = 主库写入完成到从库重放完成之间的时间差，<br/>可通过 SHOW SLAVE STATUS 的 Seconds_Behind_Master 量化。</p>
       <p><strong>二、延迟产生的原因：</strong></p>
       <ul>
@@ -635,8 +706,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
-<!-- Q19 -->
-<div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">MySQL 分库分表方案有哪些？</div><div class="q-tags"><span class="q-tag">分库分表</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">      <p><strong>一、什么是分库分表：</strong><br/>将原本存储在单库单表的数据拆分到多个数据库和表中，<br/>解决单库性能瓶颈（连接数、磁盘 IO、CPU）和单表数据量过大（查询慢、索引膨胀）的问题。</p>
+<!-- Q21 -->
+<div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">MySQL 分库分表方案有哪些？</div><div class="q-tags"><span class="q-tag">分库分表</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">      <p><strong>一、什么是分库分表：</strong><br/>将原本存储在单库单表的数据拆分到多个数据库和表中，<br/>解决单库性能瓶颈（连接数、磁盘 IO、CPU）和单表数据量过大（查询慢、索引膨胀）的问题。</p>
       <p><strong>二、为什么要分库分表：</strong></p>
       <ul>
         <li><strong>单库性能瓶颈：</strong><br/>连接数上限（默认 151）、CPU 和磁盘 IO 达到上限，<br/>无法通过升级硬件线性扩展。</li>
@@ -675,8 +746,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p><strong>方案：</strong><br/>1. 先垂直分表：把订单基本信息和订单详情拆成两张表；<br/>2. 再水平分表：按 userId % 8 拆成 8 张表；<br/>3. 分片键选 userId，因为 99% 查询都带 userId 条件；<br/>4. 通过 Sharding-JDBC 配置分片规则，应用层无感知；<br/>5. 订单 ID 改用雪花算法，保证全局唯一。</p>
       <p><strong>结果：</strong><br/>单表数据量降到 600 万左右，查询响应从 2 秒降到 50 毫秒。</p></div></div></div>
 
-<!-- Q20 -->
-<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">分布式ID 生成方案有哪些？</div><div class="q-tags"><span class="q-tag">分布式ID</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q22 -->
+<div class="card"><div class="card-header"><div class="q-num">22</div><div class="q-meta"><div class="q-title">分布式ID 生成方案有哪些？</div><div class="q-tags"><span class="q-tag">分布式ID</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、什么是分布式 ID：</strong><br/>在分布式、分库分表场景下，需要一种全局唯一、高性能、趋势递增的 ID 生成方案。<br/>数据库自增 ID 在分库后无法保证唯一，因此需要专门的分布式 ID 方案。</p>
       <p><strong>二、为什么需要分布式 ID：</strong></p>
       <ul>
@@ -707,8 +778,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p><strong>💡 选择建议：</strong><br/>中小规模：数据库号段模式足够；<br/>高并发大厂：Snowflake 或美团 Leaf；<br/>可接受无序且追求绝对唯一：UUID（或 UUID 转 BIGINT）。</p>
     </div></div></div>
 
-<!-- Q21 -->
-<div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">SQL 执行慢如何排查和优化？</div><div class="q-tags"><span class="q-tag">慢查询</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q23 -->
+<div class="card"><div class="card-header"><div class="q-num">23</div><div class="q-meta"><div class="q-title">SQL 执行慢如何排查和优化？</div><div class="q-tags"><span class="q-tag">慢查询</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、排查步骤：</strong></p>
       <ol>
         <li><strong>开启慢查询日志：</strong><br/>slow_query_log=ON，long_query_time 设置阈值（如 1s），先定位慢 SQL。</li>
@@ -725,8 +796,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p><strong>💡 完整排查流程示例：</strong><br/>接口变慢 → 查慢查询日志找到 SQL → EXPLAIN 发现 type=ALL 全表扫描 →<br/>确认缺索引 → 添加联合索引 → 响应时间从 3 秒降到 30 毫秒。</p>
     </div></div></div>
 
-<!-- Q22 -->
-<div class="card"><div class="card-header"><div class="q-num">22</div><div class="q-meta"><div class="q-title">MySQL 大表如何优化？</div><div class="q-tags"><span class="q-tag">大表优化</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q24 -->
+<div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">MySQL 大表如何优化？</div><div class="q-tags"><span class="q-tag">大表优化</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、为什么大表需要优化：</strong><br/>单表数据量过大（如超千万级）会导致：<br/>查询变慢、索引膨胀、DDL 锁表时间长、备份恢复慢、内存命中率下降。</p>
       <p><strong>二、优化手段：</strong></p>
       <ul>
@@ -741,8 +812,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p><strong>💡 优化顺序建议：</strong><br/>先做归档 + 索引 + 字段优化（成本最低），<br/>再考虑垂直拆分，最后才分库分表（成本高、复杂度大）。</p>
     </div></div></div>
 
-<!-- Q23 -->
-<div class="card"><div class="card-header"><div class="q-num">23</div><div class="q-meta"><div class="q-title">深度分页问题如何解决？</div><div class="q-tags"><span class="q-tag">分页</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q25 -->
+<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">深度分页问题如何解决？</div><div class="q-tags"><span class="q-tag">分页</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、问题本质：</strong><br/>LIMIT 100000,20 需要先扫描前 10 万条再丢弃，<br/>偏移量越大，扫描的数据越多，查询越慢。</p>
       <p><strong>二、解决方案：</strong></p>
       <ul>
@@ -754,8 +825,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p><strong>💡 对比示例：</strong><br/>传统 LIMIT 100000,20：扫描 10 万行，耗时约 1.5 秒；<br/>游标 WHERE id &gt; 100000 LIMIT 20：仅扫描 20 行，耗时约 10 毫秒。</p>
     </div></div></div>
 
-<!-- Q24 -->
-<div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">MySQL 连接池参数如何配置？</div><div class="q-tags"><span class="q-tag">连接池</span><span class="q-tag">配置</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q26 -->
+<div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">MySQL 连接池参数如何配置？</div><div class="q-tags"><span class="q-tag">连接池</span><span class="q-tag">配置</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、为什么要用连接池：</strong><br/>数据库连接创建/销毁开销大（TCP 握手 + 认证 + 资源分配），<br/>连接池复用连接，显著降低开销并限制并发。</p>
       <p><strong>二、核心参数（以 HikariCP 为例）：</strong></p>
       <ul>
@@ -769,8 +840,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p><strong>三、配置建议：</strong><br/>maximumPoolSize 一般 10~50，根据并发和数据库配置调整；<br/>maxLifetime 建议设 29 分钟（数据库 wait_timeout 为 30 分钟）；<br/>禁止超过数据库 max_connections，否则应用启动即报连接耗尽。</p>
     </div></div></div>
 
-<!-- Q25 -->
-<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">B+Tree 的插入和查询过程是怎样的？</div><div class="q-tags"><span class="q-tag">B+Tree</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q27 -->
+<div class="card"><div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">B+Tree 的插入和查询过程是怎样的？</div><div class="q-tags"><span class="q-tag">B+Tree</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、查询过程：</strong></p>
       <p>1. 从根节点出发，每层通过二分查找确定下一层子节点；<br/>2. 逐层下探，直到叶子节点；<br/>3. 在叶子节点中找到目标记录（聚簇索引）或指针。</p>
       <p>IO 次数 = 树的高度，千万级数据树高仅 3~4 层，即 3~4 次磁盘 IO。</p>
@@ -786,8 +857,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p><strong>💡 完整示例：</strong><br/>查询 id=85：根节点 [50] → 右子树 [60,80] → 叶子节点 [85,90]，共 3 次磁盘 IO；<br/>插入 id=95：先查找到对应叶子节点 → 未满直接插入 → 完成。</p>
     </div></div></div>
 
-<!-- Q26 -->
-<div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">MySQL 隐式类型转换的坑？</div><div class="q-tags"><span class="q-tag">类型转换</span><span class="q-tag">索引失效</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q28 -->
+<div class="card"><div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">MySQL 隐式类型转换的坑？</div><div class="q-tags"><span class="q-tag">类型转换</span><span class="q-tag">索引失效</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、什么是隐式类型转换：</strong><br/>SQL 中字段类型与传入值类型不一致时，MySQL 会自动进行类型转换。<br/>转换若作用于索引列，B+ 树无法按原值定位，只能全表扫描，索引失效。</p>
       <p><strong>二、转换规则：</strong><br/>字符串和数字比较 → 字符串转数字；<br/>一方是浮点 → 双方转浮点；<br/>日期与数字 → 按数字处理。</p>
       <p><strong>三、核心坑：</strong><br/>索引列参与类型转换或函数运算时，索引失效、退化为全表扫描。</p>
@@ -799,8 +870,8 @@ SELECT * FROM t WHERE id = '1'; -- 主键是数字，字符串'1'转数字，仍
       <p><strong>💡 验证方法：</strong><br/>EXPLAIN 查看 type=ALL、key=NULL，即为隐式转换导致索引失效。</p>
     </div></div></div>
 
-<!-- Q27 -->
-<div class="card"><div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">CHAR 和 VARCHAR 如何选择？TEXT 类型注意事项？</div><div class="q-tags"><span class="q-tag">数据类型</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q29 -->
+<div class="card"><div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">CHAR 和 VARCHAR 如何选择？TEXT 类型注意事项？</div><div class="q-tags"><span class="q-tag">数据类型</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、CHAR vs VARCHAR：</strong></p>
       <ul>
         <li><strong>CHAR(n)：</strong><br/>定长存储，最大 255 字符。<br/>优点：无需额外字节记录长度，查询速度快；<br/>缺点：不足 n 个字符时补空格，浪费空间。<br/>适合：MD5、手机号、身份证号等固定长度字段。</li>
@@ -816,8 +887,8 @@ SELECT * FROM t WHERE id = '1'; -- 主键是数字，字符串'1'转数字，仍
       <p><strong>💡 通用建议：</strong><br/>字段尽量 NOT NULL，NULL 值会额外占用空间且索引统计不准；<br/>选择口诀：定长用 CHAR，变长用 VARCHAR，大文本上存储服务。</p>
     </div></div></div>
 
-<!-- Q28 -->
-<div class="card"><div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">EXPLAIN 中 type 字段有哪些？如何判断效率？</div><div class="q-tags"><span class="q-tag">EXPLAIN</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q30 -->
+<div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">EXPLAIN 中 type 字段有哪些？如何判断效率？</div><div class="q-tags"><span class="q-tag">EXPLAIN</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、type 访问类型（从好到差）：</strong></p>
       <p><strong>const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL</strong></p>
       <ul>
@@ -838,8 +909,8 @@ SELECT * FROM t WHERE id = '1'; -- 主键是数字，字符串'1'转数字，仍
       <p><strong>💡 示例对比：</strong><br/>WHERE id=1 → const；<br/>WHERE name='张三' → ref；<br/>WHERE age&gt;30 → range；<br/>WHERE sex=1 → ALL（区分度低，优化器放弃索引）。</p>
     </div></div></div>
 
-<!-- Q29 -->
-<div class="card"><div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">MySQL redo log、undo log、binlog 的区别？</div><div class="q-tags"><span class="q-tag">日志</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q31 -->
+<div class="card"><div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">MySQL redo log、undo log、binlog 的区别？</div><div class="q-tags"><span class="q-tag">日志</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、各日志定义：</strong></p>
       <ul>
         <li><strong>redo log（重做日志）：</strong><br/>InnoDB <strong>存储引擎层</strong>独有的日志，记录的是"数据页被修改成了什么"（物理日志），<br/>用于崩溃后重放、恢复数据，保证事务的<strong>持久性（D）</strong>。</li>
@@ -890,8 +961,8 @@ SELECT * FROM t WHERE id = '1'; -- 主键是数字，字符串'1'转数字，仍
       </ul>
     </div></div></div>
 
-<!-- Q30 -->
-<div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">索引下推（ICP）是什么？</div><div class="q-tags"><span class="q-tag">索引优化</span><span class="q-tag">ICP</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q32 -->
+<div class="card"><div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">索引下推（ICP）是什么？</div><div class="q-tags"><span class="q-tag">索引优化</span><span class="q-tag">ICP</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、什么是索引下推（ICP）：</strong><br/>Index Condition Pushdown，MySQL 5.6+ 引入的查询优化。<br/>把 WHERE 中能由索引列判断的条件（如 age=25）下推到存储引擎层，<br/>在读取索引时提前过滤，减少回表次数和 Server 层传输的数据量。</p>
       <pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- 联合索引 (name, age)
 SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
@@ -910,8 +981,8 @@ SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
       </ul>
     </div></div></div>
 
-<!-- Q31 -->
-<div class="card"><div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">联合索引匹配原则和索引长度限制？</div><div class="q-tags"><span class="q-tag">联合索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q33 -->
+<div class="card"><div class="card-header"><div class="q-num">33</div><div class="q-meta"><div class="q-title">联合索引匹配原则和索引长度限制？</div><div class="q-tags"><span class="q-tag">联合索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、联合索引匹配原则（最左前缀）：</strong></p>
       <ul>
         <li><strong>必须从最左列开始使用：</strong><br/>联合索引 (a,b,c)，WHERE a=1 AND c=3 只能用到列 a；<br/>WHERE b=1 完全不走索引。</li>
@@ -931,8 +1002,8 @@ SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
       </ul>
     </div></div></div>
 
-<!-- Q32 -->
-<div class="card"><div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">SQL 注入原理和防范？MyBatis 中 #{} 和 ${} 的区别？</div><div class="q-tags"><span class="q-tag">SQL注入</span><span class="q-tag">安全</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q34 -->
+<div class="card"><div class="card-header"><div class="q-num">34</div><div class="q-meta"><div class="q-title">SQL 注入原理和防范？MyBatis 中 #{} 和 ${} 的区别？</div><div class="q-tags"><span class="q-tag">SQL注入</span><span class="q-tag">安全</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、SQL 注入原理：</strong><br/>拼接 SQL 时，用户输入如 <code>' OR 1=1 --</code> 改变了原 SQL 语义，<br/>可绕过认证、拖库、删库，甚至通过 UDF 执行系统命令。</p>
       <p><strong>二、防范手段：</strong></p>
       <ul>
@@ -954,8 +1025,8 @@ SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
       </ul>
     </div></div></div>
 
-<!-- Q33 -->
-<div class="card"><div class="card-header"><div class="q-num">33</div><div class="q-meta"><div class="q-title">子查询和 JOIN 哪个效率高？为什么？</div><div class="q-tags"><span class="q-tag">SQL优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q35 -->
+<div class="card"><div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">子查询和 JOIN 哪个效率高？为什么？</div><div class="q-tags"><span class="q-tag">SQL优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、结论：</strong><br/>大多数情况下 JOIN 优于子查询。</p>
       <p><strong>二、原因：</strong></p>
       <ul>
@@ -975,8 +1046,8 @@ SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
       </ul>
     </div></div></div>
 
-<!-- Q34 -->
-<div class="card"><div class="card-header"><div class="q-num">34</div><div class="q-meta"><div class="q-title">分布式事务解决方案有哪些？</div><div class="q-tags"><span class="q-tag">分布式事务</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q36 -->
+<div class="card"><div class="card-header"><div class="q-num">36</div><div class="q-meta"><div class="q-title">分布式事务解决方案有哪些？</div><div class="q-tags"><span class="q-tag">分布式事务</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、解决方案有哪些（总览）：</strong><br/>分布式事务主流方案共 <strong>6 种</strong>，按一致性要求分为两类：</p>
       <ul>
         <li><strong>强一致（1 种）：</strong>2PC（XA 两阶段提交）。</li>
@@ -1003,8 +1074,8 @@ SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
       </ul>
     </div></div></div>
 
-<!-- Q35 -->
-<div class="card"><div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">count(*)、count(1)、count(列名) 的区别？</div><div class="q-tags"><span class="q-tag">高频</span><span class="q-tag">聚合</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q37 -->
+<div class="card"><div class="card-header"><div class="q-num">37</div><div class="q-meta"><div class="q-title">count(*)、count(1)、count(列名) 的区别？</div><div class="q-tags"><span class="q-tag">高频</span><span class="q-tag">聚合</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、四种写法对比：</strong></p>
       <ul>
         <li><strong>count(*)：</strong><br/>统计所有行数（包括 NULL），<br/>MySQL 优化器专门优化，效率最高，推荐使用。</li>
@@ -1022,8 +1093,8 @@ SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
       </ul>
     </div></div></div>
 
-<!-- Q36 -->
-<div class="card"><div class="card-header"><div class="q-num">36</div><div class="q-meta"><div class="q-title">MVCC 读提交(RC)和可重复读(RR)下 ReadView 生成时机有何不同？</div><div class="q-tags"><span class="q-tag">MVCC</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q38 -->
+<div class="card"><div class="card-header"><div class="q-num">38</div><div class="q-meta"><div class="q-title">MVCC 读提交(RC)和可重复读(RR)下 ReadView 生成时机有何不同？</div><div class="q-tags"><span class="q-tag">MVCC</span><span class="q-tag">深入</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、MVCC 回顾：</strong><br/>ReadView（读视图）记录生成时点活跃事务列表，<br/>用于判断版本链中哪个版本对当前事务可见。</p>
       <p><strong>二、生成时机差异：</strong></p>
       <ul>
@@ -1043,8 +1114,8 @@ SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
       </ul>
     </div></div></div>
 
-<!-- Q37 -->
-<div class="card"><div class="card-header"><div class="q-num">37</div><div class="q-meta"><div class="q-title">AUTO_INCREMENT 自增主键的坑？自增ID用完了怎么办？</div><div class="q-tags"><span class="q-tag">自增</span><span class="q-tag">主键</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q39 -->
+<div class="card"><div class="card-header"><div class="q-num">39</div><div class="q-meta"><div class="q-title">AUTO_INCREMENT 自增主键的坑？自增ID用完了怎么办？</div><div class="q-tags"><span class="q-tag">自增</span><span class="q-tag">主键</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、自增主键的坑：</strong></p>
       <ul>
         <li><strong>ID 不一定连续：</strong><br/>事务回滚、删除后不会回收，存在空洞。</li>
@@ -1063,8 +1134,8 @@ SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
       </ul>
     </div></div></div>
 
-<!-- Q38 -->
-<div class="card"><div class="card-header"><div class="q-num">38</div><div class="q-meta"><div class="q-title">MySQL 中 EXPLAIN 的 Extra 字段 Using filesort 和 Using temporary 是什么意思？</div><div class="q-tags"><span class="q-tag">EXPLAIN</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q40 -->
+<div class="card"><div class="card-header"><div class="q-num">40</div><div class="q-meta"><div class="q-title">MySQL 中 EXPLAIN 的 Extra 字段 Using filesort 和 Using temporary 是什么意思？</div><div class="q-tags"><span class="q-tag">EXPLAIN</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、Using filesort：</strong><br/>无法用索引排序，需要额外排序操作（内存 sort_buffer 或磁盘临时文件）。<br/>优化方向：让 ORDER BY 也走索引。</p>
       <p><strong>二、Using temporary：</strong><br/>创建临时表处理查询（GROUP BY、DISTINCT、UNION）。<br/>优化方向：加索引避免临时表。</p>
       <p><strong>三、其他 Extra 值：</strong></p>
@@ -1084,8 +1155,8 @@ SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
       </ul>
     </div></div></div>
 
-<!-- Q39 -->
-<div class="card"><div class="card-header"><div class="q-num">39</div><div class="q-meta"><div class="q-title">MySQL 8.0 有哪些重要新特性？</div><div class="q-tags"><span class="q-tag">MySQL8</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q41 -->
+<div class="card"><div class="card-header"><div class="q-num">41</div><div class="q-meta"><div class="q-title">MySQL 8.0 有哪些重要新特性？</div><div class="q-tags"><span class="q-tag">MySQL8</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、重要新特性有哪些（总览）：</strong><br/>MySQL 8.0 相比 5.7 的重要新特性共 <strong>10 项</strong>，分为三类：</p>
       <ul>
         <li><strong>存储与性能类（6 项）：</strong><br/>默认字符集 utf8mb4、降序索引、不可见索引、直方图、Hash Join、原子 DDL。</li>
@@ -1118,8 +1189,8 @@ SELECT * FROM t WHERE name LIKE '张%' AND age = 25;
       </ul>
     </div></div></div>
 
-<!-- Q40 -->
-<div class="card"><div class="card-header"><div class="q-num">40</div><div class="q-meta"><div class="q-title">什么是回表？如何避免回表？</div><div class="q-tags"><span class="q-tag">回表</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q42 -->
+<div class="card"><div class="card-header"><div class="q-num">42</div><div class="q-meta"><div class="q-title">什么是回表？如何避免回表？</div><div class="q-tags"><span class="q-tag">回表</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一、什么是回表：</strong><br/>先通过二级索引（非聚簇索引）找到主键值，<br/>再根据主键到聚簇索引（主键索引）中查找完整行数据的操作。</p>
       <pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">-- name有普通索引，非主键
 SELECT * FROM t WHERE name='test'; -- 二级索引查到主键id → 再回聚簇索引查整行（回表）
@@ -1141,8 +1212,8 @@ SELECT id, name FROM t WHERE name='test'; -- 所需列都在索引中，覆盖�
       </ul>
     </div></div></div>
 
-<!-- Q41 -->
-<div class="card"><div class="card-header"><div class="q-num">41</div><div class="q-meta"><div class="q-title">什么是索引？为什么要使用索引？索引有哪些优缺点？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q43 -->
+<div class="card"><div class="card-header"><div class="q-num">43</div><div class="q-meta"><div class="q-title">什么是索引？为什么要使用索引？索引有哪些优缺点？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>索引是数据库为加速查询而额外维护的"目录"数据结构，<br/>本质是以空间换时间，把无序数据变成可快速定位的有序结构；<br/>它大幅提升查询速度，但会牺牲写入性能并占用额外空间。</p>
       <p><strong>一、什么是索引（定义、作用、原理）：</strong></p>
       <ul>
@@ -1173,8 +1244,8 @@ SELECT id, name FROM t WHERE name='test'; -- 所需列都在索引中，覆盖�
       </ul>
     </div></div></div>
 
-<!-- Q42 -->
-<div class="card"><div class="card-header"><div class="q-num">42</div><div class="q-meta"><div class="q-title">B 树和 B+ 树的区别？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">数据结构</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q44 -->
+<div class="card"><div class="card-header"><div class="q-num">44</div><div class="q-meta"><div class="q-title">B 树和 B+ 树的区别？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">数据结构</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>B 树所有节点都存 key 和数据、叶子节点相互独立；<br/>B+ 树只有叶子节点存数据、叶子节点用链表串联、检索稳定，<br/>因此 B+ 树更适合作数据库索引。</p>
       <p><strong>一、先讲两个概念（定义）：</strong></p>
       <ul>
@@ -1198,8 +1269,8 @@ SELECT id, name FROM t WHERE name='test'; -- 所需列都在索引中，覆盖�
       </ul>
     </div></div></div>
 
-<!-- Q43 -->
-<div class="card"><div class="card-header"><div class="q-num">43</div><div class="q-meta"><div class="q-title">Hash 索引和 B+ 树索引的优劣对比？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">数据结构</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q45 -->
+<div class="card"><div class="card-header"><div class="q-num">45</div><div class="q-meta"><div class="q-title">Hash 索引和 B+ 树索引的优劣对比？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">数据结构</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>Hash 索引等值查询极快但不支持排序和范围查询；<br/>B+ 树索引有序、支持范围查询和排序，是 MySQL 的主流选择。</p>
       <p><strong>一、Hash 索引（定义与特点）：</strong></p>
       <ul>
@@ -1225,8 +1296,8 @@ SELECT id, name FROM t WHERE name='test'; -- 所需列都在索引中，覆盖�
       </ul>
     </div></div></div>
 
-<!-- Q44 -->
-<div class="card"><div class="card-header"><div class="q-num">44</div><div class="q-meta"><div class="q-title">MySQL 索引有哪些类型？如何添加索引？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q46 -->
+<div class="card"><div class="card-header"><div class="q-num">46</div><div class="q-meta"><div class="q-title">MySQL 索引有哪些类型？如何添加索引？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>MySQL 索引按功能分为主键索引、唯一索引、普通索引、前缀索引、全文索引；<br/>按列数分为单列索引和联合索引，<br/>其中主键索引（聚簇索引）之外的都叫二级索引。</p>
       <p><strong>一、主键索引（Primary Key）：</strong><br/>数据表的主键列使用的就是主键索引。</p>
       <ul>
@@ -1266,8 +1337,8 @@ ALTER TABLE `table_name` ADD INDEX index_name ( `column1`, `column2`, `column3` 
       </ul>
     </div></div></div>
 
-<!-- Q45 -->
-<div class="card"><div class="card-header"><div class="q-num">45</div><div class="q-meta"><div class="q-title">为什么索引能提高查询速度？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">原理</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q47 -->
+<div class="card"><div class="card-header"><div class="q-num">47</div><div class="q-meta"><div class="q-title">为什么索引能提高查询速度？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">原理</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>索引把无序的数据变成有序结构，<br/>通过"目录 + 二分查找"将全表遍历的 O(n) 优化为 O(logn)，<br/>底层实现就是 B+ 树。</p>
       <p><strong>一、先从 MySQL 的基本存储结构说起：</strong></p>
       <ul>
@@ -1303,8 +1374,8 @@ ALTER TABLE `table_name` ADD INDEX index_name ( `column1`, `column2`, `column3` 
       </ul>
     </div></div></div>
 
-<!-- Q46 -->
-<div class="card"><div class="card-header"><div class="q-num">46</div><div class="q-meta"><div class="q-title">使用索引的注意事项有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q48 -->
+<div class="card"><div class="card-header"><div class="q-num">48</div><div class="q-meta"><div class="q-title">使用索引的注意事项有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>在经常搜索、WHERE 条件、排序、连接的列上建索引，<br/>避免对索引列施加函数、避免 NULL、及时清理无用索引，<br/>且索引并非越多越好、数据量小时收益有限。</p>
       <p><strong>一、使用索引的注意事项：</strong></p>
       <ul>
@@ -1333,8 +1404,8 @@ ALTER TABLE `table_name` ADD INDEX index_name ( `column1`, `column2`, `column3` 
       </ul>
     </div></div></div>
 
-<!-- Q47 -->
-<div class="card"><div class="card-header"><div class="q-num">47</div><div class="q-meta"><div class="q-title">索引的创建原则和注意点有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q49 -->
+<div class="card"><div class="card-header"><div class="q-num">49</div><div class="q-meta"><div class="q-title">索引的创建原则和注意点有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>在不为 NULL、频繁查询、条件过滤、频繁连接的字段上建索引；<br/>频繁更新、不常查询的字段慎建索引；<br/>优先联合索引、避免冗余索引、字符串可用前缀索引。</p>
       <p><strong>一、选择合适的字段（适合建索引）：</strong></p>
       <ul>
@@ -1364,8 +1435,8 @@ ALTER TABLE `table_name` ADD INDEX index_name ( `column1`, `column2`, `column3` 
       </ul>
     </div></div></div>
 
-<!-- Q48 -->
-<div class="card"><div class="card-header"><div class="q-num">48</div><div class="q-meta"><div class="q-title">MySQL 数据库命名和基本设计规范有哪些？</div><div class="q-tags"><span class="q-tag">设计规范</span><span class="q-tag">规范</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q50 -->
+<div class="card"><div class="card-header"><div class="q-num">50</div><div class="q-meta"><div class="q-title">MySQL 数据库命名和基本设计规范有哪些？</div><div class="q-tags"><span class="q-tag">设计规范</span><span class="q-tag">规范</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>命名要小写加下划线、见名识意、不使用保留字；<br/>设计上统一 InnoDB + UTF8、加注释、控制数据量、分离冷热数据，<br/>从源头保证规范性和可维护性。</p>
       <p><strong>一、数据库命令规范：</strong></p>
       <ul>
@@ -1397,8 +1468,8 @@ ALTER TABLE `table_name` ADD INDEX index_name ( `column1`, `column2`, `column3` 
       </ul>
     </div></div></div>
 
-<!-- Q49 -->
-<div class="card"><div class="card-header"><div class="q-num">49</div><div class="q-meta"><div class="q-title">MySQL 字段设计规范有哪些？</div><div class="q-tags"><span class="q-tag">设计规范</span><span class="q-tag">字段</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q51 -->
+<div class="card"><div class="card-header"><div class="q-num">51</div><div class="q-meta"><div class="q-title">MySQL 字段设计规范有哪些？</div><div class="q-tags"><span class="q-tag">设计规范</span><span class="q-tag">字段</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>字段设计核心是"够用就好"：用最小的合适类型、避免 TEXT/BLOB 和 ENUM、<br/>尽量 NOT NULL、时间用 TIMESTAMP/DATETIME、金额用 DECIMAL。</p>
       <p><strong>一、优先选择符合存储需要的最小的数据类型：</strong></p>
       <ul>
@@ -1445,8 +1516,8 @@ ALTER TABLE `table_name` ADD INDEX index_name ( `column1`, `column2`, `column3` 
       </ul>
     </div></div></div>
 
-<!-- Q50 -->
-<div class="card"><div class="card-header"><div class="q-num">50</div><div class="q-meta"><div class="q-title">MySQL 索引设计规范有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">设计规范</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q52 -->
+<div class="card"><div class="card-header"><div class="q-num">52</div><div class="q-meta"><div class="q-title">MySQL 索引设计规范有哪些？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">设计规范</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>索引设计规范核心是：数量适中（≤5）、每个 InnoDB 表必有自增主键、<br/>索引列选高区分度、避免冗余/重复索引、优先覆盖索引、少用外键。</p>
       <p><strong>一、限制每张表上的索引数量（建议不超过 5 个）：</strong></p>
       <ul>
@@ -1504,8 +1575,8 @@ ALTER TABLE `table_name` ADD INDEX index_name ( `column1`, `column2`, `column3` 
       </ul>
     </div></div></div>
 
-<!-- Q51 -->
-<div class="card"><div class="card-header"><div class="q-num">51</div><div class="q-meta"><div class="q-title">MySQL SQL 开发规范有哪些？</div><div class="q-tags"><span class="q-tag">SQL</span><span class="q-tag">规范</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q53 -->
+<div class="card"><div class="card-header"><div class="q-num">53</div><div class="q-meta"><div class="q-title">MySQL SQL 开发规范有哪些？</div><div class="q-tags"><span class="q-tag">SQL</span><span class="q-tag">规范</span><span class="q-tag">优化</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>SQL 开发规范核心：预编译防注入、避免隐式转换和函数计算、<br/>不用 select *、子查询转 join、限制 join 表数、拆大 SQL，<br/>让每条 SQL 尽量命中索引且开销最小。</p>
       <p><strong>一、建议使用预编译语句进行数据库操作：</strong></p>
       <ul>
@@ -1582,8 +1653,8 @@ where create_time >= '20190101' and create_time &lt; '20190102'</pre>
       </ul>
     </div></div></div>
 
-<!-- Q52 -->
-<div class="card"><div class="card-header"><div class="q-num">52</div><div class="q-meta"><div class="q-title">MySQL 数据库操作行为规范有哪些？</div><div class="q-tags"><span class="q-tag">规范</span><span class="q-tag">运维</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
+<!-- Q54 -->
+<div class="card"><div class="card-header"><div class="q-num">54</div><div class="q-meta"><div class="q-title">MySQL 数据库操作行为规范有哪些？</div><div class="q-tags"><span class="q-tag">规范</span><span class="q-tag">运维</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer">
       <p><strong>一句话概括：</strong><br/>操作行为规范核心：大批量写操作分批执行、<br/>大表用 pt-online-schema-change 改结构、<br/>不给程序账号 super 权限、账号遵循权限最小原则。</p>
       <p><strong>一、超 100 万行的批量写操作（UPDATE、DELETE、INSERT）要分批多次进行操作：</strong></p>
       <ul>
@@ -1616,7 +1687,7 @@ where create_time >= '20190101' and create_time &lt; '20190102'</pre>
       </ul>
     </div></div></div>
 <div class="footer">
-  📌 05 · MySQL · 共52题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_06_Redis.html" style="color:var(--primary)">下一板块 →</a>
+  📌 05 · MySQL · 共54题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_06_Redis.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
