@@ -113,757 +113,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="card">
   <div class="card-header">
     <div class="q-num">2</div>
-    <div class="q-meta"><div class="q-title">== 和 equals() 的区别？</div>
-      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">高频</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong>==</strong> 比较对象的<strong>内存地址</strong>（基本类型比值）。</p>
-      <p><strong>equals()</strong> Object默认也是比较地址，但String、Integer等包装类重写了equals，比较<strong>内容</strong>。</p>
-      <div class="code-block"><span class="kw">String</span> a = <span class="kw">new</span> <span class="kw">String</span>(<span class="str">"hello"</span>);
-<span class="kw">String</span> b = <span class="kw">new</span> <span class="kw">String</span>(<span class="str">"hello"</span>);
-a == b;       <span class="co">// false — 不同对象</span>
-a.equals(b);  <span class="co">// true  — 内容相同</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- Q3 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">3</div>
-    <div class="q-meta"><div class="q-title">String、StringBuilder、StringBuffer 的区别？</div>
-      <div class="q-tags"><span class="q-tag">字符串</span><span class="q-tag">线程安全</span><span class="q-tag">高频</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <div class="table-wrap"><table>
-        <tr><th>特性</th><th>String</th><th>StringBuilder</th><th>StringBuffer</th></tr>
-        <tr><td>可变性</td><td>不可变(final byte[])</td><td>可变</td><td>可变</td></tr>
-        <tr><td>线程安全</td><td>安全</td><td>不安全</td><td>安全(synchronized)</td></tr>
-        <tr><td>性能</td><td>拼接产生新对象</td><td><strong>最快</strong></td><td>较慢(加锁)</td></tr>
-        <tr><td>适用</td><td>少量字符串</td><td>单线程大量拼接</td><td>多线程大量拼接</td></tr>
-      </table></div>
-      <p>String底层使用<code>final byte[]</code>，每次拼接都会创建新对象。</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q4 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">4</div>
-    <div class="q-meta"><div class="q-title">重载（Overload）和重写（Override）的区别？</div>
-      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">多态</span><span class="q-tag">高频</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <div class="table-wrap"><table>
-        <tr><th>区别</th><th>重载(Overload)</th><th>重写(Override)</th></tr>
-        <tr><td>发生范围</td><td>同一个类中</td><td>父子类之间</td></tr>
-        <tr><td>方法签名</td><td>方法名相同，参数不同</td><td>方法名+参数+返回值相同</td></tr>
-        <tr><td>多态</td><td>编译时多态</td><td>运行时多态</td></tr>
-        <tr><td>访问修饰符</td><td>无限制</td><td>不能比父类更严格</td></tr>
-        <tr><td>异常</td><td>无限制</td><td>不能比父类更宽泛</td></tr>
-      </table></div>
-    </div>
-  </div>
-</div>
-
-<!-- Q5 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">5</div>
-    <div class="q-meta"><div class="q-title">接口（interface）和抽象类（abstract class）的区别？</div>
-      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">高频</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <ul>
-        <li><strong>多实现：</strong>一个类可实现多个接口，但只能继承一个抽象类。</li>
-        <li><strong>构造方法：</strong>接口不能有；抽象类可以有。</li>
-        <li><strong>成员变量：</strong>接口中默认public static final；抽象类可有普通变量。</li>
-        <li><strong>方法：</strong>Java8+接口可有default/static方法；抽象类可有抽象+具体方法。</li>
-        <li><strong>设计理念：</strong>接口定义<strong>行为规范</strong>(can-do)；抽象类体现代码复用(is-a)。</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- Q6 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">6</div>
-    <div class="q-meta"><div class="q-title">final、finally、finalize 的区别？</div>
-      <div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">经典</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong>final：</strong>修饰类→不可继承；方法→不可重写；变量→基本类型值不可变/引用类型引用不可变。</p>
-      <p><strong>finally：</strong>try-catch后必执行的代码块(除System.exit(0)外)。</p>
-      <p><strong>finalize()：</strong>Object类方法，GC回收前调用，<strong>JDK9已废弃</strong>，不推荐使用。</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q7 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">7</div>
-    <div class="q-meta"><div class="q-title">Java 中的异常体系是怎样的？</div>
-      <div class="q-tags"><span class="q-tag">异常处理</span><span class="q-tag">经典</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <ul>
-        <li><strong>Error：</strong>JVM级别严重错误(OOM、StackOverflow)，不处理。</li>
-        <li><strong>Exception：</strong>程序可处理：
-          <ul>
-            <li><strong>Checked异常：</strong>必须try-catch或throws，如IOException、SQLException。</li>
-            <li><strong>RuntimeException：</strong>运行时异常，如NPE、IndexOutOfBounds，编译期不强制处理。</li>
-          </ul>
-        </li>
-      </ul>
-      <p>💡 finally中有return会覆盖catch中的返回值，不推荐这样写。</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q8 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">8</div>
-    <div class="q-meta"><div class="q-title">什么是反射？反射的优缺点？</div>
-      <div class="q-tags"><span class="q-tag">反射</span><span class="q-tag">框架核心</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong>反射：</strong>运行时动态获取类的信息、创建对象、调用方法、访问字段。</p>
-      <p><strong>优点：</strong>框架灵活性（Spring IOC、动态代理）、动态加载类。</p>
-      <p><strong>缺点：</strong>性能开销大、破坏封装性、代码可读性差。</p>
-      <div class="code-block"><span class="co">// 获取Class对象的三种方式</span>
-Class clz1 = Class.forName(<span class="str">"com.example.User"</span>);
-Class clz2 = User.class;
-Class clz3 = user.getClass();</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q9 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">9</div>
-    <div class="q-meta"><div class="q-title">Java 中基本类型和包装类型的区别？</div>
-      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">自动装箱</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <div class="table-wrap"><table>
-        <tr><th>区别</th><th>基本类型</th><th>包装类型</th></tr>
-        <tr><td>存储</td><td>栈/局部变量表</td><td>堆</td></tr>
-        <tr><td>默认值</td><td>0/0.0/false</td><td>null</td></tr>
-        <tr><td>泛型支持</td><td>不支持</td><td>支持</td></tr>
-        <tr><td>内存</td><td>小</td><td>大(有对象头)</td></tr>
-      </table></div>
-      <p><strong>自动装箱/拆箱：</strong>编译器自动调用valueOf()和intValue()等。</p>
-      <p>💡 <strong>Integer缓存池：</strong>-128~127使用缓存对象，==比较为true。</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q10 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">10</div>
-    <div class="q-meta"><div class="q-title">Java 是值传递还是引用传递？</div>
-      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">高频</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong>Java只有值传递。</strong></p>
-      <ul>
-        <li><strong>基本类型：</strong>传递值的副本，不改变原值。</li>
-        <li><strong>引用类型：</strong>传递<strong>引用的副本</strong>（地址值的拷贝），可通过该引用修改对象内容，但无法让原引用指向新对象。</li>
-      </ul>
-      <p>本质：传递的都是栈中存储的值（基本类型的值 or 引用的地址值），都是值的副本。</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q11 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">11</div>
-    <div class="q-meta"><div class="q-title">深拷贝和浅拷贝的区别？</div>
-      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">Cloneable</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong>浅拷贝：</strong>只拷贝对象本身，引用类型字段仍指向原对象。</p>
-      <p><strong>深拷贝：</strong>完全拷贝，包括引用类型字段指向的对象也复制一份。</p>
-      <p><strong>实现方式：</strong></p>
-      <ul>
-        <li>浅拷贝：实现Cloneable，重写clone()。</li>
-        <li>深拷贝：序列化反序列化、手动递归拷贝、使用工具类(如BeanUtils)。</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- Q12 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">12</div>
-    <div class="q-meta"><div class="q-title">static 关键字的作用？</div>
-      <div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">内存模型</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p>static修饰的内容<strong>属于类</strong>而非实例，在类加载时初始化。</p>
-      <ul>
-        <li><strong>静态变量：</strong>类级别共享，存储在方法区/元空间。</li>
-        <li><strong>静态方法：</strong>不能访问非静态成员，不能使用this。</li>
-        <li><strong>静态代码块：</strong>类加载时执行一次，用于初始化静态变量。</li>
-        <li><strong>静态内部类：</strong>不依赖外部类实例。</li>
-      </ul>
-      <p>💡 执行顺序：父类静态块 子类静态块 父类代码块/构造 子类代码块/构造。</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q13 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">13</div>
-    <div class="q-meta"><div class="q-title">Java 中 IO 流分为哪几种？</div>
-      <div class="q-tags"><span class="q-tag">IO流</span><span class="q-tag">基础</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <ul>
-        <li><strong>按流向：</strong>输入流(InputStream/Reader)、输出流(OutputStream/Writer)。</li>
-        <li><strong>按单位：</strong>字节流(Stream后缀)、字符流(Reader/Writer后缀)。</li>
-        <li><strong>按功能：</strong>节点流(直接操作数据源)、处理流(装饰器模式，如BufferedInputStream)。</li>
-      </ul>
-      <p><strong>BIO/NIO/AIO：</strong></p>
-      <ul>
-        <li><strong>BIO：</strong>同步阻塞，一请求一线程。</li>
-        <li><strong>NIO：</strong>同步非阻塞，Channel+Buffer+Selector，多路复用。</li>
-        <li><strong>AIO：</strong>异步非阻塞，回调机制。</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- Q14 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">14</div>
-    <div class="q-meta"><div class="q-title">什么是序列化？serialVersionUID 有什么用？</div>
-      <div class="q-tags"><span class="q-tag">序列化</span><span class="q-tag">IO</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong>序列化：</strong>将对象转为字节序列，用于网络传输或持久化存储。</p>
-      <p><strong>反序列化：</strong>将字节序列还原为对象。</p>
-      <p><strong>serialVersionUID：</strong></p>
-      <ul>
-        <li>类的版本标识，反序列化时JVM会比对UID，不一致则抛InvalidClassException。</li>
-        <li>不显式声明时，编译器自动生成(类结构变化会变)。</li>
-        <li><strong>建议显式声明</strong>，避免反序列化兼容问题。</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- Q15 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">15</div>
-    <div class="q-meta"><div class="q-title">Object 类有哪些常用方法？</div>
-      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">Object</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <ul>
-        <li><strong>equals()</strong> — 比较对象是否相等，默认比较地址。</li>
-        <li><strong>hashCode()</strong> — 返回哈希值，equals相等的对象hashCode必须相等。</li>
-        <li><strong>toString()</strong> — 返回类名@哈希码的十六进制。</li>
-        <li><strong>clone()</strong> — 浅拷贝，需实现Cloneable。</li>
-        <li><strong>getClass()</strong> — 获取运行时类。</li>
-        <li><strong>wait()/notify()/notifyAll()</strong> — 线程通信。</li>
-        <li><strong>finalize()</strong> — GC前调用(已废弃)。</li>
-      </ul>
-      <p>💡 重写equals必须重写hashCode，否则HashMap/HashSet会出问题。</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q16 -->
-<div class="card"><div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">Java 是值传递还是引用传递？</div><div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Java <strong>只有值传递</strong>，没有引用传递。</p><ul><li><strong>基本类型：</strong>传递值的副本，修改不影响原变量。</li><li><strong>引用类型：</strong>传递的是<strong>引用地址的副本</strong>，形参和实参指向同一对象，修改对象内容会生效，但修改引用本身（如指向新对象）不生效。</li></ul><p>💡 容易误解：能修改对象内容≠引用传递，这是共享对象引用而非传递引用本身。</p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">public void swap(Integer a, Integer b) { Integer t=a; a=b; b=t; } // 不生效<br>public void modify(User u) { u.setName("new"); }            // 生效</pre></div></div></div>
-
-<!-- Q17 -->
-<div class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">String 常量池（String Pool）是什么？</div><div class="q-tags"><span class="q-tag">String</span><span class="q-tag">JVM</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>String常量池是JVM在<strong>堆内存中</strong>维护的一个字符串缓存区域（JDK7+ 移到堆中）。</p><ul><li><strong>字面量赋值：</strong><code>String s="abc"</code> 先去常量池找，有则复用，无则创建。</li><li><strong>new String("abc")：</strong>堆中创建对象，再检查常量池（无则创建），共创建1-2个对象。</li><li><strong>intern()：</strong>手动将字符串加入常量池，返回池中引用。</li><li><strong>+ 拼接：</strong>字面量拼接→编译期优化；变量拼接→StringBuilder→new String。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">String s1="a"+"b";      // 编译优化→"ab"，常量池<br>String s2=new String("a")+new String("b"); // 堆中新建<br>String s3=s2.intern(); // 将s2放入常量池，返回池中引用<br>System.out.println(s1==s3); // true</pre></div></div></div>
-
-<!-- Q18 -->
-<div class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">try-catch-finally 的执行顺序？finally 一定会执行吗？</div><div class="q-tags"><span class="q-tag">异常处理</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>执行顺序：try (异常→catch) finally (正常后续代码)。</p><p><strong>finally不执行的情况：</strong></p><ul><li>try之前<code>System.exit(0)</code>退出JVM。</li><li>守护线程退出时finally可能不执行。</li><li>try/catch中执行<code>System.exit()</code>。</li><li>JVM崩溃或断电等不可恢复错误。</li></ul><p><strong>return 与 finally：</strong></p><ul><li>try有return值时，先计算return表达式，再执行finally，最后返回。</li><li>finally中有return会覆盖try的return！</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">public int test() { try { return 1; } finally { return 2; } } // 返回2！</pre></div></div></div>
-
-<!-- Q19 -->
-<div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">throw 和 throws 的区别？</div><div class="q-tags"><span class="q-tag">异常处理</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>throw</th><th>throws</th></tr></thead><tbody><tr><td>位置</td><td>方法体内</td><td>方法签名上</td></tr><tr><td>数量</td><td>一次抛一个</td><td>可声明多个</td></tr><tr><td>作用</td><td>实际抛出异常对象</td><td>声明该方法可能抛出的异常</td></tr><tr><td>后续</td><td>throw所在代码不执行</td><td>由调用方处理</td></tr></tbody></table></div><p>💡 运行时异常(RuntimeException)不需要throws声明也可以抛出，检查异常(Checked Exception)必须声明或try-catch处理。</p></div></div></div>
-
-<!-- Q20 -->
-<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">什么是泛型擦除？泛型的上下界是什么？</div><div class="q-tags"><span class="q-tag">泛型</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>泛型擦除：</strong>编译后泛型信息被擦除，<code>List&lt;String&gt;</code>和<code>List&lt;Integer&gt;</code>在运行时都是<code>List</code>。</p><ul><li><strong>上界 extends：</strong><code>T extends Number</code> 擦除后上界为Number。</li><li><strong>下界 super：</strong><code>T super Integer</code> 擦除后下界为Integer（PECS原则：Producer Extends, Consumer Super）。</li></ul><p><strong>注意事项：</strong></p><ul><li>不能new泛型数组<code>T[]</code>。</li><li>不能用基本类型作泛型参数。</li><li>不能<code>instanceof</code>泛型类型。</li><li>静态方法中不能用类的泛型参数。</li></ul></div></div></div>
-
-<!-- Q21 -->
-<div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">Java 中有哪几种内部类？各自特点？</div><div class="q-tags"><span class="q-tag">内部类</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>成员内部类：</strong>作为外部类成员，可访问外部类所有成员。创建需外部类实例：<code>outer.new Inner()</code>。</li><li><strong>静态内部类：</strong>static修饰，不依赖外部类实例，只能访问外部类静态成员。</li><li><strong>局部内部类：</strong>定义在方法中，仅方法内可见，访问的局部变量需final。</li><li><strong>匿名内部类：</strong>无类名，一次性使用，常用于接口/抽象类实例化。必须实现所有抽象方法。</li></ul><p>💡 内部类编译后生成独立class文件：<code>Outer$Inner.class</code>。匿名内部类生成<code>Outer$1.class</code>。</p></div></div></div>
-
-<!-- Q22 -->
-<div class="card"><div class="card-header"><div class="q-num">22</div><div class="q-meta"><div class="q-title">反射机制原理和应用场景？</div><div class="q-tags"><span class="q-tag">反射</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>原理：</strong>类加载时JVM在方法区生成Class对象，反射通过Class对象获取类信息（构造器、方法、字段），并在运行时动态调用。</p><p><strong>获取Class的方式：</strong></p><ul><li><code>Class.forName("全限定名")</code> — 静态方法，会初始化类。</li><li><code>对象.getClass()</code> — 实例方法。</li><li><code>类名.class</code> — 不会触发类初始化。</li></ul><p><strong>应用场景：</strong>Spring IOC、动态代理、JDBC驱动加载、注解解析、框架配置注入。</p></div></div></div>
-
-<!-- Q23 -->
-<div class="card"><div class="card-header"><div class="q-num">23</div><div class="q-meta"><div class="q-title">Class.forName 和 ClassLoader.loadClass 的区别？</div><div class="q-tags"><span class="q-tag">反射</span><span class="q-tag">类加载</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>Class.forName</th><th>ClassLoader.loadClass</th></tr></thead><tbody><tr><td>初始化</td><td>执行静态代码块</td><td>不执行（只加载到JVM）</td></tr><tr><td>参数</td><td>只需全限定名</td><td>需要指定类加载器</td></tr><tr><td>典型场景</td><td>JDBC驱动加载</td><td>Spring IOC延迟加载</td></tr></tbody></table></div><p>💡 JDBC中<code>Class.forName("com.mysql.jdbc.Driver")</code>触发静态代码块注册驱动；Spring用ClassLoader延迟加载以支持懒初始化。</p></div></div></div>
-
-<!-- Q24 -->
-<div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">动态代理有哪几种实现方式？</div><div class="q-tags"><span class="q-tag">代理</span><span class="q-tag">AOP</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>1. JDK动态代理（接口代理）：</strong></p><ul><li>基于反射，要求目标类<strong>必须实现接口</strong>。</li><li>核心类：<code>Proxy.newProxyInstance()</code> + <code>InvocationHandler</code>。</li><li>运行时动态生成代理类$Proxy0。</li></ul><p><strong>2. CGLIB动态代理（子类代理）：</strong></p><ul><li>基于ASM字节码生成，通过<strong>继承</strong>目标类生成子类。</li><li>不需要接口，但目标类不能是final。</li><li>核心类：<code>Enhancer</code> + <code>MethodInterceptor</code>。</li></ul><p><strong>Spring选择策略：</strong>有接口→JDK代理；无接口→CGLIB。Spring Boot 2.x 默认使用CGLIB。</p></div></div></div>
-
-<!-- Q25 -->
-<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">Integer 的缓存机制是怎样的？</div><div class="q-tags"><span class="q-tag">包装类</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Integer内部维护了<strong>IntegerCache</strong>，默认缓存<strong>-128 ~ 127</strong>之间的Integer对象。</p><ul><li>自动装箱<code>Integer i=100</code> 从缓存取，返回同一对象。</li><li><code>new Integer(100)</code> 强制创建新对象，不在缓存中。</li><li>最大值可通过<code>-XX:AutoBoxCacheMax=</code>调整。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">Integer a=100, b=100;   System.out.println(a==b); // true (缓存)<br>Integer c=200, d=200;   System.out.println(c==d); // false (超出缓存)</pre><p>💡 同样有缓存的包装类：Byte/Short/Long(-128~127)、Character(0~127)、Boolean(TRUE/FALSE)。Double/Float没有缓存。</p></div></div></div>
-
-<!-- Q26 -->
-<div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">自动装箱和自动拆箱的原理及注意事项？</div><div class="q-tags"><span class="q-tag">包装类</span><span class="q-tag">语法糖</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>自动装箱：</strong>基本类型→包装类，编译器调用<code>Integer.valueOf(int)</code>。</li><li><strong>自动拆箱：</strong>包装类→基本类型，编译器调用<code>Integer.intValue()</code>。</li></ul><p><strong>注意事项（坑）：</strong></p><ul><li><strong>NPE风险：</strong>包装类为null时自动拆箱抛NullPointerException。</li><li><strong>== 比较：</strong>包装类<code>==</code>是比较地址，应使用<code>equals()</code>。</li><li><strong>三目运算符：</strong><code>flag ? 1 : new Integer(2)</code> 结果自动拆箱为int。</li><li><strong>性能开销：</strong>循环中大量自动装箱/拆箱产生大量临时对象，应避免。</li></ul></div></div></div>
-
-<!-- Q27 -->
-<div class="card"><div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">BigDecimal 使用有哪些坑？如何正确比较？</div><div class="q-tags"><span class="q-tag">精度</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>常见坑：</strong></p><ul><li><strong>构造方式：</strong><code>new BigDecimal(0.1)</code> 不精确！浮点数本身不精确。应使用<code>new BigDecimal("0.1")</code> 或 <code>BigDecimal.valueOf(0.1)</code>。</li><li><strong>equals比较：</strong><code>BigDecimal(1.0)!=BigDecimal(1.00)</code>，因为scale不同。应使用<code>compareTo()</code>。</li><li><strong>除法：</strong>必须指定精度，否则无限小数抛异常：<code>divide(bd, 2, RoundingMode.HALF_UP)</code>。</li><li><strong>不可变性：</strong>所有运算返回新对象，原对象不变。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">BigDecimal a=new BigDecimal("1.0"), b=new BigDecimal("1.00");<br>System.out.println(a.equals(b));    // false<br>System.out.println(a.compareTo(b)); // 0 (相等)</pre></div></div></div>
-
-<!-- Q28 -->
-<div class="card"><div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">this 和 super 关键字有哪些使用场景？</div><div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>this：</strong></p><ul><li>区分成员变量和局部变量：<code>this.name = name</code>。</li><li>调用本类构造方法：<code>this()</code>，必须放构造器首行。</li><li>返回当前对象：<code>return this</code>（链式调用）。</li><li>作为参数传递：<code>method(this)</code>。</li></ul><p><strong>super：</strong></p><ul><li>访问父类成员：<code>super.name</code>。</li><li>调用父类构造方法：<code>super()</code>，必须放构造器首行（不写时默认调用无参）。</li><li>调用父类方法：<code>super.method()</code>。</li></ul><p>💡 <code>this()</code>和<code>super()</code>不能同时出现，且必须放在构造器第一行。</p></div></div></div>
-
-<!-- Q29 -->
-<div class="card"><div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">Java 8 主要新特性有哪些？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Lambda表达式：</strong><code>(params)->expression</code>，替代匿名内部类。</li><li><strong>函数式接口：</strong>只有一个抽象方法的接口，<code>@FunctionalInterface</code>。</li><li><strong>Stream API：</strong>集合的流式操作，filter/map/reduce/collect。</li><li><strong>Optional：</strong>解决NullPointerException，优雅处理null。</li><li><strong>新日期API：</strong>LocalDate/LocalTime/LocalDateTime，线程安全、不可变。</li><li><strong>接口默认方法与静态方法：</strong>接口可以有default方法实现。</li><li><strong>方法引用：</strong><code>String::length</code>、<code>System.out::println</code>。</li><li><strong>CompletableFuture：</strong>异步编程增强。</li><li><strong>PermGen移除：</strong>改为Metaspace（元空间）。</li></ul></div></div></div>
-
-<!-- Q30 -->
-<div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">Lambda 表达式的原理是什么？有什么限制？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">Lambda</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>什么是 Lambda 表达式？</strong></p>
-<p>Lambda 表达式是一种<strong>匿名函数的简洁写法</strong>，允许将函数作为参数传递，是函数式编程在 Java 中的核心体现。</p>
-<p><strong>作用：</strong></p>
-<ul>
-<li>替代冗长的匿名内部类写法，使代码更简洁、可读性更高。</li>
-<li>尤其适用于集合遍历、事件监听、Stream 操作等场景。</li>
-</ul>
-<p><strong>原理：</strong></p>
-<p>编译器将 Lambda 体转换为类的<strong>私有方法</strong>，通过 <code>invokedynamic</code> 指令在运行时由 <code>LambdaMetafactory</code> 生成对应的函数式接口实现对象，避免了每次编译都生成匿名类的字节码膨胀问题。</p>
-<p><strong>相比匿名内部类：</strong></p>
-<ul>
-<li>不会生成额外的 class 文件，减少 Jar 包大小。</li>
-<li>不创建新对象（无捕获时），性能更好。</li>
-<li>this 指向外层类而非匿名内部类自身。</li>
-</ul>
-<p><strong>限制：</strong></p>
-<ul>
-<li>只能用于<strong>函数式接口</strong>（只有一个抽象方法）。</li>
-<li>不能修改外部局部变量（需 <code>effectively final</code>）。</li>
-<li>不能抛出受检异常（除非接口声明）。</li>
-</ul>
-<p><strong>示例：</strong></p>
-<pre class="code-block"><code class="language-java">// 遍历集合
-list.forEach(o -> System.out.println(o));
-
-// 排序
-list.sort((a, b) -> a.getAge() - b.getAge());
-
-// Stream 过滤 + 映射
-list.stream()
-    .filter(e -> e.getSalary() > 5000)
-    .map(e -> e.getName())
-    .collect(Collectors.toList());
-
-// Runnable 线程
-new Thread(() -> System.out.println("Running")).start();</code></pre></div></div></div>
-
-<!-- Q31 -->
-<div class="card"><div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">Stream 流的中间操作和终端操作有哪些？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">Stream</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>中间操作（惰性）：</strong>返回Stream，不触发计算。</p><ul><li><strong>筛选：</strong>filter()、distinct()、limit()、skip()。</li><li><strong>映射：</strong>map()、flatMap()。</li><li><strong>排序：</strong>sorted()。</li><li><strong>窥视：</strong>peek()。</li></ul><p><strong>终端操作（触发计算）：</strong></p><ul><li><strong>收集：</strong>collect(Collectors.toList())、toArray()。</li><li><strong>聚合：</strong>count()、max()、min()、reduce()。</li><li><strong>遍历：</strong>forEach()、forEachOrdered()。</li><li><strong>匹配：</strong>anyMatch()、allMatch()、noneMatch()。</li><li><strong>查找：</strong>findFirst()、findAny()。</li></ul><p>💡 Stream只能消费一次，终端操作后流关闭，再使用抛IllegalStateException。</p></div></div></div>
-
-<!-- Q32 -->
-<div class="card"><div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">Optional 类的主要用法是什么？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">Optional</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Optional是<strong>容器对象</strong>，解决null判断问题，避免NPE。</p><p><strong>创建：</strong></p><ul><li><code>Optional.of(T)</code> — 值不能为null。</li><li><code>Optional.ofNullable(T)</code> — 值可为null。</li><li><code>Optional.empty()</code> — 创建空Optional。</li></ul><p><strong>使用：</strong></p><ul><li><code>isPresent()</code> — 是否有值。</li><li><code>ifPresent(Consumer)</code> — 有值时执行。</li><li><code>orElse(T)</code> — 为空返回默认值（注意：orElse一定会执行参数！）。</li><li><code>orElseGet(Supplier)</code> — 为空时懒加载默认值（推荐）。</li><li><code>orElseThrow()</code> — 为空抛异常。</li><li><code>map()/flatMap()</code> — 值转换。</li><li><code>filter()</code> — 条件过滤。</li></ul><p>💡 不要用Optional作字段类型或方法参数，主要用于返回值。</p></div></div></div>
-
-<!-- Q33 -->
-<div class="card"><div class="card-header"><div class="q-num">33</div><div class="q-meta"><div class="q-title">Java 中如何实现不可变类？String 为什么被设计为不可变？</div><div class="q-tags"><span class="q-tag">不可变类</span><span class="q-tag">String</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>实现不可变类步骤：</strong></p><ol><li>类声明为final，防止继承。</li><li>所有字段private final。</li><li>不提供setter方法。</li><li>构造方法中防御性拷贝（引用类型字段）。</li><li>getter返回引用类型时返回拷贝而非原引用。</li></ol><p><strong>String不可变的原因：</strong></p><ul><li><strong>字符串常量池：</strong>可共享，节省内存。</li><li><strong>安全性：</strong>避免被篡改（如类加载、网络连接参数）。</li><li><strong>线程安全：</strong>天生不可变→多线程安全。</li><li><strong>Hash缓存：</strong>hashCode可缓存，HashMap key性能高。</li></ul></div></div></div>
-
-<!-- Q34 -->
-<div class="card"><div class="card-header"><div class="q-num">34</div><div class="q-meta"><div class="q-title">Java 的 SPI 机制是什么？</div><div class="q-tags"><span class="q-tag">SPI</span><span class="q-tag">设计模式</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>SPI（Service Provider Interface）是Java内置的<strong>服务发现机制</strong>，用于解耦接口与实现。</p><p><strong>核心思想：</strong>在<code>META-INF/services/</code>下创建以接口全限定名命名的文件，内容为实现类全限定名。<code>ServiceLoader</code>自动加载所有实现。</p><p><strong>典型应用：</strong>JDBC驱动（java.sql.Driver）、SLF4J日志门面、Spring Boot自动配置（spring.factories）、Dubbo扩展点加载。</p><p><strong>缺点：</strong>会加载所有实现类，无法按需加载；不支持懒加载；ServiceLoader不是线程安全的。</p></div></div></div>
-
-<!-- Q35 -->
-<div class="card"><div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">语法糖有哪些？内部实现原理是什么？</div><div class="q-tags"><span class="q-tag">语法糖</span><span class="q-tag">编译原理</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>泛型擦除：</strong>编译时检查，运行时擦除为原始类型。</li><li><strong>自动装箱/拆箱：</strong>编译时调用<code>valueOf()</code>/<code>xxxValue()</code>。</li><li><strong>增强for循环：</strong>编译为Iterator遍历。</li><li><strong>可变参数：</strong>编译为数组<code>T[]</code>。</li><li><strong>枚举：</strong>编译为继承Enum的final类。</li><li><strong>switch支持String：</strong>编译为<code>hashCode()+equals()</code>两轮switch。</li><li><strong>try-with-resources：</strong>编译为try-finally，自动调用close()。</li><li><strong>Lambda：</strong>通过<code>invokedynamic</code>实现。</li><li><strong>内部类：</strong>编译为独立class文件。</li><li><strong>断言assert：</strong>默认关闭，需<code>-ea</code>开启。</li></ul></div></div></div>
-
-<!-- Q36 -->
-<div class="card"><div class="card-header"><div class="q-num">36</div><div class="q-meta"><div class="q-title">Comparable 和 Comparator 的区别？</div><div class="q-tags"><span class="q-tag">排序</span><span class="q-tag">接口</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>Comparable</th><th>Comparator</th></tr></thead><tbody><tr><td>包</td><td>java.lang</td><td>java.util</td></tr><tr><td>方法</td><td>compareTo(obj)</td><td>compare(o1, o2)</td></tr><tr><td>位置</td><td>类内部实现（内比较器）</td><td>外部独立定义（外比较器）</td></tr><tr><td>耦合度</td><td>与类耦合</td><td>解耦，可多个</td></tr><tr><td>使用</td><td>Collections.sort(list)</td><td>Collections.sort(list, comparator)</td></tr></tbody></table></div><p>💡 TreeMap/TreeSet 可传Comparator构造，用于自定义排序规则。</p></div></div></div>
-
-<!-- Q37 -->
-<div class="card"><div class="card-header"><div class="q-num">37</div><div class="q-meta"><div class="q-title">Java 中如何创建对象？（5种方式）</div><div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">对象创建</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ol><li><strong>new关键字：</strong><code>new ClassName()</code>，最常用。</li><li><strong>反射newInstance：</strong><code>Class.forName().newInstance()</code>（Java9已废弃），或<code>Constructor.newInstance()</code>。</li><li><strong>clone()：</strong>需实现Cloneable接口，浅拷贝。</li><li><strong>反序列化：</strong>从文件/网络流中<code>ObjectInputStream.readObject()</code>。</li><li><strong>Unsafe类：</strong><code>Unsafe.allocateInstance()</code>，只分配内存不调用构造器。</li></ol><p>💡 反序列化和Unsafe创建对象时不调用构造方法，可能导致字段未初始化。</p></div></div></div>
-
-<!-- Q38 -->
-<div class="card"><div class="card-header"><div class="q-num">38</div><div class="q-meta"><div class="q-title">Error 和 Exception 的区别？常见有哪些？</div><div class="q-tags"><span class="q-tag">异常</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>Error：</strong>程序无法处理的严重错误，JVM层面问题，不要求捕获。</p><ul><li>OutOfMemoryError、StackOverflowError、NoClassDefFoundError。</li></ul><p><strong>Exception：</strong>程序可以处理的异常。</p><ul><li><strong>检查异常(Checked)：</strong>编译时强制处理，如IOException、SQLException、ClassNotFoundException。</li><li><strong>运行时异常(Runtime)：</strong>可选处理，如NullPointerException、ArrayIndexOutOfBoundsException、IllegalArgumentException、ClassCastException。</li></ul><p>💡 try-catch处理不了Error（如OOM），应避免而非捕获。</p></div></div></div>
-
-<!-- Q39 -->
-<div class="card"><div class="card-header"><div class="q-num">39</div><div class="q-meta"><div class="q-title">switch 支持哪些数据类型？原理是什么？</div><div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">switch</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>switch支持的参数类型：</p><ul><li><strong>基本类型：</strong>byte、short、char、int（以及对应的包装类）。</li><li><strong>JDK 7+：</strong>String。</li><li><strong>JDK 14+：</strong>增强switch表达式，支持<code>case -></code>语法和yield返回值。</li><li><strong>枚举类型：</strong>enum。</li></ul><p><strong>String实现原理：</strong>编译后分为两个switch——先switch(hashCode)，case匹配字符串哈希值；哈希冲突分支再switch(equals)精确匹配。即<strong>先hashCode再equals</strong>。</p></div></div></div>
-
-<!-- Q40 -->
-<div class="card"><div class="card-header"><div class="q-num">40</div><div class="q-meta"><div class="q-title">transient、volatile、synchronized 关键字的区别？</div><div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">综合</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>关键字</th><th>作用</th><th>场景</th></tr></thead><tbody><tr><td>transient</td><td>修饰字段，序列化时忽略该字段</td><td>敏感信息不序列化、不可序列化对象</td></tr><tr><td>volatile</td><td>保证变量可见性和禁止指令重排序，不保证原子性</td><td>状态标志位、DCL单例</td></tr><tr><td>synchronized</td><td>保证原子性、可见性、有序性（加锁）</td><td>多线程同步、线程安全</td></tr></tbody></table></div><p>💡 <strong>关键区别：</strong>transient是序列化关键字，volatile是轻量级同步（仅可见性），synchronized是重量级同步（原子性+可见性+有序性）。volatile不保证原子性，i++操作仍需synchronized或AtomicInteger。</p></div></div></div>
-
-<!-- Q41 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">41</div>
-    <div class="q-meta"><div class="q-title">面向对象和面向过程的区别？</div>
-      <div class="q-tags"><span class="q-tag">OOP</span><span class="q-tag">高频</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong class="sec-title">一句话概括</strong></p>
-      <p>面向过程是"<strong>按步骤做</strong>"，关注的是"怎么一步步把事情做完"；面向对象是"<strong>找对象来做</strong>"，关注的是"有哪些对象、对象之间怎么协作"。Java 是典型的面向对象语言，C 是典型的面向过程语言。</p>
-
-      <p><strong class="sec-title">定义</strong></p>
-      <p><strong>面向过程（Procedure Oriented）</strong>：以"过程/函数"为核心，把要解决的问题拆解成一个个步骤，用函数实现每个步骤，再按顺序调用。数据和操作数据的函数是分离的。</p>
-      <p><strong>面向对象（Object Oriented）</strong>：以"对象"为核心，把现实世界的事物抽象成类和对象，将<strong>数据（属性）+ 操作数据的方法（行为）</strong>封装在一起，通过对象之间的消息传递来完成功能。</p>
-
-      <p><strong class="sec-title">核心区别对比</strong></p>
-      <div class="table-wrap"><table><thead><tr><th>维度</th><th>面向过程</th><th>面向对象</th></tr></thead><tbody>
-      <tr><td>核心思想</td><td>步骤、函数、流程</td><td>对象、类、协作</td></tr>
-      <tr><td>数据与操作</td><td>分离（数据结构 + 一堆函数）</td><td>封装在一起（属性 + 方法）</td></tr>
-      <tr><td>代码组织</td><td>按功能拆函数</td><td>按业务抽象成类</td></tr>
-      <tr><td>可维护性</td><td>差，改一处流程可能牵动全局</td><td>好，高内聚、低耦合，改内部不影响外部</td></tr>
-      <tr><td>可扩展性</td><td>差，新增功能要改动流程主线</td><td>好，继承 + 多态天然支持扩展</td></tr>
-      <tr><td>代码复用</td><td>函数复用，粒度小</td><td>类复用 + 继承复用，粒度大</td></tr>
-      <tr><td>性能</td><td>高（函数直接调用，开销小）</td><td>略低（有对象创建、方法调用开销）</td></tr>
-      <tr><td>适用场景</td><td>简单流程、底层驱动、嵌入式</td><td>大型复杂业务系统、多人协作项目</td></tr>
-      </tbody></table></div>
-
-      <p><strong class="sec-title">举例讲解</strong></p>
-      <p><strong>例1：做饭</strong></p>
-      <ul>
-        <li><strong>面向过程</strong>：像照着菜谱做——洗菜() → 切菜() → 热锅() → 炒菜() → 装盘()，一步步调用函数，食材（数据）被传来传去。</li>
-        <li><strong>面向对象</strong>：像餐厅后厨——<strong>厨师对象</strong>有自己的拿手菜技能，<strong>食材对象</strong>有新鲜度属性，<strong>锅对象</strong>有温度属性。你只需要"厨师.做菜(食材)"，具体怎么洗、怎么切、怎么炒是厨师自己的事（封装）。以后想换做法，换个厨师即可（多态）。</li>
-      </ul>
-      <p><strong>例2：洗衣机</strong></p>
-      <ul>
-        <li><strong>面向过程</strong>：主程序里按顺序调用 注水()、洗涤()、排水()、脱水()，水、电机等状态数据暴露在外，改一个功能可能要改好几个函数。</li>
-        <li><strong>面向对象</strong>：封装一个<strong>洗衣机类</strong>，把水位、转速、洗衣模式当属性，把启动()、注水()、洗涤()、脱水()当方法，外部只需调用"洗衣机.一键洗衣()"，内部细节全部隐藏。</li>
-      </ul>
-
-      <p><strong class="sec-title">面试速记口诀</strong></p>
-      <p>"面向过程是流水线，一步一步照着办，数据和函数分两边；面向对象是搭积木，对象封装又协作，继承多态好扩展。性能选过程，复杂系统选对象，两者结合最实在（Java 方法内部其实也是过程式思路）。"</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q42 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">42</div>
-    <div class="q-meta"><div class="q-title">Java 语言有哪些特点？</div>
-      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">高频</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong class="sec-title">一句话概括</strong></p>
-      <p>Java 的核心特点可以浓缩为四个字：<strong>"一次编译，到处运行"</strong>，再配合"面向对象、自动内存管理、跨平台、丰富生态"，让它成为后端开发的主流语言。</p>
-
-      <p><strong class="sec-title">定义</strong></p>
-      <p>Java 是一种<strong>面向对象的、跨平台的、编译型 + 解释型</strong>的高级编程语言，通过 JVM（Java 虚拟机）实现平台无关性。</p>
-
-      <p><strong class="sec-title">主要特点</strong></p>
-      <div class="table-wrap"><table><thead><tr><th>特点</th><th>说明</th><th>好处</th></tr></thead><tbody>
-      <tr><td>1. 跨平台（核心）</td><td>代码编译成字节码，由 JVM 解释执行，JVM 针对不同平台有不同版本</td><td>一次编写，处处运行，不用为每个系统写一套代码</td></tr>
-      <tr><td>2. 面向对象</td><td>封装、继承、多态、抽象四大特性</td><td>代码高内聚低耦合，易维护、易扩展、易复用</td></tr>
-      <tr><td>3. 自动内存管理</td><td>JVM 的 GC（垃圾回收）自动回收不再使用的对象</td><td>开发者不用手动管理内存，减少内存泄漏和崩溃</td></tr>
-      <tr><td>4. 强类型 & 安全</td><td>编译期就做严格类型检查</td><td>提前发现错误，减少运行时 bug</td></tr>
-      <tr><td>5. 简单易学</td><td>去掉了 C/C++ 中易出错的指针、多继承等复杂特性</td><td>上手门槛低，语法贴近自然语言</td></tr>
-      <tr><td>6. 健壮性</td><td>强类型检查 + 异常处理机制 + 内存安全</td><td>程序更稳定，崩溃率低</td></tr>
-      <tr><td>7. 多线程</td><td>语言层内置线程支持</td><td>适合高并发场景</td></tr>
-      <tr><td>8. 丰富的生态</td><td>海量开源库 + 框架（Spring、MyBatis 等）</td><td>开发效率高，社区活跃</td></tr>
-      </tbody></table></div>
-
-      <p><strong class="sec-title">举例讲解</strong></p>
-      <p><strong>例1：跨平台</strong> 就像写一份"通用合同模板"，内容只写一遍，但用 Word、WPS、Google Docs 打开都能正常阅读。Java 源码编译出的字节码，在 Windows、Linux、Mac 上各自的 JVM 都能运行，不用为每个系统重写代码。</p>
-      <p><strong>例2：自动内存管理</strong> 就像酒店有保洁阿姨定期清理没人住的房间。C/C++ 需要你亲手"开房退房"（手动释放内存），忘了退就占着资源；Java 的 GC 就像保洁阿姨，发现房间没人住了就自动清扫（回收内存），你只管使用对象，不用管回收。</p>
-      <p><strong>例3：面向对象</strong> 前面提到的"找对象来做"——`厨师.做菜(食材)`，把复杂逻辑封装进对象，外层调用者只需关注"做什么"，不用管"怎么做"。</p>
-
-      <p><strong class="sec-title">面试速记口诀</strong></p>
-      <p>"Java 八大特点一句话记住：跨平台、面向对象、自动内存、强类型、简单、健壮、多线程、生态好。其中跨平台靠 JVM，面向对象靠四大特性，不手动管内存靠 GC。"</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q43 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">43</div>
-    <div class="q-meta"><div class="q-title">Java 和 C++ 的区别？</div>
-      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">对比</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong class="sec-title">一句话概括</strong></p>
-      <p>一句话：<strong>Java 偏"简单安全"，C++ 偏"性能自由"</strong>。Java 为了跨平台和安全牺牲了一部分底层控制力，C++ 为了性能和灵活性保留了全部底层能力，但代价是难学难用、容易出错。</p>
-
-      <p><strong class="sec-title">定义</strong></p>
-      <p><strong>Java</strong>：面向对象、跨平台的高级语言，编译成字节码后由 JVM 运行，自动内存管理（GC），去掉了指针、多继承等复杂特性。</p>
-      <p><strong>C++</strong>：在 C 语言基础上加入面向对象支持的编译型语言，支持多继承、运算符重载、直接操作指针，内存需要手动管理。</p>
-
-      <p><strong class="sec-title">核心区别对比</strong></p>
-      <div class="table-wrap"><table><thead><tr><th>维度</th><th>Java</th><th>C++</th></tr></thead><tbody>
-      <tr><td>运行方式</td><td>编译成字节码，JVM 解释/即时编译执行</td><td>直接编译成本地机器码执行</td></tr>
-      <tr><td>跨平台</td><td>靠 JVM，一处编译处处运行</td><td>需为每个平台分别编译，且要处理平台差异</td></tr>
-      <tr><td>内存管理</td><td>自动 GC，不用手动管理</td><td>手动 new/delete，容易内存泄漏</td></tr>
-      <tr><td>指针</td><td>无指针，只有引用</td><td>有指针，可自由操作内存地址</td></tr>
-      <tr><td>继承</td><td>单继承（类），多继承靠接口</td><td>支持多继承</td></tr>
-      <tr><td>运算符重载</td><td>不支持</td><td>支持</td></tr>
-      <tr><td>性能</td><td>略低（有 JVM 开销、GC 停顿）</td><td>高，接近硬件底层</td></tr>
-      <tr><td>学习难度</td><td>相对简单，语法更安全友好</td><td>难，需理解指针、内存、底层原理</td></tr>
-      <tr><td>安全性</td><td>高（无指针、数组越界检查、沙箱机制）</td><td>低（指针可任意操作，易出缓冲区溢出）</td></tr>
-      <tr><td>适用场景</td><td>企业级后端、Web、Android、大数据</td><td>游戏、操作系统、驱动、高性能计算</td></tr>
-      </tbody></table></div>
-
-      <p><strong class="sec-title">举例讲解</strong></p>
-      <p><strong>例1：内存管理</strong></p>
-      <ul>
-        <li><strong>C++</strong> 像开手动挡的车：换挡（new/delete）得自己来，控制力强、够省油（性能高），但操作不好会熄火（内存泄漏/崩溃）。</li>
-        <li><strong>Java</strong> 像开自动挡的车：换挡（内存回收）交给系统（GC），你只管踩油门写业务，省心安全，但会略耗油（有 JVM 开销）。</li>
-      </ul>
-      <p><strong>例2：操作底层</strong></p>
-      <ul>
-        <li><strong>C++ 的指针</strong> 像给你一把万能钥匙，能打开内存里任何一扇门，很强但也很危险，开错门就崩。</li>
-        <li><strong>Java 的引用</strong> 像给你一张受控的门禁卡，只能进有权限的房间（对象），JVM 帮你把安全边界卡死。</li>
-      </ul>
-      <p><strong>例3：应用场景</strong> 写<strong>游戏引擎/操作系统</strong>要用 C++（需要极致性能和控制底层）；写<strong>电商、银行后端系统</strong>用 Java（看重稳定、易维护、生态）。
-
-      <p><strong class="sec-title">面试速记口诀</strong></p>
-      <p>"Java 自动挡，C++ 手动挡；Java 靠 JVM 跨平台，C++ 编机器码跑得快；Java 无指针靠 GC 安全，C++ 有指针自由但易崩。做后端选 Java，搞底层/游戏选 C++。"</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q44 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">44</div>
-    <div class="q-meta"><div class="q-title">什么是 Java 程序的主类？应用程序和小程序的主类有何不同？</div>
-      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">概念</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong class="sec-title">一句话概括</strong></p>
-      <p>主类就是一个程序的<strong>入口类</strong>，是 JVM 启动后第一个要执行的类。应用（Application）的主类必须有 <code>main</code> 方法，小程序（Applet）的主类没有 <code>main</code> 方法。</p>
-
-      <p><strong class="sec-title">定义</strong></p>
-      <p><strong>主类（Main Class）</strong>：一个 Java 程序运行时，包含程序入口的那个类。JVM 执行时从主类的入口方法开始。</p>
-      <ul>
-        <li><strong>应用程序（Application）</strong>：普通的、可独立运行的程序，入口是 <code>public static void main(String[] args)</code> 方法，用 <code>java</code> 命令直接启动。</li>
-        <li><strong>小程序（Applet）</strong>：早期嵌入在网页中运行的 Java 程序，需要借助浏览器加载，入口不是 main 方法，而是生命周期方法。</li>
-      </ul>
-
-      <p><strong class="sec-title">两者主类的核心区别</strong></p>
-      <div class="table-wrap"><table><thead><tr><th>维度</th><th>应用程序（Application）</th><th>小程序（Applet）</th></tr></thead><tbody>
-      <tr><td>入口方法</td><td><code>public static void main(String[] args)</code></td><td>无 main，有 init() / start() / paint() / stop() / destroy() 等生命周期方法</td></tr>
-      <tr><td>运行方式</td><td>命令行 <code>java 类名</code> 独立运行</td><td>嵌入 HTML，由浏览器加载运行</td></tr>
-      <tr><td>是否有图形界面</td><td>不强制，可有可无</td><td>必须在窗口中显示（AWT/Swing 组件）</td></tr>
-      <tr><td>与浏览器的关系</td><td>不依赖浏览器</td><td>依赖浏览器和 JVM 插件</td></tr>
-      <tr><td>生命周期</td><td>程序启动到结束</td><td>init→start→paint→stop→destroy，由浏览器控制</td></tr>
-      <tr><td>继承要求</td><td>无强制要求</td><td>必须继承 java.applet.Applet 类</td></tr>
-      </tbody></table></div>
-
-      <p><strong class="sec-title">举例讲解</strong></p>
-      <p><strong>例1：应用程序</strong> 就像一部电影的主角，影片开场（JVM 启动）后，主角直接开始表演（执行 main 方法），电影有自己的开头和结尾，不依赖其他东西。</p>
-      <p><strong>例2：小程序（Applet）</strong> 就像剧场里的"客串演员"，它不能自己开场，必须由"导演"（浏览器）安排：什么时候上台（init/start）、什么时候表演（paint）、什么时候退场（stop/destroy）。<strong>注意</strong>：Applet 是 Java 早期（JDK1.0 时代）的产物，因为安全性差、依赖浏览器插件，现在已被淘汰，基本不再使用，面试了解概念即可。</p>
-
-      <p><strong class="sec-title">面试速记口诀</strong></p>
-      <p>"主类就是入口类：应用程序主类带 main，java 命令自己跑；小程序主类不带 main，靠生命周期方法在浏览器里跑。Applet 是历史产物，现在已被淘汰。"</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q45 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">45</div>
-    <div class="q-meta"><div class="q-title">Java 应用程序与小程序之间有哪些差别？</div>
-      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">对比</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong class="sec-title">一句话概括</strong></p>
-      <p>一句话：<strong>应用程序是"独立自主的完整程序"，小程序是"寄生在浏览器里的一段程序"</strong>。两者最大的差别在于"有没有 main 方法"和"靠谁启动运行"。</p>
-
-      <p><strong class="sec-title">定义</strong></p>
-      <p><strong>应用程序（Application）</strong>：有 <code>main</code> 方法，能独立运行，是完整的 Java 程序。</p>
-      <p><strong>小程序（Applet）</strong>：没有 <code>main</code> 方法，必须嵌入到网页中，由浏览器配合 JVM 加载执行。</p>
-
-      <p><strong class="sec-title">两者差别对比</strong></p>
-      <div class="table-wrap"><table><thead><tr><th>维度</th><th>应用程序（Application）</th><th>小程序（Applet）</th></tr></thead><tbody>
-      <tr><td>运行入口</td><td>main 方法</td><td>init / start / paint / stop / destroy 生命周期方法</td></tr>
-      <tr><td>运行环境</td><td>独立，只需 JRE</td><td>必须嵌入 HTML，依赖浏览器 + JVM 插件</td></tr>
-      <tr><td>启动方式</td><td>命令行 java 命令直接运行</td><td>通过浏览器访问包含 Applet 的网页触发</td></tr>
-      <tr><td>文件扩展名</td><td>.java 编译后 .class</td><td>.java 编译后 .class（嵌入 HTML 用 &lt;applet&gt; 标签）</td></tr>
-      <tr><td>图形界面</td><td>不强制，控制台/图形均可</td><td>必须在窗口（AWT/Swing）中显示</td></tr>
-      <tr><td>生命周期控制</td><td>程序自己从开始到结束</td><td>由浏览器控制，可随时被中断/暂停</td></tr>
-      <tr><td>使用现状</td><td>当前主流，广泛使用</td><td>已淘汰，几乎不再使用</td></tr>
-      </tbody></table></div>
-
-      <p><strong class="sec-title">举例讲解</strong></p>
-      <p><strong>应用程序</strong> 就像一部"单机游戏"：安装好（JRE 就绪）就能自己启动（运行 main），从头玩到尾，不需要其他东西配合。</p>
-      <p><strong>小程序（Applet）</strong> 就像网页里的一段"小插件/小挂件"：它自己不能启动，必须依附在网页（浏览器）里，网页关闭它就消失（浏览器调用 stop/destroy 结束它）。</p>
-      <p><strong>补充</strong>：为什么 Applet 被淘汰？因为它需要浏览器安装 Java 插件、安全性差（在浏览器沙箱里权限受限）、移动端也不支持，后来被 HTML5、JavaScript 等技术取代。所以现在面试主要考概念，知道两者区别即可。</p>
-
-      <p><strong class="sec-title">面试速记口诀</strong></p>
-      <p>"应用程序独立跑，带 main 靠 java 命令；小程序寄浏览器，靠生命周期靠网页。Applet 已被淘汰，记住差别好面试。"</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q46 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">46</div>
-    <div class="q-meta"><div class="q-title">字符型常量和字符串常量的区别？</div>
-      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">易混淆</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong class="sec-title">一句话概括</strong></p>
-      <p>一句话：<strong>字符常量是一个"字符"，用单引号；字符串常量是一串"字符"，用双引号</strong>。字符是基本类型，字符串是对象。</p>
-
-      <p><strong class="sec-title">定义</strong></p>
-      <p><strong>字符型常量（char）</strong>：表示<strong>单个</strong>字符，用<strong>单引号</strong>包裹，例如 <code>'a'</code>、<code>'好'</code>、<code>'\n'</code>。它是 Java 的<strong>基本数据类型</strong>。</p>
-      <p><strong>字符串常量（String）</strong>：表示<strong>多个</strong>字符，用<strong>双引号</strong>包裹，例如 <code>"abc"</code>、<code>"你好"</code>。它是 <code>String</code> <strong>类的对象</strong>。</p>
-
-      <p><strong class="sec-title">核心区别对比</strong></p>
-      <div class="table-wrap"><table><thead><tr><th>维度</th><th>字符型常量（char）</th><th>字符串常量（String）</th></tr></thead><tbody>
-      <tr><td>写法</td><td>单引号 <code>'A'</code></td><td>双引号 <code>"A"</code></td></tr>
-      <tr><td>本质</td><td>基本数据类型 char</td><td>String 类的对象</td></tr>
-      <tr><td>内容</td><td>只能有 1 个字符</td><td>0 个或多个字符</td></tr>
-      <tr><td>存储位置</td><td>栈中直接存字符值</td><td>堆中的对象（String 常量池）</td></tr>
-      <tr><td>占内存</td><td>2 个字节（UTF-16）</td><td>不定，取决于字符长度 + 对象头</td></tr>
-      <tr><td>空值</td><td>可以是 '\u0000'（空字符），不能是空</td><td>可以是 ""（空字符串）</td></tr>
-      </tbody></table></div>
-
-      <p><strong class="sec-title">举例讲解</strong></p>
-      <p>想象"字"和"词"的区别：</p>
-      <ul>
-        <li><strong>字符</strong> 就像单个汉字"好"，它只代表<strong>一个字</strong>，用单引号写 <code>'好'</code>。</li>
-        <li><strong>字符串</strong> 就像由多个字组成的<strong>一句话</strong>"你好吗"，用双引号写 <code>"你好吗"</code>。</li>
-      </ul>
-      <p>代码对比：</p>
-      <div class="code-block"><span class="co">// 字符常量：单个字符，单引号</span>
-<span class="kw">char</span> c = <span class="str">'A'</span>;
-
-<span class="co">// 字符串常量：多个字符，双引号</span>
-String s = <span class="str">"ABC"</span>;
-
-<span class="co">// 注意：即使只有一个字符，双引号也是字符串</span>
-String s2 = <span class="str">"A"</span>;   <span class="co">// 这是 String 对象，不是 char</span></div>
-
-      <p><strong class="sec-title">面试速记口诀</strong></p>
-      <p>"字符单引号一个字符是基本类型，字符串双引号一串字符是 String 对象；单引号 char、双引号 String，一字之差别搞混。"</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q47 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">47</div>
-    <div class="q-meta"><div class="q-title">构造器 Constructor 是否可被 override？</div>
-      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">高频</span></div>
-    </div>
-  </div>
-  <div class="card-body">
-    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
-    <div class="answer">
-      <p><strong class="sec-title">一句话概括</strong></p>
-      <p>一句话：<strong>构造器（构造方法）不能被 override（重写）</strong>。因为重写的前提是"父类和子类方法签名完全一样"，而构造器的名字必须和类名相同，父类和子类类名不同，构造器名字就不同，所以永远无法满足重写的条件。</p>
-
-      <p><strong class="sec-title">定义</strong></p>
-      <p><strong>构造器（Constructor）</strong>：与类名同名、没有返回值的方法，在 new 对象时自动调用，用于初始化对象。</p>
-      <p><strong>override（重写）</strong>：子类重新定义父类中同名同参的方法，实现多态。</p>
-
-      <p><strong class="sec-title">为什么不能 override</strong></p>
-      <ul>
-        <li><strong>名字不同</strong>：构造器必须与类名同名，<code>Father()</code> 和 <code>Child()</code> 构造器名字不一样，签名无法一致，自然不构成重写。</li>
-        <li><strong>没有返回值概念</strong>：重写要求返回类型兼容，而构造器没有返回类型（连 void 都没有），根本谈不上返回类型一致。</li>
-        <li><strong>构造器不属于多态范畴</strong>：重写依赖对象的多态分派，而构造器是"对象创建时"触发的，没有对象可以多态。</li>
-      </ul>
-
-      <p><strong class="sec-title">那子类如何"改造"父类构造行为？</strong></p>
-      <div class="table-wrap"><table><thead><tr><th>手段</th><th>说明</th></tr></thead><tbody>
-      <tr><td>重载（Overload）</td><td>构造器可以被重载，即一个类里可以有多个参数不同的构造器（如无参、有参）。</td></tr>
-      <tr><td>调用父类构造器</td><td>子类构造器第一行用 <code>super(...)</code> 调用父类的某个构造器。</td></tr>
-      <tr><td>子类自己的构造器</td><td>子类写自己的构造器，实现自己的初始化逻辑，这不是"重写"，而是"定义新构造器"。</td></tr>
-      </tbody></table></div>
-
-      <p><strong class="sec-title">举例讲解</strong></p>
-      <div class="code-block"><span class="kw">class</span> Father {
-    Father() { }   <span class="co">// 父类构造器</span>
-    <span class="kw">void</span> eat() { }  <span class="co">// 普通方法，可被重写</span>
-}
-
-<span class="kw">class</span> Child <span class="kw">extends</span> Father {
-    <span class="co">// Child() 是子类自己的构造器，名字不同，不是重写</span>
-    Child() { <span class="kw">super</span>(); }  <span class="co">// 通过 super() 调用父类构造器</span>
-
-    <span class="kw">@Override</span>
-    <span class="kw">void</span> eat() { }  <span class="co">// 普通方法 eat() 可以被重写 ✔</span>
-}</div>
-      <p>就像父子的<strong>姓氏</strong>：父亲叫"王爸爸"，儿子叫"王儿子"，名字肯定不一样，所以儿子没法"重写"爸爸的名字（构造器），但儿子可以调用爸爸的名字（<code>super()</code>），也可以用自己不同的名字（自己的构造器）。而普通的吃饭习惯（eat 方法）儿子是可以"重写"成自己喜欢的方式的。</p>
-
-      <p><strong class="sec-title">面试速记口诀</strong></p>
-      <p>"构造器不能重写，因为重写要同名同参，而构造器名字跟类名走，父类子类名字不同；重写是普通方法的特权，构造器只能重载 + 用 super() 调用父类构造器。"</p>
-    </div>
-  </div>
-</div>
-
-<!-- Q48 -->
-<div class="card">
-  <div class="card-header">
-    <div class="q-num">48</div>
     <div class="q-meta"><div class="q-title">讲讲 Java 面向对象编程的三大特性：封装、继承、多态</div>
       <div class="q-tags"><span class="q-tag">OOP</span><span class="q-tag">高频</span></div>
     </div>
@@ -914,6 +163,757 @@ a2.sound();  <span class="co">// 喵喵 —— 动态绑定到 Cat 的实现</sp
 
       <p><strong class="sec-title">面试速记口诀</strong></p>
       <p>"封装管内部（private + getter/setter），继承管复用（extends + super），多态管扩展（重写 + 父类引用指向子类 + 动态绑定）。口诀：编译看左边，运行看右边。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">3</div>
+    <div class="q-meta"><div class="q-title">== 和 equals() 的区别？</div>
+      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>==</strong> 比较对象的<strong>内存地址</strong>（基本类型比值）。</p>
+      <p><strong>equals()</strong> Object默认也是比较地址，但String、Integer等包装类重写了equals，比较<strong>内容</strong>。</p>
+      <div class="code-block"><span class="kw">String</span> a = <span class="kw">new</span> <span class="kw">String</span>(<span class="str">"hello"</span>);
+<span class="kw">String</span> b = <span class="kw">new</span> <span class="kw">String</span>(<span class="str">"hello"</span>);
+a == b;       <span class="co">// false — 不同对象</span>
+a.equals(b);  <span class="co">// true  — 内容相同</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">4</div>
+    <div class="q-meta"><div class="q-title">String、StringBuilder、StringBuffer 的区别？</div>
+      <div class="q-tags"><span class="q-tag">字符串</span><span class="q-tag">线程安全</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>特性</th><th>String</th><th>StringBuilder</th><th>StringBuffer</th></tr>
+        <tr><td>可变性</td><td>不可变(final byte[])</td><td>可变</td><td>可变</td></tr>
+        <tr><td>线程安全</td><td>安全</td><td>不安全</td><td>安全(synchronized)</td></tr>
+        <tr><td>性能</td><td>拼接产生新对象</td><td><strong>最快</strong></td><td>较慢(加锁)</td></tr>
+        <tr><td>适用</td><td>少量字符串</td><td>单线程大量拼接</td><td>多线程大量拼接</td></tr>
+      </table></div>
+      <p>String底层使用<code>final byte[]</code>，每次拼接都会创建新对象。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">5</div>
+    <div class="q-meta"><div class="q-title">重载（Overload）和重写（Override）的区别？</div>
+      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">多态</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>区别</th><th>重载(Overload)</th><th>重写(Override)</th></tr>
+        <tr><td>发生范围</td><td>同一个类中</td><td>父子类之间</td></tr>
+        <tr><td>方法签名</td><td>方法名相同，参数不同</td><td>方法名+参数+返回值相同</td></tr>
+        <tr><td>多态</td><td>编译时多态</td><td>运行时多态</td></tr>
+        <tr><td>访问修饰符</td><td>无限制</td><td>不能比父类更严格</td></tr>
+        <tr><td>异常</td><td>无限制</td><td>不能比父类更宽泛</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">6</div>
+    <div class="q-meta"><div class="q-title">接口（interface）和抽象类（abstract class）的区别？</div>
+      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>多实现：</strong>一个类可实现多个接口，但只能继承一个抽象类。</li>
+        <li><strong>构造方法：</strong>接口不能有；抽象类可以有。</li>
+        <li><strong>成员变量：</strong>接口中默认public static final；抽象类可有普通变量。</li>
+        <li><strong>方法：</strong>Java8+接口可有default/static方法；抽象类可有抽象+具体方法。</li>
+        <li><strong>设计理念：</strong>接口定义<strong>行为规范</strong>(can-do)；抽象类体现代码复用(is-a)。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">7</div>
+    <div class="q-meta"><div class="q-title">final、finally、finalize 的区别？</div>
+      <div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">经典</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>final：</strong>修饰类→不可继承；方法→不可重写；变量→基本类型值不可变/引用类型引用不可变。</p>
+      <p><strong>finally：</strong>try-catch后必执行的代码块(除System.exit(0)外)。</p>
+      <p><strong>finalize()：</strong>Object类方法，GC回收前调用，<strong>JDK9已废弃</strong>，不推荐使用。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">8</div>
+    <div class="q-meta"><div class="q-title">Java 中的异常体系是怎样的？</div>
+      <div class="q-tags"><span class="q-tag">异常处理</span><span class="q-tag">经典</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>Error：</strong>JVM级别严重错误(OOM、StackOverflow)，不处理。</li>
+        <li><strong>Exception：</strong>程序可处理：
+          <ul>
+            <li><strong>Checked异常：</strong>必须try-catch或throws，如IOException、SQLException。</li>
+            <li><strong>RuntimeException：</strong>运行时异常，如NPE、IndexOutOfBounds，编译期不强制处理。</li>
+          </ul>
+        </li>
+      </ul>
+      <p>💡 finally中有return会覆盖catch中的返回值，不推荐这样写。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">9</div>
+    <div class="q-meta"><div class="q-title">什么是反射？反射的优缺点？</div>
+      <div class="q-tags"><span class="q-tag">反射</span><span class="q-tag">框架核心</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>反射：</strong>运行时动态获取类的信息、创建对象、调用方法、访问字段。</p>
+      <p><strong>优点：</strong>框架灵活性（Spring IOC、动态代理）、动态加载类。</p>
+      <p><strong>缺点：</strong>性能开销大、破坏封装性、代码可读性差。</p>
+      <div class="code-block"><span class="co">// 获取Class对象的三种方式</span>
+Class clz1 = Class.forName(<span class="str">"com.example.User"</span>);
+Class clz2 = User.class;
+Class clz3 = user.getClass();</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">10</div>
+    <div class="q-meta"><div class="q-title">Java 中基本类型和包装类型的区别？</div>
+      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">自动装箱</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>区别</th><th>基本类型</th><th>包装类型</th></tr>
+        <tr><td>存储</td><td>栈/局部变量表</td><td>堆</td></tr>
+        <tr><td>默认值</td><td>0/0.0/false</td><td>null</td></tr>
+        <tr><td>泛型支持</td><td>不支持</td><td>支持</td></tr>
+        <tr><td>内存</td><td>小</td><td>大(有对象头)</td></tr>
+      </table></div>
+      <p><strong>自动装箱/拆箱：</strong>编译器自动调用valueOf()和intValue()等。</p>
+      <p>💡 <strong>Integer缓存池：</strong>-128~127使用缓存对象，==比较为true。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">11</div>
+    <div class="q-meta"><div class="q-title">Java 是值传递还是引用传递？</div>
+      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>Java只有值传递。</strong></p>
+      <ul>
+        <li><strong>基本类型：</strong>传递值的副本，不改变原值。</li>
+        <li><strong>引用类型：</strong>传递<strong>引用的副本</strong>（地址值的拷贝），可通过该引用修改对象内容，但无法让原引用指向新对象。</li>
+      </ul>
+      <p>本质：传递的都是栈中存储的值（基本类型的值 or 引用的地址值），都是值的副本。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">12</div>
+    <div class="q-meta"><div class="q-title">深拷贝和浅拷贝的区别？</div>
+      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">Cloneable</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>浅拷贝：</strong>只拷贝对象本身，引用类型字段仍指向原对象。</p>
+      <p><strong>深拷贝：</strong>完全拷贝，包括引用类型字段指向的对象也复制一份。</p>
+      <p><strong>实现方式：</strong></p>
+      <ul>
+        <li>浅拷贝：实现Cloneable，重写clone()。</li>
+        <li>深拷贝：序列化反序列化、手动递归拷贝、使用工具类(如BeanUtils)。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">13</div>
+    <div class="q-meta"><div class="q-title">static 关键字的作用？</div>
+      <div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">内存模型</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p>static修饰的内容<strong>属于类</strong>而非实例，在类加载时初始化。</p>
+      <ul>
+        <li><strong>静态变量：</strong>类级别共享，存储在方法区/元空间。</li>
+        <li><strong>静态方法：</strong>不能访问非静态成员，不能使用this。</li>
+        <li><strong>静态代码块：</strong>类加载时执行一次，用于初始化静态变量。</li>
+        <li><strong>静态内部类：</strong>不依赖外部类实例。</li>
+      </ul>
+      <p>💡 执行顺序：父类静态块 子类静态块 父类代码块/构造 子类代码块/构造。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q14 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">14</div>
+    <div class="q-meta"><div class="q-title">Java 中 IO 流分为哪几种？</div>
+      <div class="q-tags"><span class="q-tag">IO流</span><span class="q-tag">基础</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>按流向：</strong>输入流(InputStream/Reader)、输出流(OutputStream/Writer)。</li>
+        <li><strong>按单位：</strong>字节流(Stream后缀)、字符流(Reader/Writer后缀)。</li>
+        <li><strong>按功能：</strong>节点流(直接操作数据源)、处理流(装饰器模式，如BufferedInputStream)。</li>
+      </ul>
+      <p><strong>BIO/NIO/AIO：</strong></p>
+      <ul>
+        <li><strong>BIO：</strong>同步阻塞，一请求一线程。</li>
+        <li><strong>NIO：</strong>同步非阻塞，Channel+Buffer+Selector，多路复用。</li>
+        <li><strong>AIO：</strong>异步非阻塞，回调机制。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q15 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">15</div>
+    <div class="q-meta"><div class="q-title">什么是序列化？serialVersionUID 有什么用？</div>
+      <div class="q-tags"><span class="q-tag">序列化</span><span class="q-tag">IO</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>序列化：</strong>将对象转为字节序列，用于网络传输或持久化存储。</p>
+      <p><strong>反序列化：</strong>将字节序列还原为对象。</p>
+      <p><strong>serialVersionUID：</strong></p>
+      <ul>
+        <li>类的版本标识，反序列化时JVM会比对UID，不一致则抛InvalidClassException。</li>
+        <li>不显式声明时，编译器自动生成(类结构变化会变)。</li>
+        <li><strong>建议显式声明</strong>，避免反序列化兼容问题。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q16 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">16</div>
+    <div class="q-meta"><div class="q-title">Object 类有哪些常用方法？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">Object</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <ul>
+        <li><strong>equals()</strong> — 比较对象是否相等，默认比较地址。</li>
+        <li><strong>hashCode()</strong> — 返回哈希值，equals相等的对象hashCode必须相等。</li>
+        <li><strong>toString()</strong> — 返回类名@哈希码的十六进制。</li>
+        <li><strong>clone()</strong> — 浅拷贝，需实现Cloneable。</li>
+        <li><strong>getClass()</strong> — 获取运行时类。</li>
+        <li><strong>wait()/notify()/notifyAll()</strong> — 线程通信。</li>
+        <li><strong>finalize()</strong> — GC前调用(已废弃)。</li>
+      </ul>
+      <p>💡 重写equals必须重写hashCode，否则HashMap/HashSet会出问题。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q17 -->
+<div class="card"><div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">Java 是值传递还是引用传递？</div><div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Java <strong>只有值传递</strong>，没有引用传递。</p><ul><li><strong>基本类型：</strong>传递值的副本，修改不影响原变量。</li><li><strong>引用类型：</strong>传递的是<strong>引用地址的副本</strong>，形参和实参指向同一对象，修改对象内容会生效，但修改引用本身（如指向新对象）不生效。</li></ul><p>💡 容易误解：能修改对象内容≠引用传递，这是共享对象引用而非传递引用本身。</p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">public void swap(Integer a, Integer b) { Integer t=a; a=b; b=t; } // 不生效<br>public void modify(User u) { u.setName("new"); }            // 生效</pre></div></div></div>
+
+<!-- Q18 -->
+<div class="card"><div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">String 常量池（String Pool）是什么？</div><div class="q-tags"><span class="q-tag">String</span><span class="q-tag">JVM</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>String常量池是JVM在<strong>堆内存中</strong>维护的一个字符串缓存区域（JDK7+ 移到堆中）。</p><ul><li><strong>字面量赋值：</strong><code>String s="abc"</code> 先去常量池找，有则复用，无则创建。</li><li><strong>new String("abc")：</strong>堆中创建对象，再检查常量池（无则创建），共创建1-2个对象。</li><li><strong>intern()：</strong>手动将字符串加入常量池，返回池中引用。</li><li><strong>+ 拼接：</strong>字面量拼接→编译期优化；变量拼接→StringBuilder→new String。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">String s1="a"+"b";      // 编译优化→"ab"，常量池<br>String s2=new String("a")+new String("b"); // 堆中新建<br>String s3=s2.intern(); // 将s2放入常量池，返回池中引用<br>System.out.println(s1==s3); // true</pre></div></div></div>
+
+<!-- Q19 -->
+<div class="card"><div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">try-catch-finally 的执行顺序？finally 一定会执行吗？</div><div class="q-tags"><span class="q-tag">异常处理</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>执行顺序：try (异常→catch) finally (正常后续代码)。</p><p><strong>finally不执行的情况：</strong></p><ul><li>try之前<code>System.exit(0)</code>退出JVM。</li><li>守护线程退出时finally可能不执行。</li><li>try/catch中执行<code>System.exit()</code>。</li><li>JVM崩溃或断电等不可恢复错误。</li></ul><p><strong>return 与 finally：</strong></p><ul><li>try有return值时，先计算return表达式，再执行finally，最后返回。</li><li>finally中有return会覆盖try的return！</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">public int test() { try { return 1; } finally { return 2; } } // 返回2！</pre></div></div></div>
+
+<!-- Q20 -->
+<div class="card"><div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">throw 和 throws 的区别？</div><div class="q-tags"><span class="q-tag">异常处理</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>throw</th><th>throws</th></tr></thead><tbody><tr><td>位置</td><td>方法体内</td><td>方法签名上</td></tr><tr><td>数量</td><td>一次抛一个</td><td>可声明多个</td></tr><tr><td>作用</td><td>实际抛出异常对象</td><td>声明该方法可能抛出的异常</td></tr><tr><td>后续</td><td>throw所在代码不执行</td><td>由调用方处理</td></tr></tbody></table></div><p>💡 运行时异常(RuntimeException)不需要throws声明也可以抛出，检查异常(Checked Exception)必须声明或try-catch处理。</p></div></div></div>
+
+<!-- Q21 -->
+<div class="card"><div class="card-header"><div class="q-num">21</div><div class="q-meta"><div class="q-title">什么是泛型擦除？泛型的上下界是什么？</div><div class="q-tags"><span class="q-tag">泛型</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>泛型擦除：</strong>编译后泛型信息被擦除，<code>List&lt;String&gt;</code>和<code>List&lt;Integer&gt;</code>在运行时都是<code>List</code>。</p><ul><li><strong>上界 extends：</strong><code>T extends Number</code> 擦除后上界为Number。</li><li><strong>下界 super：</strong><code>T super Integer</code> 擦除后下界为Integer（PECS原则：Producer Extends, Consumer Super）。</li></ul><p><strong>注意事项：</strong></p><ul><li>不能new泛型数组<code>T[]</code>。</li><li>不能用基本类型作泛型参数。</li><li>不能<code>instanceof</code>泛型类型。</li><li>静态方法中不能用类的泛型参数。</li></ul></div></div></div>
+
+<!-- Q22 -->
+<div class="card"><div class="card-header"><div class="q-num">22</div><div class="q-meta"><div class="q-title">Java 中有哪几种内部类？各自特点？</div><div class="q-tags"><span class="q-tag">内部类</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>成员内部类：</strong>作为外部类成员，可访问外部类所有成员。创建需外部类实例：<code>outer.new Inner()</code>。</li><li><strong>静态内部类：</strong>static修饰，不依赖外部类实例，只能访问外部类静态成员。</li><li><strong>局部内部类：</strong>定义在方法中，仅方法内可见，访问的局部变量需final。</li><li><strong>匿名内部类：</strong>无类名，一次性使用，常用于接口/抽象类实例化。必须实现所有抽象方法。</li></ul><p>💡 内部类编译后生成独立class文件：<code>Outer$Inner.class</code>。匿名内部类生成<code>Outer$1.class</code>。</p></div></div></div>
+
+<!-- Q23 -->
+<div class="card"><div class="card-header"><div class="q-num">23</div><div class="q-meta"><div class="q-title">反射机制原理和应用场景？</div><div class="q-tags"><span class="q-tag">反射</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>原理：</strong>类加载时JVM在方法区生成Class对象，反射通过Class对象获取类信息（构造器、方法、字段），并在运行时动态调用。</p><p><strong>获取Class的方式：</strong></p><ul><li><code>Class.forName("全限定名")</code> — 静态方法，会初始化类。</li><li><code>对象.getClass()</code> — 实例方法。</li><li><code>类名.class</code> — 不会触发类初始化。</li></ul><p><strong>应用场景：</strong>Spring IOC、动态代理、JDBC驱动加载、注解解析、框架配置注入。</p></div></div></div>
+
+<!-- Q24 -->
+<div class="card"><div class="card-header"><div class="q-num">24</div><div class="q-meta"><div class="q-title">Class.forName 和 ClassLoader.loadClass 的区别？</div><div class="q-tags"><span class="q-tag">反射</span><span class="q-tag">类加载</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>Class.forName</th><th>ClassLoader.loadClass</th></tr></thead><tbody><tr><td>初始化</td><td>执行静态代码块</td><td>不执行（只加载到JVM）</td></tr><tr><td>参数</td><td>只需全限定名</td><td>需要指定类加载器</td></tr><tr><td>典型场景</td><td>JDBC驱动加载</td><td>Spring IOC延迟加载</td></tr></tbody></table></div><p>💡 JDBC中<code>Class.forName("com.mysql.jdbc.Driver")</code>触发静态代码块注册驱动；Spring用ClassLoader延迟加载以支持懒初始化。</p><p><strong>两个词分别是什么（先定义再谈区别）：</strong></p><p><strong>Class.forName：</strong>是<code>java.lang.Class</code>类的<strong>静态方法</strong>，<br/>只需传入类的全限定名，JVM 会加载该类并<strong>立即完成初始化</strong>（执行静态代码块、静态变量赋值），<br/>最终返回对应的 <code>Class</code> 对象；<br/>JDBC 用它加载驱动，目的就是让驱动类里的静态代码块执行，从而向 <code>DriverManager</code> 注册自己。</p><p><strong>ClassLoader.loadClass：</strong>是类加载器对象（<code>ClassLoader</code>）的<strong>实例方法</strong>，<br/>只负责把类的字节码加载进 JVM（加载 + 链接阶段的验证、准备等），<br/>默认<strong>不会触发初始化</strong>——初始化被推迟到该类的首次"主动使用"（如 <code>new</code>、反射调用静态成员等）时才进行，<br/>所以 Spring IOC 利用它先把类加载好但不初始化，等真正创建 Bean 时再完成初始化，从而实现懒加载。</p></div></div></div>
+
+<!-- Q25 -->
+<div class="card"><div class="card-header"><div class="q-num">25</div><div class="q-meta"><div class="q-title">动态代理有哪几种实现方式？</div><div class="q-tags"><span class="q-tag">代理</span><span class="q-tag">AOP</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>1. JDK动态代理（接口代理）：</strong></p><ul><li>基于反射，要求目标类<strong>必须实现接口</strong>。</li><li>核心类：<code>Proxy.newProxyInstance()</code> + <code>InvocationHandler</code>。</li><li>运行时动态生成代理类$Proxy0。</li></ul><p><strong>2. CGLIB动态代理（子类代理）：</strong></p><ul><li>基于ASM字节码生成，通过<strong>继承</strong>目标类生成子类。</li><li>不需要接口，但目标类不能是final。</li><li>核心类：<code>Enhancer</code> + <code>MethodInterceptor</code>。</li></ul><p><strong>Spring选择策略：</strong>有接口→JDK代理；无接口→CGLIB。Spring Boot 2.x 默认使用CGLIB。</p></div></div></div>
+
+<!-- Q26 -->
+<div class="card"><div class="card-header"><div class="q-num">26</div><div class="q-meta"><div class="q-title">Integer 的缓存机制是怎样的？</div><div class="q-tags"><span class="q-tag">包装类</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Integer内部维护了<strong>IntegerCache</strong>，默认缓存<strong>-128 ~ 127</strong>之间的Integer对象。</p><ul><li>自动装箱<code>Integer i=100</code> 从缓存取，返回同一对象。</li><li><code>new Integer(100)</code> 强制创建新对象，不在缓存中。</li><li>最大值可通过<code>-XX:AutoBoxCacheMax=</code>调整。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">Integer a=100, b=100;   System.out.println(a==b); // true (缓存)<br>Integer c=200, d=200;   System.out.println(c==d); // false (超出缓存)</pre><p>💡 同样有缓存的包装类：Byte/Short/Long(-128~127)、Character(0~127)、Boolean(TRUE/FALSE)。Double/Float没有缓存。</p></div></div></div>
+
+<!-- Q27 -->
+<div class="card"><div class="card-header"><div class="q-num">27</div><div class="q-meta"><div class="q-title">自动装箱和自动拆箱的原理及注意事项？</div><div class="q-tags"><span class="q-tag">包装类</span><span class="q-tag">语法糖</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>自动装箱：</strong>基本类型→包装类，编译器调用<code>Integer.valueOf(int)</code>。</li><li><strong>自动拆箱：</strong>包装类→基本类型，编译器调用<code>Integer.intValue()</code>。</li></ul><p><strong>注意事项（坑）：</strong></p><ul><li><strong>NPE风险：</strong>包装类为null时自动拆箱抛NullPointerException。</li><li><strong>== 比较：</strong>包装类<code>==</code>是比较地址，应使用<code>equals()</code>。</li><li><strong>三目运算符：</strong><code>flag ? 1 : new Integer(2)</code> 结果自动拆箱为int。</li><li><strong>性能开销：</strong>循环中大量自动装箱/拆箱产生大量临时对象，应避免。</li></ul></div></div></div>
+
+<!-- Q28 -->
+<div class="card"><div class="card-header"><div class="q-num">28</div><div class="q-meta"><div class="q-title">BigDecimal 使用有哪些坑？如何正确比较？</div><div class="q-tags"><span class="q-tag">精度</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>常见坑：</strong></p><ul><li><strong>构造方式：</strong><code>new BigDecimal(0.1)</code> 不精确！浮点数本身不精确。应使用<code>new BigDecimal("0.1")</code> 或 <code>BigDecimal.valueOf(0.1)</code>。</li><li><strong>equals比较：</strong><code>BigDecimal(1.0)!=BigDecimal(1.00)</code>，因为scale不同。应使用<code>compareTo()</code>。</li><li><strong>除法：</strong>必须指定精度，否则无限小数抛异常：<code>divide(bd, 2, RoundingMode.HALF_UP)</code>。</li><li><strong>不可变性：</strong>所有运算返回新对象，原对象不变。</li></ul><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">BigDecimal a=new BigDecimal("1.0"), b=new BigDecimal("1.00");<br>System.out.println(a.equals(b));    // false<br>System.out.println(a.compareTo(b)); // 0 (相等)</pre></div></div></div>
+
+<!-- Q29 -->
+<div class="card"><div class="card-header"><div class="q-num">29</div><div class="q-meta"><div class="q-title">this 和 super 关键字有哪些使用场景？</div><div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>this：</strong></p><ul><li>区分成员变量和局部变量：<code>this.name = name</code>。</li><li>调用本类构造方法：<code>this()</code>，必须放构造器首行。</li><li>返回当前对象：<code>return this</code>（链式调用）。</li><li>作为参数传递：<code>method(this)</code>。</li></ul><p><strong>super：</strong></p><ul><li>访问父类成员：<code>super.name</code>。</li><li>调用父类构造方法：<code>super()</code>，必须放构造器首行（不写时默认调用无参）。</li><li>调用父类方法：<code>super.method()</code>。</li></ul><p>💡 <code>this()</code>和<code>super()</code>不能同时出现，且必须放在构造器第一行。</p></div></div></div>
+
+<!-- Q30 -->
+<div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">Java 8 主要新特性有哪些？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>Lambda表达式：</strong><code>(params)->expression</code>，替代匿名内部类。</li><li><strong>函数式接口：</strong>只有一个抽象方法的接口，<code>@FunctionalInterface</code>。</li><li><strong>Stream API：</strong>集合的流式操作，filter/map/reduce/collect。</li><li><strong>Optional：</strong>解决NullPointerException，优雅处理null。</li><li><strong>新日期API：</strong>LocalDate/LocalTime/LocalDateTime，线程安全、不可变。</li><li><strong>接口默认方法与静态方法：</strong>接口可以有default方法实现。</li><li><strong>方法引用：</strong><code>String::length</code>、<code>System.out::println</code>。</li><li><strong>CompletableFuture：</strong>异步编程增强。</li><li><strong>PermGen移除：</strong>改为Metaspace（元空间）。</li></ul></div></div></div>
+
+<!-- Q31 -->
+<div class="card"><div class="card-header"><div class="q-num">31</div><div class="q-meta"><div class="q-title">Lambda 表达式的原理是什么？有什么限制？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">Lambda</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>什么是 Lambda 表达式？</strong></p>
+<p>Lambda 表达式是一种<strong>匿名函数的简洁写法</strong>，允许将函数作为参数传递，是函数式编程在 Java 中的核心体现。</p>
+<p><strong>作用：</strong></p>
+<ul>
+<li>替代冗长的匿名内部类写法，使代码更简洁、可读性更高。</li>
+<li>尤其适用于集合遍历、事件监听、Stream 操作等场景。</li>
+</ul>
+<p><strong>原理：</strong></p>
+<p>编译器将 Lambda 体转换为类的<strong>私有方法</strong>，通过 <code>invokedynamic</code> 指令在运行时由 <code>LambdaMetafactory</code> 生成对应的函数式接口实现对象，避免了每次编译都生成匿名类的字节码膨胀问题。</p>
+<p><strong>相比匿名内部类：</strong></p>
+<ul>
+<li>不会生成额外的 class 文件，减少 Jar 包大小。</li>
+<li>不创建新对象（无捕获时），性能更好。</li>
+<li>this 指向外层类而非匿名内部类自身。</li>
+</ul>
+<p><strong>限制：</strong></p>
+<ul>
+<li>只能用于<strong>函数式接口</strong>（只有一个抽象方法）。</li>
+<li>不能修改外部局部变量（需 <code>effectively final</code>）。</li>
+<li>不能抛出受检异常（除非接口声明）。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<pre class="code-block"><code class="language-java">// 遍历集合
+list.forEach(o -> System.out.println(o));
+
+// 排序
+list.sort((a, b) -> a.getAge() - b.getAge());
+
+// Stream 过滤 + 映射
+list.stream()
+    .filter(e -> e.getSalary() > 5000)
+    .map(e -> e.getName())
+    .collect(Collectors.toList());
+
+// Runnable 线程
+new Thread(() -> System.out.println("Running")).start();</code></pre></div></div></div>
+
+<!-- Q32 -->
+<div class="card"><div class="card-header"><div class="q-num">32</div><div class="q-meta"><div class="q-title">Stream 流的中间操作和终端操作有哪些？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">Stream</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>中间操作（惰性）：</strong>返回Stream，不触发计算。</p><ul><li><strong>筛选：</strong>filter()、distinct()、limit()、skip()。</li><li><strong>映射：</strong>map()、flatMap()。</li><li><strong>排序：</strong>sorted()。</li><li><strong>窥视：</strong>peek()。</li></ul><p><strong>终端操作（触发计算）：</strong></p><ul><li><strong>收集：</strong>collect(Collectors.toList())、toArray()。</li><li><strong>聚合：</strong>count()、max()、min()、reduce()。</li><li><strong>遍历：</strong>forEach()、forEachOrdered()。</li><li><strong>匹配：</strong>anyMatch()、allMatch()、noneMatch()。</li><li><strong>查找：</strong>findFirst()、findAny()。</li></ul><p>💡 Stream只能消费一次，终端操作后流关闭，再使用抛IllegalStateException。</p></div></div></div>
+
+<!-- Q33 -->
+<div class="card"><div class="card-header"><div class="q-num">33</div><div class="q-meta"><div class="q-title">Optional 类的主要用法是什么？</div><div class="q-tags"><span class="q-tag">Java8</span><span class="q-tag">Optional</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>Optional是<strong>容器对象</strong>，解决null判断问题，避免NPE。</p><p><strong>创建：</strong></p><ul><li><code>Optional.of(T)</code> — 值不能为null。</li><li><code>Optional.ofNullable(T)</code> — 值可为null。</li><li><code>Optional.empty()</code> — 创建空Optional。</li></ul><p><strong>使用：</strong></p><ul><li><code>isPresent()</code> — 是否有值。</li><li><code>ifPresent(Consumer)</code> — 有值时执行。</li><li><code>orElse(T)</code> — 为空返回默认值（注意：orElse一定会执行参数！）。</li><li><code>orElseGet(Supplier)</code> — 为空时懒加载默认值（推荐）。</li><li><code>orElseThrow()</code> — 为空抛异常。</li><li><code>map()/flatMap()</code> — 值转换。</li><li><code>filter()</code> — 条件过滤。</li></ul><p>💡 不要用Optional作字段类型或方法参数，主要用于返回值。</p></div></div></div>
+
+<!-- Q34 -->
+<div class="card"><div class="card-header"><div class="q-num">34</div><div class="q-meta"><div class="q-title">Java 中如何实现不可变类？String 为什么被设计为不可变？</div><div class="q-tags"><span class="q-tag">不可变类</span><span class="q-tag">String</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>实现不可变类步骤：</strong></p><ol><li>类声明为final，防止继承。</li><li>所有字段private final。</li><li>不提供setter方法。</li><li>构造方法中防御性拷贝（引用类型字段）。</li><li>getter返回引用类型时返回拷贝而非原引用。</li></ol><p><strong>String不可变的原因：</strong></p><ul><li><strong>字符串常量池：</strong>可共享，节省内存。</li><li><strong>安全性：</strong>避免被篡改（如类加载、网络连接参数）。</li><li><strong>线程安全：</strong>天生不可变→多线程安全。</li><li><strong>Hash缓存：</strong>hashCode可缓存，HashMap key性能高。</li></ul></div></div></div>
+
+<!-- Q35 -->
+<div class="card"><div class="card-header"><div class="q-num">35</div><div class="q-meta"><div class="q-title">Java 的 SPI 机制是什么？</div><div class="q-tags"><span class="q-tag">SPI</span><span class="q-tag">设计模式</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>SPI（Service Provider Interface）是Java内置的<strong>服务发现机制</strong>，用于解耦接口与实现。</p><p><strong>核心思想：</strong>在<code>META-INF/services/</code>下创建以接口全限定名命名的文件，内容为实现类全限定名。<code>ServiceLoader</code>自动加载所有实现。</p><p><strong>典型应用：</strong>JDBC驱动（java.sql.Driver）、SLF4J日志门面、Spring Boot自动配置（spring.factories）、Dubbo扩展点加载。</p><p><strong>缺点：</strong>会加载所有实现类，无法按需加载；不支持懒加载；ServiceLoader不是线程安全的。</p></div></div></div>
+
+<!-- Q36 -->
+<div class="card"><div class="card-header"><div class="q-num">36</div><div class="q-meta"><div class="q-title">语法糖有哪些？内部实现原理是什么？</div><div class="q-tags"><span class="q-tag">语法糖</span><span class="q-tag">编译原理</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ul><li><strong>泛型擦除：</strong>编译时检查，运行时擦除为原始类型。</li><li><strong>自动装箱/拆箱：</strong>编译时调用<code>valueOf()</code>/<code>xxxValue()</code>。</li><li><strong>增强for循环：</strong>编译为Iterator遍历。</li><li><strong>可变参数：</strong>编译为数组<code>T[]</code>。</li><li><strong>枚举：</strong>编译为继承Enum的final类。</li><li><strong>switch支持String：</strong>编译为<code>hashCode()+equals()</code>两轮switch。</li><li><strong>try-with-resources：</strong>编译为try-finally，自动调用close()。</li><li><strong>Lambda：</strong>通过<code>invokedynamic</code>实现。</li><li><strong>内部类：</strong>编译为独立class文件。</li><li><strong>断言assert：</strong>默认关闭，需<code>-ea</code>开启。</li></ul></div></div></div>
+
+<!-- Q37 -->
+<div class="card"><div class="card-header"><div class="q-num">37</div><div class="q-meta"><div class="q-title">Comparable 和 Comparator 的区别？</div><div class="q-tags"><span class="q-tag">排序</span><span class="q-tag">接口</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>对比</th><th>Comparable</th><th>Comparator</th></tr></thead><tbody><tr><td>包</td><td>java.lang</td><td>java.util</td></tr><tr><td>方法</td><td>compareTo(obj)</td><td>compare(o1, o2)</td></tr><tr><td>位置</td><td>类内部实现（内比较器）</td><td>外部独立定义（外比较器）</td></tr><tr><td>耦合度</td><td>与类耦合</td><td>解耦，可多个</td></tr><tr><td>使用</td><td>Collections.sort(list)</td><td>Collections.sort(list, comparator)</td></tr></tbody></table></div><p>💡 TreeMap/TreeSet 可传Comparator构造，用于自定义排序规则。</p></div></div></div>
+
+<!-- Q38 -->
+<div class="card"><div class="card-header"><div class="q-num">38</div><div class="q-meta"><div class="q-title">Java 中如何创建对象？（5种方式）</div><div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">对象创建</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ol><li><strong>new关键字：</strong><code>new ClassName()</code>，最常用。</li><li><strong>反射newInstance：</strong><code>Class.forName().newInstance()</code>（Java9已废弃），或<code>Constructor.newInstance()</code>。</li><li><strong>clone()：</strong>需实现Cloneable接口，浅拷贝。</li><li><strong>反序列化：</strong>从文件/网络流中<code>ObjectInputStream.readObject()</code>。</li><li><strong>Unsafe类：</strong><code>Unsafe.allocateInstance()</code>，只分配内存不调用构造器。</li></ol><p>💡 反序列化和Unsafe创建对象时不调用构造方法，可能导致字段未初始化。</p></div></div></div>
+
+<!-- Q39 -->
+<div class="card"><div class="card-header"><div class="q-num">39</div><div class="q-meta"><div class="q-title">Error 和 Exception 的区别？常见有哪些？</div><div class="q-tags"><span class="q-tag">异常</span><span class="q-tag">基础</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p><strong>Error：</strong>程序无法处理的严重错误，JVM层面问题，不要求捕获。</p><ul><li>OutOfMemoryError、StackOverflowError、NoClassDefFoundError。</li></ul><p><strong>Exception：</strong>程序可以处理的异常。</p><ul><li><strong>检查异常(Checked)：</strong>编译时强制处理，如IOException、SQLException、ClassNotFoundException。</li><li><strong>运行时异常(Runtime)：</strong>可选处理，如NullPointerException、ArrayIndexOutOfBoundsException、IllegalArgumentException、ClassCastException。</li></ul><p>💡 try-catch处理不了Error（如OOM），应避免而非捕获。</p></div></div></div>
+
+<!-- Q40 -->
+<div class="card"><div class="card-header"><div class="q-num">40</div><div class="q-meta"><div class="q-title">switch 支持哪些数据类型？原理是什么？</div><div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">switch</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>switch支持的参数类型：</p><ul><li><strong>基本类型：</strong>byte、short、char、int（以及对应的包装类）。</li><li><strong>JDK 7+：</strong>String。</li><li><strong>JDK 14+：</strong>增强switch表达式，支持<code>case -></code>语法和yield返回值。</li><li><strong>枚举类型：</strong>enum。</li></ul><p><strong>String实现原理：</strong>编译后分为两个switch——先switch(hashCode)，case匹配字符串哈希值；哈希冲突分支再switch(equals)精确匹配。即<strong>先hashCode再equals</strong>。</p></div></div></div>
+
+<!-- Q41 -->
+<div class="card"><div class="card-header"><div class="q-num">41</div><div class="q-meta"><div class="q-title">transient、volatile、synchronized 关键字的区别？</div><div class="q-tags"><span class="q-tag">关键字</span><span class="q-tag">综合</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><div class="table-wrap"><table><thead><tr><th>关键字</th><th>作用</th><th>场景</th></tr></thead><tbody><tr><td>transient</td><td>修饰字段，序列化时忽略该字段</td><td>敏感信息不序列化、不可序列化对象</td></tr><tr><td>volatile</td><td>保证变量可见性和禁止指令重排序，不保证原子性</td><td>状态标志位、DCL单例</td></tr><tr><td>synchronized</td><td>保证原子性、可见性、有序性（加锁）</td><td>多线程同步、线程安全</td></tr></tbody></table></div><p>💡 <strong>关键区别：</strong>transient是序列化关键字，volatile是轻量级同步（仅可见性），synchronized是重量级同步（原子性+可见性+有序性）。volatile不保证原子性，i++操作仍需synchronized或AtomicInteger。</p></div></div></div>
+
+<!-- Q42 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">42</div>
+    <div class="q-meta"><div class="q-title">面向对象和面向过程的区别？</div>
+      <div class="q-tags"><span class="q-tag">OOP</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>面向过程是"<strong>按步骤做</strong>"，关注的是"怎么一步步把事情做完"；面向对象是"<strong>找对象来做</strong>"，关注的是"有哪些对象、对象之间怎么协作"。Java 是典型的面向对象语言，C 是典型的面向过程语言。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>面向过程（Procedure Oriented）</strong>：以"过程/函数"为核心，把要解决的问题拆解成一个个步骤，用函数实现每个步骤，再按顺序调用。数据和操作数据的函数是分离的。</p>
+      <p><strong>面向对象（Object Oriented）</strong>：以"对象"为核心，把现实世界的事物抽象成类和对象，将<strong>数据（属性）+ 操作数据的方法（行为）</strong>封装在一起，通过对象之间的消息传递来完成功能。</p>
+
+      <p><strong class="sec-title">核心区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>面向过程</th><th>面向对象</th></tr></thead><tbody>
+      <tr><td>核心思想</td><td>步骤、函数、流程</td><td>对象、类、协作</td></tr>
+      <tr><td>数据与操作</td><td>分离（数据结构 + 一堆函数）</td><td>封装在一起（属性 + 方法）</td></tr>
+      <tr><td>代码组织</td><td>按功能拆函数</td><td>按业务抽象成类</td></tr>
+      <tr><td>可维护性</td><td>差，改一处流程可能牵动全局</td><td>好，高内聚、低耦合，改内部不影响外部</td></tr>
+      <tr><td>可扩展性</td><td>差，新增功能要改动流程主线</td><td>好，继承 + 多态天然支持扩展</td></tr>
+      <tr><td>代码复用</td><td>函数复用，粒度小</td><td>类复用 + 继承复用，粒度大</td></tr>
+      <tr><td>性能</td><td>高（函数直接调用，开销小）</td><td>略低（有对象创建、方法调用开销）</td></tr>
+      <tr><td>适用场景</td><td>简单流程、底层驱动、嵌入式</td><td>大型复杂业务系统、多人协作项目</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>例1：做饭</strong></p>
+      <ul>
+        <li><strong>面向过程</strong>：像照着菜谱做——洗菜() → 切菜() → 热锅() → 炒菜() → 装盘()，一步步调用函数，食材（数据）被传来传去。</li>
+        <li><strong>面向对象</strong>：像餐厅后厨——<strong>厨师对象</strong>有自己的拿手菜技能，<strong>食材对象</strong>有新鲜度属性，<strong>锅对象</strong>有温度属性。你只需要"厨师.做菜(食材)"，具体怎么洗、怎么切、怎么炒是厨师自己的事（封装）。以后想换做法，换个厨师即可（多态）。</li>
+      </ul>
+      <p><strong>例2：洗衣机</strong></p>
+      <ul>
+        <li><strong>面向过程</strong>：主程序里按顺序调用 注水()、洗涤()、排水()、脱水()，水、电机等状态数据暴露在外，改一个功能可能要改好几个函数。</li>
+        <li><strong>面向对象</strong>：封装一个<strong>洗衣机类</strong>，把水位、转速、洗衣模式当属性，把启动()、注水()、洗涤()、脱水()当方法，外部只需调用"洗衣机.一键洗衣()"，内部细节全部隐藏。</li>
+      </ul>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"面向过程是流水线，一步一步照着办，数据和函数分两边；面向对象是搭积木，对象封装又协作，继承多态好扩展。性能选过程，复杂系统选对象，两者结合最实在（Java 方法内部其实也是过程式思路）。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q43 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">43</div>
+    <div class="q-meta"><div class="q-title">Java 语言有哪些特点？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>Java 的核心特点可以浓缩为四个字：<strong>"一次编译，到处运行"</strong>，再配合"面向对象、自动内存管理、跨平台、丰富生态"，让它成为后端开发的主流语言。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p>Java 是一种<strong>面向对象的、跨平台的、编译型 + 解释型</strong>的高级编程语言，通过 JVM（Java 虚拟机）实现平台无关性。</p>
+
+      <p><strong class="sec-title">主要特点</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>特点</th><th>说明</th><th>好处</th></tr></thead><tbody>
+      <tr><td>1. 跨平台（核心）</td><td>代码编译成字节码，由 JVM 解释执行，JVM 针对不同平台有不同版本</td><td>一次编写，处处运行，不用为每个系统写一套代码</td></tr>
+      <tr><td>2. 面向对象</td><td>封装、继承、多态、抽象四大特性</td><td>代码高内聚低耦合，易维护、易扩展、易复用</td></tr>
+      <tr><td>3. 自动内存管理</td><td>JVM 的 GC（垃圾回收）自动回收不再使用的对象</td><td>开发者不用手动管理内存，减少内存泄漏和崩溃</td></tr>
+      <tr><td>4. 强类型 & 安全</td><td>编译期就做严格类型检查</td><td>提前发现错误，减少运行时 bug</td></tr>
+      <tr><td>5. 简单易学</td><td>去掉了 C/C++ 中易出错的指针、多继承等复杂特性</td><td>上手门槛低，语法贴近自然语言</td></tr>
+      <tr><td>6. 健壮性</td><td>强类型检查 + 异常处理机制 + 内存安全</td><td>程序更稳定，崩溃率低</td></tr>
+      <tr><td>7. 多线程</td><td>语言层内置线程支持</td><td>适合高并发场景</td></tr>
+      <tr><td>8. 丰富的生态</td><td>海量开源库 + 框架（Spring、MyBatis 等）</td><td>开发效率高，社区活跃</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>例1：跨平台</strong> 就像写一份"通用合同模板"，内容只写一遍，但用 Word、WPS、Google Docs 打开都能正常阅读。Java 源码编译出的字节码，在 Windows、Linux、Mac 上各自的 JVM 都能运行，不用为每个系统重写代码。</p>
+      <p><strong>例2：自动内存管理</strong> 就像酒店有保洁阿姨定期清理没人住的房间。C/C++ 需要你亲手"开房退房"（手动释放内存），忘了退就占着资源；Java 的 GC 就像保洁阿姨，发现房间没人住了就自动清扫（回收内存），你只管使用对象，不用管回收。</p>
+      <p><strong>例3：面向对象</strong> 前面提到的"找对象来做"——`厨师.做菜(食材)`，把复杂逻辑封装进对象，外层调用者只需关注"做什么"，不用管"怎么做"。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"Java 八大特点一句话记住：跨平台、面向对象、自动内存、强类型、简单、健壮、多线程、生态好。其中跨平台靠 JVM，面向对象靠四大特性，不手动管内存靠 GC。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q44 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">44</div>
+    <div class="q-meta"><div class="q-title">Java 和 C++ 的区别？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">对比</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>Java 偏"简单安全"，C++ 偏"性能自由"</strong>。Java 为了跨平台和安全牺牲了一部分底层控制力，C++ 为了性能和灵活性保留了全部底层能力，但代价是难学难用、容易出错。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>Java</strong>：面向对象、跨平台的高级语言，编译成字节码后由 JVM 运行，自动内存管理（GC），去掉了指针、多继承等复杂特性。</p>
+      <p><strong>C++</strong>：在 C 语言基础上加入面向对象支持的编译型语言，支持多继承、运算符重载、直接操作指针，内存需要手动管理。</p>
+
+      <p><strong class="sec-title">核心区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>Java</th><th>C++</th></tr></thead><tbody>
+      <tr><td>运行方式</td><td>编译成字节码，JVM 解释/即时编译执行</td><td>直接编译成本地机器码执行</td></tr>
+      <tr><td>跨平台</td><td>靠 JVM，一处编译处处运行</td><td>需为每个平台分别编译，且要处理平台差异</td></tr>
+      <tr><td>内存管理</td><td>自动 GC，不用手动管理</td><td>手动 new/delete，容易内存泄漏</td></tr>
+      <tr><td>指针</td><td>无指针，只有引用</td><td>有指针，可自由操作内存地址</td></tr>
+      <tr><td>继承</td><td>单继承（类），多继承靠接口</td><td>支持多继承</td></tr>
+      <tr><td>运算符重载</td><td>不支持</td><td>支持</td></tr>
+      <tr><td>性能</td><td>略低（有 JVM 开销、GC 停顿）</td><td>高，接近硬件底层</td></tr>
+      <tr><td>学习难度</td><td>相对简单，语法更安全友好</td><td>难，需理解指针、内存、底层原理</td></tr>
+      <tr><td>安全性</td><td>高（无指针、数组越界检查、沙箱机制）</td><td>低（指针可任意操作，易出缓冲区溢出）</td></tr>
+      <tr><td>适用场景</td><td>企业级后端、Web、Android、大数据</td><td>游戏、操作系统、驱动、高性能计算</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>例1：内存管理</strong></p>
+      <ul>
+        <li><strong>C++</strong> 像开手动挡的车：换挡（new/delete）得自己来，控制力强、够省油（性能高），但操作不好会熄火（内存泄漏/崩溃）。</li>
+        <li><strong>Java</strong> 像开自动挡的车：换挡（内存回收）交给系统（GC），你只管踩油门写业务，省心安全，但会略耗油（有 JVM 开销）。</li>
+      </ul>
+      <p><strong>例2：操作底层</strong></p>
+      <ul>
+        <li><strong>C++ 的指针</strong> 像给你一把万能钥匙，能打开内存里任何一扇门，很强但也很危险，开错门就崩。</li>
+        <li><strong>Java 的引用</strong> 像给你一张受控的门禁卡，只能进有权限的房间（对象），JVM 帮你把安全边界卡死。</li>
+      </ul>
+      <p><strong>例3：应用场景</strong> 写<strong>游戏引擎/操作系统</strong>要用 C++（需要极致性能和控制底层）；写<strong>电商、银行后端系统</strong>用 Java（看重稳定、易维护、生态）。
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"Java 自动挡，C++ 手动挡；Java 靠 JVM 跨平台，C++ 编机器码跑得快；Java 无指针靠 GC 安全，C++ 有指针自由但易崩。做后端选 Java，搞底层/游戏选 C++。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q45 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">45</div>
+    <div class="q-meta"><div class="q-title">什么是 Java 程序的主类？应用程序和小程序的主类有何不同？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">概念</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>主类就是一个程序的<strong>入口类</strong>，是 JVM 启动后第一个要执行的类。应用（Application）的主类必须有 <code>main</code> 方法，小程序（Applet）的主类没有 <code>main</code> 方法。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>主类（Main Class）</strong>：一个 Java 程序运行时，包含程序入口的那个类。JVM 执行时从主类的入口方法开始。</p>
+      <ul>
+        <li><strong>应用程序（Application）</strong>：普通的、可独立运行的程序，入口是 <code>public static void main(String[] args)</code> 方法，用 <code>java</code> 命令直接启动。</li>
+        <li><strong>小程序（Applet）</strong>：早期嵌入在网页中运行的 Java 程序，需要借助浏览器加载，入口不是 main 方法，而是生命周期方法。</li>
+      </ul>
+
+      <p><strong class="sec-title">两者主类的核心区别</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>应用程序（Application）</th><th>小程序（Applet）</th></tr></thead><tbody>
+      <tr><td>入口方法</td><td><code>public static void main(String[] args)</code></td><td>无 main，有 init() / start() / paint() / stop() / destroy() 等生命周期方法</td></tr>
+      <tr><td>运行方式</td><td>命令行 <code>java 类名</code> 独立运行</td><td>嵌入 HTML，由浏览器加载运行</td></tr>
+      <tr><td>是否有图形界面</td><td>不强制，可有可无</td><td>必须在窗口中显示（AWT/Swing 组件）</td></tr>
+      <tr><td>与浏览器的关系</td><td>不依赖浏览器</td><td>依赖浏览器和 JVM 插件</td></tr>
+      <tr><td>生命周期</td><td>程序启动到结束</td><td>init→start→paint→stop→destroy，由浏览器控制</td></tr>
+      <tr><td>继承要求</td><td>无强制要求</td><td>必须继承 java.applet.Applet 类</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>例1：应用程序</strong> 就像一部电影的主角，影片开场（JVM 启动）后，主角直接开始表演（执行 main 方法），电影有自己的开头和结尾，不依赖其他东西。</p>
+      <p><strong>例2：小程序（Applet）</strong> 就像剧场里的"客串演员"，它不能自己开场，必须由"导演"（浏览器）安排：什么时候上台（init/start）、什么时候表演（paint）、什么时候退场（stop/destroy）。<strong>注意</strong>：Applet 是 Java 早期（JDK1.0 时代）的产物，因为安全性差、依赖浏览器插件，现在已被淘汰，基本不再使用，面试了解概念即可。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"主类就是入口类：应用程序主类带 main，java 命令自己跑；小程序主类不带 main，靠生命周期方法在浏览器里跑。Applet 是历史产物，现在已被淘汰。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q46 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">46</div>
+    <div class="q-meta"><div class="q-title">Java 应用程序与小程序之间有哪些差别？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">对比</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>应用程序是"独立自主的完整程序"，小程序是"寄生在浏览器里的一段程序"</strong>。两者最大的差别在于"有没有 main 方法"和"靠谁启动运行"。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>应用程序（Application）</strong>：有 <code>main</code> 方法，能独立运行，是完整的 Java 程序。</p>
+      <p><strong>小程序（Applet）</strong>：没有 <code>main</code> 方法，必须嵌入到网页中，由浏览器配合 JVM 加载执行。</p>
+
+      <p><strong class="sec-title">两者差别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>应用程序（Application）</th><th>小程序（Applet）</th></tr></thead><tbody>
+      <tr><td>运行入口</td><td>main 方法</td><td>init / start / paint / stop / destroy 生命周期方法</td></tr>
+      <tr><td>运行环境</td><td>独立，只需 JRE</td><td>必须嵌入 HTML，依赖浏览器 + JVM 插件</td></tr>
+      <tr><td>启动方式</td><td>命令行 java 命令直接运行</td><td>通过浏览器访问包含 Applet 的网页触发</td></tr>
+      <tr><td>文件扩展名</td><td>.java 编译后 .class</td><td>.java 编译后 .class（嵌入 HTML 用 &lt;applet&gt; 标签）</td></tr>
+      <tr><td>图形界面</td><td>不强制，控制台/图形均可</td><td>必须在窗口（AWT/Swing）中显示</td></tr>
+      <tr><td>生命周期控制</td><td>程序自己从开始到结束</td><td>由浏览器控制，可随时被中断/暂停</td></tr>
+      <tr><td>使用现状</td><td>当前主流，广泛使用</td><td>已淘汰，几乎不再使用</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p><strong>应用程序</strong> 就像一部"单机游戏"：安装好（JRE 就绪）就能自己启动（运行 main），从头玩到尾，不需要其他东西配合。</p>
+      <p><strong>小程序（Applet）</strong> 就像网页里的一段"小插件/小挂件"：它自己不能启动，必须依附在网页（浏览器）里，网页关闭它就消失（浏览器调用 stop/destroy 结束它）。</p>
+      <p><strong>补充</strong>：为什么 Applet 被淘汰？因为它需要浏览器安装 Java 插件、安全性差（在浏览器沙箱里权限受限）、移动端也不支持，后来被 HTML5、JavaScript 等技术取代。所以现在面试主要考概念，知道两者区别即可。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"应用程序独立跑，带 main 靠 java 命令；小程序寄浏览器，靠生命周期靠网页。Applet 已被淘汰，记住差别好面试。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q47 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">47</div>
+    <div class="q-meta"><div class="q-title">字符型常量和字符串常量的区别？</div>
+      <div class="q-tags"><span class="q-tag">基础语法</span><span class="q-tag">易混淆</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>字符常量是一个"字符"，用单引号；字符串常量是一串"字符"，用双引号</strong>。字符是基本类型，字符串是对象。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>字符型常量（char）</strong>：表示<strong>单个</strong>字符，用<strong>单引号</strong>包裹，例如 <code>'a'</code>、<code>'好'</code>、<code>'\n'</code>。它是 Java 的<strong>基本数据类型</strong>。</p>
+      <p><strong>字符串常量（String）</strong>：表示<strong>多个</strong>字符，用<strong>双引号</strong>包裹，例如 <code>"abc"</code>、<code>"你好"</code>。它是 <code>String</code> <strong>类的对象</strong>。</p>
+
+      <p><strong class="sec-title">核心区别对比</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>字符型常量（char）</th><th>字符串常量（String）</th></tr></thead><tbody>
+      <tr><td>写法</td><td>单引号 <code>'A'</code></td><td>双引号 <code>"A"</code></td></tr>
+      <tr><td>本质</td><td>基本数据类型 char</td><td>String 类的对象</td></tr>
+      <tr><td>内容</td><td>只能有 1 个字符</td><td>0 个或多个字符</td></tr>
+      <tr><td>存储位置</td><td>栈中直接存字符值</td><td>堆中的对象（String 常量池）</td></tr>
+      <tr><td>占内存</td><td>2 个字节（UTF-16）</td><td>不定，取决于字符长度 + 对象头</td></tr>
+      <tr><td>空值</td><td>可以是 '\u0000'（空字符），不能是空</td><td>可以是 ""（空字符串）</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <p>想象"字"和"词"的区别：</p>
+      <ul>
+        <li><strong>字符</strong> 就像单个汉字"好"，它只代表<strong>一个字</strong>，用单引号写 <code>'好'</code>。</li>
+        <li><strong>字符串</strong> 就像由多个字组成的<strong>一句话</strong>"你好吗"，用双引号写 <code>"你好吗"</code>。</li>
+      </ul>
+      <p>代码对比：</p>
+      <div class="code-block"><span class="co">// 字符常量：单个字符，单引号</span>
+<span class="kw">char</span> c = <span class="str">'A'</span>;
+
+<span class="co">// 字符串常量：多个字符，双引号</span>
+String s = <span class="str">"ABC"</span>;
+
+<span class="co">// 注意：即使只有一个字符，双引号也是字符串</span>
+String s2 = <span class="str">"A"</span>;   <span class="co">// 这是 String 对象，不是 char</span></div>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"字符单引号一个字符是基本类型，字符串双引号一串字符是 String 对象；单引号 char、双引号 String，一字之差别搞混。"</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q48 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">48</div>
+    <div class="q-meta"><div class="q-title">构造器 Constructor 是否可被 override？</div>
+      <div class="q-tags"><span class="q-tag">面向对象</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>一句话：<strong>构造器（构造方法）不能被 override（重写）</strong>。因为重写的前提是"父类和子类方法签名完全一样"，而构造器的名字必须和类名相同，父类和子类类名不同，构造器名字就不同，所以永远无法满足重写的条件。</p>
+
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>构造器（Constructor）</strong>：与类名同名、没有返回值的方法，在 new 对象时自动调用，用于初始化对象。</p>
+      <p><strong>override（重写）</strong>：子类重新定义父类中同名同参的方法，实现多态。</p>
+
+      <p><strong class="sec-title">为什么不能 override</strong></p>
+      <ul>
+        <li><strong>名字不同</strong>：构造器必须与类名同名，<code>Father()</code> 和 <code>Child()</code> 构造器名字不一样，签名无法一致，自然不构成重写。</li>
+        <li><strong>没有返回值概念</strong>：重写要求返回类型兼容，而构造器没有返回类型（连 void 都没有），根本谈不上返回类型一致。</li>
+        <li><strong>构造器不属于多态范畴</strong>：重写依赖对象的多态分派，而构造器是"对象创建时"触发的，没有对象可以多态。</li>
+      </ul>
+
+      <p><strong class="sec-title">那子类如何"改造"父类构造行为？</strong></p>
+      <div class="table-wrap"><table><thead><tr><th>手段</th><th>说明</th></tr></thead><tbody>
+      <tr><td>重载（Overload）</td><td>构造器可以被重载，即一个类里可以有多个参数不同的构造器（如无参、有参）。</td></tr>
+      <tr><td>调用父类构造器</td><td>子类构造器第一行用 <code>super(...)</code> 调用父类的某个构造器。</td></tr>
+      <tr><td>子类自己的构造器</td><td>子类写自己的构造器，实现自己的初始化逻辑，这不是"重写"，而是"定义新构造器"。</td></tr>
+      </tbody></table></div>
+
+      <p><strong class="sec-title">举例讲解</strong></p>
+      <div class="code-block"><span class="kw">class</span> Father {
+    Father() { }   <span class="co">// 父类构造器</span>
+    <span class="kw">void</span> eat() { }  <span class="co">// 普通方法，可被重写</span>
+}
+
+<span class="kw">class</span> Child <span class="kw">extends</span> Father {
+    <span class="co">// Child() 是子类自己的构造器，名字不同，不是重写</span>
+    Child() { <span class="kw">super</span>(); }  <span class="co">// 通过 super() 调用父类构造器</span>
+
+    <span class="kw">@Override</span>
+    <span class="kw">void</span> eat() { }  <span class="co">// 普通方法 eat() 可以被重写 ✔</span>
+}</div>
+      <p>就像父子的<strong>姓氏</strong>：父亲叫"王爸爸"，儿子叫"王儿子"，名字肯定不一样，所以儿子没法"重写"爸爸的名字（构造器），但儿子可以调用爸爸的名字（<code>super()</code>），也可以用自己不同的名字（自己的构造器）。而普通的吃饭习惯（eat 方法）儿子是可以"重写"成自己喜欢的方式的。</p>
+
+      <p><strong class="sec-title">面试速记口诀</strong></p>
+      <p>"构造器不能重写，因为重写要同名同参，而构造器名字跟类名走，父类子类名字不同；重写是普通方法的特权，构造器只能重载 + 用 super() 调用父类构造器。"</p>
     </div>
   </div>
 </div>
