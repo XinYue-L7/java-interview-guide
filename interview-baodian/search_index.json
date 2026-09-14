@@ -13,6 +13,17 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
+  "num": 2,
+  "title": "讲讲 Java 面向对象编程的三大特性：封装、继承、多态",
+  "tags": [
+   "OOP",
+   "高频"
+  ],
+  "content": ""
+ },
+ {
+  "module": "Java 基础",
+  "file": "Java面试宝典_01_Java基础.html",
   "num": 3,
   "title": "== 和 equals() 的区别？",
   "tags": [
@@ -104,17 +115,6 @@
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
   "num": 11,
-  "title": "Java 是值传递还是引用传递？",
-  "tags": [
-   "基础语法",
-   "高频"
-  ],
-  "content": ""
- },
- {
-  "module": "Java 基础",
-  "file": "Java面试宝典_01_Java基础.html",
-  "num": 12,
   "title": "深拷贝和浅拷贝的区别？",
   "tags": [
    "基础语法",
@@ -125,7 +125,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 13,
+  "num": 12,
   "title": "static 关键字的作用？",
   "tags": [
    "关键字",
@@ -136,7 +136,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 14,
+  "num": 13,
   "title": "Java 中 IO 流分为哪几种？",
   "tags": [
    "IO流",
@@ -147,7 +147,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 15,
+  "num": 14,
   "title": "什么是序列化？serialVersionUID 有什么用？",
   "tags": [
    "序列化",
@@ -158,7 +158,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 16,
+  "num": 15,
   "title": "Object 类有哪些常用方法？",
   "tags": [
    "基础",
@@ -169,7 +169,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 17,
+  "num": 16,
   "title": "Java 是值传递还是引用传递？",
   "tags": [
    "基础语法",
@@ -180,7 +180,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 18,
+  "num": 17,
   "title": "String 常量池（String Pool）是什么？",
   "tags": [
    "String",
@@ -191,7 +191,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 19,
+  "num": 18,
   "title": "try-catch-finally 的执行顺序？finally 一定会执行吗？",
   "tags": [
    "异常处理",
@@ -202,7 +202,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 20,
+  "num": 19,
   "title": "throw 和 throws 的区别？",
   "tags": [
    "异常处理"
@@ -212,7 +212,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 21,
+  "num": 20,
   "title": "什么是泛型擦除？泛型的上下界是什么？",
   "tags": [
    "泛型",
@@ -223,7 +223,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 22,
+  "num": 21,
   "title": "Java 中有哪几种内部类？各自特点？",
   "tags": [
    "内部类",
@@ -234,18 +234,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 23,
-  "title": "反射机制原理和应用场景？",
-  "tags": [
-   "反射",
-   "高频"
-  ],
-  "content": "原理： 类加载时JVM在方法区生成Class对象，反射通过Class对象获取类信息（构造器、方法、字段），并在运行时动态调用。 获取Class的方式： Class.forName(\"全限定名\") — 静态方法，会初始化类。 对象.getClass() — 实例方法。 类名.class — 不会触发类初始化。 应用场景： Spring IOC、动态代理、JDBC驱动加载、注解解析、框架配置注入。"
- },
- {
-  "module": "Java 基础",
-  "file": "Java面试宝典_01_Java基础.html",
-  "num": 24,
+  "num": 22,
   "title": "Class.forName 和 ClassLoader.loadClass 的区别？",
   "tags": [
    "反射",
@@ -256,7 +245,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 25,
+  "num": 23,
   "title": "动态代理有哪几种实现方式？",
   "tags": [
    "代理",
@@ -267,7 +256,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 26,
+  "num": 24,
   "title": "Integer 的缓存机制是怎样的？",
   "tags": [
    "包装类",
@@ -278,7 +267,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 27,
+  "num": 25,
   "title": "自动装箱和自动拆箱的原理及注意事项？",
   "tags": [
    "包装类",
@@ -289,7 +278,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 28,
+  "num": 26,
   "title": "BigDecimal 使用有哪些坑？如何正确比较？",
   "tags": [
    "精度",
@@ -300,7 +289,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 29,
+  "num": 27,
   "title": "this 和 super 关键字有哪些使用场景？",
   "tags": [
    "关键字",
@@ -311,7 +300,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 30,
+  "num": 28,
   "title": "Java 8 主要新特性有哪些？",
   "tags": [
    "Java8",
@@ -322,7 +311,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 31,
+  "num": 29,
   "title": "Lambda 表达式的原理是什么？有什么限制？",
   "tags": [
    "Java8",
@@ -333,7 +322,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 32,
+  "num": 30,
   "title": "Stream 流的中间操作和终端操作有哪些？",
   "tags": [
    "Java8",
@@ -344,7 +333,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 33,
+  "num": 31,
   "title": "Optional 类的主要用法是什么？",
   "tags": [
    "Java8",
@@ -355,7 +344,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 34,
+  "num": 32,
   "title": "Java 中如何实现不可变类？String 为什么被设计为不可变？",
   "tags": [
    "不可变类",
@@ -366,7 +355,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 35,
+  "num": 33,
   "title": "Java 的 SPI 机制是什么？",
   "tags": [
    "SPI",
@@ -377,7 +366,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 36,
+  "num": 34,
   "title": "语法糖有哪些？内部实现原理是什么？",
   "tags": [
    "语法糖",
@@ -388,7 +377,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 37,
+  "num": 35,
   "title": "Comparable 和 Comparator 的区别？",
   "tags": [
    "排序",
@@ -399,7 +388,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 38,
+  "num": 36,
   "title": "Java 中如何创建对象？（5种方式）",
   "tags": [
    "基础",
@@ -410,7 +399,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 39,
+  "num": 37,
   "title": "Error 和 Exception 的区别？常见有哪些？",
   "tags": [
    "异常",
@@ -421,7 +410,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 40,
+  "num": 38,
   "title": "switch 支持哪些数据类型？原理是什么？",
   "tags": [
    "基础语法",
@@ -432,7 +421,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 41,
+  "num": 39,
   "title": "transient、volatile、synchronized 关键字的区别？",
   "tags": [
    "关键字",
@@ -443,7 +432,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 42,
+  "num": 40,
   "title": "面向对象和面向过程的区别？",
   "tags": [
    "OOP",
@@ -454,7 +443,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 43,
+  "num": 41,
   "title": "Java 语言有哪些特点？",
   "tags": [
    "基础",
@@ -465,7 +454,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 44,
+  "num": 42,
   "title": "Java 和 C++ 的区别？",
   "tags": [
    "基础",
@@ -476,7 +465,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 45,
+  "num": 43,
   "title": "什么是 Java 程序的主类？应用程序和小程序的主类有何不同？",
   "tags": [
    "基础",
@@ -487,7 +476,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 46,
+  "num": 44,
   "title": "Java 应用程序与小程序之间有哪些差别？",
   "tags": [
    "基础",
@@ -498,7 +487,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 47,
+  "num": 45,
   "title": "字符型常量和字符串常量的区别？",
   "tags": [
    "基础语法",
@@ -509,7 +498,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 48,
+  "num": 46,
   "title": "构造器 Constructor 是否可被 override？",
   "tags": [
    "面向对象",
@@ -520,18 +509,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 2,
-  "title": "讲讲 Java 面向对象编程的三大特性：封装、继承、多态",
-  "tags": [
-   "OOP",
-   "高频"
-  ],
-  "content": ""
- },
- {
-  "module": "Java 基础",
-  "file": "Java面试宝典_01_Java基础.html",
-  "num": 49,
+  "num": 47,
   "title": "String 为什么是不可变的？",
   "tags": [
    "字符串",
@@ -542,7 +520,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 50,
+  "num": 48,
   "title": "在一个静态方法内调用一个非静态成员为什么是非法的？",
   "tags": [
    "关键字",
@@ -553,7 +531,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 51,
+  "num": 49,
   "title": "import java 和 javax 有什么区别？",
   "tags": [
    "基础",
@@ -564,7 +542,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 52,
+  "num": 50,
   "title": "成员变量与局部变量的区别有哪些？",
   "tags": [
    "基础语法",
@@ -575,7 +553,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 53,
+  "num": 51,
   "title": "创建一个对象用什么运算符？对象实体与对象引用有何不同？",
   "tags": [
    "基础",
@@ -586,7 +564,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 54,
+  "num": 52,
   "title": "在 Java 中定义一个不做事且没有参数的构造方法的作用？",
   "tags": [
    "面向对象",
@@ -597,7 +575,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 55,
+  "num": 53,
   "title": "什么是方法的返回值？返回值在类的方法里的作用是什么？",
   "tags": [
    "基础语法",
@@ -608,7 +586,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 56,
+  "num": 54,
   "title": "一个类的构造方法的作用是什么？若一个类没有声明构造方法，该程序能正确执行吗？为什么？",
   "tags": [
    "面向对象",
@@ -619,7 +597,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 57,
+  "num": 55,
   "title": "构造方法有哪些特性？",
   "tags": [
    "面向对象",
@@ -630,7 +608,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 58,
+  "num": 56,
   "title": "静态方法和实例方法有何不同？",
   "tags": [
    "关键字",
@@ -641,7 +619,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 59,
+  "num": 57,
   "title": "对象的相等与指向他们的引用相等，两者有什么不同？",
   "tags": [
    "基础",
@@ -652,7 +630,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 60,
+  "num": 58,
   "title": "在调用子类构造方法之前，会先调用父类没有参数的构造方法，其目的是？",
   "tags": [
    "面向对象",
@@ -664,7 +642,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 61,
+  "num": 59,
   "title": "hashCode 与 equals 的区别？",
   "tags": [
    "基础",
@@ -676,7 +654,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 62,
+  "num": 60,
   "title": "为什么 Java 中只有值传递？",
   "tags": [
    "基础语法",
@@ -687,7 +665,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 63,
+  "num": 61,
   "title": "简述线程、程序、进程的基本概念，以及它们之间的关系是什么？",
   "tags": [
    "并发",
@@ -698,7 +676,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 64,
+  "num": 62,
   "title": "关于 final 关键字的一些总结",
   "tags": [
    "关键字",
@@ -710,7 +688,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 65,
+  "num": 63,
   "title": "Java 中的异常处理有哪些？",
   "tags": [
    "异常处理",
@@ -721,7 +699,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 66,
+  "num": 64,
   "title": "Java 序列化中如果有些字段不想进行序列化，怎么办？",
   "tags": [
    "序列化",
@@ -732,7 +710,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 67,
+  "num": 65,
   "title": "获取用键盘输入常用的两种方法？",
   "tags": [
    "基础",
@@ -744,7 +722,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 68,
+  "num": 66,
   "title": "常见关键字总结：static、final、this、super 等等",
   "tags": [
    "关键字",
@@ -756,7 +734,7 @@
  {
   "module": "Java 基础",
   "file": "Java面试宝典_01_Java基础.html",
-  "num": 69,
+  "num": 67,
   "title": "Arrays 工具类常见方法有哪些？",
   "tags": [
    "工具类",
