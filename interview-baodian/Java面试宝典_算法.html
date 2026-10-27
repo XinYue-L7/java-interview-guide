@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 算法</title>
+<style>
+html{margin:0;padding:0;background:var(--hero-from)}
+:root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body data-section="24">
+<div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+  <h1>算法</h1>
+  <p>20道题 · 排序与查找 · 双指针 · 滑动窗口 · 链表与树 · 动态规划 · 高频手撕题</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_数据结构.html">← 数据结构</a>
+  </div>
+</div>
+<div class="container">
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">手写快速排序，并说明它的复杂度与稳定性？</div><div class="q-tags"><span class="q-tag">排序</span><span class="q-tag">分治</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 核心思想（分治 + 分区）：</strong></p>
+      <ul>
+        <li>从数组中挑一个元素作为<strong>基准（pivot）</strong>。</li>
+        <li><strong>partition（分区）</strong>：把小于基准的放左边，大于基准的放右边，基准落到最终有序位置。</li>
+        <li>对左右两个子区间<strong>递归</strong>执行同样操作，直到区间长度 ≤ 1。</li>
+      </ul>
+      <p><strong>2. 复杂度：</strong></p>
+      <ul>
+        <li><strong>平均 O(n log n)</strong>：每次划分大致对半，递归深度 log n，每层总比较 n 次。</li>
+        <li><strong>最坏 O(n²)</strong>：数组已有序且总取首/尾元素为基准，每次划分只减少一个元素，退化成冒泡。工程上用<strong>随机取基准</strong>或<strong>三数取中</strong>规避。</li>
+        <li><strong>空间 O(log n)</strong>：递归调用栈；最坏 O(n)。属于<strong>原地排序</strong>（不需额外数组）。</li>
+      </ul>
+      <p><strong>3. 稳定性：不稳定。</strong>分区时的交换（如 Hoare 双指针交换）会跨越多个位置搬运元素，可能把相等元素的相对顺序打乱。例如 [2a, 1, 2b] 分区后可能变成 [1, 2b, 2a]。</p>
+      <p><strong>4. Java 代码（Lomuto 分区 + 随机基准）：</strong></p>
+      <div class="code-block"><span class="kw">public static void</span> <span class="fn">quickSort</span>(<span class="kw">int</span>[] a, <span class="kw">int</span> l, <span class="kw">int</span> r) {
+    <span class="kw">if</span> (l &gt;= r) <span class="kw">return</span>;
+    <span class="co">// 随机基准：打乱后把基准换到最右，避免有序数组退化</span>
+    <span class="kw">int</span> k = l + (<span class="kw">int</span>)(Math.random() * (r - l + <span class="num">1</span>));
+    swap(a, k, r);
+    <span class="kw">int</span> pivot = a[r], i = l;          <span class="co">// i 指向"小于基准区"的下一个位置</span>
+    <span class="kw">for</span> (<span class="kw">int</span> j = l; j &lt; r; j++) {
+        <span class="kw">if</span> (a[j] &lt; pivot) swap(a, i++, j);
+    }
+    swap(a, i, r);                    <span class="co">// 基准归位</span>
+    quickSort(a, l, i - <span class="num">1</span>);
+    quickSort(a, i + <span class="num">1</span>, r);
+}
+<span class="kw">private static void</span> <span class="fn">swap</span>(<span class="kw">int</span>[] a, <span class="kw">int</span> i, <span class="kw">int</span> j) {
+    <span class="kw">if</span> (i != j) { <span class="kw">int</span> t = a[i]; a[i] = a[j]; a[j] = t; }
+}</div>
+      <p><strong>5. 面试常追问：</strong></p>
+      <ul>
+        <li><strong>Arrays.sort() 用的什么？</strong>基本类型用<strong>双轴快排（Dual-Pivot QuickSort）</strong>，对象数组用 <strong>TimSort</strong>（归并 + 插入的优化，稳定）。</li>
+        <li><strong>为什么基本类型不用归并？</strong>快排原地、常数小、缓存友好；基本类型没有稳定性诉求。</li>
+        <li><strong>如何优化？</strong>小区间（&lt; 47）切换插入排序；三数取中选基准；递归深度过大时转堆排（这正是 introsort 的做法）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">归并排序的思路与复杂度？它和快排有什么区别？</div><div class="q-tags"><span class="q-tag">排序</span><span class="q-tag">分治</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 核心思想（分治 + 合并）：</strong></p>
+      <ul>
+        <li><strong>分：</strong>把数组对半拆成两个子数组，递归拆分到长度为 1（天然有序）。</li>
+        <li><strong>治（merge）：</strong>用双指针把两个<strong>已有序</strong>的子数组按序合并到一个临时数组，再拷回原数组。</li>
+      </ul>
+      <p><strong>2. 复杂度：</strong></p>
+      <ul>
+        <li><strong>时间 O(n log n)</strong>：递归深度 log n，每层合并总代价 O(n)。<strong>最好/最坏/平均都是 O(n log n)</strong>——这是它相对快排最大的优势（性能可预期）。</li>
+        <li><strong>空间 O(n)</strong>：需要一个辅助数组（这是它相对快排最大的劣势）。</li>
+        <li><strong>稳定</strong>：合并时相等元素优先取左边，相对顺序不变。</li>
+      </ul>
+      <p><strong>3. Java 代码：</strong></p>
+      <div class="code-block"><span class="kw">public static void</span> <span class="fn">mergeSort</span>(<span class="kw">int</span>[] a, <span class="kw">int</span> l, <span class="kw">int</span> r, <span class="kw">int</span>[] tmp) {
+    <span class="kw">if</span> (l &gt;= r) <span class="kw">return</span>;
+    <span class="kw">int</span> mid = l + (r - l) / <span class="num">2</span>;      <span class="co">// 防溢出的写法</span>
+    mergeSort(a, l, mid, tmp);
+    mergeSort(a, mid + <span class="num">1</span>, r, tmp);
+    <span class="kw">int</span> i = l, j = mid + <span class="num">1</span>, k = l;
+    <span class="kw">while</span> (i &lt;= mid &amp;&amp; j &lt;= r) {
+        tmp[k++] = (a[i] &lt;= a[j]) ? a[i++] : a[j++];  <span class="co">// &lt;= 保证稳定性</span>
+    }
+    <span class="kw">while</span> (i &lt;= mid) tmp[k++] = a[i++];
+    <span class="kw">while</span> (j &lt;= r)   tmp[k++] = a[j++];
+    <span class="kw">for</span> (<span class="kw">int</span> p = l; p &lt;= r; p++) a[p] = tmp[p];
+}</div>
+      <p><strong>4. 与快排对比：</strong></p>
+      <ul>
+        <li>快排<strong>原地、常数小、平均快</strong>，但最坏 O(n²) 且不稳定；归并<strong>稳定、最坏也是 O(n log n)</strong>，但需 O(n) 额外空间。</li>
+        <li>归并的合并过程是<strong>顺序访问</strong>，非常适合<strong>链表排序</strong>（链表快排反而难写）和<strong>外部排序</strong>（大文件排序，无法一次性载入内存）。</li>
+        <li>Java 对象数组的 <code>Arrays.sort()</code> 用 TimSort，本质就是归并思想的工程优化版。</li>
+      </ul>
+      <p><strong>5. 典型追问：如何求数组中的逆序对？</strong>在 merge 的比较阶段统计：当 <code>a[i] &gt; a[j]</code> 时，左边剩余 <code>mid - i + 1</code> 个元素都与 a[j] 构成逆序对，累加即可，整体仍是 O(n log n)。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">堆排序是怎么做的？如何用它求 TopK？</div><div class="q-tags"><span class="q-tag">排序</span><span class="q-tag">堆</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 堆的性质：</strong>完全二叉树，用数组存储。下标 i 的左右孩子为 2i+1、2i+2，父节点为 (i-1)/2。<strong>大顶堆</strong>：每个节点 ≥ 其孩子，堆顶是最大值。</p>
+      <p><strong>2. 堆排序两步：</strong></p>
+      <ul>
+        <li><strong>建堆</strong>：从最后一个非叶子节点 (n/2 - 1) 开始向前做 <code>siftDown</code>，O(n)。</li>
+        <li><strong>排序</strong>：重复 n-1 次"把堆顶（最大值）与末尾元素交换，堆长度减 1，再对堆顶 siftDown"，最终得到升序数组。每次 siftDown O(log n)，共 O(n log n)。</li>
+      </ul>
+      <p><strong>3. 复杂度：</strong>时间 O(n log n)（建堆 O(n) + 排序 O(n log n)）；<strong>空间 O(1)</strong>；<strong>不稳定</strong>。</p>
+      <p><strong>4. Java 代码：</strong></p>
+      <div class="code-block"><span class="kw">public static void</span> <span class="fn">heapSort</span>(<span class="kw">int</span>[] a) {
+    <span class="kw">int</span> n = a.length;
+    <span class="kw">for</span> (<span class="kw">int</span> i = n / <span class="num">2</span> - <span class="num">1</span>; i &gt;= <span class="num">0</span>; i--) siftDown(a, i, n);  <span class="co">// 建大顶堆</span>
+    <span class="kw">for</span> (<span class="kw">int</span> end = n - <span class="num">1</span>; end &gt; <span class="num">0</span>; end--) {
+        swap(a, <span class="num">0</span>, end);      <span class="co">// 堆顶最大值换到末尾</span>
+        siftDown(a, <span class="num">0</span>, end);  <span class="co">// 对剩余 [0,end) 重新下沉</span>
+    }
+}
+<span class="kw">private static void</span> <span class="fn">siftDown</span>(<span class="kw">int</span>[] a, <span class="kw">int</span> i, <span class="kw">int</span> len) {
+    <span class="kw">while</span> (<span class="kw">true</span>) {
+        <span class="kw">int</span> l = <span class="num">2</span> * i + <span class="num">1</span>, r = l + <span class="num">1</span>, max = i;
+        <span class="kw">if</span> (l &lt; len &amp;&amp; a[l] &gt; a[max]) max = l;
+        <span class="kw">if</span> (r &lt; len &amp;&amp; a[r] &gt; a[max]) max = r;
+        <span class="kw">if</span> (max == i) <span class="kw">break</span>;
+        swap(a, i, max); i = max;
+    }
+}</div>
+      <p><strong>5. TopK 问题（海量数据场景必考）：</strong></p>
+      <p>求最大的 K 个元素，<strong>不要整体排序</strong>，用容量为 K 的<strong>小顶堆</strong>：</p>
+      <ul>
+        <li>遍历数据，堆不满 K 个就入堆；堆满后，若当前元素 &gt; 堆顶，则<strong>弹出堆顶、压入当前元素</strong>（堆顶始终是堆中最小的，也就是"K 大的门槛"）。</li>
+        <li>遍历完，堆里的 K 个元素就是最大的 K 个。</li>
+        <li><strong>复杂度 O(n log K)</strong>，<strong>空间 O(K)</strong>——10 亿数据里找 Top100 也只占 100 个元素的内存。</li>
+      </ul>
+      <div class="code-block"><span class="co">// Java 直接用 PriorityQueue（默认小顶堆）</span>
+PriorityQueue&lt;Integer&gt; heap = <span class="kw">new</span> PriorityQueue&lt;&gt;();
+<span class="kw">for</span> (<span class="kw">int</span> x : data) {
+    <span class="kw">if</span> (heap.size() &lt; k) heap.offer(x);
+    <span class="kw">else if</span> (x &gt; heap.peek()) { heap.poll(); heap.offer(x); }
+}
+<span class="co">// heap 中即为最大的 k 个元素（堆顶是其中最小的）</span></div>
+      <p><strong>6. 常见变体：</strong>求第 K 大 / 第 K 小，也可用<strong>快排 partition（快速选择）</strong>，平均 O(n)，但会改动原数组且最坏 O(n²)，工程上更推荐堆。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">二分查找怎么写才不出错？有哪些常见变体？</div><div class="q-tags"><span class="q-tag">查找</span><span class="q-tag">双指针</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 前提：</strong>数组<strong>有序</strong>（通常是升序）且支持随机访问。核心是每次排除一半区间，复杂度 <strong>O(log n)</strong>。</p>
+      <p><strong>2. 防错三板斧（面试最常挂在这）：</strong></p>
+      <ul>
+        <li><strong>mid 防溢出</strong>：<code>int mid = left + (right - left) / 2;</code> 而不是 <code>(left + right) / 2</code>。</li>
+        <li><strong>循环条件用 <code>left &lt;= right</code></strong>，配套收缩为 <code>right = mid - 1</code> / <code>left = mid + 1</code>（闭区间写法，最不容易错）。</li>
+        <li>明确<strong>区间定义</strong>并全程保持一致：要么全用闭区间 [left, right]，要么全用左闭右开 [left, right)。</li>
+      </ul>
+      <p><strong>3. 标准写法（闭区间）：</strong></p>
+      <div class="code-block"><span class="kw">public static int</span> <span class="fn">binarySearch</span>(<span class="kw">int</span>[] a, <span class="kw">int</span> target) {
+    <span class="kw">int</span> l = <span class="num">0</span>, r = a.length - <span class="num">1</span>;
+    <span class="kw">while</span> (l &lt;= r) {
+        <span class="kw">int</span> mid = l + (r - l) / <span class="num">2</span>;   <span class="co">// 防溢出</span>
+        <span class="kw">if</span> (a[mid] == target) <span class="kw">return</span> mid;
+        <span class="kw">else if</span> (a[mid] &lt; target) l = mid + <span class="num">1</span>;
+        <span class="kw">else</span> r = mid - <span class="num">1</span>;
+    }
+    <span class="kw">return</span> -<span class="num">1</span>;
+}</div>
+      <p><strong>4. 常见变体（左闭右开，找左边界）：</strong></p>
+      <div class="code-block"><span class="co">// 返回第一个 &gt;= target 的下标（lower_bound）；不存在则返回 a.length</span>
+<span class="kw">public static int</span> <span class="fn">lowerBound</span>(<span class="kw">int</span>[] a, <span class="kw">int</span> target) {
+    <span class="kw">int</span> l = <span class="num">0</span>, r = a.length;        <span class="co">// 注意：右开区间，r 取 length</span>
+    <span class="kw">while</span> (l &lt; r) {                 <span class="co">// 注意：无等号</span>
+        <span class="kw">int</span> mid = l + (r - l) / <span class="num">2</span>;
+        <span class="kw">if</span> (a[mid] &gt;= target) r = mid;  <span class="co">// 不减 1，保留 mid 作为候选</span>
+        <span class="kw">else</span> l = mid + <span class="num">1</span>;
+    }
+    <span class="kw">return</span> l;   <span class="co">// l == r，插入位置</span>
+}</div>
+      <ul>
+        <li><strong>找左边界（第一个等于 target）</strong>：<code>lowerBound(a, target)</code>，再判断下标是否越界且值是否相等。</li>
+        <li><strong>找右边界（最后一个等于 target）</strong>：<code>lowerBound(a, target + 1) - 1</code>（整数场景）。</li>
+        <li><strong>旋转数组找最小值</strong>：比较 <code>a[mid]</code> 与 <code>a[r]</code>，判断最小值落在哪半边。</li>
+      </ul>
+      <p><strong>5. 进阶：二分答案。</strong>不只在数组上二分，也可在<strong>答案区间</strong>上二分 + 判定函数（如"木头切割""最小运输能力""第 K 小"类问题），把求最优解转成判定可行性，复杂度 O(logRange × check)。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">如何找出数组中第 K 大的元素？（TopK / 快速选择）</div><div class="q-tags"><span class="q-tag">排序</span><span class="q-tag">分治</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 三种解法与取舍：</strong></p>
+      <ul>
+        <li><strong>排序后取下标</strong>：O(n log n)，最简单，数据量小时直接用。</li>
+        <li><strong>小顶堆（推荐，尤其海量数据 / 流式数据）</strong>：维护容量 K 的堆，O(n log K)、空间 O(K)。数据无法一次性载入内存时也适用。</li>
+        <li><strong>快速选择 QuickSelect（平均 O(n)）</strong>：基于快排 partition，但<strong>每次只递归一边</strong>。</li>
+      </ul>
+      <p><strong>2. 快速选择的思路：</strong></p>
+      <p>partition 后基准落在下标 p。目标下标是 <code>n - K</code>（第 K 大即升序第 n-K 位）：</p>
+      <ul>
+        <li>p == n - K → 找到了，直接返回。</li>
+        <li>p &lt; n - K → 目标在<strong>右半边</strong>，只递归右边。</li>
+        <li>p &gt; n - K → 只递归左边。</li>
+      </ul>
+      <p>平均每次排除一半，总比较次数 n + n/2 + n/4 + ... ≈ 2n，即 <strong>O(n)</strong>；最坏 O(n²)（可用随机基准规避）。</p>
+      <p><strong>3. Java 代码：</strong></p>
+      <div class="code-block"><span class="kw">public static int</span> <span class="fn">findKthLargest</span>(<span class="kw">int</span>[] a, <span class="kw">int</span> k) {
+    <span class="kw">int</span> target = a.length - k;   <span class="co">// 第 k 大在升序数组中的下标</span>
+    <span class="kw">int</span> l = <span class="num">0</span>, r = a.length - <span class="num">1</span>;
+    <span class="kw">while</span> (l &lt;= r) {
+        <span class="kw">int</span> p = partition(a, l, r);
+        <span class="kw">if</span> (p == target) <span class="kw">return</span> a[p];
+        <span class="kw">else if</span> (p &lt; target) l = p + <span class="num">1</span>;
+        <span class="kw">else</span> r = p - <span class="num">1</span>;
+    }
+    <span class="kw">return</span> -<span class="num">1</span>;
+}
+<span class="kw">private static int</span> <span class="fn">partition</span>(<span class="kw">int</span>[] a, <span class="kw">int</span> l, <span class="kw">int</span> r) {
+    <span class="kw">int</span> k = l + (<span class="kw">int</span>)(Math.random() * (r - l + <span class="num">1</span>));
+    swap(a, k, r);
+    <span class="kw">int</span> pivot = a[r], i = l;
+    <span class="kw">for</span> (<span class="kw">int</span> j = l; j &lt; r; j++) <span class="kw">if</span> (a[j] &lt;= pivot) swap(a, i++, j);
+    swap(a, i, r);
+    <span class="kw">return</span> i;
+}</div>
+      <p><strong>4. 面试怎么答：</strong>数据量小直接说排序；<strong>数据量大 / 内存受限 / 流式</strong>必定答<strong>小顶堆</strong>；追求理论最优、且能改动原数组时用<strong>快速选择</strong>。若 K 很小而 n 极大（如 10 亿中取 Top10），堆法优势最明显。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">两数之和：有序数组怎么用双指针做？和哈希解法有什么区别？</div><div class="q-tags"><span class="q-tag">双指针</span><span class="q-tag">哈希</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 有序数组 → 对撞双指针（O(n) 时间、O(1) 空间）：</strong></p>
+      <ul>
+        <li>left 指向最小元素，right 指向最大元素。</li>
+        <li>sum 太小 → <strong>left++</strong>（增大和）；sum 太大 → <strong>right--</strong>（减小和）。</li>
+        <li>关键在于<strong>单调性</strong>：因为数组有序，移动指针能确定性地逼近目标，不会漏解。</li>
+      </ul>
+      <div class="code-block"><span class="kw">public static int</span>[] <span class="fn">twoSum</span>(<span class="kw">int</span>[] a, <span class="kw">int</span> target) {  <span class="co">// a 已升序</span>
+    <span class="kw">int</span> l = <span class="num">0</span>, r = a.length - <span class="num">1</span>;
+    <span class="kw">while</span> (l &lt; r) {
+        <span class="kw">int</span> sum = a[l] + a[r];
+        <span class="kw">if</span> (sum == target) <span class="kw">return new int</span>[]{l + <span class="num">1</span>, r + <span class="num">1</span>};  <span class="co">// 题目要求 1-based</span>
+        <span class="kw">else if</span> (sum &lt; target) l++;
+        <span class="kw">else</span> r--;
+    }
+    <span class="kw">return new int</span>[]{-<span class="num">1</span>, -<span class="num">1</span>};
+}</div>
+      <p><strong>2. 无序数组 → 哈希表（O(n) 时间、O(n) 空间）：</strong></p>
+      <p>边遍历边查表：对每个 x，先查 <code>target - x</code> 是否已在表中，命中即返回；否则把 x 存入表。<strong>一次遍历</strong>，避免了"先全量建表"的两次循环。</p>
+      <div class="code-block"><span class="kw">public static int</span>[] <span class="fn">twoSumHash</span>(<span class="kw">int</span>[] a, <span class="kw">int</span> target) {
+    Map&lt;Integer, Integer&gt; seen = <span class="kw">new</span> HashMap&lt;&gt;();
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; a.length; i++) {
+        <span class="kw">int</span> need = target - a[i];
+        <span class="kw">if</span> (seen.containsKey(need)) <span class="kw">return new int</span>[]{seen.get(need), i};
+        seen.put(a[i], i);
+    }
+    <span class="kw">return new int</span>[]{-<span class="num">1</span>, -<span class="num">1</span>};
+}</div>
+      <p><strong>3. 两者取舍：</strong></p>
+      <ul>
+        <li>数组<strong>已排序</strong> → 双指针，O(1) 额外空间，还能顺便处理"返回所有配对"。</li>
+        <li>数组<strong>无序</strong> → 哈希法 O(n)；若先排序再用双指针则是 O(n log n)，但省空间且便于去重。</li>
+        <li>要求返回<strong>所有不重复的数对</strong>时，排序 + 双指针更好写（跳过相邻重复元素去重）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">三数之和（3Sum）怎么做？如何去重？</div><div class="q-tags"><span class="q-tag">双指针</span><span class="q-tag">排序</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 思路：排序 + 固定一个数 + 双指针（O(n²)）：</strong></p>
+      <ul>
+        <li>先排序。</li>
+        <li>枚举 i 作为第一个数，在 <code>[i+1, n-1]</code> 区间用<strong>对撞双指针</strong>找和为 <code>-a[i]</code> 的两个数。</li>
+        <li>三层循环会到 O(n³)，用双指针把 innermost 降为 O(n)。</li>
+      </ul>
+      <p><strong>2. 去重（关键扣分点）：</strong></p>
+      <ul>
+        <li><strong>枚举 i 时</strong>：<code>if (i &gt; 0 &amp;&amp; a[i] == a[i-1]) continue;</code> 跳过重复的基准数。</li>
+        <li><strong>命中一组解后</strong>：<code>l++</code>、<code>r--</code> 的同时<strong>跳过所有与当前值相同的元素</strong>，避免重复三元组。</li>
+        <li>另外可剪枝：<code>a[i] &gt; 0</code> 时直接 break（排序后三数都 ≥ a[i] &gt; 0，和不可能为 0）。</li>
+      </ul>
+      <p><strong>3. Java 代码：</strong></p>
+      <div class="code-block"><span class="kw">public static</span> List&lt;List&lt;Integer&gt;&gt; <span class="fn">threeSum</span>(<span class="kw">int</span>[] nums) {
+    List&lt;List&lt;Integer&gt;&gt; res = <span class="kw">new</span> ArrayList&lt;&gt;();
+    Arrays.sort(nums);
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; nums.length - <span class="num">2</span>; i++) {
+        <span class="kw">if</span> (i &gt; <span class="num">0</span> &amp;&amp; nums[i] == nums[i - <span class="num">1</span>]) <span class="kw">continue</span>;   <span class="co">// 基准去重</span>
+        <span class="kw">if</span> (nums[i] &gt; <span class="num">0</span>) <span class="kw">break</span>;                         <span class="co">// 剪枝</span>
+        <span class="kw">int</span> l = i + <span class="num">1</span>, r = nums.length - <span class="num">1</span>;
+        <span class="kw">while</span> (l &lt; r) {
+            <span class="kw">int</span> sum = nums[i] + nums[l] + nums[r];
+            <span class="kw">if</span> (sum == <span class="num">0</span>) {
+                res.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                <span class="kw">while</span> (l &lt; r &amp;&amp; nums[l] == nums[l + <span class="num">1</span>]) l++;  <span class="co">// 左去重</span>
+                <span class="kw">while</span> (l &lt; r &amp;&amp; nums[r] == nums[r - <span class="num">1</span>]) r--;  <span class="co">// 右去重</span>
+                l++; r--;
+            } <span class="kw">else if</span> (sum &lt; <span class="num">0</span>) l++;
+            <span class="kw">else</span> r--;
+        }
+    }
+    <span class="kw">return</span> res;
+}</div>
+      <p><strong>4. 复杂度：</strong>时间 O(n²)（排序 O(n log n) 被覆盖），空间 O(1)（不计返回值；若排序用快排会改动原数组）。</p>
+      <p><strong>5. 扩展：</strong>4Sum 就是<strong>多套一层循环 + 双指针</strong>，O(n³)；更一般的 kSum 可递归降维，最后都落到 2Sum 双指针。全部都要注意<strong>去重 + 剪枝</strong>。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">滑动窗口：如何求"无重复字符的最长子串"？</div><div class="q-tags"><span class="q-tag">滑动窗口</span><span class="q-tag">字符串</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 滑动窗口适用场景：</strong>求<strong>连续子数组/子串</strong>的最值（最长、最短、和最大等），且窗口左右端<strong>只增不减</strong>时，可把 O(n²) 枚举降到 <strong>O(n)</strong>。</p>
+      <p><strong>2. 思路（维护一个始终无重复的窗口 [l, r]）：</strong></p>
+      <ul>
+        <li>右指针 r 逐个字符右移，把字符<strong>最近一次出现的下标</strong>记入哈希表/数组。</li>
+        <li>若新字符已在窗口内（<code>last[c] &gt;= l</code>），说明出现重复，把<strong>左边界 l 直接跳到 last[c] + 1</strong>（不能只 +1，否则窗口内仍有重复）。</li>
+        <li>每次更新 <code>ans = max(ans, r - l + 1)</code>。</li>
+      </ul>
+      <p><strong>3. Java 代码：</strong></p>
+      <div class="code-block"><span class="kw">public static int</span> <span class="fn">lengthOfLongestSubstring</span>(String s) {
+    <span class="kw">int</span>[] last = <span class="kw">new int</span>[<span class="num">128</span>];        <span class="co">// ASCII 字符 → 最近下标+1，0 表示未出现</span>
+    <span class="kw">int</span> ans = <span class="num">0</span>, l = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> r = <span class="num">0</span>; r &lt; s.length(); r++) {
+        <span class="kw">char</span> c = s.charAt(r);
+        <span class="kw">if</span> (last[c] &gt; l) l = last[c];   <span class="co">// 窗口内重复 → 左边界右移</span>
+        last[c] = r + <span class="num">1</span>;
+        ans = Math.max(ans, r - l + <span class="num">1</span>);
+    }
+    <span class="kw">return</span> ans;
+}</div>
+      <p><strong>4. 复杂度：</strong>时间 O(n)，每个字符最多进出窗口一次；空间 O(min(n, 字符集大小))。</p>
+      <p><strong>5. 同类模板（面试高频）：</strong></p>
+      <ul>
+        <li><strong>最小覆盖子串</strong>：用 need/window 两个计数 map + 一个 valid 计数器判断窗口是否覆盖。</li>
+        <li><strong>长度最小的子数组（和 ≥ target）</strong>：先累加右端，满足时<strong>循环收缩左端</strong>更新最小值。</li>
+        <li><strong>找所有字母异位词</strong>：定长窗口 + 计数比较。</li>
+      </ul>
+      <p>通用模板：<code>for r: 扩大窗口 → while(窗口不满足/满足条件) 收缩左端 → 更新答案</code>。记住"右端扩张，左端收缩"这个节奏就不会乱。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">如何反转单链表？（迭代与递归两种写法）</div><div class="q-tags"><span class="q-tag">链表</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 迭代法（推荐，O(n) 时间 O(1) 空间）：</strong></p>
+      <p>维护 <code>prev</code>（已反转部分的头）和 <code>cur</code>（待处理节点）。每步先用 <code>next</code> <strong>暂存后继</strong>（否则断链后找不到），再把 <code>cur.next</code> 指向 prev，然后整体右移。</p>
+      <div class="code-block"><span class="kw">public static</span> ListNode <span class="fn">reverse</span>(ListNode head) {
+    ListNode prev = <span class="kw">null</span>, cur = head;
+    <span class="kw">while</span> (cur != <span class="kw">null</span>) {
+        ListNode next = cur.next;   <span class="co">// 1. 暂存后继</span>
+        cur.next = prev;           <span class="co">// 2. 反转指针</span>
+        prev = cur;                <span class="co">// 3. prev 前进</span>
+        cur = next;                <span class="co">// 4. cur 前进</span>
+    }
+    <span class="kw">return</span> prev;                  <span class="co">// prev 即新头节点</span>
+}</div>
+      <p><strong>2. 递归法（代码短但栈深 O(n)，链表长时可能 StackOverflow）：</strong></p>
+      <div class="code-block"><span class="kw">public static</span> ListNode <span class="fn">reverseRec</span>(ListNode head) {
+    <span class="kw">if</span> (head == <span class="kw">null</span> || head.next == <span class="kw">null</span>) <span class="kw">return</span> head;
+    ListNode newHead = reverseRec(head.next);  <span class="co">// 先反转后半段</span>
+    head.next.next = head;                     <span class="co">// 让后继指回自己</span>
+    head.next = <span class="kw">null</span>;                          <span class="co">// 断开原指针，防止成环</span>
+    <span class="kw">return</span> newHead;
+}</div>
+      <p><strong>3. 易错点：</strong></p>
+      <ul>
+        <li>必须先存 <code>next</code> 再改 <code>cur.next</code>，否则链表断裂。</li>
+        <li>递归写法最后一定要 <code>head.next = null</code>，否则首尾会形成环。</li>
+        <li>返回的是 <code>prev</code>（原尾节点），不是 head。</li>
+      </ul>
+      <p><strong>4. 常见变体（同一套模板）：</strong></p>
+      <ul>
+        <li><strong>反转前 N 个节点</strong>：递归到 N，记录第 N+1 个节点做「后继锚点」，再把 head.next 接回去。</li>
+        <li><strong>反转区间 [m, n]</strong>：先走 m-1 步找到前置节点，再对区间做局部反转。</li>
+        <li><strong>K 个一组反转</strong>：每 K 个调用区间反转，注意<strong>组与组的连接</strong>（prevGroupTail）。</li>
+        <li><strong>判断回文链表</strong>：快慢指针找中点 + 反转后半段 + 逐位比较（进阶要求 O(1) 空间）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">如何判断链表是否有环？如何找到入环的第一个节点？</div><div class="q-tags"><span class="q-tag">链表</span><span class="q-tag">快慢指针</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 快慢指针（Floyd 判圈）：</strong></p>
+      <ul>
+        <li>slow 每次走 1 步，fast 每次走 2 步。</li>
+        <li>若无环，fast 会先到 <code>null</code>；若有环，两者必定在环内<strong>相遇</strong>（相对速度 1，fast 必然追上 slow）。</li>
+        <li>时间 O(n)，空间 O(1)。用 HashSet 也能做但要 O(n) 空间。</li>
+      </ul>
+      <p><strong>2. 找入环点（关键结论）：</strong></p>
+      <p>相遇后，把 <strong>其中一个指针移回头节点</strong>，另一个留在相遇点，两者<strong>改为每次各走 1 步</strong>，再次相遇的位置就是<strong>入环的第一个节点</strong>。</p>
+      <p>推导：设头到入环点距离 a，入环点到相遇点距离 b，相遇点再走到入环点距离 c。相遇时 slow 走 a+b，fast 走 a+b+c+b（多绕一圈），且 fast 路程是 slow 的 2 倍 → 2(a+b) = a+2b+c → <strong>a = c</strong>。所以从头走 a 步与从相遇点走 c 步会同时抵达入环点。</p>
+      <p><strong>3. Java 代码：</strong></p>
+      <div class="code-block"><span class="kw">public static</span> ListNode <span class="fn">detectCycle</span>(ListNode head) {
+    ListNode slow = head, fast = head;
+    <span class="kw">while</span> (fast != <span class="kw">null</span> &amp;&amp; fast.next != <span class="kw">null</span>) {
+        slow = slow.next;
+        fast = fast.next.next;
+        <span class="kw">if</span> (slow == fast) {                 <span class="co">// 相遇，有环</span>
+            ListNode p = head;               <span class="co">// 一个回到头节点</span>
+            <span class="kw">while</span> (p != slow) { p = p.next; slow = slow.next; }  <span class="co">// 同步前进</span>
+            <span class="kw">return</span> p;                         <span class="co">// 入环点</span>
+        }
+    }
+    <span class="kw">return</span> <span class="kw">null</span>;                             <span class="co">// 无环</span>
+}</div>
+      <p><strong>4. 易错点：</strong></p>
+      <ul>
+        <li>循环条件要同时判断 <code>fast != null</code> 和 <code>fast.next != null</code>，否则 <code>fast.next.next</code> 会 NPE。</li>
+        <li>判断有环用 <code>slow == fast</code>（引用比较），链表节点未重写 equals 时不可用 equals。</li>
+        <li>求环长：相遇后固定一个不动，另一个继续走并计数，再次回到该点时的步数即环长。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">如何合并两个有序链表？如何合并 K 个有序链表？</div><div class="q-tags"><span class="q-tag">链表</span><span class="q-tag">分治</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 两个有序链表（迭代，O(n+m) 时间 O(1) 空间）：</strong></p>
+      <p>用<strong>哨兵节点（dummy）</strong>统一处理"头节点不确定"的问题：每次取较小的节点接到 tail 后面，最后把剩余段整体接上。</p>
+      <div class="code-block"><span class="kw">public static</span> ListNode <span class="fn">mergeTwo</span>(ListNode a, ListNode b) {
+    ListNode dummy = <span class="kw">new</span> ListNode(<span class="num">0</span>), tail = dummy;
+    <span class="kw">while</span> (a != <span class="kw">null</span> &amp;&amp; b != <span class="kw">null</span>) {
+        <span class="kw">if</span> (a.val &lt;= b.val) { tail.next = a; a = a.next; }
+        <span class="kw">else</span>               { tail.next = b; b = b.next; }
+        tail = tail.next;
+    }
+    tail.next = (a != <span class="kw">null</span>) ? a : b;   <span class="co">// 接上剩余段</span>
+    <span class="kw">return</span> dummy.next;
+}</div>
+      <p><strong>2. K 个有序链表 —— 两种解法：</strong></p>
+      <ul>
+        <li><strong>小顶堆（优先队列）</strong>：把每个链表的<strong>头节点</strong>入堆，每次弹出最小节点接到结果上，再把该节点的下一个入堆。<br/>复杂度 <strong>O(N log K)</strong>（N 为总节点数），空间 O(K)。<strong>适合链表数量多、需要流式输出</strong>的场景。</li>
+        <li><strong>分治两两合并</strong>：像归并排序一样，把 K 个链表两两配对合并，轮轮减半。<br/>复杂度同样是 <strong>O(N log K)</strong>，空间 O(1)（复用原节点），<strong>无需额外数据结构</strong>。</li>
+      </ul>
+      <div class="code-block"><span class="co">// 归并分治</span>
+<span class="kw">public static</span> ListNode <span class="fn">mergeKLists</span>(ListNode[] lists) {
+    <span class="kw">if</span> (lists == <span class="kw">null</span> || lists.length == <span class="num">0</span>) <span class="kw">return null</span>;
+    <span class="kw">int</span> n = lists.length;
+    <span class="kw">while</span> (n &gt; <span class="num">1</span>) {                        <span class="co">// 每轮两两合并，数量减半</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n / <span class="num">2</span>; i++) lists[i] = mergeTwo(lists[i], lists[n - <span class="num">1</span> - i]);
+        n = (n + <span class="num">1</span>) / <span class="num">2</span>;
+    }
+    <span class="kw">return</span> lists[<span class="num">0</span>];
+}</div>
+      <p><strong>3. 面试提示：</strong>分治法体现了<strong>归并思想</strong>，和"合并 K 个有序数组""多路归并排序"是同一类问题；若追问"外部排序 / 大文件归并"，思路完全一样，只是 IO 换成文件流。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">如何手写一个 LRU 缓存？</div><div class="q-tags"><span class="q-tag">设计题</span><span class="q-tag">哈希</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. LRU（Least Recently Used）：</strong>容量满时淘汰<strong>最久未使用</strong>的数据。要求 <code>get</code> 和 <code>put</code> 都 <strong>O(1)</strong>。</p>
+      <p><strong>2. 数据结构选型（核心考点）：</strong></p>
+      <ul>
+        <li><strong>哈希表</strong>：O(1) 定位节点（key → node）。</li>
+        <li><strong>双向链表</strong>：O(1) 删除与插入。用双向是因为删除节点需要<strong>拿到前驱</strong>，单链表删除是 O(n)。</li>
+        <li><strong>约定顺序</strong>：链表<strong>头部</strong>是最近使用，<strong>尾部</strong>是最久未使用。访问/新增放头，淘汰删尾。</li>
+        <li>用 <strong>dummy head / tail 哨兵</strong>，省掉各种空指针边界判断。</li>
+      </ul>
+      <p><strong>3. Java 代码：</strong></p>
+      <div class="code-block"><span class="kw">class</span> LRUCache {
+    <span class="kw">class</span> Node { <span class="kw">int</span> k, v; Node prev, next;
+        Node(<span class="kw">int</span> k, <span class="kw">int</span> v) { <span class="kw">this</span>.k = k; <span class="kw">this</span>.v = v; } }
+
+    <span class="kw">private final int</span> cap;
+    <span class="kw">private final</span> Map&lt;Integer, Node&gt; map = <span class="kw">new</span> HashMap&lt;&gt;();
+    <span class="kw">private final</span> Node head = <span class="kw">new</span> Node(<span class="num">0</span>, <span class="num">0</span>);  <span class="co">// 哨兵头（最近使用侧）</span>
+    <span class="kw">private final</span> Node tail = <span class="kw">new</span> Node(<span class="num">0</span>, <span class="num">0</span>);  <span class="co">// 哨兵尾（最久未使用侧）</span>
+
+    <span class="kw">public</span> <span class="fn">LRUCache</span>(<span class="kw">int</span> capacity) {
+        <span class="kw">this</span>.cap = capacity;
+        head.next = tail; tail.prev = head;
+    }
+
+    <span class="kw">public int</span> <span class="fn">get</span>(<span class="kw">int</span> key) {
+        Node n = map.get(key);
+        <span class="kw">if</span> (n == <span class="kw">null</span>) <span class="kw">return</span> -<span class="num">1</span>;
+        moveToHead(n);            <span class="co">// 访问即"最近使用"</span>
+        <span class="kw">return</span> n.v;
+    }
+
+    <span class="kw">public void</span> <span class="fn">put</span>(<span class="kw">int</span> key, <span class="kw">int</span> value) {
+        Node n = map.get(key);
+        <span class="kw">if</span> (n != <span class="kw">null</span>) { n.v = value; moveToHead(n); <span class="kw">return</span>; }
+        Node node = <span class="kw">new</span> Node(key, value);
+        map.put(key, node);
+        addAfterHead(node);
+        <span class="kw">if</span> (map.size() &gt; cap) {          <span class="co">// 超容量：淘汰尾部</span>
+            Node last = tail.prev;
+            remove(last);
+            map.remove(last.k);           <span class="co">// 别忘同步删 map</span>
+        }
+    }
+
+    <span class="kw">private void</span> <span class="fn">moveToHead</span>(Node n) { remove(n); addAfterHead(n); }
+    <span class="kw">private void</span> <span class="fn">remove</span>(Node n) { n.prev.next = n.next; n.next.prev = n.prev; }
+    <span class="kw">private void</span> <span class="fn">addAfterHead</span>(Node n) {
+        n.prev = head; n.next = head.next;
+        head.next.prev = n; head.next = n;
+    }
+}</div>
+      <p><strong>4. 面试加分点：</strong></p>
+      <ul>
+        <li><strong>Java 一行实现</strong>：<code>new LinkedHashMap&lt;&gt;(cap, 0.75f, true)</code> —— 第三个参数 <code>accessOrder=true</code> 即 LRU，重写 <code>removeEldestEntry</code> 即可限制容量。</li>
+        <li><strong>缺点与改进</strong>：朴素 LRU 会被<strong>批量扫描</strong>污染（一次性把热点数据挤掉）。工业级实现有 <strong>LRU-K、2Q</strong>，MySQL InnoDB 用的是<strong>改进 LRU（分 young/old 区 + 停留时间阈值）</strong>。</li>
+        <li><strong>并发场景</strong>：全局加锁会成为瓶颈，Caffeine 采用<strong>分段 + 环形缓冲区异步回放</strong>实现高并发近似 LRU（W-TinyLFU）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">13</div><div class="q-meta"><div class="q-title">二叉树的层序遍历（BFS）怎么写？有哪些常见变体？</div><div class="q-tags"><span class="q-tag">树</span><span class="q-tag">BFS</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 思路：</strong>用<strong>队列</strong>。根节点入队；每次出队一个节点就访问它，并把其<strong>左右孩子入队</strong>。队列 FIFO 的特性天然保证"按层从左到右"访问。</p>
+      <p><strong>2. 分层输出的关键：</strong>每层开始前<strong>先记录当前队列长度 size</strong>，只循环 size 次，这样就能把同一层的节点归到一组。</p>
+      <p><strong>3. Java 代码（分层返回）：</strong></p>
+      <div class="code-block"><span class="kw">public static</span> List&lt;List&lt;Integer&gt;&gt; <span class="fn">levelOrder</span>(TreeNode root) {
+    List&lt;List&lt;Integer&gt;&gt; res = <span class="kw">new</span> ArrayList&lt;&gt;();
+    <span class="kw">if</span> (root == <span class="kw">null</span>) <span class="kw">return</span> res;
+    Queue&lt;TreeNode&gt; q = <span class="kw">new</span> LinkedList&lt;&gt;();
+    q.offer(root);
+    <span class="kw">while</span> (!q.isEmpty()) {
+        <span class="kw">int</span> size = q.size();              <span class="co">// 当前层的节点数</span>
+        List&lt;Integer&gt; level = <span class="kw">new</span> ArrayList&lt;&gt;();
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; size; i++) {
+            TreeNode n = q.poll();
+            level.add(n.val);
+            <span class="kw">if</span> (n.left  != <span class="kw">null</span>) q.offer(n.left);
+            <span class="kw">if</span> (n.right != <span class="kw">null</span>) q.offer(n.right);
+        }
+        res.add(level);
+    }
+    <span class="kw">return</span> res;
+}</div>
+      <p><strong>4. 复杂度：</strong>时间 O(n)，空间 O(n)（队列最宽处约为树的最大层宽，最坏 O(n)）。</p>
+      <p><strong>5. 常见变体（都用同一套模板改）：</strong></p>
+      <ul>
+        <li><strong>自底向上层序</strong>：每层结果 <code>res.add(0, level)</code>（或最后 reverse）。</li>
+        <li><strong>锯齿形（之字形）遍历</strong>：用 <code>LinkedList</code> 双端队列，偶数层 <code>addLast</code>、奇数层 <code>addFirst</code>；或正常收集后按层号奇偶 reverse。</li>
+        <li><strong>每层最大值 / 层平均值</strong>：在 size 循环内取 max / 累加。</li>
+        <li><strong>二叉树最大/最小深度</strong>：BFS 层数即最小深度；也可 DFS 递归。</li>
+        <li><strong>填充右侧指针（next）</strong>：在 size 循环里把前一个节点的 next 指向当前节点，最后一个指向 null。</li>
+      </ul>
+      <p><strong>6. DFS vs BFS 怎么选：</strong>求<strong>最短路径/最少步数/按层处理</strong>用 BFS；求<strong>所有路径、是否满足条件、深度相关</strong>用 DFS（递归更简洁）。递归 DFS 要注意树退化成链时<strong>栈溢出</strong>。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">14</div><div class="q-meta"><div class="q-title">如何求二叉树的最近公共祖先（LCA）？</div><div class="q-tags"><span class="q-tag">树</span><span class="q-tag">递归</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 后序遍历 + 递归（O(n) 时间、O(h) 空间）：</strong></p>
+      <p>对节点 root 而言，p、q 的位置只有三种情况：</p>
+      <ul>
+        <li>分别在<strong>左右子树</strong> → root 就是 LCA。</li>
+        <li>都在<strong>同一侧子树</strong> → LCA 在那一侧，返回该侧的递归结果。</li>
+        <li>root <strong>本身就是 p 或 q</strong> → 直接返回 root（另一节点必在其子树中）。</li>
+      </ul>
+      <div class="code-block"><span class="kw">public static</span> TreeNode <span class="fn">lowestCommonAncestor</span>(TreeNode root, TreeNode p, TreeNode q) {
+    <span class="kw">if</span> (root == <span class="kw">null</span> || root == p || root == q) <span class="kw">return</span> root;  <span class="co">// 基线</span>
+    TreeNode left  = lowestCommonAncestor(root.left,  p, q);
+    TreeNode right = lowestCommonAncestor(root.right, p, q);
+    <span class="kw">if</span> (left != <span class="kw">null</span> &amp;&amp; right != <span class="kw">null</span>) <span class="kw">return</span> root;   <span class="co">// 分居两侧</span>
+    <span class="kw">return</span> (left != <span class="kw">null</span>) ? left : right;              <span class="co">// 都在一侧 / 都没找到</span>
+}</div>
+      <p><strong>2. 为什么是后序遍历？</strong>因为判断"是否分居两侧"必须先拿到<strong>左右子树的结果</strong>，即"左右中"的顺序 —— 这是典型的<strong>后序位置</strong>利用子树返回值。</p>
+      <p><strong>3. 变体一：二叉搜索树（BST）的 LCA（更优 O(h)）：</strong></p>
+      <p>利用 BST 有序性：<code>p.val</code> 和 <code>q.val</code> 都小于 root → 去左子树；都大于 → 去右子树；<strong>一大一小（或其一等于 root）→ root 即为 LCA</strong>。可用迭代，无需递归。</p>
+      <div class="code-block"><span class="kw">public static</span> TreeNode <span class="fn">lcaBST</span>(TreeNode root, TreeNode p, TreeNode q) {
+    <span class="kw">while</span> (root != <span class="kw">null</span>) {
+        <span class="kw">if</span> (p.val &lt; root.val &amp;&amp; q.val &lt; root.val)      root = root.left;
+        <span class="kw">else if</span> (p.val &gt; root.val &amp;&amp; q.val &gt; root.val) root = root.right;
+        <span class="kw">else return</span> root;   <span class="co">// 分叉点</span>
+    }
+    <span class="kw">return null</span>;
+}</div>
+      <p><strong>4. 变体二：节点带父指针 / 普通树：</strong>转化为<strong>两个链表求交点</strong>——先分别走到根算出深度，深的先走差值步，再同步前进，第一个相同节点即 LCA（同链表相交的双指针法）。</p>
+      <p><strong>5. 注意：</strong>若题目<strong>不保证</strong> p、q 都存在于树中，需要额外做一次<strong>存在性校验</strong>（递归统计命中次数），否则可能返回错误结果。面试时先问清这一点。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">15</div><div class="q-meta"><div class="q-title">动态规划入门：0-1 背包问题怎么解？如何做空间优化？</div><div class="q-tags"><span class="q-tag">动态规划</span><span class="q-tag">背包</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 问题：</strong>N 个物品，重量 w[i]、价值 v[i]，背包容量 W，每个物品<strong>只能选一次</strong>，求最大价值。</p>
+      <p><strong>2. 动规五步：</strong></p>
+      <ul>
+        <li><strong>状态定义</strong>：<code>dp[i][c]</code> = 只考虑前 i 个物品、容量为 c 时的最大价值。</li>
+        <li><strong>状态转移</strong>：对第 i 个物品，<strong>不选</strong> → <code>dp[i-1][c]</code>；<strong>选</strong>（需 c ≥ w[i]）→ <code>dp[i-1][c-w[i]] + v[i]</code>。取 max：<br/><code>dp[i][c] = max(dp[i-1][c], dp[i-1][c-w[i]] + v[i])</code></li>
+        <li><strong>初始化</strong>：<code>dp[0][*] = 0</code>（无物品价值为 0），其余默认 0。</li>
+        <li><strong>遍历顺序</strong>：i 从 1 到 N，c 从 0 到 W（本题两层顺序可交换）。</li>
+        <li><strong>答案</strong>：<code>dp[N][W]</code>。</li>
+      </ul>
+      <p><strong>3. 空间优化（一维滚动数组，必考）：</strong></p>
+      <p>因为 <code>dp[i]</code> 只依赖 <code>dp[i-1]</code>，可压缩成一维 <code>dp[c]</code>。但此时<strong>容量 c 必须倒序遍历</strong>（从 W 到 w[i]），否则同一物品会被重复选取，退化成<strong>完全背包</strong>。</p>
+      <div class="code-block"><span class="co">// 一维优化：c 必须倒序（0-1 背包）</span>
+<span class="kw">public static int</span> <span class="fn">knapsack</span>(<span class="kw">int</span>[] w, <span class="kw">int</span>[] v, <span class="kw">int</span> W) {
+    <span class="kw">int</span>[] dp = <span class="kw">new int</span>[W + <span class="num">1</span>];
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; w.length; i++) {
+        <span class="kw">for</span> (<span class="kw">int</span> c = W; c &gt;= w[i]; c--) {        <span class="co">// 倒序！正序会变成完全背包</span>
+            dp[c] = Math.max(dp[c], dp[c - w[i]] + v[i]);
+        }
+    }
+    <span class="kw">return</span> dp[W];
+}</div>
+      <p><strong>4. 复杂度：</strong>时间 O(N × W)，空间 O(W)。注意这是<strong>伪多项式</strong>复杂度，容量很大时不可行。</p>
+      <p><strong>5. 三种背包对比（面试高频追问）：</strong></p>
+      <ul>
+        <li><strong>0-1 背包</strong>（每个物品 1 个）：容量<strong>倒序</strong>遍历。</li>
+        <li><strong>完全背包</strong>（物品无限个）：容量<strong>正序</strong>遍历。</li>
+        <li><strong>多重背包</strong>（每个物品 s[i] 个）：二进制拆分（1,2,4...）转成 0-1 背包，或单调队列优化到 O(N×W)。</li>
+      </ul>
+      <p><strong>6. 常见变体：</strong>"能否装满容量 W"（boolean dp）、"恰好装满的方案数"（dp[0]=1，求 dp[W]）、"输出具体选了哪些物品"（记录 choice 数组回溯）。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">16</div><div class="q-meta"><div class="q-title">最长递增子序列（LIS）：O(n²) 与 O(n log n) 两种解法？</div><div class="q-tags"><span class="q-tag">动态规划</span><span class="q-tag">二分</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 解法一：动态规划 O(n²)：</strong></p>
+      <ul>
+        <li><code>dp[i]</code> = <strong>以 nums[i] 结尾</strong>的 LIS 长度（注意定义必须"以 i 结尾"，否则无法转移）。</li>
+        <li>转移：<code>dp[i] = max(dp[j] + 1)</code>，其中 <code>j &lt; i</code> 且 <code>nums[j] &lt; nums[i]</code>；都不满足则 dp[i] = 1。</li>
+        <li>答案是 <code>max(dp)</code>，<strong>不是 dp[n-1]</strong>。</li>
+      </ul>
+      <div class="code-block"><span class="kw">public static int</span> <span class="fn">lisDP</span>(<span class="kw">int</span>[] nums) {
+    <span class="kw">int</span>[] dp = <span class="kw">new int</span>[nums.length];
+    <span class="kw">int</span> ans = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; nums.length; i++) {
+        dp[i] = <span class="num">1</span>;                                  <span class="co">// 至少包含自己</span>
+        <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; i; j++)
+            <span class="kw">if</span> (nums[j] &lt; nums[i]) dp[i] = Math.max(dp[i], dp[j] + <span class="num">1</span>);
+        ans = Math.max(ans, dp[i]);
+    }
+    <span class="kw">return</span> ans;
+}</div>
+      <p><strong>2. 解法二：贪心 + 二分 O(n log n)（加分项）：</strong></p>
+      <p>维护数组 <code>tails</code>，<code>tails[k]</code> 表示<strong>长度为 k+1 的递增子序列的最小结尾元素</strong>。tails 始终保持<strong>递增</strong>：</p>
+      <ul>
+        <li>新元素 x 用<strong>二分</strong>找到 tails 中<strong>第一个 ≥ x</strong> 的位置并替换（让结尾尽可能小，给后面留空间）。</li>
+        <li>若 x 比所有元素都大，则追加到末尾，LIS 长度 +1。</li>
+      </ul>
+      <div class="code-block"><span class="kw">public static int</span> <span class="fn">lisBinary</span>(<span class="kw">int</span>[] nums) {
+    <span class="kw">int</span>[] tails = <span class="kw">new int</span>[nums.length];
+    <span class="kw">int</span> len = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> x : nums) {
+        <span class="kw">int</span> l = <span class="num">0</span>, r = len;                    <span class="co">// 在 tails[0..len) 中找 lower_bound(x)</span>
+        <span class="kw">while</span> (l &lt; r) {
+            <span class="kw">int</span> m = l + (r - l) / <span class="num">2</span>;
+            <span class="kw">if</span> (tails[m] &lt; x) l = m + <span class="num">1</span>; <span class="kw">else</span> r = m;
+        }
+        tails[l] = x;
+        <span class="kw">if</span> (l == len) len++;                   <span class="co">// 接在末尾 → 长度增加</span>
+    }
+    <span class="kw">return</span> len;
+}</div>
+      <p><strong>3. 注意：</strong>二分法得到的 <code>tails</code> <strong>不一定是一条真实的子序列</strong>，只有<strong>长度</strong>是正确；需要输出具体序列时要记录前驱（prevIndex 数组）还原。</p>
+      <p><strong>4. 变体：</strong>最长<strong>非递减</strong>子序列用 <code>lower_bound(&gt; x)</code>（即第一个 &gt; x 的位置）；"俄罗斯套娃信封"先按一维升序、同值按另一维降序排序，再套 LIS。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">17</div><div class="q-meta"><div class="q-title">最长公共子序列（LCS）怎么求？和最长公共子串有什么区别？</div><div class="q-tags"><span class="q-tag">动态规划</span><span class="q-tag">字符串</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 区别：</strong></p>
+      <ul>
+        <li><strong>子序列（Subsequence）</strong>：可不连续，但保持相对顺序。</li>
+        <li><strong>子串（Substring）</strong>：必须<strong>连续</strong>。</li>
+      </ul>
+      <p><strong>2. LCS 状态与转移：</strong></p>
+      <ul>
+        <li><code>dp[i][j]</code> = <code>a[0..i)</code> 与 <code>b[0..j)</code> 的 LCS 长度。</li>
+        <li>若 <code>a[i-1] == b[j-1]</code> → <code>dp[i][j] = dp[i-1][j-1] + 1</code>。</li>
+        <li>否则 → <code>dp[i][j] = max(dp[i-1][j], dp[i][j-1])</code>（丢弃 a 末尾或 b 末尾）。</li>
+        <li>答案 <code>dp[m][n]</code>。</li>
+      </ul>
+      <div class="code-block"><span class="kw">public static int</span> <span class="fn">lcs</span>(String a, String b) {
+    <span class="kw">int</span> m = a.length(), n = b.length();
+    <span class="kw">int</span>[][] dp = <span class="kw">new int</span>[m + <span class="num">1</span>][n + <span class="num">1</span>];
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= m; i++)
+        <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= n; j++)
+            dp[i][j] = (a.charAt(i - <span class="num">1</span>) == b.charAt(j - <span class="num">1</span>))
+                     ? dp[i - <span class="num">1</span>][j - <span class="num">1</span>] + <span class="num">1</span>
+                     : Math.max(dp[i - <span class="num">1</span>][j], dp[i][j - <span class="num">1</span>]);
+    <span class="kw">return</span> dp[m][n];
+}</div>
+      <p><strong>3. 最长公共子串（续接 vs 归零）：</strong>转移中<strong>不相等时直接置 0</strong>（因为必须连续），并沿途记录最大值。</p>
+      <div class="code-block"><span class="kw">int</span>[][] dp = <span class="kw">new int</span>[m + <span class="num">1</span>][n + <span class="num">1</span>];
+<span class="kw">int</span> ans = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= m; i++)
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= n; j++) {
+        <span class="kw">if</span> (a.charAt(i - <span class="num">1</span>) == b.charAt(j - <span class="num">1</span>)) dp[i][j] = dp[i - <span class="num">1</span>][j - <span class="num">1</span>] + <span class="num">1</span>;
+        <span class="kw">else</span> dp[i][j] = <span class="num">0</span>;                     <span class="co">// 断开，不能继承</span>
+        ans = Math.max(ans, dp[i][j]);
+    }</div>
+      <p><strong>4. 复杂度：</strong>均为 O(mn) 时间；空间 O(mn)，可<strong>滚动数组优化到 O(min(m,n))</strong>（LCS 需保留对角线 dp[i-1][j-1]，要用变量 prev 暂存）。</p>
+      <p><strong>5. 应用：</strong>diff 工具、Git 的差异比对、编辑距离（Levenshtein Distance，转移多一个"替换"分支）、DNA 序列比对，本质都是同一族二维 DP。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">18</div><div class="q-meta"><div class="q-title">回溯算法：如何求全排列？模板是什么？</div><div class="q-tags"><span class="q-tag">回溯</span><span class="q-tag">DFS</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 回溯本质：</strong>在<strong>决策树</strong>上做 DFS。<strong>做选择 → 递归 → 撤销选择</strong>。"撤销"（恢复现场）是回溯区别于普通递归的关键。</p>
+      <p><strong>2. 通用模板：</strong></p>
+      <div class="code-block"><span class="kw">void</span> <span class="fn">backtrack</span>(路径, 选择列表) {
+    <span class="kw">if</span> (满足结束条件) { 结果.add(路径的拷贝); <span class="kw">return</span>; }
+    <span class="kw">for</span> (选择 : 选择列表) {
+        <span class="kw">if</span> (不合法 / 已使用) <span class="kw">continue</span>;   <span class="co">// 剪枝</span>
+        做选择;                              <span class="co">// path.add + 标记 used</span>
+        backtrack(路径, 选择列表);            <span class="co">// 递归</span>
+        撤销选择;                            <span class="co">// path.remove + 清除 used</span>
+    }
+}</div>
+      <p><strong>3. 全排列（含去重，处理重复元素）：</strong></p>
+      <div class="code-block"><span class="kw">public static</span> List&lt;List&lt;Integer&gt;&gt; <span class="fn">permuteUnique</span>(<span class="kw">int</span>[] nums) {
+    List&lt;List&lt;Integer&gt;&gt; res = <span class="kw">new</span> ArrayList&lt;&gt;();
+    <span class="kw">boolean</span>[] used = <span class="kw">new boolean</span>[nums.length];
+    Arrays.sort(nums);                            <span class="co">// 排序是去重前提</span>
+    <span class="fn">dfs</span>(nums, used, <span class="kw">new</span> ArrayList&lt;&gt;(), res);
+    <span class="kw">return</span> res;
+}
+<span class="kw">private static void</span> <span class="fn">dfs</span>(<span class="kw">int</span>[] nums, <span class="kw">boolean</span>[] used, List&lt;Integer&gt; path, List&lt;List&lt;Integer&gt;&gt; res) {
+    <span class="kw">if</span> (path.size() == nums.length) { res.add(<span class="kw">new</span> ArrayList&lt;&gt;(path)); <span class="kw">return</span>; }
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; nums.length; i++) {
+        <span class="kw">if</span> (used[i]) <span class="kw">continue</span>;
+        <span class="co">// 去重：同一层里，重复元素只允许用第一个（前一个相等且未被使用 → 跳过）</span>
+        <span class="kw">if</span> (i &gt; <span class="num">0</span> &amp;&amp; nums[i] == nums[i - <span class="num">1</span>] &amp;&amp; !used[i - <span class="num">1</span>]) <span class="kw">continue</span>;
+        used[i] = <span class="kw">true</span>; path.add(nums[i]);
+        dfs(nums, used, path, res);
+        path.remove(path.size() - <span class="num">1</span>); used[i] = <span class="kw">false</span>;   <span class="co">// 撤销</span>
+    }
+}</div>
+      <p><strong>4. 复杂度：</strong>全排列 O(n × n!)（共 n! 个解，每个拷贝 O(n)）；子集 O(n × 2ⁿ)；组合 C(n,k)。</p>
+      <p><strong>5. 去重原理（高频追问）：<code>!used[i-1]</code> 为什么这么写？</strong>它区分了<strong>同一层</strong>与<strong>同一树枝</strong>：<code>used[i-1] == false</code> 表示前一个相同元素在本层已尝试并回溯过（属于同一层的重复分支）→ 跳过；<code>used[i-1] == true</code> 表示前一个相同元素正在当前路径上使用（不同深度，是合法的不同位置）→ 保留。</p>
+      <p><strong>6. 同类问题：</strong>子集、组合、组合总和、N 皇后、括号生成、分割回文串、解数独 —— 全都套这个模板，区分点只在"选择列表的起始下标 start"（组合类用 start 推进避免重复，排列类每次从 0 开始配 used）。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">19</div><div class="q-meta"><div class="q-title">接雨水问题：双指针和单调栈两种解法？</div><div class="q-tags"><span class="q-tag">双指针</span><span class="q-tag">单调栈</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 核心观察：</strong>位置 i 能接的雨水量 = <code>min(左侧最高 maxL, 右侧最高 maxR) - height[i]</code>（结果 ≥ 0 才计入）。</p>
+      <p><strong>2. 解法一：双指针（最优，O(n) 时间 O(1) 空间）：</strong></p>
+      <ul>
+        <li>left/right 从两端向中间靠拢，并维护 <code>maxL</code>、<code>maxR</code>。</li>
+        <li>每轮处理<strong>较矮的那一侧</strong>：因为木桶效应，只要另一侧存在更高的柱子，当前侧的积水就由 <code>maxL</code> 决定。</li>
+        <li>若 <code>maxL &lt; maxR</code> → 结算左指针位置：<code>ans += maxL - h[l]</code>，然后 l++；反之结算右侧。</li>
+      </ul>
+      <div class="code-block"><span class="kw">public static int</span> <span class="fn">trap</span>(<span class="kw">int</span>[] h) {
+    <span class="kw">int</span> l = <span class="num">0</span>, r = h.length - <span class="num">1</span>, maxL = <span class="num">0</span>, maxR = <span class="num">0</span>, ans = <span class="num">0</span>;
+    <span class="kw">while</span> (l &lt; r) {
+        maxL = Math.max(maxL, h[l]);
+        maxR = Math.max(maxR, h[r]);
+        <span class="kw">if</span> (maxL &lt; maxR) ans += maxL - h[l++];   <span class="co">// 左侧高度受 maxL 限制</span>
+        <span class="kw">else</span>             ans += maxR - h[r--];   <span class="co">// 右侧高度受 maxR 限制</span>
+    }
+    <span class="kw">return</span> ans;
+}</div>
+      <p><strong>3. 解法二：单调栈（按"层"横向计算，O(n) 时间 O(n) 空间）：</strong></p>
+      <p>维护<strong>递减栈</strong>（存下标）。当遇到 <code>h[i] &gt; h[栈顶]</code> 时，说明形成了凹槽：弹出栈顶作为<strong>槽底</strong>，新的栈顶是<strong>左边界</strong>，i 是<strong>右边界</strong>，宽度 = <code>i - left - 1</code>，高度 = <code>min(h[left], h[i]) - h[bottom]</code>，累加。</p>
+      <div class="code-block"><span class="kw">public static int</span> <span class="fn">trapStack</span>(<span class="kw">int</span>[] h) {
+    Deque&lt;Integer&gt; st = <span class="kw">new</span> ArrayDeque&lt;&gt;();
+    <span class="kw">int</span> ans = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; h.length; i++) {
+        <span class="kw">while</span> (!st.isEmpty() &amp;&amp; h[i] &gt; h[st.peek()]) {
+            <span class="kw">int</span> bottom = st.pop();
+            <span class="kw">if</span> (st.isEmpty()) <span class="kw">break</span>;              <span class="co">// 没有左边界，接不住水</span>
+            <span class="kw">int</span> left = st.peek();
+            ans += (Math.min(h[left], h[i]) - h[bottom]) * (i - left - <span class="num">1</span>);
+        }
+        st.push(i);
+    }
+    <span class="kw">return</span> ans;
+}</div>
+      <p><strong>4. 怎么选：</strong>面试优先写<strong>双指针</strong>（更简洁、O(1) 空间）；若追问"按层计算 / 输出每段积水区间"，用<strong>单调栈</strong>。此外还有<strong>预处理前缀最大值数组</strong>的 O(n) 空间写法，最容易理解但不够优雅。</p>
+      <p><strong>5. 单调栈的通用价值：</strong>专门解决"找某个元素<strong>左/右第一个比它大/小的元素</strong>"——每日温度、下一个更大元素、柱状图最大矩形，都是同一套模板。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">20</div><div class="q-meta"><div class="q-title">海量数据问题：如何在 10 亿个数中找 TopK、去重、找中位数？</div><div class="q-tags"><span class="q-tag">海量数据</span><span class="q-tag">分治</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>核心思路都是"分而治之 + 哈希分流"，把单机内存装不下的问题拆成能装下的小问题。</strong></p>
+      <p><strong>1. TopK（最大 K 个）：</strong></p>
+      <ul>
+        <li><strong>单机能遍历、只需 TopK</strong>：容量为 K 的<strong>小顶堆</strong>，O(n log K)、内存 O(K)。</li>
+        <li><strong>数据量极大（TB 级）</strong>：先用 <code>hash(x) % M</code> <strong>哈希分治</strong>到 M 台机器 / M 个文件，保证<strong>相同的值一定落在同一分片</strong>；各分片独立求自己的 TopK；最后对 <code>M × K</code> 个候选再求一次全局 TopK。</li>
+        <li><strong>数据有范围且分布均匀（如 0~65535 的整数）</strong>：用<strong>计数数组 / 桶</strong>，从大到小累加计数直到 K，O(n)。</li>
+      </ul>
+      <p><strong>2. 去重 / 统计出现次数：</strong></p>
+      <ul>
+        <li><strong>精确方案</strong>：<code>hash(x) % M</code> 分到 M 个文件，每个文件用 <code>HashSet</code> 去重，最后合并（同值必在同一文件，天然去重）。</li>
+        <li><strong>近似方案（省内存）</strong>：<strong>布隆过滤器</strong>，O(1) 空间/元素，但有<strong>假阳性</strong>（"存在"是可能），且不<strong>支持删除</strong>；需要删除用 <strong>Cuckoo Filter</strong> 或计数布隆过滤器。</li>
+      </ul>
+      <p><strong>3. 找中位数 / 第 K 小：</strong></p>
+      <ul>
+        <li><strong>范围已知且均匀</strong>：<strong>桶排序思想</strong>——先扫描一遍统计每个桶的<strong>元素个数</strong>，定位中位数落在哪个桶，再<strong>只对那个桶</strong>做排序/统计。两次扫描，内存 O(桶数)。</li>
+        <li><strong>范围未知</strong>：哈希分片后各片排序，再用<strong>多路归并（小顶堆）</strong>合并后取第 K 个；或各片返回自己的第 K 小候选后二次筛选。</li>
+      </ul>
+      <p><strong>4. 查两个大文件的交集 / 找只出现一次的数：</strong>同样哈希分治到同一编号的文件，再对每一对文件分别处理，避免全量载入。</p>
+      <p><strong>5. 面试答题框架（照着说就很稳）：</strong></p>
+      <ul>
+        <li>先<strong>估算内存</strong>：1 个 int 4 字节，10 亿个约 4GB，装不下 → 必须分治。</li>
+        <li>再<strong>选分流函数</strong>：<code>hash % M</code>，M 由可用内存决定，强调"同值/同键必落同片"。</li>
+        <li>然后<strong>分片内求解</strong>（堆、Set、排序、位图）。</li>
+        <li>最后<strong>合并结果</strong>。</li>
+        <li>如果允许近似，主动提<strong>布隆过滤器 / 位图 (BitMap) / HyperLogLog</strong>（Redis 的 HLL 做 UV 统计，12KB 内存统计 2⁶⁴ 量级基数，误差 0.81%）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="footer">
+  📌 24 · 算法 · 共20题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_数据结构.html" style="color:var(--primary)">← 上一板块 数据结构</a>
+</div>
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+</body>
+</html>

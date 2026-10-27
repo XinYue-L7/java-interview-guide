@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 数据结构</title>
+<style>
+html{margin:0;padding:0;background:var(--hero-from)}
+:root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body data-section="23">
+<div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+  <h1>数据结构</h1>
+  <p>2道题 · 数组 · 链表 · 栈与队列 · 哈希表 · 概率型数据结构</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_汇丰银行面试题2026年8月.html">← 汇丰银行面试题</a>
+    <a href="Java面试宝典_算法.html">算法 →</a>
+  </div>
+</div>
+<div class="container">
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">什么是 Cuckoo Filter（布谷鸟过滤器）？</div><div class="q-tags"><span class="q-tag">概率型数据结构</span><span class="q-tag">哈希</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>Cuckoo Filter（布谷鸟过滤器）是一种<strong>概率型数据结构</strong>，由 Fan 等人在 2014 年提出，常被视作 Bloom Filter 的替代方案。它最突出的特点是<strong>原生支持删除操作</strong>，同时能在较低的误判率下保持不错的空间效率。</p>
+      <p><strong>2. 工作原理：</strong></p>
+      <p>🐦 Cuckoo Filter 基于"布谷鸟哈希"（Cuckoo Hashing）设计，可以把它想象成一个特殊的哈希表，里面存的不是原始数据，而是数据的<strong>指纹</strong>（一个短哈希值）。</p>
+      <ul>
+        <li><strong>两个候选位置：</strong><br/>每个元素通过哈希计算，会得到两个可能的桶位置。</li>
+        <li><strong>指纹存储：</strong><br/>元素本身不存进去，只存一个短小的"指纹"（比如 8 位或 16 位）。</li>
+        <li><strong>踢出机制：</strong><br/>插入时如果两个桶都满了，它会随机踢走一个已有的指纹，让这个指纹去它自己的另一个位置。这个过程就像布谷鸟把别的鸟蛋踢出巢一样，可能连锁触发，直到找到空位。</li>
+      </ul>
+      <p><strong>3. Redis 中的 Cuckoo Filter（RedisBloom 模块）：</strong></p>
+      <p>命令以 <strong>CF.</strong> 开头：</p>
+      <ul>
+        <li><strong>添加：</strong><br/>CF.ADD key item 或 CF.INSERT key [CAPACITY cap] ITEMS item...。</li>
+        <li><strong>查询：</strong><br/>CF.EXISTS key item 或批量 CF.MEXISTS key item...。返回 1 表示<strong>可能存在</strong>，0 表示<strong>一定不存在</strong>。</li>
+        <li><strong>删除：</strong><br/>CF.DEL key item，这是它区别于 Bloom Filter 的关键操作。</li>
+      </ul>
+      <p><strong>4. ⚠️ 需要注意的"坑"：</strong></p>
+      <p>虽然设计上 Cuckoo Filter 号称<strong>没有假阴性</strong>（即已插入的元素一定查得到），但实际的工程实现中，在高负载或特定哈希冲突下，可能会出现假阴性。有研究指出，在过滤器接近满载时，部分实现会因踢出机制和哈希截断的相互作用，导致本该存在的元素查不到。所以，如果业务上不允许漏判，使用前最好针对具体实现做测试验证。</p>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">什么是布隆过滤器（Bloom Filter）？</div><div class="q-tags"><span class="q-tag">概率型数据结构</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>布隆过滤器（Bloom Filter）是 1970 年由 Burton Howard Bloom 提出的一种<strong>概率型数据结构</strong>，由一个很长的<strong>位数组</strong>和若干个<strong>哈希函数</strong>组成，用来判断一个元素是否在集合中。</p>
+      <p>它的判断结果是"概率性"的：</p>
+      <ul>
+        <li><strong>说不存在，就一定不存在</strong>（无假阴性）。</li>
+        <li><strong>说存在，只是可能存在</strong>（有假阳性，即误判率）。</li>
+      </ul>
+      <p><strong>2. 工作原理：</strong></p>
+      <p>布隆过滤器由一个长度为 m 的<strong>位数组</strong>（初始全 0）和 k 个<strong>相互独立的哈希函数</strong>组成，每个哈希函数都能把元素映射到 [0, m-1] 范围内的某个下标。</p>
+      <ul>
+        <li><strong>插入流程：</strong><br/>将元素 x 依次经过 k 个哈希函数，得到 k 个下标 h1(x)、h2(x)、…、hk(x)，把位数组中这 k 个位置<strong>全部置为 1</strong>。如果某个位置原本就是 1，保持不变（位只能从 0 变 1，不能变回 0）。</li>
+        <li><strong>查询流程：</strong><br/>同样计算 k 个下标并检查对应位：<br/>只要<strong>任意一位为 0 → 一定不存在</strong>（若元素插入过，这些位必然都已是 1）；<br/>如果<strong>全部为 1 → 可能存在</strong>，因为这些位可能是其它元素各自"凑"出来的，这就是<strong>假阳性（误判）的来源</strong>。</li>
+        <li><strong>误判率与参数关系：</strong><br/>位数组越大（m 越大）、哈希函数个数 k 选取合适，误判率越低；插入元素越多（n 越大），位数组越"满"，误判率越高。近似公式：误判率 p ≈ (1 - e^(-kn/m))^k。<br/>工程上通常按预期元素量 n 和目标误判率 p 反推出所需的 m 和 k（如 m = -n·lnp / (ln2)²，最优 k ≈ (m/n)·ln2）。</li>
+        <li><strong>为什么用多个哈希函数：</strong><br/>单个哈希函数冲突率高；多个独立哈希函数要求所有位同时"撞车"才误判，概率大幅降低。工程上常用<strong>双重哈希</strong>（Double Hashing）模拟 k 个函数：hi(x) = h1(x) + i·h2(x)，只算两次哈希即可。</li>
+      </ul>
+      <p><strong>3. 核心特点：</strong></p>
+      <ul>
+        <li><strong>空间效率极高：</strong><br/>不存储元素本身，只存比特位，比 HashMap 等结构节省几十倍空间。</li>
+        <li><strong>查询时间恒定：</strong><br/>O(k)，k 为哈希函数个数（通常个位数），与数据量无关。</li>
+        <li><strong>不支持删除：</strong><br/>位数组的一个位可能被多个元素共享，直接置 0 会影响其它元素。想支持删除需用计数布隆过滤器（Counting Bloom Filter）或改用 Cuckoo Filter。</li>
+        <li><strong>存在误判率：</strong><br/>由位数组大小 m、哈希函数个数 k、已插入元素数 n 共同决定；装载越满误判率越高。</li>
+      </ul>
+      <p><strong>4. 使用示例（Redis RedisBloom 模块）：</strong></p>
+      <ul>
+        <li><strong>添加：</strong><br/>BF.ADD key item 或批量 BF.MADD。</li>
+        <li><strong>查询：</strong><br/>BF.EXISTS key item，返回 1 表示可能存在，0 表示一定不存在。</li>
+        <li><strong>创建时指定参数：</strong><br/>BF.RESERVE key 0.001 1000000（误判率 0.1%、预计 100 万元素）。</li>
+      </ul>
+      <p>Java 侧可用 Guava 的 BloomFilter：</p>
+      <div class="code-block"><span class="co">// Guava 示例</span>
+BloomFilter&lt;String&gt; filter = BloomFilter.create(
+        Funnels.unencodedCharsFunnel(), 1000000, 0.001);
+filter.put(<span class="str">"hello"</span>);
+filter.mightContain(<span class="str">"hello"</span>); <span class="co">// true（可能存在）</span></div>
+      <p><strong>5. 典型应用场景：</strong></p>
+      <ul>
+        <li><strong>缓存穿透防护：</strong><br/>请求先过布隆过滤器，不存在的 Key 直接拦截，不打到数据库。</li>
+        <li><strong>爬虫 URL 去重</strong>、<strong>垃圾邮件/黑名单过滤</strong>、<strong>推荐系统已读去重</strong>。</li>
+      </ul>
+      <p><strong>6. ⚠️ 注意事项：</strong></p>
+      <ul>
+        <li>误判率需提前评估并预留足够空间，接近满载时误判率急剧上升，应重建或扩容。</li>
+        <li>不支持删除，元素过期场景要考虑定期重建或改用 Cuckoo Filter。</li>
+        <li>哈希函数需相互独立且分布均匀（工程上常用双重哈希模拟 k 个函数）。</li>
+        <li>它只能做"存在性判断"，不能取出原始元素，不能遍历。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="footer">
+  📌 23 · 数据结构 · 共2题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_算法.html" style="color:var(--primary)">下一板块 →</a>
+</div>
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+</body>
+</html>
