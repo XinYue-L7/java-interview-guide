@@ -10,3 +10,9 @@ Thumbs.db
 
 # Maven 编译产物
 target/
+
+# 非本仓库（java-interview-guide）的项目内容，本地保留但不纳入版本管理
+self-introduction/
+design-creative-canvas/
+kodex-landing/
+solar-terms-illustrations/
