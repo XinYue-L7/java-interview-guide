@@ -41,6 +41,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .answer strong{color:var(--success)}
 .code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
 .code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--card-bg);text-align:left;padding:7px 10px;font-weight:700;border-bottom:2px solid var(--primary);color:var(--success)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.table-wrap td:first-child,.table-wrap th:first-child{white-space:nowrap}
+.table-wrap tr:last-child td{border-bottom:none}
+.answer .sec-title{display:block;font-weight:700;color:var(--success);margin:8px 0 4px}
 .switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
 .switch input{opacity:0;width:0;height:0}
 .slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
@@ -68,7 +75,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <span class="slider"></span>
   </label>
   <h1>数据结构</h1>
-  <p>2道题 · 数组 · 链表 · 栈与队列 · 哈希表 · 概率型数据结构</p>
+  <p>9道题 · 数组 · 链表 · 栈与队列 · 哈希表 · 概率型数据结构</p>
   <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_汇丰银行面试题2026年8月.html">← 汇丰银行面试题</a>
@@ -156,9 +163,7 @@ filter.mightContain(<span class="str">"hello"</span>); <span class="co">// true�
     </div>
   </div>
 </div>
-</div>
 
-<div class="footer">
 <!-- Q3 -->
 <div class="card">
   <div class="card-header">
@@ -210,22 +215,75 @@ filter.mightContain(<span class="str">"hello"</span>); <span class="co">// true�
   <div class="card-header">
     <div class="q-num">5</div>
     <div class="q-meta"><div class="q-title">什么是堆？什么情况下要用堆？</div>
-      <div class="q-tags"><span class="q-tag">堆</span></div>
+      <div class="q-tags"><span class="q-tag">堆</span><span class="q-tag">高频</span></div>
     </div>
   </div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong class="sec-title">定义</strong></p>
-      <p>堆是<strong>特殊的完全二叉树</strong>：大顶堆每个节点 ≥ 子节点（堆顶最大）；小顶堆堆顶最小。通常用数组实现（父 i → 子 2i+1/2i+2），插入、删除堆顶均为 <strong>O(log n)</strong>，取最值 O(1)。</p>
-      <p><strong class="sec-title">使用场景：需要动态获取最值</strong></p>
+      <p><strong class="sec-title">一、什么是堆</strong></p>
+      <p>堆（Heap）是一种特殊的树形数据结构：它首先是一棵<strong>完全二叉树</strong>，其次树上任意节点都要满足「<strong>堆序性质</strong>」——父节点的值与子节点的值有固定的大小关系。按关系方向分两种：</p>
       <ul>
-        <li>优先队列（Java 的 PriorityQueue 默认小顶堆）</li>
-        <li>数据流中前 K 大/小（TopK：维护 K 大小的小顶堆）</li>
-        <li>堆排序 O(n log n)</li>
-        <li>Dijkstra / Prim 算法优化</li>
-        <li>定时任务按时间调度（Netty/Dubbo 的时间轮、DelayQueue）</li>
+        <li><strong>大顶堆（Max-Heap）</strong>：每个节点的值 ≥ 其子节点的值 → 沿着任意路径从上往下值递减 → <strong>堆顶（根节点）就是全局最大值</strong></li>
+        <li><strong>小顶堆（Min-Heap）</strong>：每个节点的值 ≤ 其子节点的值 → <strong>堆顶就是全局最小值</strong></li>
       </ul>
+      <p>注意两个关键点：</p>
+      <ul>
+        <li>堆序只约束「<strong>父 vs 子</strong>」，<strong>不约束左右兄弟之间的大小</strong>——左子树和右子树谁大谁小完全无序，所以堆无法按顺序遍历，也不能高效查找任意元素</li>
+        <li>堆的有序性是「<strong>局部</strong>」的（只保证堆顶是极值），不像二叉搜索树那样「全局有序」</li>
+      </ul>
+      <p><strong>存储实现：用数组，不用指针</strong>。因为完全二叉树的节点是连续排列的，可以用下标直接算出父子关系，不需要 left/right 指针：</p>
+      <ul>
+        <li>下标 <code>i</code> 的<strong>左子</strong> = <code>2i+1</code>，<strong>右子</strong> = <code>2i+2</code>，<strong>父节点</strong> = <code>(i-1)/2</code></li>
+        <li>好处：内存紧凑、缓存友好、省掉每个节点两个指针的开销；Java 的 <code>PriorityQueue</code> 内部就是一个 <code>Object[]</code></li>
+      </ul>
+      <p><strong>两个核心动作</strong>（维持堆序性质的手段，面试常追问）：</p>
+      <ul>
+        <li><strong>上浮 siftUp</strong>：新元素放到数组末尾，若比父节点大（大顶堆）就和父节点交换，一路向上直到合法 → 插入用</li>
+        <li><strong>下沉 siftDown</strong>：堆顶被取走后，把末尾元素搬到堆顶，与较大的子节点交换，一路向下直到合法 → 删堆顶用</li>
+      </ul>
+      <div class="table-wrap"><table>
+        <tr><th>操作</th><th>复杂度</th><th>说明</th></tr>
+        <tr><td>取最值</td><td>O(1)</td><td>直接读堆顶，这是堆存在的唯一意义</td></tr>
+        <tr><td>插入</td><td>O(log n)</td><td>放末尾后「上浮」siftUp</td></tr>
+        <tr><td>删除堆顶</td><td>O(log n)</td><td>末尾元素换到堆顶后「下沉」siftDown</td></tr>
+        <tr><td>建堆</td><td>O(n)</td><td>从最后一个非叶子节点向前依次下沉</td></tr>
+        <tr><td>查找任意元素</td><td>O(n)</td><td>堆只保证堆顶有序，其余无序</td></tr>
+      </table></div>
+      <p><strong class="sec-title">二、什么情况下要用堆：需要「动态、反复地取最值」</strong></p>
+      <p>关键词是<strong>动态</strong>——数据一直在增删，而你要不断拿当前的最大/最小值。如果数据是静态的，直接排序一次更快。</p>
+      <ul>
+        <li><strong>优先队列</strong>：Java <code>PriorityQueue</code> 就是小顶堆；任务按优先级出队</li>
+        <li><strong>TopK 问题</strong>：求最大的 K 个 → 维护大小为 K 的<strong>小顶堆</strong>，新元素比堆顶大就替换，时间 O(n log K)</li>
+        <li><strong>数据流中位数</strong>：一个大顶堆放左半、一个小顶堆放右半，两边平衡</li>
+        <li><strong>堆排序</strong>：O(n log n)，原地、最坏也是 O(n log n)（对比快排最坏 O(n²)）</li>
+        <li><strong>图算法优化</strong>：Dijkstra、Prim 用堆取当前最短/最小边</li>
+        <li><strong>定时任务</strong>：DelayQueue 按到期时间排堆；海量定时任务则升级为时间轮</li>
+      </ul>
+      <p><strong class="sec-title">三、为什么不用别的结构（选型对比）</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>方案</th><th>取最值</th><th>插入</th><th>问题</th></tr>
+        <tr><td>有序数组</td><td>O(1)</td><td>O(n)</td><td>每次插入都要搬元素</td></tr>
+        <tr><td>无序数组</td><td>O(n)</td><td>O(1)</td><td>取最值要全扫</td></tr>
+        <tr><td>平衡树</td><td>O(log n)</td><td>O(log n)</td><td>功能过剩、常数大、有旋转开销</td></tr>
+        <tr><td><strong>堆</strong></td><td><strong>O(1)</strong></td><td><strong>O(log n)</strong></td><td><strong>只关心最值时的最优解</strong></td></tr>
+      </table></div>
+      <p><strong class="sec-title">四、局限</strong></p>
+      <p>堆<strong>只保证堆顶有序</strong>，无法按顺序遍历全部元素（要排序得反复弹出，O(n log n)）；也不能随机查找、删除中间元素（O(n)）。需要有序遍历就用 TreeMap。</p>
+      <p><strong class="sec-title">五、补充：什么是完全二叉树</strong></p>
+      <p>完全二叉树（Complete Binary Tree）的定义：<strong>除最后一层外，每一层的节点都填满；最后一层的节点必须从左到右连续排列，不允许出现空洞</strong>。</p>
+      <ul>
+        <li><strong>满二叉树（Full/Perfect）</strong>：每一层都填满，是完美形态；满二叉树一定是完全二叉树，反之不成立</li>
+        <li><strong>完全二叉树</strong>：只要求最后一层"靠左对齐"，可以缺右边几个节点</li>
+        <li>反例：最后一层跳过左边空位、先填了右边 → 不是完全二叉树</li>
+      </ul>
+      <p><strong>堆为什么非要选完全二叉树？</strong></p>
+      <ul>
+        <li><strong>能用数组存</strong>：节点连续排列，父子关系可以用下标公式（2i+1 / 2i+2 / (i-1)/2）算出来，不需要指针，也不浪费数组空间——如果有空洞，数组中间就得留空位</li>
+        <li><strong>高度必然是 O(log n)</strong>：n 个节点的完全二叉树高度就是 ⌊log₂n⌋，不会退化，这直接保证了插入、删除的 O(log n)</li>
+        <li><strong>对比普通二叉树</strong>：如果插入顺序不巧，普通二叉树可以退化成一条链（高度 n），堆序性质就白设了</li>
+      </ul>
+      <p>所以「完全二叉树 + 堆序性质」两者缺一不可：前者保证了<strong>数组存储和 O(log n) 高度</strong>，后者保证了<strong>堆顶是极值</strong>。</p>
     </div>
   </div>
 </div>
@@ -241,14 +299,31 @@ filter.mightContain(<span class="str">"hello"</span>); <span class="co">// true�
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong class="sec-title">定义与五条性质</strong></p>
-      <p>自平衡二叉搜索树，节点非红即黑，满足：① 节点非红即黑；② 根节点为黑；③ NIL 叶子为黑；④ <strong>红节点的子节点必为黑</strong>（不出现连续红）；⑤ 任一节点到后代叶子的路径上黑节点数目相同。</p>
-      <p><strong class="sec-title">核心价值</strong></p>
+      <p><strong class="sec-title">一、什么是红黑树</strong></p>
+      <p>红黑树是一种<strong>自平衡的二叉搜索树</strong>：每个节点带红/黑颜色，靠颜色规则 + 旋转把树高度维持在 O(log n)。</p>
+      <p><strong>五条性质（必须背）</strong>：</p>
       <ul>
-        <li>性质 ④⑤ 保证<strong>最长路径不超过最短路径的 2 倍</strong> → 树大致平衡，查找、插入、删除均为 <strong>O(log n)</strong>。</li>
-        <li>靠<strong>左旋、右旋、变色</strong>维持平衡；相比 AVL 旋转次数少，增删频繁的场景综合性能更好（AVL 更严格、查询略快但调整代价大）。</li>
+        <li>① 节点非红即黑</li>
+        <li>② 根节点是黑色</li>
+        <li>③ 所有 NIL 叶子节点是黑色</li>
+        <li>④ <strong>红色节点的两个子节点必须是黑色</strong>（不能有连续的红色）</li>
+        <li>⑤ 任一节点到其所有后代叶子的路径上，<strong>黑节点数量相同</strong></li>
       </ul>
-      <p>💡 应用：TreeMap/TreeSet、HashMap 桶内链表转树（≥8）、ConcurrentHashMap、Linux 内核 CFS 调度器、C++ map/set。</p>
+      <p>性质 ④ + ⑤ 组合出的结论：<strong>最长路径 ≤ 2 × 最短路径</strong> → 树高被压到 O(log n)，不会退化成链表。</p>
+      <p>失衡时通过<strong>变色 + 左旋 / 右旋</strong>修复，插入最多 2 次旋转，删除最多 3 次。</p>
+      <p><strong class="sec-title">二、为什么 TreeMap 用它</strong></p>
+      <ul>
+        <li>TreeMap 要求 <strong>Key 有序</strong>（支持 firstKey/lastKey/subMap/范围查询），哈希表做不到</li>
+        <li>普通二叉搜索树在有序插入时会退化成链表（O(n)），红黑树保证 <strong>O(log n)</strong></li>
+        <li>相比 AVL 树：AVL 平衡更严格、查询略快，但插入删除旋转更多；TreeMap 是<strong>读写混合</strong>场景，红黑树综合更优（这也是 JDK 选它的原因）</li>
+      </ul>
+      <p><strong class="sec-title">三、为什么 HashMap 也要用它</strong></p>
+      <ul>
+        <li>哈希冲突严重时，同一个桶内的链表会退化成 O(n) 查找（极端情况可被构造为拒绝服务攻击）</li>
+        <li>JDK 8 起：链表长度 ≥ <strong>8</strong> 且容量 ≥ 64 时转成红黑树，查找从 O(n) 降到 <strong>O(log n)</strong>；缩回 6 时转回链表</li>
+        <li>用树而不用 AVL：桶内节点数通常很少，红黑树「旋转少、调整代价低」更适合频繁增删</li>
+        <li>注意：HashMap 里的树节点按 <code>hash</code> 值排序，仍然<strong>不保证整体有序</strong>，只是把桶内查找变快</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -264,14 +339,38 @@ filter.mightContain(<span class="str">"hello"</span>); <span class="co">// true�
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong class="sec-title">原理</strong></p>
-      <p>用一个 bit 的 0/1 表示元素是否存在，底层是 long 数组：定位 <code>num &gt;&gt;&gt; 6</code>（在哪个 long）、位偏移 <code>num &amp; 63</code>；<code>|=</code> 置位、<code>&amp;= ~</code> 清位、<code>&amp;</code> 判断。</p>
-      <p><strong class="sec-title">威力</strong></p>
+      <p><strong class="sec-title">一、什么是 BitMap</strong></p>
+      <p>用一个 <strong>bit</strong>（0/1）表示「某个数字是否存在」，而不是用 int/long 存这个数字本身。一个 long 是 64 bit，就能标记 64 个数字。</p>
+      <p><strong>实现</strong>：底层是 <code>long[]</code>，对数字 num：</p>
       <ul>
-        <li>40 亿整数去重：int 数组需 ~16GB，BitMap 只需 <strong>~500MB</strong>（40 亿 bit）。</li>
-        <li>应用：海量数据去重、O(n) 排序、布隆过滤器的底座、Redis 的 BITSET（用户签到、活跃统计）。</li>
+        <li>定位在第几个 long：<code>num &gt;&gt;&gt; 6</code>（等价于 num / 64）</li>
+        <li>定位 long 内的第几位：<code>num &amp; 63</code>（等价于 num % 64）</li>
+        <li>置位 <code>|=</code>、清位 <code>&amp;= ~</code>、判断 <code>&amp;</code>，全部是 O(1)</li>
       </ul>
-      <p><strong>局限：</strong>只适合<strong>非负整数</strong>且值域有限；稀疏数据浪费严重（此时换 RoaringBitmap 或布隆过滤器）。</p>
+      <p><strong class="sec-title">二、有什么用：海量整数的「判重 / 排序 / 统计」</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>场景</th><th>用法</th></tr>
+        <tr><td>海量数据去重</td><td>40 亿个 int 去重判重，遍历时置位，已置位即为重复</td></tr>
+        <tr><td>O(n) 排序</td><td>全部置位后按 bit 顺序扫描输出，天然有序（值域小时比快排快）</td></tr>
+        <tr><td>用户签到 / 活跃统计</td><td>Redis <code>SETBIT</code>/<code>BITCOUNT</code>，一年 365 天只需 46 字节</td></tr>
+        <tr><td>布隆过滤器底座</td><td>布隆过滤器本质就是「多个哈希函数 + 一个 BitMap」</td></tr>
+        <tr><td>文件/块去重、权限位</td><td>Linux 文件权限、磁盘块位图</td></tr>
+      </table></div>
+      <p><strong class="sec-title">三、为什么用它：空间碾压其他方案</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>方案</th><th>40 亿个整数占用</th><th>说明</th></tr>
+        <tr><td>int 数组</td><td>约 16 GB</td><td>每个数 4 字节，还得去重</td></tr>
+        <tr><td>HashSet</td><td>更大（含哈希表开销）</td><td>单条 Entry 几十字节</td></tr>
+        <tr><td><strong>BitMap</strong></td><td><strong>约 500 MB</strong></td><td>40 亿 bit，1 bit/数，压缩 32 倍</td></tr>
+        <tr><td>布隆过滤器</td><td>更小但可能误判</td><td>允许误差时首选</td></tr>
+      </table></div>
+      <p><strong class="sec-title">四、局限与替代</strong></p>
+      <ul>
+        <li>只能表示<strong>非负整数</strong>；负数要先偏移映射</li>
+        <li>值域必须有限且不能过大（值域 100 亿就是 1.25 GB）</li>
+        <li><strong>稀疏数据浪费严重</strong>（只有 3 个数但值域 1 亿）→ 换 <code>RoaringBitmap</code>（分块压缩）或布隆过滤器</li>
+        <li>不支持取出原始元素，只能判断存在性</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -281,20 +380,35 @@ filter.mightContain(<span class="str">"hello"</span>); <span class="co">// true�
   <div class="card-header">
     <div class="q-num">8</div>
     <div class="q-meta"><div class="q-title">什么是跳表（SkipList）？为什么 Redis 的 zset 用它不用红黑树？</div>
-      <div class="q-tags"><span class="q-tag">跳表</span></div>
+      <div class="q-tags"><span class="q-tag">跳表</span><span class="q-tag">高频</span></div>
     </div>
   </div>
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong class="sec-title">结构</strong></p>
-      <p>在有序链表基础上增加<strong>多层索引</strong>：每个节点的层数随机生成，高层索引是低层索引的子集，元素间隔逐层增大。查找从最高层开始，每层找小于目标的最大元素，<strong>逐层下沉</strong>（不能直接跨两级跳），直到命中。平均查找/插入/删除 <strong>O(log n)</strong>。</p>
-      <p><strong class="sec-title">为什么 Redis zset 选跳表</strong></p>
+      <p><strong class="sec-title">一、什么是跳表</strong></p>
+      <p>跳表 = <strong>有序链表 + 多层索引</strong>。底层是一条存全部元素的有序链表，上面每层都是下一层的「抽样索引」，越往上越稀疏，形成「地铁快线 + 慢线」的效果。</p>
+      <p><strong>查找过程</strong>：从最高层出发，能往右就往右；右边比目标大就<strong>下沉一层</strong>继续，直到最底层命中。类似二分，平均 <strong>O(log n)</strong>。</p>
       <ul>
-        <li>实现简单，<strong>无旋转操作</strong>，代码不易出 bug。</li>
-        <li>范围查询天然高效（找到起点后沿底层链表顺序遍历）。</li>
-        <li>并发友好：插入只影响局部节点与索引，无需像红黑树那样全局旋转。</li>
-        <li>层数随机可控，用空间换时间。</li>
+        <li>节点层数<strong>随机生成</strong>（通常 1/2 概率升层），不需要任何平衡计算</li>
+        <li>插入 = 先查找到位置 → 改指针 → 随机决定要不要向上建索引</li>
+        <li>删除 = 查到后改指针，层层摘除</li>
+      </ul>
+      <p><strong class="sec-title">二、为什么 Redis zset 用跳表而不用红黑树</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>维度</th><th>跳表</th><th>红黑树</th></tr>
+        <tr><td>实现复杂度</td><td>简单，核心就是链表 + 随机层数</td><td>复杂，插入删除要处理多种旋转/变色情形</td></tr>
+        <tr><td>范围查询（zset 核心）</td><td>找到起点后沿底层链表<strong>顺序遍历</strong>，天然高效</td><td>需要中序遍历 + 回溯，实现繁琐</td></tr>
+        <tr><td>并发/局部修改</td><td>只改动局部指针，锁范围小</td><td>旋转可能波及全局结构</td></tr>
+        <tr><td>代码可维护性</td><td>无旋转，不易出 bug</td><td>边界情况多，易错</td></tr>
+        <tr><td>内存</td><td>略多（索引层）</td><td>每个节点 2 指针 + 颜色位</td></tr>
+      </table></div>
+      <p><strong>一句话</strong>：zset 最高频的操作是 <code>ZRANGE</code> 范围查询和 <code>ZRANK</code> 排名，跳表在「有序 + 范围遍历」上比红黑树更简单直接，Redis 作者 antirez 也明确说过这是为「实现简单、范围查询方便」而做的取舍。</p>
+      <p><strong class="sec-title">三、为什么不用哈希表 / 数组</strong></p>
+      <ul>
+        <li>哈希表：无法按 score 排序、无法范围查询（zset 要 ZRANGEBYSCORE）</li>
+        <li>数组：插入删除 O(n)，zset 高频增删不可接受</li>
+        <li>zset 实际是<strong>双结构</strong>：<code>dict</code>（member→score，O(1) 查分数）+ <code>skiplist</code>（按 score 有序，范围查询）</li>
       </ul>
     </div>
   </div>
@@ -311,20 +425,44 @@ filter.mightContain(<span class="str">"hello"</span>); <span class="co">// true�
   <div class="card-body">
     <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
     <div class="answer">
-      <p><strong class="sec-title">结构</strong></p>
+      <p><strong class="sec-title">一、什么是时间轮</strong></p>
+      <p>时间轮是一个<strong>环形数组 + 循环指针</strong>构成的定时器数据结构：把时间切成固定刻度（如 1 秒一格），指针每格走一次，走到哪个格子就执行那个格子里的任务。</p>
       <ul>
-        <li><strong>环状数组 + 循环指针</strong>：每个数组元素代表一个时间刻度（如 1 秒），指针每隔最小时间单位前进一格。</li>
-        <li>任务按执行时间计算槽位下标放入对应槽，同一刻度多个任务用双向链表存储；超过一圈的任务用圈数表示。</li>
-        <li>指针走到某槽 → 遍历执行该槽链表上圈数为 0 的任务，其余圈数减一。</li>
+        <li><strong>槽（slot）</strong>：数组每个元素是一个时间刻度，槽内用<strong>双向链表</strong>挂同一时刻到期的任务</li>
+        <li><strong>指针（tick）</strong>：每个最小时间单位前进一格，取模回到起点</li>
+        <li><strong>圈数（round）</strong>：任务延迟超过一整圈的，记录需要多转几圈；指针经过时圈数减 1，减到 0 才执行</li>
+        <li><strong>多层时间轮</strong>（Kafka）：秒轮、分轮、时轮分层，类似钟表时针分针，用少量格子表达很长的时间范围</li>
       </ul>
-      <p><strong class="sec-title">优势</strong></p>
-      <p>添加、取消、触发任务都是 <strong>O(1)</strong>（对比 PriorityQueue 定时器 O(log n)），海量定时任务（心跳检测、超时取消）下性能碾压。精度取决于最小时间单元；多层时间轮（Kafka）可表达更长时间范围。Netty 的 HashedWheelTimer、Dubbo 的失败重试调度、Kafka 的延迟操作都用它。</p>
+      <p><strong class="sec-title">二、为什么用它：O(1) 代替 O(log n)</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>方案</th><th>添加任务</th><th>取消任务</th><th>触发扫描</th><th>问题</th></tr>
+        <tr><td>每任务一个线程 Timer</td><td>O(1)</td><td>难</td><td>-</td><td>线程爆炸，资源不可控</td></tr>
+        <tr><td>DelayQueue / 优先队列</td><td>O(log n)</td><td>O(n) 删除</td><td>O(log n)</td><td>海量任务时堆调整频繁</td></tr>
+        <tr><td>轮询扫全表</td><td>O(1)</td><td>O(1)</td><td>O(n)</td><td>空转浪费 CPU</td></tr>
+        <tr><td><strong>时间轮</strong></td><td><strong>O(1)</strong></td><td><strong>O(1)</strong></td><td><strong>O(1) 摊还</strong></td><td>精度受刻度限制</td></tr>
+      </table></div>
+      <p>海量定时任务场景（几十万连接的心跳检测、请求超时、订单关单），时间轮的优势是<strong>增删任务都 O(1)、且没有堆的锁竞争</strong>，指针推进只处理当前格子的任务。</p>
+      <p><strong class="sec-title">三、为什么 Kafka、Netty、Dubbo 都用它</strong></p>
+      <ul>
+        <li><strong>Netty</strong>：<code>HashedWheelTimer</code> 管理连接空闲检测、读写超时，单线程推进指针，几十万连接也只是一次链表遍历</li>
+        <li><strong>Dubbo</strong>：失败重试、请求超时用时间轮调度（默认 HashedWheelTimer）</li>
+        <li><strong>Kafka</strong>：<strong>分层时间轮</strong>（TimingWheel）处理延迟生产、延迟拉取、会话超时，可表达任意长度延迟</li>
+        <li><strong>Linux 内核</strong>：定时器也采用时间轮思想</li>
+      </ul>
+      <p><strong class="sec-title">四、局限</strong></p>
+      <ul>
+        <li>精度取决于最小刻度（如 100ms），不适合毫秒级精确调度</li>
+        <li>单层轮的延迟范围受格子数限制 → 需要多层轮或圈数机制</li>
+        <li>任务执行时长会阻塞指针推进 → 耗时任务要丢到业务线程池执行</li>
+        <li>一般定时场景（任务量小）用 DelayQueue 反而更简单</li>
+      </ul>
     </div>
   </div>
 </div>
-
-  📌 23 · 数据结构 · 共9题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_算法.html" style="color:var(--primary)">下一板块 →</a>
 </div>
+
+<div class="footer">
+  📌 23 · 数据结构 · 共9题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_算法.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 <script>
 function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
@@ -344,7 +482,7 @@ function toggleExpandAll(chk){
 ;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
 </script>
 
-<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页" onclick="window.location.href='Java面试宝典_总目录.html';return false;">首页</a>
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
@@ -352,6 +490,6 @@ var bh=document.getElementById('backHome');
 function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
 window.addEventListener('scroll',onScroll);onScroll();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){if(rs.length){rs.forEach(function(r){r.unregister();});location.reload();}});if(window.caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}</script>
 </body>
 </html>

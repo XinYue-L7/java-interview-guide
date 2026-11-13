@@ -45,8 +45,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
 .table-wrap{overflow-x:auto;margin:6px 0}
 .table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
-.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap th{background:var(--card-bg);text-align:left;padding:7px 10px;font-weight:700;border-bottom:2px solid var(--primary);color:var(--success)}
 .table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.table-wrap td:first-child,.table-wrap th:first-child{white-space:nowrap}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
 
 .back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
@@ -78,8 +79,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
   <h1>Java 并发编程</h1>
   <p>38道高频题 · 线程池 · AQS · synchronized · volatile · JUC · 锁机制</p>
-<div class="nav-row">
-    <a href="Java面试宝典_总目录.html">总目录</a>
+<div class="nav-row">    <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_03_JVM.html">← JVM</a>
     <a href="Java面试宝典_05_MySQL.html">MySQL →</a>
   </div>
@@ -665,7 +665,7 @@ function toggleExpandAll(chk){
 ;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
 
 
-<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页" onclick="window.location.href='Java面试宝典_总目录.html';return false;">首页</a>
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
@@ -711,6 +711,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){if(rs.length){rs.forEach(function(r){r.unregister();});location.reload();}});if(window.caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}</script>
 </body>
 </html>

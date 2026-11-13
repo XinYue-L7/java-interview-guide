@@ -442,9 +442,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </ul>
     </a>
 
-    <a class="card" data-watermark="26" href="Java面试宝典_Docker容器化.html">
+    <a class="card" data-watermark="26" href="Java面试宝典_Docker.html">
       <div class="card-header">
-        <div class="card-title">Docker 容器化</div>
+        <div class="card-title">Docker 容器</div>
         <span class="card-count">8题</span>
       </div>
       <ul class="card-list">
@@ -623,6 +623,6 @@ function doSearch(q){
   dd.classList.add('show');
 }
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){if(rs.length){rs.forEach(function(r){r.unregister();});location.reload();}});if(window.caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}</script>
 </body>
 </html>

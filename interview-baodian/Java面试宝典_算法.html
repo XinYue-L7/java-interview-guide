@@ -41,6 +41,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .answer strong{color:var(--success)}
 .code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
 .code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--card-bg);text-align:left;padding:7px 10px;font-weight:700;border-bottom:2px solid var(--primary);color:var(--success)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.table-wrap td:first-child,.table-wrap th:first-child{white-space:nowrap}
+.table-wrap tr:last-child td{border-bottom:none}
+.answer .sec-title{display:block;font-weight:700;color:var(--success);margin:8px 0 4px}
 .switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
 .switch input{opacity:0;width:0;height:0}
 .slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
@@ -68,10 +75,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <span class="slider"></span>
   </label>
   <h1>算法</h1>
-  <p>20道题 · 排序与查找 · 双指针 · 滑动窗口 · 链表与树 · 动态规划 · 高频手撕题</p>
+  <p>22道题 · 排序与查找 · 双指针 · 滑动窗口 · 链表与树 · 动态规划 · 高频手撕题</p>
   <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_数据结构.html">← 数据结构</a>
+    <a href="Java面试宝典_Nginx.html">Nginx →</a>
   </div>
 </div>
 <div class="container">
@@ -907,9 +915,7 @@ PriorityQueue&lt;Integer&gt; heap = <span class="kw">new</span> PriorityQueue&lt
     </div>
   </div>
 </div>
-</div>
 
-<div class="footer">
 <!-- Q21 -->
 <div class="card">
   <div class="card-header">
@@ -959,6 +965,9 @@ PriorityQueue&lt;Integer&gt; heap = <span class="kw">new</span> PriorityQueue&lt
   </div>
 </div>
 
+</div>
+
+<div class="footer">
   📌 24 · 算法 · 共22题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_数据结构.html" style="color:var(--primary)">← 上一板块 数据结构</a> | <a href="Java面试宝典_Nginx.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
@@ -980,7 +989,7 @@ function toggleExpandAll(chk){
 ;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
 </script>
 
-<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页" onclick="window.location.href='Java面试宝典_总目录.html';return false;">首页</a>
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
@@ -988,6 +997,6 @@ var bh=document.getElementById('backHome');
 function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
 window.addEventListener('scroll',onScroll);onScroll();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){if(rs.length){rs.forEach(function(r){r.unregister();});location.reload();}});if(window.caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}</script>
 </body>
 </html>

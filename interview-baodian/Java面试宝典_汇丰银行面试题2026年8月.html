@@ -42,8 +42,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
 .table-wrap{overflow-x:auto;margin:6px 0}
 .table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
-.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap th{background:var(--card-bg);text-align:left;padding:7px 10px;font-weight:700;border-bottom:2px solid var(--primary);color:var(--success)}
 .table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.table-wrap td:first-child,.table-wrap th:first-child{white-space:nowrap}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
 .back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
 .back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
@@ -72,8 +73,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </label>
   <h1>汇丰银行面试题 2026年8月</h1>
   <p>37道题 · 汇丰银行 Java 后端真实面试题整理</p>
-<div class="nav-row">
-    <a href="Java面试宝典_总目录.html">总目录</a>
+<div class="nav-row">    <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_系统设计.html">← 系统设计</a>
     <a href="Java面试宝典_数据结构.html">数据结构 →</a>
   </div>
@@ -1080,7 +1080,7 @@ function toggleExpandAll(chk){
 }
 ;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
 
-<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页" onclick="window.location.href='Java面试宝典_总目录.html';return false;">首页</a>
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
@@ -1124,6 +1124,6 @@ window.addEventListener('scroll',onScroll);onScroll();
 </div>
 </div>
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){if(rs.length){rs.forEach(function(r){r.unregister();});location.reload();}});if(window.caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}</script>
 </body>
 </html>

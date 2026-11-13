@@ -45,8 +45,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
 .table-wrap{overflow-x:auto;margin:6px 0}
 .table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
-.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap th{background:var(--card-bg);text-align:left;padding:7px 10px;font-weight:700;border-bottom:2px solid var(--primary);color:var(--success)}
 .table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.table-wrap td:first-child,.table-wrap th:first-child{white-space:nowrap}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
 
 .back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
@@ -79,8 +80,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <p>6道高频题 · MyBatis核心考点</p>
 <div class="nav-row">
     <a href="Java面试宝典_总目录.html">总目录</a>
-    <a href="Java面试宝典_SpringMVC.html">← SpringMVC</a>
-    <a href="Java面试宝典_Dubbo.html">Dubbo →</a>
+    <a href="Java面试宝典_Dubbo.html">← Dubbo</a>
+    <a href="Java面试宝典_Netty.html">Netty →</a>
   </div>
 </div>
 <div class="container">
@@ -120,65 +121,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 <div class="card"><div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">MyBatis 的执行流程？</div><div class="q-tags"><span class="q-tag">MyBatis</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><ol><li>加载mybatis-config.xml和Mapper.xml→SqlSessionFactoryBuilder→SqlSessionFactory。</li><li>SqlSessionFactory.openSession()→SqlSession。</li><li>SqlSession.getMapper()→动态代理（MapperProxy）。</li><li>调用Mapper方法→MapperProxy拦截→查找MappedStatement。</li><li>Executor执行（经过一级/二级缓存→插件拦截→StatementHandler→ParameterHandler→JDBC执行）。</li><li>ResultSetHandler处理结果集→返回。</li></ol></div></div></div>
 
-</div>
-
-<script>
-function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
-function toggleExpandAll(chk){
-  var expand=chk.checked;
-  var cards=document.querySelectorAll('.card');
-  cards.forEach(function(c){
-    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
-    if(ans&&tb){
-      ans.classList.toggle('show',expand);
-      tb.classList.toggle('open',expand);
-      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
-    }
-  });
-}
-;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
-
-<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
-<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
-<script>
-var bt=document.getElementById('backTop');
-var bh=document.getElementById('backHome');
-function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
-window.addEventListener('scroll',onScroll);onScroll();
-</script>
-<script>
-(function(){
-  var params=new URLSearchParams(window.location.search);
-  var q=params.get('q');
-  if(q){
-    var cards=document.querySelectorAll('.card');
-    var found=null;
-    for(var i=0;i<cards.length;i++){
-      var numEl=cards[i].querySelector('.q-num');
-      if(numEl && numEl.textContent.trim()===q){
-        found=cards[i];
-        break;
-      }
-    }
-    if(found){
-      found.scrollIntoView({behavior:'smooth',block:'center'});
-      found.style.transition='box-shadow .3s';
-      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
-      setTimeout(function(){found.style.boxShadow='';},2500);
-      var btn=found.querySelector('.toggle-btn');
-      var ans=found.querySelector('.answer');
-      if(btn && ans && !ans.classList.contains('show')){
-        ans.classList.add('show');
-        btn.classList.add('open');
-        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
-      }
-    }
-  }
-})();
-</script>
-
-<div class="footer">
 <!-- Q7 -->
 <div class="card">
   <div class="card-header">
@@ -272,10 +214,69 @@ window.addEventListener('scroll',onScroll);onScroll();
   </div>
 </div>
 
-  📌 12 · MyBatis · 共10题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Dubbo.html" style="color:var(--primary)">下一板块 →</a>
+</div>
+
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页" onclick="window.location.href='Java面试宝典_总目录.html';return false;">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+<script>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  if(q){
+    var cards=document.querySelectorAll('.card');
+    var found=null;
+    for(var i=0;i<cards.length;i++){
+      var numEl=cards[i].querySelector('.q-num');
+      if(numEl && numEl.textContent.trim()===q){
+        found=cards[i];
+        break;
+      }
+    }
+    if(found){
+      found.scrollIntoView({behavior:'smooth',block:'center'});
+      found.style.transition='box-shadow .3s';
+      found.style.boxShadow='0 0 0 3px var(--primary), 0 4px 20px rgba(0,0,0,.15)';
+      setTimeout(function(){found.style.boxShadow='';},2500);
+      var btn=found.querySelector('.toggle-btn');
+      var ans=found.querySelector('.answer');
+      if(btn && ans && !ans.classList.contains('show')){
+        ans.classList.add('show');
+        btn.classList.add('open');
+        btn.innerHTML='收起答案 <span class="arrow">▼</span>';
+      }
+    }
+  }
+})();
+</script>
+
+<div class="footer">
+  📌 12 · MyBatis · 共10题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Netty.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){if(rs.length){rs.forEach(function(r){r.unregister();});location.reload();}});if(window.caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}</script>
 </body>
 </html>

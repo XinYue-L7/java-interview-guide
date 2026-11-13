@@ -3934,8 +3934,8 @@
   "content": "1. batch size 太小： 对真实梯度的近似 方差很大 ，单次更新方向主要是噪声；虽然多次更新会相互抵消、总体仍朝正确方向前进，但单次更新价值低，相当于把多次小更新合并成一次大 batch 更新。 2. batch size 太大： 超过临界值后继续增大几乎不提升性能（任意两组抽样都已近似真实梯度），只增加每步数据量与 FLOPS；固定 epoch 预算下 模型性能反而随 batch 增大而下降 。 3. 显存估算（全量微调）： 粗略公式： 模型参数按 20n GB 准备 （n 为参数量，单位十亿）：FP16 权重 2n + 梯度 2n + AdamW 优化器状态 12n；activation 随 max length、batch size 变化。 7B 模型全量微调在 FSDP 下约需 160GB；资源不够用 LoRA + 梯度累积 （等效放大 batch size，注意 loss 除以累积步数）+ 梯度检查点 （时间换空间：反向时重算激活值）。"
  },
  {
-  "module": "Docker 容器化",
-  "file": "Java面试宝典_Docker容器化.html",
+  "module": "Docker 容器",
+  "file": "Java面试宝典_Docker.html",
   "num": 1,
   "title": "什么是 Docker？为什么需要它？",
   "tags": [
@@ -3945,8 +3945,8 @@
   "content": "1. 定义： Docker 是基于 Go 语言实现的开源应用容器引擎 ，通过把应用及其依赖（JDK、配置、库）打包成轻量级、可移植的容器，实现\"一次构建，到处运行\"。 2. 解决什么问题： 环境不一致： \"在我电脑上是好的\" —— 开发/测试/生产环境依赖版本不同导致的问题，容器把环境固化为镜像。 部署繁琐： 装机、装 JDK、配环境变量全是体力活，有镜像后一条 docker run 搞定。 资源浪费： 虚拟机每个都要装完整 OS（GB 级），容器共享宿主内核（MB 级），秒级启动、密度高几十倍。 3. 与虚拟机对比： VM = 硬件虚拟化（Hypervisor + Guest OS）；Docker = 操作系统级虚拟化（隔离进程组，共享内核）。容器更轻、更快、更省资源，但隔离性弱于 VM。"
  },
  {
-  "module": "Docker 容器化",
-  "file": "Java面试宝典_Docker容器化.html",
+  "module": "Docker 容器",
+  "file": "Java面试宝典_Docker.html",
   "num": 2,
   "title": "Docker 有哪些核心组件？",
   "tags": [
@@ -3955,8 +3955,8 @@
   "content": "1. 镜像（Image）： 只读模板，应用的运行环境打包（分层存储，每层可复用缓存）。类比\"安装光盘\"。 2. 容器（Container）： 镜像的运行实例，可启动、停止、删除，容器间相互隔离。类比\"安装好的系统\"。容器与镜像关系：类与对象。 3. 仓库（Registry）： 集中存放镜像，Docker Hub 是官方仓库，企业用 Harbor 私服。类比\"Maven 中央仓库\"。 4. 隔离原理（Namespaces + Cgroups）： Namespace ：隔离视图 —— PID（进程）、NET（网络）、MNT（文件系统挂载）、IPC、UTS（主机名）、USER，让容器以为自己独占系统。 Cgroups ：资源限额 —— 限制 CPU、内存、磁盘 IO 用量，防止容器吃光宿主机资源。"
  },
  {
-  "module": "Docker 容器化",
-  "file": "Java面试宝典_Docker容器化.html",
+  "module": "Docker 容器",
+  "file": "Java面试宝典_Docker.html",
   "num": 3,
   "title": "Dockerfile 是什么？镜像构建的分层原理？",
   "tags": [
@@ -3966,8 +3966,8 @@
   "content": "1. Dockerfile 是描述镜像构建过程的脚本 ，docker build 逐条执行： FROM openjdk:17-jdk-slim # 基础镜像 COPY target/app.jar /app.jar # 拷贝产物 EXPOSE 8080 # 声明端口 ENTRYPOINT [ \"java\" , \"-jar\" , \"/app.jar\" ] # 启动命令 2. 分层存储（UnionFS 联合文件系统）： Dockerfile 每条指令生成一层，层可 缓存复用 ：没变化的指令直接命中缓存，秒级构建。 镜像层 只读 ；容器启动时在最上面加一层 可写层 ，删容器即删可写层，镜像不受污染。 最佳实践：把变化少的指令放前面（先 COPY 依赖再 COPY 代码），充分利用缓存。 💡 优化：用多阶段构建（build 阶段用 Maven 镜像，run 阶段只拷 jar），最终镜像从 1GB 缩到 200MB。"
  },
  {
-  "module": "Docker 容器化",
-  "file": "Java面试宝典_Docker容器化.html",
+  "module": "Docker 容器",
+  "file": "Java面试宝典_Docker.html",
   "num": 4,
   "title": "Docker 容器之间是如何通信的？",
   "tags": [
@@ -3976,8 +3976,8 @@
   "content": "1. 四种网络模式： 模式 说明 bridge（默认） docker0 网桥 + veth pair，容器有自己的 IP，可互访，宿主机经 NAT 出外网 host 共享宿主机网络栈，无隔离（性能最好） container 与指定容器共享网络（K8s Pod 的原理） none 无网络，适合纯计算任务 2. bridge 模式细节： 同一 bridge 网络内容器 用容器名互访 （内置 DNS 解析）。 外部访问容器：-p 8080:8080 端口映射，docker-proxy/NAT 把宿主机端口流量转发进容器。 推荐用自定义网络（docker network create）代替默认 bridge，获得内置 DNS 与更好的隔离。"
  },
  {
-  "module": "Docker 容器化",
-  "file": "Java面试宝典_Docker容器化.html",
+  "module": "Docker 容器",
+  "file": "Java面试宝典_Docker.html",
   "num": 5,
   "title": "容器退出码有哪些？如何排查容器异常退出？",
   "tags": [
@@ -3986,8 +3986,8 @@
   "content": "1. 常见退出码： 退出码 含义 0 正常执行完成退出 1 应用内部错误（异常/崩溃） 125 Docker 命令本身执行出错 126 命令无法执行（权限/找不到） 127 命令未找到 137 被 SIGKILL —— 最常见是 OOM（超内存限额被杀） 139 段错误（Segfault） 143 收到 SIGTERM 优雅停止 2. 排查三板斧： docker ps -a 看退出码与状态。 docker logs --tail 200 容器 看应用日志； docker inspect 看 OOMKilled 字段与重启策略。 docker exec -it 容器 sh 进入容器现场（还在运行时）；彻底挂了就看宿主机 dmesg 里的 OOM 记录。 💡 137 基本等于内存给少了：调大 -m 内存限额或排查内存泄漏。"
  },
  {
-  "module": "Docker 容器化",
-  "file": "Java面试宝典_Docker容器化.html",
+  "module": "Docker 容器",
+  "file": "Java面试宝典_Docker.html",
   "num": 6,
   "title": "项目中是如何使用 Docker 的？",
   "tags": [
@@ -3997,8 +3997,8 @@
   "content": "1. 开发环境（docker-compose 一键起全套中间件）： yml 里编排 MySQL、Redis、Nacos、RabbitMQ、ES 等服务， docker-compose up -d 秒起一套标准化环境，团队共享配置文件，告别\"环境问题\"。 好处：随起随删、版本可锁定、不污染本机。 2. 部署发布（镜像化交付）： CI 流水线（Jenkins/GitLab CI）：拉代码 → mvn 打包 → docker build 出镜像 → push 到 Harbor 私服。 目标机器 docker pull + docker run （或 K8s 拉镜像起 Pod），实现\"构建一次，处处运行\"。 版本回滚 = 切回上一个镜像 tag，秒级完成。 3. 生产规范： 镜像 tag 用版本号不用 latest；资源限额（-m、--cpus）；健康检查（HEALTHCHECK）；数据持久化挂 volume；日志收集接 ELK。"
  },
  {
-  "module": "Docker 容器化",
-  "file": "Java面试宝典_Docker容器化.html",
+  "module": "Docker 容器",
+  "file": "Java面试宝典_Docker.html",
   "num": 7,
   "title": "什么是 Kubernetes？核心组件有哪些？",
   "tags": [
@@ -4007,8 +4007,8 @@
   "content": "1. 定位： K8s 是 容器编排平台 ：Docker 解决\"单个容器怎么跑\"，K8s 解决\"成百上千个容器怎么管理\" —— 自动部署、扩缩容、故障自愈、滚动升级。 2. 核心资源对象： Pod： 最小调度单元，包含 1 个或多个共享网络/存储的容器。 Deployment： 声明 Pod 期望副本数，负责滚动更新与回滚。 Service： 一组 Pod 的稳定访问入口（ClusterIP/NodePort/LoadBalancer），解决 Pod IP 漂移问题。 ConfigMap/Secret： 配置与敏感信息与镜像解耦。 3. 架构组件： Master： API Server（唯一入口）、etcd（存集群状态）、Scheduler（调度分配）、Controller Manager（维持期望状态）。 Node： kubelet（管理本机容器生命周期）、kube-proxy（Service 转发规则）。 💡 自愈机制示例：Pod 挂了 → 控制器发现副本数不足 → 自动重建新 Pod → Service 自动把新 Pod 纳入负载。"
  },
  {
-  "module": "Docker 容器化",
-  "file": "Java面试宝典_Docker容器化.html",
+  "module": "Docker 容器",
+  "file": "Java面试宝典_Docker.html",
   "num": 8,
   "title": "什么是 Service Mesh？为什么有了 K8s 还需要它？",
   "tags": [

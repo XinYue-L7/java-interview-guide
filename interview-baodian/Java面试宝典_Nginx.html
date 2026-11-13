@@ -41,6 +41,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .answer strong{color:var(--success)}
 .code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
 .code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.table-wrap{overflow-x:auto;margin:6px 0}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.table-wrap th{background:var(--card-bg);text-align:left;padding:7px 10px;font-weight:700;border-bottom:2px solid var(--primary);color:var(--success)}
+.table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.table-wrap td:first-child,.table-wrap th:first-child{white-space:nowrap}
+.table-wrap tr:last-child td{border-bottom:none}
+.answer .sec-title{display:block;font-weight:700;color:var(--success);margin:8px 0 4px}
 .switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
 .switch input{opacity:0;width:0;height:0}
 .slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
@@ -48,6 +55,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .switch input:checked + .slider{background:var(--primary)}
 .switch input:checked + .slider:before{transform:translateX(19px)}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+@media (max-width:720px){
 .back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
 .back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
 .back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
@@ -69,10 +77,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </label>
   <h1>Nginx</h1>
   <p>8道题 · 反向代理 · 负载均衡 · 高并发架构 · 运维</p>
-  <div class="nav-row">
-    <a href="Java面试宝典_总目录.html">总目录</a>
+  <div class="nav-row">    <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_算法.html">← 算法</a>
-    <a href="Java面试宝典_Docker容器化.html">Docker 容器化 →</a>
+    <a href="Java面试宝典_Docker.html">Docker 容器 →</a>
   </div>
 </div>
 <div class="container">
@@ -253,7 +260,9 @@ location /api/ {                    <span class="co"># 动态：转发给后端�
     </div>
   </div>
 </div>
-📌 25 · Nginx · 共8题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Docker容器化.html" style="color:var(--primary)">Docker 容器化 →</a>
+</div>
+
+<div class="footer">📌 25 · Nginx · 共8题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Docker.html" style="color:var(--primary)">Docker 容器 →</a></div>
 
 </div>
 <script>
@@ -274,7 +283,7 @@ function toggleExpandAll(chk){
 ;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
 </script>
 
-<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页" onclick="window.location.href='Java面试宝典_总目录.html';return false;">首页</a>
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
@@ -282,6 +291,6 @@ var bh=document.getElementById('backHome');
 function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
 window.addEventListener('scroll',onScroll);onScroll();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){if(rs.length){rs.forEach(function(r){r.unregister();});location.reload();}});if(window.caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}</script>
 </body>
 </html>

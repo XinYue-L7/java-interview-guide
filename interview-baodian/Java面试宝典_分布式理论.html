@@ -45,8 +45,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
 .table-wrap{overflow-x:auto;margin:6px 0}
 .table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
-.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap th{background:var(--card-bg);text-align:left;padding:7px 10px;font-weight:700;border-bottom:2px solid var(--primary);color:var(--success)}
 .table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.table-wrap td:first-child,.table-wrap th:first-child{white-space:nowrap}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
 
 .back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
@@ -77,8 +78,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
   <h1>分布式理论</h1>
   <p>11道高频题 · CAP · 分布式事务 · 分布式锁 · 一致性协议</p>
-  <div class="nav-row">
-    <a href="Java面试宝典_总目录.html">总目录</a>
+  <div class="nav-row">    <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_Zookeeper.html">← Zookeeper</a>
     <a href="Java面试宝典_分布式组件.html">分布式组件 →</a>
   </div>
@@ -164,7 +164,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p>统一入口、路由转发、鉴权认证、限流熔断、日志监控、灰度发布、协议转换。</p>
       <p><strong>常见选型：</strong></p><ul><li><strong>Spring Cloud Gateway：</strong><br/><br/>响应式、非阻塞、Spring生态好。<br/><br/>国内首选。</li><li><strong>Zuul 2：</strong><br/><br/>Netflix，非阻塞。</li><li><strong>Kong：</strong><br/><br/>基于OpenResty/Nginx，插件丰富。</li><li><strong>Nginx+Lua/OpenResty：</strong><br/><br/>高性能、灵活。</li></ul></div></div></div>
 
-<div class="footer">
 <!-- Q12 -->
 <div class="card">
   <div class="card-header">
@@ -262,6 +261,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
+<div class="footer">
   📌 16 · 分布式理论 · 共15题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_分布式组件.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
@@ -283,7 +283,7 @@ function toggleExpandAll(chk){
 ;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
 </script>
 
-<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页" onclick="window.location.href='Java面试宝典_总目录.html';return false;">首页</a>
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
@@ -322,6 +322,6 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){if(rs.length){rs.forEach(function(r){r.unregister();});location.reload();}});if(window.caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}</script>
 </body>
 </html>

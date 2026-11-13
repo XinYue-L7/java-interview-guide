@@ -53,8 +53,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
 .table-wrap{overflow-x:auto;margin:6px 0}
 .table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
-.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap th{background:var(--card-bg);text-align:left;padding:7px 10px;font-weight:700;border-bottom:2px solid var(--primary);color:var(--success)}
 .table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.table-wrap td:first-child,.table-wrap th:first-child{white-space:nowrap}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
 
 .back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
@@ -78,9 +79,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </label>
   <h1>Spring</h1>
   <p>25道高频题 · Spring核心考点</p>
-<div class="nav-row">
-    <a href="Java面试宝典_总目录.html">总目录</a>
-    <a href="Java面试宝典_08_Elasticsearch.html">← Elasticsearch</a>
+<div class="nav-row">    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_Netty.html">← Netty</a>
     <a href="Java面试宝典_SpringBoot.html">SpringBoot →</a>
   </div>
 </div>
@@ -341,7 +341,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p><strong>实现方式：</strong></p><ul><li><strong>@Transient（JPA 标准注解，推荐）：</strong><br/><br/>字段不映射数据库列，用于"只在内存中计算、不需要入库"的字段。</li><li><strong>transient 关键字：</strong><br/><br/>影响的是 <strong>Java 序列化</strong>（原生序列化 / 部分 JSON 序列化），与 JPA 无关，两者不要混用。</li></ul><p><strong>示例：</strong></p><pre style="background:var(--code-bg);color:#f8f8f2;padding:10px;border-radius:6px;overflow-x:auto;margin:8px 0">@Entity<br>@Table(name = "user")<br>public class User {<br>    @Id<br>    private Long id;<br>    private String name;<br><br>    @Transient<br>    private String tempAge; // 不生成列，不持久化<br><br>    // 不持久化的计算属性（getter 上也可以加）<br>    @Transient<br>    public String getDisplayName() {<br>        return "用户：" + name;<br>    }<br>}</pre><p><strong>易混淆点：</strong></p><div class="table-wrap"><table><thead><tr><th>机制</th><th>作用</th><th>场景</th></tr></thead><tbody><tr><td><strong>@Transient</strong></td><td>JPA 不持久化（不建列）</td><td>实体类中仅内存使用的字段</td></tr><tr><td><strong>transient 关键字</strong></td><td>Java 序列化忽略</td><td>序列化时排除字段（如密码）</td></tr><tr><td><strong>@JsonIgnore</strong>（Jackson）</td><td>JSON 序列化/反序列化忽略</td><td>返回给前端时隐藏字段</td></tr></tbody></table></div><p>💡 <strong>面试点：</strong></p>
       <p>能区分 <strong>@Transient（JPA） vs transient（序列化） vs @JsonIgnore（JSON）</strong>三者，就是加分的完整回答。</p></div></div></div>
 
-<div class="footer">
 <!-- Q26 -->
 <div class="card">
   <div class="card-header">
@@ -460,6 +459,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
+<div class="footer">
   📌 09 · Spring · 共30题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_SpringBoot.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
@@ -479,7 +479,7 @@ function toggleExpandAll(chk){
   });
 }</script>
 
-<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页" onclick="window.location.href='Java面试宝典_总目录.html';return false;">首页</a>
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
@@ -525,6 +525,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){if(rs.length){rs.forEach(function(r){r.unregister();});location.reload();}});if(window.caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}</script>
 </body>
 </html>

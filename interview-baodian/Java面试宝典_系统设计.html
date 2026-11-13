@@ -45,8 +45,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
 .table-wrap{overflow-x:auto;margin:6px 0}
 .table-wrap table{width:100%;border-collapse:collapse;font-size:13px}
-.table-wrap th{background:var(--tag-bg);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--primary)}
+.table-wrap th{background:var(--card-bg);text-align:left;padding:7px 10px;font-weight:700;border-bottom:2px solid var(--primary);color:var(--success)}
 .table-wrap td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.table-wrap td:first-child,.table-wrap th:first-child{white-space:nowrap}
 .footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
 .sec-title{display:inline-block;background:var(--primary);color:#fff;padding:4px 14px;border-radius:8px;font-size:13px;font-weight:700;margin:10px 0 6px}
 
@@ -78,8 +79,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
   <h1>系统设计</h1>
   <p>7道高频题 · 秒杀 · 限流 · 运维 · 架构</p>
-  <div class="nav-row">
-    <a href="Java面试宝典_总目录.html">总目录</a>
+  <div class="nav-row">    <a href="Java面试宝典_总目录.html">总目录</a>
     <a href="Java面试宝典_网络协议.html">← 网络协议</a>
     <a href="Java面试宝典_汇丰银行面试题2026年8月.html">汇丰银行面试题 →</a>
   </div>
@@ -191,7 +191,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p>"遇到依赖冲突，先用 <code>mvn dependency:tree</code> 定位是谁带进来的，然后用 <code>dependencyManagement</code> 统一版本或手动排除。</p>
       <p>"</p></div></div></div>
 
-<div class="footer">
 <!-- Q8 -->
 <div class="card">
   <div class="card-header">
@@ -323,6 +322,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
 </div>
 
+<div class="footer">
   📌 21 · 系统设计 · 共12题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_汇丰银行面试题2026年8月.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
@@ -344,7 +344,7 @@ function toggleExpandAll(chk){
 ;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
 </script>
 
-<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页" onclick="window.location.href='Java面试宝典_总目录.html';return false;">首页</a>
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
 <script>
 var bt=document.getElementById('backTop');
@@ -383,6 +383,6 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){if(rs.length){rs.forEach(function(r){r.unregister();});location.reload();}});if(window.caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k);});});}}</script>
 </body>
 </html>
