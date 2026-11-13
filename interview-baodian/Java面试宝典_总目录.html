@@ -59,6 +59,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .search-item:hover{background:var(--tag-bg)}
 .search-item:last-child{border-bottom:none}
 .search-item-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.search-item-snippet{font-size:11px;color:var(--muted);margin-bottom:3px;line-height:1.5;word-break:break-all}
+.search-item-snippet mark{background:rgba(214,179,138,.35);color:var(--text);padding:0 2px;border-radius:2px}
+.search-fuzzy{padding:8px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--border)}
 .search-item-module{font-size:11px;color:var(--muted)}
 .search-history{padding:10px 14px 6px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
 .search-history .clear-btn{cursor:pointer;font-size:12px;color:var(--link)}
@@ -543,6 +546,45 @@ function score(item,keywords){
   return s;
 }
 
+// 编辑距离（用于拼写容错）
+function editDist(a,b){
+  var m=a.length,n=b.length;
+  if(Math.abs(m-n)>2)return 99;
+  var dp=[];
+  for(var i=0;i<=m;i++){dp.push(new Array(n+1));dp[i][0]=i;}
+  for(var j=0;j<=n;j++)dp[0][j]=j;
+  for(var i=1;i<=m;i++)for(var j=1;j<=n;j++){
+    dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+  }
+  return dp[m][n];
+}
+// 模糊匹配：关键词与标题/标签中的词编辑距离 ≤2（短词 ≤1）
+function fuzzyMatch(item,term){
+  var words=(item.title+' '+((item.tags||[]).join(' '))).toLowerCase().split(/[^a-z0-9\u4e00-\u9fa5]+/);
+  var max=term.length>5?2:1;
+  for(var i=0;i<words.length;i++){
+    if(words[i]&&Math.abs(words[i].length-term.length)<=max&&editDist(words[i],term)<=max)return true;
+  }
+  return false;
+}
+// 命中摘要：第一处命中关键词的上下文（高亮）
+function snippet(item,keywords){
+  var c=(item.content&&item.content.length>0)?item.content:item.title;
+  var lower=c.toLowerCase();
+  for(var k=0;k<keywords.length;k++){
+    var idx=lower.indexOf(keywords[k]);
+    if(idx!==-1){
+      var st=Math.max(0,idx-25),en=Math.min(c.length,idx+keywords[k].length+35);
+      var frag=(st>0?'…':'')+c.substring(st,en).replace(/\s+/g,' ')+(en<c.length?'…':'');
+      var safe=escapeHtml(frag);
+      var kwEsc=escapeHtml(keywords[k]).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      safe=safe.replace(new RegExp(kwEsc,'ig'),function(m){return '<mark>'+m+'</mark>';});
+      return safe;
+    }
+  }
+  return '';
+}
+
 function getHistory(){try{var h=localStorage.getItem('search_history');return h?JSON.parse(h):[];}catch(e){return [];}}
 function addHistory(q){if(!q)return;console.log('addHistory called with:',q);var h=getHistory();console.log('current history:',h);h=h.filter(x=>x!==q);h.unshift(q);if(h.length>10)h.pop();try{localStorage.setItem('search_history',JSON.stringify(h));console.log('saved history:',h);}catch(e){console.error('save failed:',e);}}
 function clearHistory(){try{localStorage.removeItem('search_history');}catch(e){}showHistory();}
@@ -610,16 +652,33 @@ function doSearch(q){
       return keywords.some(function(term){return match(item,term);});
     });
   }
+  // 4. 拼写容错：编辑距离模糊匹配（orcale → oracle）
+  var fuzzy=false;
+  if(!results.length){
+    fuzzy=true;
+    results=searchIndex.filter(function(item){
+      return keywords.every(function(term){return fuzzyMatch(item,term);});
+    });
+    if(!results.length){
+      results=searchIndex.filter(function(item){
+        return keywords.some(function(term){return fuzzyMatch(item,term);});
+      });
+    }
+  }
   if(!results.length){dd.innerHTML='<div class="search-empty">未找到相关题目</div>';dd.classList.add('show');return;}
-  // 4. 按相关度排序（标题命中优先），然后按题号
+  // 5. 按相关度排序（标题命中优先），然后按题号
   results.sort(function(a,b){
     var sa=score(a,keywords),sb=score(b,keywords);
     if(sa!==sb)return sb-sa;
     return a.num-b.num;
   });
-  dd.innerHTML=results.slice(0,20).map(function(item){
-    return '<a class="search-item" href="'+item.file+'?q='+item.num+'" onclick="addHistory(document.getElementById(\'searchInput\').value.trim())"><div class="search-item-title">'+escapeHtml(item.title)+'</div><div class="search-item-module">'+escapeHtml(item.module)+' · 第 '+item.num+' 题</div></a>';
-  }).join('');
+  dd.innerHTML=(fuzzy?'<div class="search-fuzzy">未找到精确匹配，以下为近似结果</div>':'')+
+    results.slice(0,20).map(function(item){
+      var sn=snippet(item,keywords);
+      return '<a class="search-item" href="'+item.file+'?q='+item.num+'" onclick="addHistory(document.getElementById(\'searchInput\').value.trim())"><div class="search-item-title">'+escapeHtml(item.title)+'</div>'+
+        (sn?'<div class="search-item-snippet">'+sn+'</div>':'')+
+        '<div class="search-item-module">'+escapeHtml(item.module)+' · 第 '+item.num+' 题</div></a>';
+    }).join('');
   dd.classList.add('show');
 }
 </script>
