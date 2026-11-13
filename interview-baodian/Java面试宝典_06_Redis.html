@@ -1234,7 +1234,111 @@ ZREM delay_queue "order:1001"   // 取到后删除，防止重复消费</pre>
 </div>
 
  <div class="footer">
-  📌 06 · Redis · 共42题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_07_MongoDB.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q43 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">43</div>
+    <div class="q-meta"><div class="q-title">Redisson 分布式锁相比原生 SETNX 有哪些改进？</div>
+      <div class="q-tags"><span class="q-tag">分布式锁</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">SETNX 的五个缺陷</strong></p>
+      <ul>
+        <li>不可重入（同线程二次加锁死锁）</li>
+        <li>无自动续期：业务执行超过过期时间，锁提前释放，多请求同时进入</li>
+        <li>释放非原子：GET 判断 + DEL 两步之间可能误删他人的锁</li>
+        <li>无阻塞等待：拿不到只能轮询重试</li>
+        <li>单点故障：主从切换可能丢锁（需 RedLock 缓解）</li>
+      </ul>
+      <p><strong class="sec-title">Redisson 的改进</strong></p>
+      <ul>
+        <li><strong>可重入：</strong>用 Hash 结构存"线程标识 + 重入次数"，加解锁逻辑全部由 <strong>Lua 脚本</strong>原子执行。</li>
+        <li><strong>看门狗续期：</strong>默认锁 30 秒，后台定时任务（时间轮）按超时的 1/3（10 秒）自动续期，业务执行多久锁就活多久。</li>
+        <li><strong>原子释放：</strong>hexists 校验持有者 + 删除一条 Lua 命令完成，避免误删。</li>
+        <li><strong>锁等待：</strong>基于 Pub/Sub 订阅解锁事件 + Semaphore，锁释放后唤醒等待线程，不用轮询。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q44 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">44</div>
+    <div class="q-meta"><div class="q-title">为什么 Redis Cluster 的最大槽数是 16384？</div>
+      <div class="q-tags"><span class="q-tag">Cluster</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">作者给出三点原因</strong></p>
+      <ul>
+        <li><strong>心跳包体积：</strong>节点间心跳要携带完整的槽位图（每槽 1 bit）。16384 槽 ≈ 2KB，65536 槽 ≈ 8KB —— 心跳每秒都在发，带宽开销多 4 倍却没有收益。</li>
+        <li><strong>CRC16 输出只有 16 位</strong>（0~65535），mod 16384 足够；槽再多也用不满全部输出空间。</li>
+        <li><strong>集群规模：</strong>官方建议主节点不超过 1000 个，16384 个槽足够每个主节点分到足够份额；小集群里 65536 的槽位图压缩率也差。</li>
+      </ul>
+      <p>💡 定位公式：<code>slot = CRC16(key) &amp; 16383</code>。想让相关 key 落同一实例，可用 <code>{}</code> 哈希标签：只对 <code>{user1000}</code> 里的内容计算，如 <code>user1000:{profile}</code> 与 <code>user1000:{orders}</code> 同槽。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q45 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">45</div>
+    <div class="q-meta"><div class="q-title">Redis 存在线程安全问题吗？多线程模型怎么理解？</div>
+      <div class="q-tags"><span class="q-tag">线程模型</span><span class="q-tag">6.0</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">服务端：线程安全</strong></p>
+      <ul>
+        <li>指令执行始终由主线程串行完成，天然不需要同步机制。</li>
+        <li><strong>Redis 6.0 的多线程只针对网络 IO</strong>（socket 建立、读取、解析、写回），指令执行仍是单线程 —— 不存在多线程同时执行命令，服务端无并发安全问题。该功能默认关闭，需配置 <code>io-threads-do-reads yes</code> 开启。</li>
+      </ul>
+      <p><strong class="sec-title">客户端：不保证原子性</strong></p>
+      <ul>
+        <li>多个客户端并发执行多条指令时可能互相覆盖（如"读-改-写"序列）。</li>
+        <li>解决：尽量用<strong>原子指令</strong>（INCR、SETNX）；或用 <strong>Lua 脚本</strong>把多条指令合并成原子执行；或业务层加分布式锁。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q46 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">46</div>
+    <div class="q-meta"><div class="q-title">Redis 哨兵（Sentinel）的选举算法是如何实现的？</div>
+      <div class="q-tags"><span class="q-tag">哨兵</span><span class="q-tag">高可用</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">两阶段</strong></p>
+      <ul>
+        <li><strong>哨兵 Leader 选举（谁来做故障转移）：</strong>各哨兵基于 <strong>Raft 思想</strong>投票达成共识，拿到过半票数的哨兵执行转移操作。</li>
+        <li><strong>Slave 选主（选谁当新 Master）：</strong>先筛选 —— 过滤下线/断线、未响应心跳、与原 Master 断链时间超阈值的节点；再排序，依次比较：
+          <ul>
+            <li><code>slave-priority</code> 优先级高者优先（设 0 则永不参选）</li>
+            <li>复制 offset 越大（数据最全）越优先</li>
+            <li>runID 最小（创建最早）者优先</li>
+          </ul>
+        </li>
+      </ul>
+      <p>💡 哨兵数量建议 ≥3 且为奇数，保证 Leader 选举能拿到过半票数。</p>
+    </div>
+  </div>
+</div>
+
+  📌 06 · Redis · 共46题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_07_MongoDB.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -1301,6 +1405,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

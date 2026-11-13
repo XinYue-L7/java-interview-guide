@@ -1,5 +1,44 @@
 # 版本记录
 
+## v1.3.0 (2026-11-13)
+
+**基于《Java 面试核心答案手册》全量查漏补缺 · 新增 4 大模块 · 全站题数 469 → 589**
+
+### 新增
+- 新增「Nginx」模块（第 25 模块，8 题）：反向代理、负载均衡算法、epoll 高并发、Master/Worker、动静分离、Keepalived 高可用、常用命令
+- 新增「Docker 容器化」模块（第 26 模块，8 题）：镜像/容器/仓库、Dockerfile 分层、容器网络、退出码排查、Kubernetes、Service Mesh
+- 新增「数据库扩展」模块（第 27 模块，10 题）：PostgreSQL 特性/选型/MVCC/索引类型/表分区/WAL/BRIN、Oracle 函数与存储过程/分区优化/文件类型
+- 新增「AI 大模型」模块（第 28 模块，12 题）：LLM 基础、Decoder-only 架构、训练目标、RAG、LangChain、Agent、PEFT/LoRA、SFT 微调、灾难性遗忘、显存估算
+
+### 增补（18 个现有模块新增 122 题）
+- Java 基础 +5：new String 对象数、SimpleDateFormat 线程安全、过滤器 vs 拦截器、布尔属性命名、文件拷贝
+- 集合容器 +4：ArrayList 扩容、hash 扰动函数、扩容与容量设置、CHM 禁 null
+- JVM +3：分代年龄 15 次、三色标记法、内存泄漏排查
+- 并发编程 +8：wait/notify 与锁、线程通信方式、DCL volatile、execute vs submit、线程复用与回收、守护线程、伪共享、两次 start()
+- MySQL +7：RR 幻读边界、update 锁行为、MVCC 加锁、datetime vs timestamp、CPU 飙升、死锁排查、存储过程禁用
+- Redis +4：Redisson 锁改进、16384 槽、多线程模型、哨兵选举
+- Dubbo +4：动态感知下线、SPI 对比、分层、RPC 框架设计
+- MyBatis +4：分页方式、主键回填、动态数据源、XML id 重复
+- Netty +3：为什么用 Netty、核心组件、线程池 2 倍 CPU
+- Spring +5：循环依赖边界、@PostConstruct、AOP 术语、声明式事务慎用、Spring Security
+- 分布式理论 +4：AP/CP、TCC 悬挂、一致性 Hash、分布式 vs 微服务
+- 分布式组件 +3：Eureka 同步、Nacos 配置更新、Ribbon 自定义策略
+- 消息队列 +5：Kafka 顺序消费、RocketMQ 事务消息/延时消息、消息积压、死信队列
+- 网络协议 +7：IO vs NIO、多路复用、select vs epoll、零拷贝、HTTP/1 vs HTTP/2、四元组、TCP vs UDP
+- 设计模式 +2：破坏单例、责任链
+- 数据结构 +7：数组 vs 链表、栈 vs 队列、堆、红黑树、BitMap、跳表、时间轮
+- 算法 +2：令牌桶限流、2G 文件 Top100
+- 系统设计 +5：高并发设计方法、架构分层、缓存读写策略、DDD 流程与限界上下文、CDN
+
+### 更新
+- 全站模块数 24 → 28，总题数 469 → 589
+- `sw.js` 离线缓存版本 v43 → v44，预缓存清单纳入 4 个新模块
+- 全站 29 个页面 Service Worker 注册版本号同步至 v44
+- `search_index.json` 全量重建（589 条，含答案正文与标签）
+- 板块导航串联：算法 → Nginx → Docker 容器化 → 数据库扩展 → AI 大模型 → 汇丰银行面试题
+
+---
+
 ## v1.2.0 (2026-10-27)
 
 **新增数据结构与算法两大模块 · 全站题数同步**

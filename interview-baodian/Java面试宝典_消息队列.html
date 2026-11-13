@@ -610,7 +610,128 @@ channel.basicPublish("delayed.exchange", "rk", props, msg.getBytes());</div>
 </div>
 
 <div class="footer">
-  📌 18 · 消息队列 · 共8题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_设计模式.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q9 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">9</div>
+    <div class="q-meta"><div class="q-title">Kafka 如何保证消息消费的顺序性？</div>
+      <div class="q-tags"><span class="q-tag">Kafka</span><span class="q-tag">顺序消费</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">前提认知</strong></p>
+      <p>Kafka 只保证<strong>分区内有序</strong>，不保证全局有序。消息按 key 取模落到 Partition，多分区被多消费者并行消费后就会乱序。</p>
+      <p><strong class="sec-title">保证顺序的手段</strong></p>
+      <ul>
+        <li><strong>生产端：</strong>自定义分区路由，把同一业务 key 的消息发到同一个 Partition（如按订单 ID 分区）。</li>
+        <li><strong>消费端：</strong>该 Partition 由<strong>一个消费者专责消费</strong>；若消费逻辑用了异步线程池，需先把消息放入阻塞队列，由单线程串行取出处理。</li>
+        <li><strong>RocketMQ 方式：</strong>对同一 MessageQueue 加锁 + Consumer 端顺序消费（ConsumeMode.ORDERLY），不同业务队列之间仍可并发。</li>
+      </ul>
+      <p>💡 权衡：为保序牺牲并行度，所以只对"同一业务实体"保序（同一订单），不同订单间仍并发。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">10</div>
+    <div class="q-meta"><div class="q-title">RocketMQ 事务消息如何实现分布式事务？</div>
+      <div class="q-tags"><span class="q-tag">RocketMQ</span><span class="q-tag">事务消息</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">核心机制：半消息 + 二次确认 + 回查</strong></p>
+      <ul>
+        <li><strong>发半消息：</strong>Producer 先发一条 half message，Broker 落盘但标记为<strong>不可投递</strong>，消费者看不到。</li>
+        <li><strong>执行本地事务：</strong>Producer 执行本地数据库事务（如扣款）。</li>
+        <li><strong>二次确认：</strong>成功 → 发 Commit，消息转为可投递；失败 → 发 Rollback，消息丢弃。</li>
+        <li><strong>消息回查：</strong>Broker 长时间收不到确认，定时<strong>回查 Producer 的本地事务状态</strong>，根据结果决定 Commit 或 Rollback，解决网络抖动导致的悬而未决。</li>
+      </ul>
+      <p><strong>效果：</strong>"本地事务成功" 与 "消息可投递" 原子绑定，下游消费成功即可达最终一致；下游失败靠重试 + 死信 + 幂等兜底。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">11</div>
+    <div class="q-meta"><div class="q-title">RocketMQ 延时消息是什么？底层怎么实现？</div>
+      <div class="q-tags"><span class="q-tag">RocketMQ</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">典型场景</strong></p>
+      <p>订单超时取消：下单后发一条延时消息（如 30 分钟），到期检查仍未付款 → 取消订单、释放库存。替代"定时扫表"方案，实时性更好。</p>
+      <p><strong class="sec-title">实现（开源版）</strong></p>
+      <ul>
+        <li>发送时 <code>setDelayTimeLevel(n)</code>，只支持 <strong>18 个固定级别</strong>：1s 5s 10s 30s 1m 2m 3m ... 1h 2h。</li>
+        <li>Broker 收到后<strong>不投递到目标 Topic</strong>，而是写入内部主题 <code>SCHEDULE_TOPIC_XXXX</code> 中对应级别的 Queue。</li>
+        <li>Broker 内的定时任务轮询这些队列，<strong>到期后把消息转投到目标 Topic</strong>，消费者即可正常消费。</li>
+      </ul>
+      <p>💡 任意精度延时需 5.x 版本的定时消息（setDeliverTimeMs）或自己基于"延时级别 + 多级跳"实现。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">12</div>
+    <div class="q-meta"><div class="q-title">消息队列消息积压了怎么办？</div>
+      <div class="q-tags"><span class="q-tag">实战</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">先定位原因：发送变快 or 消费变慢</strong></p>
+      <ul>
+        <li><strong>消费能力不足：</strong>提升消费速度 —— 消费逻辑异步化（查库后丢线程池）、批量拉取批量入库，然后<strong>水平扩容消费者实例</strong>（注意实例数 ≤ Partition/Queue 数，否则空转）。</li>
+        <li><strong>生产突增（大促/爬虫）：</strong>临时扩容消费端来不及 → 降级，关闭非核心业务的发送，保核心业务。</li>
+        <li><strong>Bug 导致（消费报错死循环重试）：</strong>先修复 bug。</li>
+      </ul>
+      <p><strong class="sec-title">紧急放大吞吐的套路</strong></p>
+      <p>写一个分发程序把积压消息快速转发到一个<strong>新建的、Partition 数扩大 10 倍</strong>的临时 Topic，同时扩 10 倍消费者并行消费，消化完恢复原架构。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">13</div>
+    <div class="q-meta"><div class="q-title">RocketMQ 的死信队列是什么？如何处理死信？</div>
+      <div class="q-tags"><span class="q-tag">RocketMQ</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">机制</strong></p>
+      <ul>
+        <li>消息消费失败会自动重试（默认 16 次，间隔递增），达到最大次数仍失败 → 投递到对应的<strong>死信队列（DLQ）</strong>，不再被正常消费。</li>
+        <li>死信队列按 <strong>Consumer Group</strong> 维度建（<code>%DLQ%消费者组名</code>），包含该组所有 Topic 的死信消息，有效期 3 天。</li>
+      </ul>
+      <p><strong class="sec-title">处理流程</strong></p>
+      <ul>
+        <li>控制台查询/导出死信消息，人工介入排查失败原因（脏数据、下游故障）。</li>
+        <li>修复后通过控制台<strong>重发</strong>死信消息回原 Topic 重新消费。</li>
+        <li>业务上要保证消费逻辑幂等，避免重发造成重复处理。</li>
+      </ul>
+      <p>💡 死信是"最终兜底"，设计目标不是自动恢复而是<strong>保证消息不丢、可追溯、可人工重放</strong>。</p>
+    </div>
+  </div>
+</div>
+
+  📌 18 · 消息队列 · 共13题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_设计模式.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -670,6 +791,6 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

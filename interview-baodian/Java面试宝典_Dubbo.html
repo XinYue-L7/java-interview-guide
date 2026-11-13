@@ -172,10 +172,106 @@ window.addEventListener('scroll',onScroll);onScroll();
 </script>
 
 <div class="footer">
-  📌 13 · Dubbo · 共5题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Netty.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q6 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">6</div>
+    <div class="q-meta"><div class="q-title">Dubbo 是如何动态感知服务下线的？</div>
+      <div class="q-tags"><span class="q-tag">注册中心</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>依赖 Zookeeper 的<strong>心跳检测 + Watch 事件通知</strong>机制，服务下线后消费端被实时推送通知并剔除本地缓存地址。</p>
+      <p><strong class="sec-title">流程</strong></p>
+      <ul>
+        <li>服务地址以<strong>树形结构</strong>维护在 Zookeeper 的 <code>/providers</code> 节点下，每个提供者启动时创建临时节点注册。</li>
+        <li>Zookeeper 通过心跳检测提供端状态，提供者宕机 → <strong>会话过期 → 临时节点自动删除</strong>。</li>
+        <li>消费端启动时用 <strong>Watch 机制</strong>监听 <code>/providers</code>，子节点变化立即收到事件通知。</li>
+        <li>消费端收到通知后删除本地缓存的该服务地址，后续请求不再发往故障节点（负载均衡自然将其排除）。</li>
+      </ul>
+      <p>💡 若用 Nacos 注册中心则走客户端心跳上报 + 服务端主动探测（AP 模型），机制不同但效果一致。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">7</div>
+    <div class="q-meta"><div class="q-title">Dubbo 的 SPI 和 Java 的 SPI 有什么区别？</div>
+      <div class="q-tags"><span class="q-tag">SPI</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>Java SPI</th><th>Dubbo SPI</th></tr>
+        <tr><td>加载方式</td><td>遍历配置文件，<strong>全部实现类一次性实例化</strong></td><td><strong>按名称获取、延迟加载</strong>，一次只加载所需实现</td></tr>
+        <tr><td>资源浪费</td><td>加载全部实现，耗时浪费</td><td>按需加载</td></tr>
+        <tr><td>IOC/AOP</td><td>不支持</td><td>扩展点可通过 setter 注入其他扩展点（IOC）、支持包装类增强（AOP）</td></tr>
+        <tr><td>第三方容器</td><td>无</td><td>支持与 Spring Bean 集成</td></tr>
+        <tr><td>扩展标注</td><td>无</td><td>@Adaptive 自适应扩展（按 URL 参数适配）、@Activate 激活扩展</td></tr>
+      </table></div>
+      <p>💡 Java SPI 配置在 <code>META-INF/services/</code>，Dubbo SPI 配置在 <code>META-INF/dubbo/</code>，格式为 <code>名称=实现类全限定名</code>，支持键值对按名取实现。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">8</div>
+    <div class="q-meta"><div class="q-title">Dubbo 的整体分层是怎样的？</div>
+      <div class="q-tags"><span class="q-tag">架构</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">三大层次（官方 10 层的归并）</strong></p>
+      <ul>
+        <li><strong>Business 业务层：</strong>使用者提供接口、实现与配置，Dubbo 不关心业务内容。</li>
+        <li><strong>RPC 层（核心）：</strong>封装远程调用全过程 —— 代理（Proxy）、注册发现（Registry）、路由、负载均衡（Cluster）、协议（Protocol）、交换（Exchange）。</li>
+        <li><strong>Remoting 层：</strong>封装网络传输（Netty）与数据转换（序列化）。</li>
+      </ul>
+      <p><strong>10 层细分：</strong>Service、Config 两层属 API 层面向使用者；其余各层属 SPI 层，供扩展者二次开发。分层让"业务无关的 RPC 能力"与"业务本身"彻底解耦，各层都可被 SPI 替换实现。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">9</div>
+    <div class="q-meta"><div class="q-title">怎么设计一个 RPC 框架？</div>
+      <div class="q-tags"><span class="q-tag">设计题</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">核心模块清单</strong></p>
+      <ul>
+        <li><strong>注册中心：</strong>管理消费者与提供者的节点信息，双方注册/订阅，地址变更推送（ZK/Nacos）。</li>
+        <li><strong>代理层：</strong>让调用方像调本地方法一样发起远程调用（JDK 动态代理/CGLIB）。</li>
+        <li><strong>负载均衡 + 路由：</strong>provider 集群时选节点（随机/轮询/一致性 Hash），支持自定义路由规则（灰度、机房就近）。</li>
+        <li><strong>通信 + 序列化：</strong>网络传输模块（Netty NIO）+ 协议设计（消息头含请求 ID 支持异步收发）+ 序列化（Hessian/Protobuf/Kryo）。</li>
+        <li><strong>集群容错：</strong>失败重试、快速失败、降级兜底。</li>
+        <li><strong>治理增强：</strong>监控上报、超时控制、泛化调用、配置管理等。</li>
+      </ul>
+      <p>💡 面试时按"调用链路"讲：动态代理拦截 → 服务发现选节点 → 负载均衡 → 序列化 → Netty 发送 → 服务端反序列化 → 反射调用 → 结果回传。</p>
+    </div>
+  </div>
+</div>
+
+  📌 13 · Dubbo · 共9题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Netty.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

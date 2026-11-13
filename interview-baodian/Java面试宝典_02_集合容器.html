@@ -372,8 +372,103 @@ map.get(<span class="kw">new</span> Person(<span class="str">"张三"</span>)); 
 <!-- Q30 -->
 <div class="card"><div class="card-header"><div class="q-num">30</div><div class="q-meta"><div class="q-title">BlockingQueue 有哪些实现？各自特点？</div><div class="q-tags"><span class="q-tag">BlockingQueue</span><span class="q-tag">JUC</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p>BlockingQueue是线程安全的阻塞队列，常用于生产者-消费者模式：</p><div class="table-wrap"><table><thead><tr><th>实现</th><th>特点</th></tr></thead><tbody><tr><td>ArrayBlockingQueue</td><td>有界数组，一把锁两个Condition，必须指定容量</td></tr><tr><td>LinkedBlockingQueue</td><td>可选有界（默认Integer.MAX_VALUE），两把锁(putLock/takeLock)</td></tr><tr><td>PriorityBlockingQueue</td><td>无界，堆排序，take时阻塞等元素</td></tr><tr><td>SynchronousQueue</td><td>容量0，必须配对生产/消费线程，CachedThreadPool使用</td></tr><tr><td>DelayQueue</td><td>延迟队列，元素需实现Delayed接口</td></tr><tr><td>LinkedTransferQueue</td><td>transfer()方法，生产者可等待消费者接收</td></tr></tbody></table></div><p>💡 LinkedBlockingQueue默认无界可能OOM，生产环境建议指定容量。</p></div></div></div>
 
+<!-- Q31 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">31</div>
+    <div class="q-meta"><div class="q-title">ArrayList 的自动扩容机制是怎样的？</div>
+      <div class="q-tags"><span class="q-tag">ArrayList</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">扩容流程</strong></p>
+      <ul>
+        <li>底层是数组，<strong>无参构造默认容量 10</strong>（懒加载，首次 add 时才分配），也可构造时指定初始容量。</li>
+        <li>元素数量到达容量上限再添加时触发扩容：<strong>新容量 = 原容量 × 1.5</strong>（<code>oldCap + (oldCap >> 1)</code>）。</li>
+        <li>用 <code>Arrays.copyOf</code> 创建新数组并拷贝老数据，再把新元素加入。</li>
+        <li>1.5 倍仍不够（addAll 大集合）则直接扩到所需的最小容量。</li>
+      </ul>
+      <p><strong class="sec-title">注意事项</strong></p>
+      <p>频繁扩容会反复创建数组、迁移数据，开销大。<strong>已知数据量时应在初始化时指定容量</strong>（如分页查询前预估结果数 <code>new ArrayList&lt;&gt;(size)</code>）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q32 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">32</div>
+    <div class="q-meta"><div class="q-title">HashMap 的 hash() 方法为什么要右移 16 位异或？</div>
+      <div class="q-tags"><span class="q-tag">HashMap</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>把 hashCode 的<strong>高位特征混入低位</strong>，提升散列度、减少冲突，即"扰动函数"。</p>
+      <p><strong class="sec-title">原理</strong></p>
+      <ul>
+        <li>put 定位下标用 <code>(n - 1) &amp; hash</code>，而数组长度 n 绝大多数远小于 2^16 —— <strong>取模实际只用到 hashCode 的低 16 位</strong>，高位特征全部被丢弃。</li>
+        <li>若高位差异大、低位都相同（比如 ID 只在高位变化），大量 key 会集中到同一小部分下标，冲突严重。</li>
+        <li><code>(h = key.hashCode()) ^ (h >>> 16)</code>：无符号右移 16 位再与原值异或，高低位特征混合，让低位也体现高位信息，降低冲突概率。</li>
+      </ul>
+      <div class="code-block"><span class="kw">static final int</span> hash(Object key) {
+    <span class="kw">int</span> h;
+    <span class="kw">return</span> (key == <span class="kw">null</span>) ? <span class="cy">0</span> : (h = key.hashCode()) ^ (h >>> <span class="cy">16</span>);
+}</div>
+      <p>💡 为什么用异或不用与/或：异或能让 0 和 1 的分布更均匀（与运算趋 0，或运算趋 1）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q33 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">33</div>
+    <div class="q-meta"><div class="q-title">HashMap 什么时候扩容？new HashMap(18) 的实际容量是多少？</div>
+      <div class="q-tags"><span class="q-tag">HashMap</span><span class="q-tag">扩容</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">扩容时机</strong></p>
+      <p>阈值 <code>threshold = capacity × loadFactor</code>，默认 <code>16 × 0.75 = 12</code>。元素数量达到 12 就触发扩容，<strong>新容量为原来的 2 倍</strong>，并 rehash 重新分布。负载因子 0.75 是冲突概率与空间利用率的折中（泊松分布下此时链表长度到 8 的概率极低）。</p>
+      <p><strong class="sec-title">new HashMap(18) → 实际容量 32</strong></p>
+      <p>HashMap 用 <code>tableSizeFor()</code> 把容量规整为<strong>大于等于入参的最小 2 的幂</strong>：先把 cap-1，再对 n 依次无符号右移 1、2、4、8、16 并做或运算（把低位全部填成 1），最后 +1。所以传 18 得 32，传 12 或 16 都得 16。取 2 的幂是为了用位运算 <code>(n-1)&amp;hash</code> 等价取模、降低冲突。</p>
+      <p>💡 <strong>实战：</strong>已知要放 1000 条数据，应设 <code>new HashMap&lt;&gt;(1024)</code> 或按 <code>expected / 0.75 + 1</code> 估算，避免多次扩容迁移。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q34 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">34</div>
+    <div class="q-meta"><div class="q-title">为什么 ConcurrentHashMap 中 key 不允许为 null？</div>
+      <div class="q-tags"><span class="q-tag">ConcurrentHashMap</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>为了避免并发下的<strong>二义性</strong>：get(key) 返回 null 时，无法区分是"key 不存在"还是"value 本身就是 null"。</p>
+      <p><strong class="sec-title">详解</strong></p>
+      <ul>
+        <li>单线程的 HashMap 可以先 <code>containsKey(key)</code> 再 <code>get(key)</code>，两次调用之间没有别的线程修改，判断安全。</li>
+        <li>并发下，containsKey 判断"不存在"之后、get 之前，<strong>别的线程可能刚好 put 了一个 value 为 null 的 key</strong>，导致结果随执行顺序变化，产生线程安全问题。</li>
+        <li>所以 CHM 干脆禁止：put 时键或值为 null 直接抛 <code>NullPointerException</code>，需要"缺失"语义时用特殊哨兵值代替。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <div class="footer">
-  📌 02 · Java 集合容器 · 共30题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_03_JVM.html" style="color:var(--primary)">下一板块 →</a>
+  📌 02 · Java 集合容器 · 共34题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_03_JVM.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 
 </div>
@@ -442,6 +537,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

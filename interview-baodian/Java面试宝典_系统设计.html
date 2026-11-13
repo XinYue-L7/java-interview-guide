@@ -192,7 +192,138 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p>"</p></div></div></div>
 
 <div class="footer">
-  📌 21 · 系统设计 · 共7题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_汇丰银行面试题2026年8月.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q8 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">8</div>
+    <div class="q-meta"><div class="q-title">高并发系统的通用设计方法有哪些？</div>
+      <div class="q-tags"><span class="q-tag">架构</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">三板斧</strong></p>
+      <ul>
+        <li><strong>横向扩展（Scale-out）：</strong>用多台普通机器组成集群分摊流量，突破单机极限。代价：引入节点故障检测、状态同步、节点动态增减等分布式问题。</li>
+        <li><strong>缓存：</strong>用内存替代磁盘。磁盘寻道 ~10ms，内存/CPU 是 ns 级 —— 差几个数量级。多层缓存：浏览器缓存 → CDN → 本地缓存 → 分布式缓存。</li>
+        <li><strong>异步：</strong>请求先受理返回、处理完再通知（MQ 削峰、12306 排队下单），把同步的长耗时操作移出关键路径。</li>
+      </ul>
+      <p><strong class="sec-title">配套手段</strong></p>
+      <p>分层架构（职责隔离、便于针对瓶颈层单独扩展）、数据库读写分离与分库分表、服务化拆分、限流熔断降级。演进原则：<strong>循序渐进、问题驱动</strong>，不要一开始就过度设计。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">9</div>
+    <div class="q-meta"><div class="q-title">架构为什么一定要分层？分层有什么好处和不足？</div>
+      <div class="q-tags"><span class="q-tag">架构</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">好处</strong></p>
+      <ul>
+        <li><strong>简化设计：</strong>开发者只专注本层职责，通过接口与上下层交互（关注点分离）。</li>
+        <li><strong>复用：</strong>通用层可抽出来服务多个系统（如公共的中间层服务）。</li>
+        <li><strong>可扩展：</strong>瓶颈在哪一层就针对哪一层横向扩展，不影响其他层。</li>
+      </ul>
+      <p><strong class="sec-title">不足</strong></p>
+      <ul>
+        <li><strong>性能损耗：</strong>每次跨层都有方法调用/序列化开销，层次越多链路越长。</li>
+        <li><strong>复杂调用链：</strong>排障困难，一个请求横跨多层与多个服务（需要链路追踪）。</li>
+        <li><strong>容易产生"透传层"：</strong>层层都是改参数转发，代码冗余。</li>
+      </ul>
+      <p>💡 经典分层：MVC、表现层/逻辑层/数据访问层、OSI 七层、TCP/IP 四层。支撑高并发的系统一定是分层系统。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">10</div>
+    <div class="q-meta"><div class="q-title">缓存的三种读写策略是什么？如何选择？</div>
+      <div class="q-tags"><span class="q-tag">缓存</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">选择依据：是否写脏数据、读写性能、命中率</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>策略</th><th>流程</th><th>适用</th></tr>
+        <tr><td><strong>Cache Aside（旁路缓存）</strong></td><td>读：缓存命中返回，未命中查库回种；写：<strong>先更库、后删缓存</strong></td><td><strong>最常用</strong>，读多写少</td></tr>
+        <tr><td>Read/Write Through（读穿/写穿）</td><td>应用只访问缓存层，由缓存层统一代理读写数据库</td><td>需缓存组件支持，Redis/Memcached 原生不支持</td></tr>
+        <tr><td>Write Back（写回）</td><td>只写缓存，异步批量刷回数据库</td><td>写多，能容忍掉电丢数据（操作系统 PageCache、CPU Cache 就是这样）</td></tr>
+      </table></div>
+      <p><strong>Cache Aside 两个经典问题：</strong></p>
+      <ul>
+        <li>为什么"先更库后删缓存"？先删缓存再更库，并发读会把<strong>旧值回种</strong>；直接更新缓存，并发写会乱序丢更新。</li>
+        <li>残余缺陷：读请求在"更库后、删缓存前"回种了旧值 —— 但缓存写入远快于数据库，概率极低；写频繁场景可用分布式锁或短过期时间兜底。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">11</div>
+    <div class="q-meta"><div class="q-title">DDD 的实现流程是怎样的？限界上下文怎么划分？</div>
+      <div class="q-tags"><span class="q-tag">DDD</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">四步实现流程</strong></p>
+      <ul>
+        <li><strong>业务分析：</strong>与业务专家梳理流程规则，输出领域模型草图和<strong>统一语言</strong>（Ubiquitous Language）。</li>
+        <li><strong>领域划分：</strong>按业务边界拆出核心域/支撑域子域（订单、商品、支付）。</li>
+        <li><strong>细化设计：</strong>确定聚合根（Order）、实体（OrderItem）、值对象（Address）与领域事件（OrderCreatedEvent）。</li>
+        <li><strong>代码实现：</strong>分四层 —— 用户接口层、应用层（编排用例）、领域层（业务规则核心）、基础设施层（持久化）。</li>
+      </ul>
+      <p><strong class="sec-title">限界上下文（Bounded Context）</strong></p>
+      <ul>
+        <li>把大系统按业务边界拆成<strong>边界清晰的小系统</strong>，每个上下文内有独立的模型与统一语言。</li>
+        <li>同一概念在不同上下文含义不同：商品在商品中心关注类目规格、在订单中心只关注价格库存、在物流中心关注重量体积。</li>
+        <li>上下文间用明确接口或异步事件通信，各有独立数据库，必要时数据冗余、保证最终一致。</li>
+      </ul>
+      <p>💡 仓储（Repository）模式为领域层屏蔽存储细节，充血模型把业务规则收进领域对象（见第 6 题）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">12</div>
+    <div class="q-meta"><div class="q-title">CDN 是什么？如何加速静态资源访问？</div>
+      <div class="q-tags"><span class="q-tag">CDN</span><span class="q-tag">架构</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">为什么静态资源不用分布式缓存而用 CDN</strong></p>
+      <p>静态资源（图片/JS/CSS/视频）读多写少、体积大，CDN 把内容缓存到<strong>离用户最近的边缘节点</strong>：缩短物理传输距离、分担源站带宽，这是中心化缓存做不到的"就近服务"。</p>
+      <p><strong class="sec-title">如何找到最近的节点</strong></p>
+      <ul>
+        <li><strong>请求路由（CNAME）：</strong>对外用自家子域名 CNAME 指向 CDN 厂商域名，DNS 解析时由厂商返回最近的节点 IP（换厂商不用改 URL）。APP 启动时预解析 + 本地 LRU 缓存，解析可从 ~1s 降到 200ms。</li>
+        <li><strong>GSLB（全局负载均衡）：</strong>按用户 IP 归属地理区域或测量 RTT，返回地缘最近的节点，同时保证各节点流量均衡。</li>
+      </ul>
+      <p><strong class="sec-title">缓存未命中</strong></p>
+      <p>边缘节点没有数据时<strong>回源</strong>拉取并缓存，之后同类请求直接命中。缓存刷新靠主动预热 + Cache-Control 过期策略。</p>
+    </div>
+  </div>
+</div>
+
+  📌 21 · 系统设计 · 共12题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_汇丰银行面试题2026年8月.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -252,6 +383,6 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

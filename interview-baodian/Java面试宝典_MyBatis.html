@@ -179,10 +179,103 @@ window.addEventListener('scroll',onScroll);onScroll();
 </script>
 
 <div class="footer">
-  📌 12 · MyBatis · 共6题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Dubbo.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q7 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">7</div>
+    <div class="q-meta"><div class="q-title">MyBatis 如何进行分页？</div>
+      <div class="q-tags"><span class="q-tag">分页</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">三种方式</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>方式</th><th>原理</th><th>评价</th></tr>
+        <tr><td>SQL 手写 limit</td><td>Mapper 里直接写 <code>limit offset, size</code>，参数化传页码</td><td>最直接，需自己算偏移</td></tr>
+        <tr><td>RowBounds 内存分页</td><td>一次查出全部结果，在 Java 内存中截取</td><td>数据量大时压力大、易 OOM，不推荐</td></tr>
+        <tr><td><strong>PageHelper / MyBatis-Plus 插件</strong></td><td>Interceptor 拦截 select，动态改写 SQL 追加分页语句，并自动执行 count</td><td><strong>中小项目首选</strong>，支持多数据库方言</td></tr>
+      </table></div>
+      <p>💡 物理分页（limit）性能最好；内存分页只在结果集很小时可用。插件本质是 <code>Interceptor</code> 对 <code>StatementHandler</code> 的改写（见第 5 题）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">8</div>
+    <div class="q-meta"><div class="q-title">MyBatis 新增数据后如何及时获取自增主键 ID？</div>
+      <div class="q-tags"><span class="q-tag">主键回填</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">两种方式</strong></p>
+      <ul>
+        <li><strong>useGeneratedKeys（推荐）：</strong>insert 标签设 <code>useGeneratedKeys="true" keyProperty="id"</code>，JDBC 的 getGeneratedKeys 自动把主键回填到入参对象的 id 字段。</li>
+        <li><strong>selectKey 标签：</strong>insert 前后执行一条查询拿主键。
+          <div class="code-block">&lt;selectKey keyProperty=<span class="str">"id"</span> resultType=<span class="str">"long"</span> order=<span class="str">"AFTER"</span>&gt;
+  SELECT LAST_INSERT_ID()
+&lt;/selectKey&gt;</div>
+          MySQL 用 <code>order="AFTER"</code> + <code>LAST_INSERT_ID()</code>；Oracle 序列场景用 <code>order="BEFORE"</code> 先取 nextval。
+        </li>
+      </ul>
+      <p>💡 两者都会把主键写回原对象，之后 <code>user.getId()</code> 直接可用。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">9</div>
+    <div class="q-meta"><div class="q-title">MyBatis 如何实现动态数据源（多数据源切换）？</div>
+      <div class="q-tags"><span class="q-tag">多数据源</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">方案：dynamic-datasource-spring-boot-starter</strong></p>
+      <ul>
+        <li>配置多套数据源，<code>primary</code> 指定默认库，框架注册 <code>DynamicRoutingDataSource</code>（继承 AbstractRoutingDataSource）做路由。</li>
+        <li>类或方法加 <code>@DS("slave")</code> 切库，<strong>方法注解优先于类注解</strong>；底层 AOP 在方法执行前把目标数据源 key 压入 ThreadLocal 栈，执行完弹出恢复。</li>
+        <li>也可编程式切换：<code>DynamicDataSourceContextHolder.push("slave")</code> / <code>poll()</code>。</li>
+      </ul>
+      <p>💡 手写原理：实现 AbstractRoutingDataSource 的 <code>determineCurrentLookupKey()</code>，返回 ThreadLocal 中保存的 key。注意多数据源下事务不能跨库（本地事务仅单连接），跨库一致性需 Seata。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">10</div>
+    <div class="q-meta"><div class="q-title">不同 XML 映射文件中的 SQL id 可以重复吗？</div>
+      <div class="q-tags"><span class="q-tag">原理</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">取决于 namespace</strong></p>
+      <ul>
+        <li>MappedStatement 以 <strong>namespace + id</strong> 作为唯一 key 存入 Configuration 的 Map。</li>
+        <li>同一 namespace（同一个文件或 <code>namespace</code> 相同的多个文件）内 id 重复 → 启动时报错，后注册的语句丢失。</li>
+        <li>namespace 不同则 id 可以重复，如 <code>UserMapper.selectById</code> 与 <code>OrderMapper.selectById</code> 共存。</li>
+      </ul>
+      <p>💡 这也是为什么 Mapper 接口全限定名 + 方法名必须与 namespace + id 严格对应 —— 接口代理就是按这个 key 找 SQL 的。</p>
+    </div>
+  </div>
+</div>
+
+  📌 12 · MyBatis · 共10题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Dubbo.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

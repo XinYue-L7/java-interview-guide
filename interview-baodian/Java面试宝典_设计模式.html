@@ -163,7 +163,57 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 </div>
 
  <div class="footer">
-  📌 19 · 设计模式 · 共8题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_网络协议.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q9 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">9</div>
+    <div class="q-meta"><div class="q-title">哪些情况会破坏单例模式？如何防范？</div>
+      <div class="q-tags"><span class="q-tag">单例</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>破坏方式</th><th>原因</th><th>防范</th></tr>
+        <tr><td>反射</td><td><code>setAccessible(true)</code> 调私有构造器</td><td>构造器首行判空，已存在则抛异常；或用<strong>枚举</strong></td></tr>
+        <tr><td>反序列化</td><td>readObject 重建新对象</td><td>重写 <code>readResolve()</code> 返回已有实例；或用枚举</td></tr>
+        <tr><td>克隆</td><td>clone() 复制出新对象</td><td>不实现 Cloneable，或重写 clone() 返回自身引用</td></tr>
+        <tr><td>指令重排</td><td>DCL 中 new 未加 volatile，拿到半初始化对象</td><td>volatile 修饰实例</td></tr>
+        <tr><td>多线程</td><td>懒汉式并发首次创建出多个实例</td><td>DCL / 静态内部类 / 饿汉式</td></tr>
+      </table></div>
+      <p>💡 <strong>枚举是唯一天然防反射、防反序列化的单例实现</strong>（JVM 层面保证），《Effective Java》推荐首选。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">10</div>
+    <div class="q-meta"><div class="q-title">责任链模式的实现原理？有哪些典型应用？</div>
+      <div class="q-tags"><span class="q-tag">责任链</span><span class="q-tag">框架</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">结构</strong></p>
+      <p>把处理不同逻辑的 Handler 连成链表：Context 持有 head/tail 引用，每个 Handler 持有 <code>next</code> 指针；请求沿链传递，各节点处理后调用 <code>next.invoke()</code> 或直接终止。</p>
+      <ul>
+        <li><strong>单向链表：</strong>Servlet Filter、Spring Interceptor —— Context 维护 head/tail，按注册顺序执行。</li>
+        <li><strong>双向链表（闭环）：</strong>Netty Pipeline —— HeadContext ↔ TailContext，入站从头到尾、出站从尾到头。</li>
+      </ul>
+      <p><strong class="sec-title">优缺点</strong></p>
+      <ul>
+        <li>优点：请求与处理逻辑<strong>解耦</strong>，处理节点可动态增删、灵活编排（网关的鉴权→限流→日志链）。</li>
+        <li>缺点：链太长影响性能；节点忘记传递 next 会导致请求中断；需防循环引用。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+  📌 19 · 设计模式 · 共10题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_网络协议.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -223,6 +273,6 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

@@ -887,8 +887,86 @@ Class&lt;?&gt; clazz = loader.loadClass("com.demo.Hello");</pre>
   </div>
 </div>
 
+<!-- Q44 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">44</div>
+    <div class="q-meta"><div class="q-title">JVM 分代年龄为什么最大是 15 次？可以设成 25 吗？</div>
+      <div class="q-tags"><span class="q-tag">GC</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p><strong>不行，15 是硬上限</strong> —— 分代年龄存在对象头 Mark Word 里，只分配了 <strong>4 bit</strong>，最大值就是 2⁴-1 = 15。</p>
+      <p><strong class="sec-title">详解</strong></p>
+      <ul>
+        <li>对象在 Eden 区创建，每经历一次 YGC 存活下来，年龄 +1（在 Survivor 的 From/To 之间来回复制），默认达到 15 晋升老年代。</li>
+        <li>Mark Word 总共 64 bit（未压缩）/32 bit（压缩指针），要同时存放 hashcode、GC 分代年龄、锁标志位、偏向线程 ID 等信息，分给年龄的只有 4 bit。</li>
+        <li><code>-XX:MaxTenuringThreshold</code> 设置超过 15 无效。</li>
+      </ul>
+      <p>💡 <strong>动态年龄判定：</strong>Survivor 中同龄对象总大小超过 Survivor 空间一半时，大于等于该年龄的对象直接晋升，不必等到 15 次。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q45 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">45</div>
+    <div class="q-meta"><div class="q-title">JVM 中的三色标记法是什么？</div>
+      <div class="q-tags"><span class="q-tag">GC</span><span class="q-tag">CMS/G1</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">三色定义</strong></p>
+      <ul>
+        <li><strong>白：</strong>还没被扫描（初始所有对象都是白色，扫描结束仍为白色的 = 不可达、可回收）</li>
+        <li><strong>灰：</strong>自身已被扫描，但其引用的对象还没扫描完</li>
+        <li><strong>黑：</strong>自身和所有引用对象都已扫描确认存活</li>
+      </ul>
+      <p><strong class="sec-title">流程</strong></p>
+      <p>初始根节点标记 → 从 GC Root 出发把直接引用对象置灰 → 逐个处理灰色对象：把它的子引用置灰、自身转黑 → 直到灰色集合清空 → 白色对象回收。</p>
+      <p><strong class="sec-title">意义与问题</strong></p>
+      <p>CMS、G1 的并发标记都基于三色标记，<strong>把大部分标记工作与用户线程并发执行，减少 STW</strong>。并发期间用户线程修改引用会产生"漏标/错标"，CMS 用增量更新、G1 用原始快照（SATB）解决，这也是重新标记阶段存在的原因。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q46 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">46</div>
+    <div class="q-meta"><div class="q-title">内存泄漏和内存溢出的区别？内存泄漏如何排查？</div>
+      <div class="q-tags"><span class="q-tag">OOM</span><span class="q-tag">排查</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">两个概念</strong></p>
+      <ul>
+        <li><strong>内存泄漏（Memory Leak）：</strong>对象已不再使用，却仍被引用着无法回收 —— "该死没死"。</li>
+        <li><strong>内存溢出（OOM）：</strong>申请的内存超过 JVM 可分配空间 —— "不够用了"。泄漏持续累积最终会导致 OOM。</li>
+      </ul>
+      <p><strong class="sec-title">泄漏的典型表现</strong></p>
+      <p>老年代持续增长、频繁 Full GC、内存占用居高不下、最终 heap space OOM。</p>
+      <p><strong class="sec-title">排查步骤</strong></p>
+      <ul>
+        <li><code>jstat -gcutil</code> 观察各内存区域与 GC 情况，确认老年代只涨不降。</li>
+        <li><code>jmap -dump:live,format=b,file=heap.hprof &lt;pid&gt;</code> 导出堆快照（或启动时加 <code>-XX:+HeapDumpOnOutOfMemoryError</code>）。</li>
+        <li>用 MAT 分析：看 Dominator Tree 找占内存最大的对象，沿<strong>到 GC Roots 的引用链</strong>定位持有者代码。</li>
+        <li>重点排查：静态集合只增不减、ThreadLocal 未 remove、资源（流/连接）未关闭、缓存无淘汰策略、内部类持有外部引用。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <div class="footer">
-  📌 03 · JVM 虚拟机 · 共43题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_04_并发编程.html" style="color:var(--primary)">下一板块 →</a>
+  📌 03 · JVM 虚拟机 · 共46题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_04_并发编程.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 
 </div>
@@ -957,6 +1035,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

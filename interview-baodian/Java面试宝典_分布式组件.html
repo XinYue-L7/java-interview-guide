@@ -292,7 +292,90 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 </div>
 
 <div class="footer">
-  📌 17 · 分布式组件 · 共10题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_消息队列.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q11 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">11</div>
+    <div class="q-meta"><div class="q-title">Eureka Server 集群的数据同步原理？</div>
+      <div class="q-tags"><span class="q-tag">Eureka</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">对等复制（Peer-to-Peer）</strong></p>
+      <ul>
+        <li>集群节点<strong>两两相互注册</strong>、心跳维持连接，<strong>没有主从之分</strong>：任意节点都可接收写请求（服务注册/下线）。</li>
+        <li>节点收到变更后<strong>立即同步给其他所有节点</strong>，属 <strong>AP 模型</strong> —— 保证高可用，不保证强一致（短时间内节点间数据可能不同）。</li>
+      </ul>
+      <p><strong class="sec-title">防死循环设计</strong></p>
+      <ul>
+        <li>A 同步给 B，B 再同步回 A 会形成死循环。Eureka 给同步数据打上<strong>时间戳标记</strong>充当版本号，并区分"客户端发起的数据"与"节点间同步的数据"——同步来的数据不再向外转发。</li>
+        <li>自我保护机制：短时间内大量服务掉线（网络分区）时，Eureka 冻结注册表不删除实例，宁可返回旧数据也不清空（AP 取舍的体现）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">12</div>
+    <div class="q-meta"><div class="q-title">Nacos 客户端是如何实现配置动态更新的？</div>
+      <div class="q-tags"><span class="q-tag">Nacos</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">核心机制：长轮询（Long Polling）</strong></p>
+      <ul>
+        <li>客户端定时（默认 30s，实际长轮询）向服务端发起配置监听请求；<strong>无变更时连接挂起不返回</strong>，直到有变更或超时才响应 —— 兼顾实时性与轮询开销。</li>
+        <li>客户端比对本地与服务端配置的 <strong>MD5</strong>，有差异就拉取最新配置，触发监听器回调刷新 Spring 环境。</li>
+      </ul>
+      <p><strong class="sec-title">性能优化：批量分片比对</strong></p>
+      <ul>
+        <li>配置可能上万条，全量传 value 太重。客户端按 <strong>每 3000 个配置一组分片</strong>，先只把所有 key 的 MD5 摘要发给服务端。</li>
+        <li>服务端比对后只返回<strong>发生变更的 key 列表</strong>，客户端再逐个拉取这些 key 的新值 —— 大幅减少传输量。</li>
+      </ul>
+      <p>💡 配置中心"推拉结合"：变更通知靠长轮询"推"，数据获取靠客户端主动"拉"，避免服务端推送失败丢消息。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">13</div>
+    <div class="q-meta"><div class="q-title">Ribbon 如何自定义负载均衡策略？</div>
+      <div class="q-tags"><span class="q-tag">Ribbon</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">内置策略</strong></p>
+      <p>RoundRobinRule 轮询（默认）、RandomRule 随机、WeightedResponseTimeRule 响应时间加权、BestAvailableRule 选并发最低、RetryRule 带重试、AvailabilityFilteringRule 过滤不健康实例、ZoneAvoidanceRule 区域感知轮询。</p>
+      <p><strong class="sec-title">自定义步骤（本质是替换 IRule 实现）</strong></p>
+      <ul>
+        <li>创建类实现 <code>IRule</code> 接口（或继承 AbstractLoadBalancerRule），重写 <code>choose(Object key)</code>，编写选实例逻辑：</li>
+      </ul>
+      <div class="code-block"><span class="kw">public class</span> MyRule <span class="kw">extends</span> AbstractLoadBalancerRule {
+    <span class="kw">public</span> Server choose(Object key) {
+        List&lt;Server&gt; servers = getLoadBalancer().getReachableServers();
+        <span class="co">// 自定义筛选逻辑：如优先同机房、按权重随机...</span>
+        <span class="kw">return</span> servers.get(<span class="cy">0</span>);
+    }
+}</div>
+      <ul>
+        <li>注册：配置类中 <code>@Bean public IRule myRule() {...}</code>（全局），或配置文件 <code>service-name.ribbon.NFLoadBalancerRuleClassName</code>（针对单个服务）。</li>
+      </ul>
+      <p>💡 注意：@Bean 方式放在主类同级会被所有 Ribbon 客户端共享（父子上下文问题），建议放独立配置类并用 @RibbonClients 指定。</p>
+    </div>
+  </div>
+</div>
+
+  📌 17 · 分布式组件 · 共13题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_消息队列.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -352,6 +435,6 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

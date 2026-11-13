@@ -451,8 +451,198 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p>子线程会<strong>继承父线程的ThreadLocal值</strong>（fork时拷贝）。</p>
       <p><strong>但线程池中线程复用后，不会重新复制。</strong></p><p><strong>线程池上下文传递方案：</strong></p><ul><li><strong>手动传递：</strong><br/><br/>Runnable包装，run()前设置上下文，finally清理。</li><li><strong>线程池Hook：</strong><br/><br/>beforeExecute设置，afterExecute清理。</li><li><strong>Alibaba TransmittableThreadLocal(TTL)：</strong><br/><br/>完美解决线程池上下文传递。</li><li><strong>Hystrix：</strong><br/><br/>HystrixRequestContext。</li></ul></div></div></div>
 
+<!-- Q39 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">39</div>
+    <div class="q-meta"><div class="q-title">为什么 wait/notify 要在 synchronized 代码块中调用？</div>
+      <div class="q-tags"><span class="q-tag">线程通信</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>wait/notify 基于共享变量的<strong>对象监视器（Monitor）</strong>实现线程通信，参与通信的线程必须先持有该对象的锁，否则条件判断与等待之间无法保证原子性。</p>
+      <p><strong class="sec-title">详解</strong></p>
+      <ul>
+        <li>wait 的语义是"释放锁并挂起"，notify 是"唤醒并让对方重新竞争锁"—— 二者都围绕<strong>锁</strong>操作，不持锁就操作没有任何意义。</li>
+        <li>JDK 强制校验：在非同步块中调用直接抛 <code>IllegalMonitorStateException</code>。</li>
+        <li>如果不加锁，"检查条件 → wait()" 两步之间可能被其他线程修改共享变量，导致本该等待的线程错过通知（丢失唤醒问题）。</li>
+      </ul>
+      <p>💡 典型应用：生产者-消费者模型，用 while（不是 if）检查条件防止虚假唤醒。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q40 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">40</div>
+    <div class="q-meta"><div class="q-title">线程间有哪些通信方式？</div>
+      <div class="q-tags"><span class="q-tag">线程通信</span><span class="q-tag">总结</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>方式</th><th>说明</th><th>典型场景</th></tr>
+        <tr><td>synchronized + wait/notify</td><td>对象监视器等待唤醒机制</td><td>生产者-消费者</td></tr>
+        <tr><td>ReentrantLock + Condition</td><td>JUC 版等待唤醒，支持多个条件队列</td><td>有界缓冲区（ArrayBlockingQueue）</td></tr>
+        <tr><td>volatile / 内存屏障</td><td>保证共享变量可见性</td><td>状态标志位</td></tr>
+        <tr><td>CountDownLatch / CyclicBarrier</td><td>计数等待 / 栅栏集合</td><td>多任务汇合</td></tr>
+        <tr><td>Semaphore</td><td>信号量控制并发数</td><td>限流、资源池</td></tr>
+        <tr><td>BlockingQueue</td><td>阻塞队列天然支持生产消费</td><td>任务分发</td></tr>
+        <tr><td>LockSupport.park/unpark</td><td>以线程为单位的阻塞唤醒（AQS 底层）</td><td>框架级实现</td></tr>
+        <tr><td>Pipe / 管道流</td><td>线程间字节流传输</td><td>少用</td></tr>
+      </table></div>
+      <p>父子线程传递数据：InheritableThreadLocal（注意线程池不生效，需用 TransmittableThreadLocal 或手动传递）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q41 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">41</div>
+    <div class="q-meta"><div class="q-title">DCL 单例为什么需要 volatile 修饰实例对象？</div>
+      <div class="q-tags"><span class="q-tag">单例</span><span class="q-tag">volatile</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p><code>instance = new Singleton()</code> 不是原子操作，可能被<strong>重排序</strong>导致其他线程拿到"已分配引用但未初始化完成"的半成品对象，volatile 禁止这个重排序。</p>
+      <p><strong class="sec-title">详解</strong></p>
+      <p>new 一个对象实际编译成三条指令：</p>
+      <div class="code-block"><span class="cy">1</span> memory = allocate();   <span class="co">// 分配内存</span>
+<span class="cy">2</span> ctorInstance(memory);  <span class="co">// 初始化对象</span>
+<span class="cy">3</span> instance = memory;     <span class="co">// 引用赋值</span></div>
+      <p>指令 2、3 无数据依赖，JVM/CPU 允许重排为 <strong>1→3→2</strong>。此时线程 A 刚执行完 3（引用已赋值但对象未初始化），线程 B 在第一次 if 判断中看到 instance != null，直接返回半成品并使用 —— NPE 或数据错乱。volatile 通过内存屏障禁止 2、3 重排。</p>
+      <p>💡 其他方案：静态内部类（利用类加载的天然线程安全）、枚举（防反射防序列化）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q42 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">42</div>
+    <div class="q-meta"><div class="q-title">线程池的 execute() 和 submit() 有什么区别？</div>
+      <div class="q-tags"><span class="q-tag">线程池</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比点</th><th>execute()</th><th>submit()</th></tr>
+        <tr><td>来源接口</td><td>Executor</td><td>ExecutorService</td></tr>
+        <tr><td>返回值</td><td>void</td><td>Future</td></tr>
+        <tr><td>入参</td><td>仅 Runnable</td><td>Runnable / Callable</td></tr>
+        <tr><td>异常</td><td>直接抛出，交给 uncaughtExceptionHandler 打印堆栈</td><td>被 FutureTask 捕获吞掉，调用 get() 时才以 ExecutionException 抛出</td></tr>
+      </table></div>
+      <p><strong>陷阱：</strong>submit 提交的任务异常不会在控制台打印堆栈（被吞），忘记 get() 就排查不到错误。需要结果/异常感知用 submit；纯异步执行用 execute。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q43 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">43</div>
+    <div class="q-meta"><div class="q-title">线程池是如何实现线程复用的？核心线程可以被回收吗？</div>
+      <div class="q-tags"><span class="q-tag">线程池</span><span class="q-tag">原理</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">复用原理：生产者-消费者模型</strong></p>
+      <p>提交任务的线程是生产者，把任务放入阻塞队列；工作线程是消费者，<strong>循环从队列 getTask() 取任务</strong>：队列空时阻塞在 take() 上让出 CPU，新任务到来被唤醒继续执行 —— 线程本身不销毁，从而避免反复创建销毁的开销。</p>
+      <p><strong class="sec-title">回收机制（getTask 的超时逻辑）</strong></p>
+      <ul>
+        <li><strong>非核心线程：</strong>poll(keepAliveTime) 限时等待，超时取不到任务就返回 null，runWorker 退出、线程被回收。</li>
+        <li><strong>核心线程默认永久阻塞 take()</strong>，不会被回收。</li>
+        <li><strong>核心线程也可以回收：</strong>设置 <code>allowCoreThreadTimeOut(true)</code> 后核心线程同样走限时 poll，空闲超时即销毁（需 keepAliveTime &gt; 0）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q44 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">44</div>
+    <div class="q-meta"><div class="q-title">什么是守护线程？有什么特点？</div>
+      <div class="q-tags"><span class="q-tag">线程基础</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">定义</strong></p>
+      <p>守护线程（Daemon Thread）是后台服务线程，通过 <code>thread.setDaemon(true)</code> 设置（必须在 start 之前，否则抛 IllegalThreadStateException）。</p>
+      <p><strong class="sec-title">核心特点：不阻止 JVM 退出</strong></p>
+      <ul>
+        <li>Java 进程是否终止<strong>只看用户线程</strong>：只要还有一个用户线程在运行，进程就不结束。</li>
+        <li>所有用户线程结束时，守护线程<strong>不管是否执行完都会被直接终止</strong>，JVM 立即退出。</li>
+        <li>典型例子：GC 线程就是守护线程。</li>
+      </ul>
+      <p>💡 <strong>注意：</strong>守护线程不适合做 IO/事务类任务 —— JVM 退出时任务可能没执行完、资源没释放（如文件写到一半）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q45 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">45</div>
+    <div class="q-meta"><div class="q-title">什么是伪共享（False Sharing）？如何避免？</div>
+      <div class="q-tags"><span class="q-tag">CPU缓存</span><span class="q-tag">进阶</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">概念</strong></p>
+      <p>CPU 读取内存以 <strong>64 字节的缓存行（Cache Line）</strong> 为单位，一个 long 占 8 字节，一行能放 8 个 long。当多个线程分别修改<strong>同一缓存行中的不同变量</strong>时，基于缓存一致性协议（MESI），每个写操作都会使其他核中该缓存行失效并争夺所有权 —— 变量在逻辑上无关，物理上却在互相"拖累"，性能大幅下降，这就是伪共享。</p>
+      <p><strong class="sec-title">解决方案</strong></p>
+      <ul>
+        <li><strong>缓存行填充：</strong>把热点变量前后各填 7 个 long（56 字节），让它独占一个缓存行。</li>
+        <li><strong>Java 8 官方方案：</strong><code>@sun.misc.Contended</code> 注解（类或字段级），JVM 自动填充，需加 JVM 参数 <code>-XX:-RestrictContended</code>。Disruptor 框架的 RingBuffer 就是典型应用。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q46 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">46</div>
+    <div class="q-meta"><div class="q-title">线程两次调用 start() 会怎样？为什么启动线程用 start() 而不是 run()？</div>
+      <div class="q-tags"><span class="q-tag">线程基础</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">两次 start()</strong></p>
+      <p>第二次调用抛 <code>IllegalThreadStateException</code>。线程有六种状态，只有 NEW 状态能启动 —— start() 内部会先校验线程状态，运行中或已终止的线程不能再启动。</p>
+      <p><strong class="sec-title">start() vs run()</strong></p>
+      <ul>
+        <li><code>start()</code>：真正启动一个新线程，由 JVM 调用操作系统的线程创建接口，新线程里执行 run()，<strong>存在并发</strong>。</li>
+        <li><code>run()</code>：只是普通方法调用，在<strong>当前线程</strong>里顺序执行，没有任何多线程效果。</li>
+        <li>想让任务重跑，应该新建一个线程对象再 start，或者用线程池提交。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <div class="footer">
-  📌 04 · Java 并发编程 · 共38题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_05_MySQL.html" style="color:var(--primary)">下一板块 →</a>
+  📌 04 · Java 并发编程 · 共46题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_05_MySQL.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 
 </div>
@@ -521,6 +711,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

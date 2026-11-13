@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · AI 大模型</title>
+<style>
+html{margin:0;padding:0;background:var(--hero-from)}
+:root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body data-section="28">
+<div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+  <h1>AI 大模型</h1>
+  <p>12道题 · LLM · RAG · 微调 · LangChain · Agent</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_数据库扩展.html">← 数据库扩展</a>
+    <a href="Java面试宝典_汇丰银行面试题2026年8月.html">汇丰银行面试题 →</a>
+  </div>
+</div>
+<div class="container">
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">什么是大模型（LLM）？GPT 中的 175B 指什么？</div><div class="q-tags"><span class="q-tag">LLM</span><span class="q-tag">基础</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>大模型一般指<strong>参数量 1 亿以上</strong>的深度学习模型（标准还在升级，已有万亿参数模型）；LLM 特指面向语言的大模型，在海量无标注文本上自监督预训练，具备通用语言理解与生成能力。</p>
+      <p><strong>2. 175B、60B、540B 指参数个数：</strong></p>
+      <p>B = Billion（十亿）。175B = 1750 亿参数，约为 GPT-3 / ChatGPT 的规模。参数量级决定了模型的容量与涌现能力，也决定了训练成本（GPT-3 训练约 30 万美元、碳排放约 284 吨）。</p>
+      <p><strong>3. 生成式大模型的两个特点：</strong></p>
+      <p>参数量达 Billion 级别；能通过条件/上下文（prompt）引导生成文本、图片、音频等新内容 —— prompt engineering 由此而来。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">为什么现在的大模型大部分是 Decoder-only 结构？</div><div class="q-tags"><span class="q-tag">架构</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 三种结构的区别（attention mask）：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>结构</th><th>注意力方式</th><th>特点</th></tr>
+        <tr><td>Encoder-Decoder（T5）</td><td>输入双向注意力</td><td>理解任务好，长文本生成差、训练效率低</td></tr>
+        <tr><td><strong>causal Decoder（GPT）</strong></td><td>自回归，只看前文</td><td>预训练与下游一致，生成与 zero-shot 强</td></tr>
+        <tr><td>prefix Decoder（GLM/PaLM）</td><td>前缀内互相可见</td><td>折中，训练效率低</td></tr>
+      </table></div>
+      <p><strong>2. Decoder-only 胜出的原因：</strong></p>
+      <ul>
+        <li><strong>zero-shot 能力最好：</strong>不微调也有不错表现；而 encoder-decoder 需要一定量标注数据做多任务微调才能激发最佳性能，与"大规模无标注语料自监督预训练"的范式不匹配。</li>
+        <li><strong>双向注意力的低秩问题：</strong>Encoder 双向注意力容易退化为低秩矩阵，削弱表达能力；因果 mask 天然是满秩下三角，理论表达能力更强。</li>
+        <li>训练与生成完全一致（预测下一个词），工程实现简单（KV Cache 加速友好）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">大模型 LLM 的训练目标是什么？</div><div class="q-tags"><span class="q-tag">预训练</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 两大类目标：</strong></p>
+      <ul>
+        <li><strong>语言模型（自回归）：</strong>根据已有词预测下一个词，目标为<strong>最大似然</strong> —— GPT 系列在所有 token 上计算损失。</li>
+        <li><strong>去噪自编码器：</strong>随机替换/遮盖文本段，让模型恢复被破坏的内容，难度更高 —— T5、GLM-130B 采用；Prefix Decoder 类只在输出部分计算损失。</li>
+      </ul>
+      <p><strong>2. 训练三部曲：</strong></p>
+      <ul>
+        <li><strong>预训练（Pre-train）：</strong>海量语料学知识。</li>
+        <li><strong>SFT 指令微调：</strong>在高质量问答对上学习"按指令作答"的形式，激发已学到的能力。</li>
+        <li><strong>RLHF：</strong>用人类反馈对齐模型的意图与偏好（可选）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">大模型有哪些优点和缺点？</div><div class="q-tags"><span class="q-tag">LLM</span><span class="q-tag">幻觉</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 优点：</strong></p>
+      <ul>
+        <li>可用<strong>海量无标注数据预训练 + 少量标注微调</strong>，大幅降低标注成本、提升泛化能力。</li>
+        <li>能生成文本、图像、音乐等新内容。</li>
+        <li>凭<strong>涌现能力</strong>完成数学应用题、常识推理、符号操作等复杂任务（模型规模跨过临界点后能力突增 —— 一种解释：整体任务是多个子任务的乘积，各子任务平滑提升，整体表现为"涌现"）。</li>
+      </ul>
+      <p><strong>2. 缺点：</strong></p>
+      <ul>
+        <li><strong>算力与存储开销大：</strong>训练贵、推理慢。</li>
+        <li><strong>幻觉：</strong>逐 token 概率采样，难免"一本正经地胡说八道"。</li>
+        <li><strong>时效性：</strong>训练周期长，最新信息（如"热映电影推荐"）无法直接回答。</li>
+        <li>数据偏见、隐私泄露、滥用的风险；可解释性差。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">什么是 RAG？为什么需要 RAG？</div><div class="q-tags"><span class="q-tag">RAG</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>检索增强生成（Retrieval Augmented Generation）：模型回答前<strong>先从知识库检索相关信息</strong>，再基于检索内容生成回答。两部分组成：</p>
+      <ul>
+        <li><strong>检索器：</strong>从知识库召回最相关的前 k 个文档（Embedding 向量化 + 向量库相似度检索）。</li>
+        <li><strong>生成器：</strong>把检索片段与用户 query 一起作为输入，产出最终回答。</li>
+      </ul>
+      <p><strong>2. 为什么需要：</strong></p>
+      <ul>
+        <li>缓解<strong>幻觉</strong>：让回答贴着可信数据源生成。</li>
+        <li>解决<strong>时效性</strong>：不用重新训练即可接入最新数据；企业私域知识（文档、手册）通过"与文档对话"落地。</li>
+        <li>可引用来源，便于查证。</li>
+      </ul>
+      <p><strong>3. 局限：</strong>检索质量依赖 embedding 与切分策略，检索到无关信息反而干扰生成；无法引用来源时难以查证。进阶方案：RAG-Fusion（多查询改写 + RRF 重排）、Graph RAG（知识图谱检索子图做上下文）。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">RAG 和微调（SFT）如何选择？</div><div class="q-tags"><span class="q-tag">RAG</span><span class="q-tag">SFT</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>核心判断：知识更新 vs 行为调整</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>维度</th><th>RAG</th><th>SFT/微调</th></tr>
+        <tr><td>解决什么</td><td><strong>注入/更新知识</strong>（外部数据、实时信息）</td><td><strong>调整行为/风格/格式</strong>（激发预训练已有能力）</td></tr>
+        <tr><td>成本</td><td>建向量库 + 检索链路，改动小</td><td>要高质量标注数据 + GPU 资源</td></tr>
+        <tr><td>时效</td><td>数据实时可更新</td><td>训练后固化，更新需再训</td></tr>
+        <tr><td>风险</td><td>检索质量决定上限</td><td>数据少任务杂易过拟合/灾难性遗忘</td></tr>
+      </table></div>
+      <p><strong>结论：</strong>让模型"知道新东西"（企业文档、新闻）→ RAG；让模型"说话方式/输出格式/领域话术"改变 → 微调；两者常组合使用。注意 <strong>LoRA 等高效微调是低秩的，只能改风格、改不了知识</strong>，要注入知识需全量微调或 RAG。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">什么是 LangChain？包含哪些核心概念？</div><div class="q-tags"><span class="q-tag">LangChain</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>帮助开发者<strong>用语言模型构建端到端应用</strong>的框架：提供工具、组件和接口，简化基于 LLM 的应用开发，可管理模型交互、把多个组件链接（Chain）起来，并集成 API、数据库等外部资源。</p>
+      <p><strong>2. 核心概念：</strong></p>
+      <ul>
+        <li><strong>Components 与 Chain：</strong>组件 + 调用序列的标准接口。</li>
+        <li><strong>Prompt Templates：</strong>模板化生成 Prompt；<strong>Output Parsers：</strong>解析结构化输出。</li>
+        <li><strong>Indexes 与 Retrievers：</strong>文档索引与检索（RAG 落地的载体）。</li>
+        <li><strong>Chat Message History：</strong>维护对话记忆/状态。</li>
+        <li><strong>Agents 与 Toolkits：</strong>由 LLM 决策调用哪些工具。</li>
+      </ul>
+      <p><strong>3. 三类模型抽象：</strong>LLM（文本进文本出）、Chat Model（消息列表进消息出）、Text Embedding Model（文本进向量出，用于检索与相似度）。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">什么是 Agent？LangChain Agent 是什么？</div><div class="q-tags"><span class="q-tag">Agent</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 概念：</strong></p>
+      <p>Agent = <strong>LLM 作为"大脑" + 工具集 + 规划循环</strong>：模型不再只生成文本，而是能感知任务 → 拆解步骤 → 决定调用哪个工具（搜索、代码执行、API）→ 观察结果 → 迭代直到完成目标。</p>
+      <p><strong>2. LangChain Agent：</strong></p>
+      <p>是框架中<strong>驱动决策制定的实体</strong>：可访问一组工具（Toolkits），根据用户输入决定调用哪个工具、以什么参数调用。适合"交互链未知、需要自适应"的复杂应用 —— 与固定流程的 Chain 相反，Agent 的下一步行动由 LLM 动态决定（ReAct 模式：思考 → 行动 → 观察）。</p>
+      <p><strong>3. Function Call：</strong></p>
+      <p>模型厂商提供的能力：在请求里声明可用的函数 schema，模型判断需要时输出"函数名 + 结构化参数"，由应用执行后把结果回传给模型继续推理 —— 是 Agent 调用工具的标准化通道。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">什么是 PEFT？它和全量微调有什么区别？</div><div class="q-tags"><span class="q-tag">PEFT</span><span class="q-tag">LoRA</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>Parameter-Efficient Fine-Tuning（参数高效微调）：冻结原模型绝大部分参数，只训练少量新增参数完成下游任务适配。代表方法 <strong>LoRA</strong>（在权重旁加低秩矩阵 A×B，只训 A、B）、P-tuning 系列（可学习的连续 Prompt 向量）、Prefix-tuning 等。</p>
+      <p><strong>2. 与全量微调的区别：</strong></p>
+      <ul>
+        <li><strong>能力边界：</strong>全量微调可以改变知识；LoRA 这类高效微调本质是低秩的，<strong>只能改变风格、无法对模型产生决定性改变（不能注入知识）</strong>。</li>
+        <li><strong>资源：</strong>LoRA 显存与算力需求低一个数量级，单卡可微调 7B 模型。</li>
+        <li><strong>优点：</strong>缓解灾难性遗忘（原参数不动）、可插拔（一个基座挂多个 LoRA 适配器）、算力受限下性价比极高。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">SFT 之后模型变傻、灾难性遗忘是怎么回事？如何避免？</div><div class="q-tags"><span class="q-tag">SFT</span><span class="q-tag">微调</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 原理认知：</strong></p>
+      <p><strong>SFT 的作用是激发/解锁模型能力，而不是灌注知识</strong>。SFT 数据通常只有 alpaca 52k 这种量级，远小于预训练数据 —— 抱着"灌领域知识"的目的做 SFT，容易把模型弄傻。</p>
+      <p><strong>2. 灾难性遗忘：</strong></p>
+      <p>学了新任务后几乎彻底忘掉原有能力（例：ChatGLM-6B 用拼写纠错数据微调后，问"失眠怎么办"答非所问）。常见诱因是<strong>学习率过高</strong>。</p>
+      <p><strong>3. 解决方案：</strong></p>
+      <ul>
+        <li>初始学习率用 <strong>2e-5 或更小</strong>，不超过预训练学习率；按 batch size 缩放（batch 增 4 倍、lr 增 2 倍）。</li>
+        <li><strong>混入通用数据一起训练</strong>：领域数据不多时，领域数据与通用数据按 <strong>1:5 到 1:10</strong> 混合比例。</li>
+        <li>数据量少（&lt;10k）用 Chat 模型做基座微调；有 100k 数据且资源充足才考虑 Base 模型。</li>
+        <li>改知识用 Continue PreTrain（可配 MIP：预训练阶段同步混入 SFT 数据）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">11</div><div class="q-meta"><div class="q-title">SFT 指令微调数据如何构建？</div><div class="q-tags"><span class="q-tag">微调数据</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>三点原则：</strong></p>
+      <ul>
+        <li><strong>代表性：</strong>覆盖多个有代表性的任务类型（问答、摘要、代码、推理等），让模型学到通用的"指令跟随"模式。</li>
+        <li><strong>数据量适中：</strong>每个任务实例数百个即可，<strong>过多易过拟合</strong>（模型只会这几类任务的答题套路）。</li>
+        <li><strong>质量优先：</strong>答案准确、格式统一、指令多样（同一任务换不同问法），必要时人工审核清洗。</li>
+      </ul>
+      <p>💡 数据格式通常是 instruction / input / output 三元组（Alpaca 格式）；SFT 只对 output 部分计算损失。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">12</div><div class="q-meta"><div class="q-title">微调大模型时 batch size 如何设置？太大太小有什么问题？显存怎么估算？</div><div class="q-tags"><span class="q-tag">训练调优</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. batch size 太小：</strong></p>
+      <p>对真实梯度的近似<strong>方差很大</strong>，单次更新方向主要是噪声；虽然多次更新会相互抵消、总体仍朝正确方向前进，但单次更新价值低，相当于把多次小更新合并成一次大 batch 更新。</p>
+      <p><strong>2. batch size 太大：</strong></p>
+      <p>超过临界值后继续增大几乎不提升性能（任意两组抽样都已近似真实梯度），只增加每步数据量与 FLOPS；固定 epoch 预算下<strong>模型性能反而随 batch 增大而下降</strong>。</p>
+      <p><strong>3. 显存估算（全量微调）：</strong></p>
+      <ul>
+        <li>粗略公式：<strong>模型参数按 20n GB 准备</strong>（n 为参数量，单位十亿）：FP16 权重 2n + 梯度 2n + AdamW 优化器状态 12n；activation 随 max length、batch size 变化。</li>
+        <li>7B 模型全量微调在 FSDP 下约需 160GB；资源不够用 LoRA + <strong>梯度累积</strong>（等效放大 batch size，注意 loss 除以累积步数）+ <strong>梯度检查点</strong>（时间换空间：反向时重算激活值）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+📌 28 · AI 大模型 · 共12题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_汇丰银行面试题2026年8月.html" style="color:var(--primary)">汇丰银行面试题 →</a>
+
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+</body>
+</html>

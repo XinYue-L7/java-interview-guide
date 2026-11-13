@@ -159,7 +159,171 @@ filter.mightContain(<span class="str">"hello"</span>); <span class="co">// true�
 </div>
 
 <div class="footer">
-  📌 23 · 数据结构 · 共2题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_算法.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q3 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">3</div>
+    <div class="q-meta"><div class="q-title">数组和链表的区别？各自适用什么场景？</div>
+      <div class="q-tags"><span class="q-tag">基础</span><span class="q-tag">经典</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>数组</th><th>链表</th></tr>
+        <tr><td>内存分布</td><td>连续</td><td>节点分散，靠指针相连</td></tr>
+        <tr><td>随机访问</td><td><strong>O(1)</strong>（下标寻址）</td><td>O(n)（从头遍历）</td></tr>
+        <tr><td>插入/删除</td><td>O(n)（移动大量元素）</td><td><strong>O(1)</strong>（改指针）</td></tr>
+        <tr><td>容量</td><td>固定，需预先分配</td><td>动态扩展</td></tr>
+        <tr><td>缓存友好</td><td>好（局部性原理）</td><td>差（节点分散）</td></tr>
+      </table></div>
+      <p>频繁随机访问、数量固定 → 数组；频繁增删、数量不确定 → 链表（队列、栈、LRU）。实际开发中 ArrayList 因 CPU 缓存友好往往比 LinkedList 快。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">4</div>
+    <div class="q-meta"><div class="q-title">栈和队列的区别？各自的应用场景？</div>
+      <div class="q-tags"><span class="q-tag">基础</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>栈（Stack）</th><th>队列（Queue）</th></tr>
+        <tr><td>规则</td><td>后进先出 LIFO</td><td>先进先出 FIFO</td></tr>
+        <tr><td>操作</td><td>push / pop / peek（同一端）</td><td>enqueue（队尾进）/ dequeue（队头出）</td></tr>
+        <tr><td>场景</td><td>函数调用栈、表达式求值、括号匹配、撤销操作、DFS</td><td>消息队列、任务调度、线程池任务队列、打印队列、BFS</td></tr>
+      </table></div>
+      <p>按"需要的进出顺序"选型即可。Java 实现：Stack（已过时，推荐 Deque）、ArrayBlockingQueue/LinkedBlockingQueue（阻塞队列）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">5</div>
+    <div class="q-meta"><div class="q-title">什么是堆？什么情况下要用堆？</div>
+      <div class="q-tags"><span class="q-tag">堆</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">定义</strong></p>
+      <p>堆是<strong>特殊的完全二叉树</strong>：大顶堆每个节点 ≥ 子节点（堆顶最大）；小顶堆堆顶最小。通常用数组实现（父 i → 子 2i+1/2i+2），插入、删除堆顶均为 <strong>O(log n)</strong>，取最值 O(1)。</p>
+      <p><strong class="sec-title">使用场景：需要动态获取最值</strong></p>
+      <ul>
+        <li>优先队列（Java 的 PriorityQueue 默认小顶堆）</li>
+        <li>数据流中前 K 大/小（TopK：维护 K 大小的小顶堆）</li>
+        <li>堆排序 O(n log n)</li>
+        <li>Dijkstra / Prim 算法优化</li>
+        <li>定时任务按时间调度（Netty/Dubbo 的时间轮、DelayQueue）</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">6</div>
+    <div class="q-meta"><div class="q-title">什么是红黑树？为什么 TreeMap、HashMap 要用它？</div>
+      <div class="q-tags"><span class="q-tag">红黑树</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">定义与五条性质</strong></p>
+      <p>自平衡二叉搜索树，节点非红即黑，满足：① 节点非红即黑；② 根节点为黑；③ NIL 叶子为黑；④ <strong>红节点的子节点必为黑</strong>（不出现连续红）；⑤ 任一节点到后代叶子的路径上黑节点数目相同。</p>
+      <p><strong class="sec-title">核心价值</strong></p>
+      <ul>
+        <li>性质 ④⑤ 保证<strong>最长路径不超过最短路径的 2 倍</strong> → 树大致平衡，查找、插入、删除均为 <strong>O(log n)</strong>。</li>
+        <li>靠<strong>左旋、右旋、变色</strong>维持平衡；相比 AVL 旋转次数少，增删频繁的场景综合性能更好（AVL 更严格、查询略快但调整代价大）。</li>
+      </ul>
+      <p>💡 应用：TreeMap/TreeSet、HashMap 桶内链表转树（≥8）、ConcurrentHashMap、Linux 内核 CFS 调度器、C++ map/set。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">7</div>
+    <div class="q-meta"><div class="q-title">什么是 BitMap（位图）？有什么用？</div>
+      <div class="q-tags"><span class="q-tag">BitMap</span><span class="q-tag">海量数据</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">原理</strong></p>
+      <p>用一个 bit 的 0/1 表示元素是否存在，底层是 long 数组：定位 <code>num &gt;&gt;&gt; 6</code>（在哪个 long）、位偏移 <code>num &amp; 63</code>；<code>|=</code> 置位、<code>&amp;= ~</code> 清位、<code>&amp;</code> 判断。</p>
+      <p><strong class="sec-title">威力</strong></p>
+      <ul>
+        <li>40 亿整数去重：int 数组需 ~16GB，BitMap 只需 <strong>~500MB</strong>（40 亿 bit）。</li>
+        <li>应用：海量数据去重、O(n) 排序、布隆过滤器的底座、Redis 的 BITSET（用户签到、活跃统计）。</li>
+      </ul>
+      <p><strong>局限：</strong>只适合<strong>非负整数</strong>且值域有限；稀疏数据浪费严重（此时换 RoaringBitmap 或布隆过滤器）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">8</div>
+    <div class="q-meta"><div class="q-title">什么是跳表（SkipList）？为什么 Redis 的 zset 用它不用红黑树？</div>
+      <div class="q-tags"><span class="q-tag">跳表</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">结构</strong></p>
+      <p>在有序链表基础上增加<strong>多层索引</strong>：每个节点的层数随机生成，高层索引是低层索引的子集，元素间隔逐层增大。查找从最高层开始，每层找小于目标的最大元素，<strong>逐层下沉</strong>（不能直接跨两级跳），直到命中。平均查找/插入/删除 <strong>O(log n)</strong>。</p>
+      <p><strong class="sec-title">为什么 Redis zset 选跳表</strong></p>
+      <ul>
+        <li>实现简单，<strong>无旋转操作</strong>，代码不易出 bug。</li>
+        <li>范围查询天然高效（找到起点后沿底层链表顺序遍历）。</li>
+        <li>并发友好：插入只影响局部节点与索引，无需像红黑树那样全局旋转。</li>
+        <li>层数随机可控，用空间换时间。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">9</div>
+    <div class="q-meta"><div class="q-title">什么是时间轮？为什么 Kafka、Netty、Dubbo 都用它？</div>
+      <div class="q-tags"><span class="q-tag">时间轮</span><span class="q-tag">中间件</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">结构</strong></p>
+      <ul>
+        <li><strong>环状数组 + 循环指针</strong>：每个数组元素代表一个时间刻度（如 1 秒），指针每隔最小时间单位前进一格。</li>
+        <li>任务按执行时间计算槽位下标放入对应槽，同一刻度多个任务用双向链表存储；超过一圈的任务用圈数表示。</li>
+        <li>指针走到某槽 → 遍历执行该槽链表上圈数为 0 的任务，其余圈数减一。</li>
+      </ul>
+      <p><strong class="sec-title">优势</strong></p>
+      <p>添加、取消、触发任务都是 <strong>O(1)</strong>（对比 PriorityQueue 定时器 O(log n)），海量定时任务（心跳检测、超时取消）下性能碾压。精度取决于最小时间单元；多层时间轮（Kafka）可表达更长时间范围。Netty 的 HashedWheelTimer、Dubbo 的失败重试调度、Kafka 的延迟操作都用它。</p>
+    </div>
+  </div>
+</div>
+
+  📌 23 · 数据结构 · 共9题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_算法.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -188,6 +352,6 @@ var bh=document.getElementById('backHome');
 function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
 window.addEventListener('scroll',onScroll);onScroll();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

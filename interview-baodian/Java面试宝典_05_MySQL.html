@@ -1687,7 +1687,175 @@ where create_time >= '20190101' and create_time &lt; '20190102'</pre>
       </ul>
     </div></div></div>
 <div class="footer">
-  📌 05 · MySQL · 共54题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_06_Redis.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q55 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">55</div>
+    <div class="q-meta"><div class="q-title">MySQL 的 RR 隔离级别到底有没有解决幻读？</div>
+      <div class="q-tags"><span class="q-tag">事务</span><span class="q-tag">幻读</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">结论</strong></p>
+      <p><strong>特定情况下仍有幻读</strong>：快照读解决了，当前读没有完全解决。</p>
+      <p><strong class="sec-title">详解</strong></p>
+      <ul>
+        <li><strong>快照读</strong>（普通 select）：靠 MVCC 的 ReadView，事务内多次读取结果一致，看不到其他事务插入的行。</li>
+        <li><strong>当前读</strong>（update / delete / select ... for update）：直接读最新版本，会绕过快照 —— 事务内先用快照读查到 5 行，另一事务插入并提交后，本事务执行 update 触发当前读，<strong>会读到新插入的行</strong>，前后行数不一致，产生幻读。</li>
+        <li><strong>规避：</strong>事务内统一用 <code>for update</code> 加锁读（配合间隙锁/临键锁阻止插入），或保持读写路径一致。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q56 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">56</div>
+    <div class="q-meta"><div class="q-title">MySQL update 是锁行还是锁表？</div>
+      <div class="q-tags"><span class="q-tag">锁</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>都可能，取决于 <strong>where 条件是否命中索引</strong>。</p>
+      <ul>
+        <li><strong>行锁：</strong>where 条件命中索引列且只更新少量行，只锁命中的索引记录。</li>
+        <li><strong>表锁（效果等同）：</strong>where 条件不含索引列时无法定位具体行，会锁全表扫描到的所有行。</li>
+        <li><strong>Next-Key Lock：</strong>范围条件（如 <code>where id &gt; 10</code>）会对索引区间加临键锁，锁住记录 + 间隙，这是 RR 下防幻读的手段。</li>
+      </ul>
+      <p>💡 所以"update 没走索引导致锁全表"是生产事故的经典原因：大表上的非索引列更新会阻塞所有相关操作。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q57 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">57</div>
+    <div class="q-meta"><div class="q-title">MVCC 过程中会加锁吗？</div>
+      <div class="q-tags"><span class="q-tag">MVCC</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p><strong>快照读不加锁</strong>，写写冲突靠版本校验，读写互不阻塞 —— 这是 MVCC 提升 并发 的核心。</p>
+      <p><strong class="sec-title">详解</strong></p>
+      <ul>
+        <li>MVCC 是乐观锁思路：各事务读的是 undo log 链上的历史快照（按 ReadView 判断可见性），不需要申请共享锁/排它锁。</li>
+        <li>写操作走写时复制：修改前先生成新版本记录（写入 undo log），校验版本号，避免直接覆盖原数据。</li>
+        <li>其他事务继续读旧快照，读写不冲突，解决脏读和不可重复读。</li>
+        <li><strong>例外：</strong><code>select ... for update</code> 等当前读仍要加锁；写写之间仍需行锁保证串行。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q58 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">58</div>
+    <div class="q-meta"><div class="q-title">时间列用 datetime 还是 timestamp？</div>
+      <div class="q-tags"><span class="q-tag">表设计</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>datetime</th><th>timestamp</th></tr>
+        <tr><td>占用</td><td>8 字节</td><td>4 字节</td></tr>
+        <tr><td>范围</td><td>1000-01-01 ~ 9999-12-31</td><td>1970 ~ 2038 年（UTC 秒数）</td></tr>
+        <tr><td>时区</td><td>存字面值，不转时区</td><td>存 UTC，按会话时区自动转换</td></tr>
+      </table></div>
+      <p><strong>选择建议：</strong>跨时区应用、省空间 → timestamp（会随连接时区自动换算）；需要存 2038 年以后的时间（如身份证有效期、合同到期日）、不想受时区影响 → datetime。团队内要统一处理方式，避免展示混乱。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q59 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">59</div>
+    <div class="q-meta"><div class="q-title">MySQL 数据库 CPU 飙升怎么处理？</div>
+      <div class="q-tags"><span class="q-tag">排查</span><span class="q-tag">实战</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">三步定位</strong></p>
+      <ul>
+        <li><code>top</code> 确认高 CPU 进程是否 <code>mysqld</code>（排除是应用进程）。</li>
+        <li><code>show full processlist</code> 看当前会话，找出 Time 长、State 异常（Sending data、Sorting result）的 SQL。</li>
+        <li>对可疑 SQL 跑 <code>explain</code> 分析执行计划：是否全表扫描、索引失效。</li>
+      </ul>
+      <p><strong class="sec-title">处理</strong></p>
+      <ul>
+        <li>SQL 问题 → 优化语句、补索引，kill 阻塞会话（<code>kill &lt;id&gt;</code>）先止血。</li>
+        <li>非 SQL 问题 → 看该时段并发连接数与业务量，调整连接池上限、buffer pool、线程参数，必要时限流。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q60 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">60</div>
+    <div class="q-meta"><div class="q-title">数据库出现死锁如何排查解决？</div>
+      <div class="q-tags"><span class="q-tag">锁</span><span class="q-tag">排查</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">排查</strong></p>
+      <ul>
+        <li>执行 <code>show engine innodb status</code> 查看 LATEST DETECTED DEADLOCK 段，拿到互相等待的两个事务与锁资源。</li>
+        <li>开启 <code>innodb_print_all_deadlocks</code> 把所有死锁记录到错误日志。</li>
+        <li>InnoDB 有死锁检测，会自动回滚<strong>代价较小</strong>的事务，应用侧重试即可。</li>
+      </ul>
+      <p><strong class="sec-title">常见诱因与预防</strong></p>
+      <ul>
+        <li>不同事务以<strong>不同顺序</strong>更新同一批行 → 统一按主键/固定顺序访问。</li>
+        <li>操作非索引字段导致锁范围扩大 → 保证走索引，必要时 RC 隔离级别禁用间隙锁。</li>
+        <li>大事务长持锁 → 拆小事务，缩小锁持有时间。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q61 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">61</div>
+    <div class="q-meta"><div class="q-title">为什么一线互联网公司严禁使用存储过程？</div>
+      <div class="q-tags"><span class="q-tag">规范</span><span class="q-tag">架构</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">四个原因</strong></p>
+      <ul>
+        <li><strong>难调试：</strong>数据库端调试工具简陋，逻辑一复杂，定位问题非常麻烦。</li>
+        <li><strong>可移植性差：</strong>各数据库方言不同（Oracle PL/SQL vs MySQL），迁移时独有特性要整个重写。</li>
+        <li><strong>职责冲突：</strong>互联网公司生产库由 DBA 专人维护，开发不能直连；业务升级要同步升级存储过程，发布流程摩擦大。</li>
+        <li><strong>性能反噬：</strong>复杂逻辑加重数据库负载，而数据库是集群中最难水平扩展的一层；业务逻辑放应用层才能弹性扩容、灵活迭代。</li>
+      </ul>
+      <p>💡 结论：逻辑尽量放应用层（服务化），数据库只做存储和简单计算；规范上禁止不等于技术上不能用。</p>
+    </div>
+  </div>
+</div>
+
+  📌 05 · MySQL · 共61题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_06_Redis.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -1754,6 +1922,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

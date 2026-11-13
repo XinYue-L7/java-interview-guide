@@ -200,10 +200,86 @@ window.addEventListener('scroll',onScroll);onScroll();
 </script>
 
 <div class="footer">
-  📌 14 · Netty · 共2题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Zookeeper.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q3 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">3</div>
+    <div class="q-meta"><div class="q-title">为什么要用 Netty？它解决了什么问题？</div>
+      <div class="q-tags"><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">对比原生方案</strong></p>
+      <ul>
+        <li><strong>BIO：</strong>一连接一线程，高并发下线程爆炸、吞吐低。</li>
+        <li><strong>NIO：</strong>多路复用解决了阻塞，但 API 复杂（Channel/Buffer/Selector），手动处理 epoll 空轮询 bug、粘包拆包，开发门槛高。</li>
+        <li><strong>Netty：</strong>基于 NIO 封装出成熟易用的 API，核心价值是<strong>用最低的学习成本获得高吞吐</strong>。</li>
+      </ul>
+      <p><strong class="sec-title">Netty 的增强</strong></p>
+      <ul>
+        <li>API 统一，屏蔽 JDK 在不同系统上的差异（自动切 epoll/poll）。</li>
+        <li>开箱即用的<strong>主从 Reactor 多线程模型</strong>，少量代码即可搭建。</li>
+        <li>自带<strong>编解码器</strong>（LengthFieldBasedFrameDecoder 等）解决粘包拆包；内置 HTTP、WebSocket 协议栈。</li>
+        <li>自身优化：零拷贝（CompositeByteBuf）、对象内存池（PooledByteBufAllocator）、无锁串行化设计。</li>
+      </ul>
+      <p>💡 经生产验证：Dubbo、RocketMQ、Zookeeper、Elasticsearch 底层通信都用 Netty。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">4</div>
+    <div class="q-meta"><div class="q-title">Netty 有哪些核心组件？分别有什么作用？</div>
+      <div class="q-tags"><span class="q-tag">组件</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>组件</th><th>作用</th></tr>
+        <tr><td><strong>Bootstrap / ServerBootstrap</strong></td><td>客户端启动器 / 服务端监听器，装配各组件</td></tr>
+        <tr><td><strong>Channel</strong></td><td>网络 IO 的载体（连接），所有读写操作经由它</td></tr>
+        <tr><td><strong>EventLoopGroup / EventLoop</strong></td><td>本质是线程池/线程：EventLoop 绑定一个线程，负责一组 Channel 的全部 IO 事件</td></tr>
+        <tr><td><strong>ChannelPipeline</strong></td><td>串联 ChannelHandler 的责任链，入站出站事件沿链传播</td></tr>
+        <tr><td><strong>ChannelHandler</strong></td><td>业务逻辑处理器（编码、解码、业务处理）</td></tr>
+        <tr><td><strong>ByteBuf</strong></td><td>增强版字节容器，支持池化与引用计数</td></tr>
+      </table></div>
+      <p>💡 关键设计：<strong>一个 EventLoop 只绑定一个线程</strong>，同一 Channel 的所有事件都在该线程串行执行 → Handler 内无需加锁（无锁串行化）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">5</div>
+    <div class="q-meta"><div class="q-title">为什么 Netty 线程池默认大小是 CPU 核数的 2 倍？</div>
+      <div class="q-tags"><span class="q-tag">线程模型</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">从线程数公式推导</strong></p>
+      <ul>
+        <li>CPU 密集型任务：线程数 ≈ 核数（+1 补偿阻塞）。</li>
+        <li>IO 密集型任务：线程数 = 核数 × (1 + R)，R = IO 耗时 / CPU 耗时。</li>
+        <li>Netty 的 <code>ioRatio</code> 默认 50，即事件循环中<strong>IO 处理与异步任务执行耗时按 1:1 分配</strong> → R = 1 → 线程数 = 核数 × 2。</li>
+      </ul>
+      <p>Netty 是典型的 IO 密集型框架，2 倍核数正好契合其工作负载；实际配置还应结合压测调整（handler 全异步化后可以调小）。</p>
+    </div>
+  </div>
+</div>
+
+  📌 14 · Netty · 共5题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Zookeeper.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

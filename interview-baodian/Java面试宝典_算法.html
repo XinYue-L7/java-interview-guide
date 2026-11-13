@@ -910,7 +910,56 @@ PriorityQueue&lt;Integer&gt; heap = <span class="kw">new</span> PriorityQueue&lt
 </div>
 
 <div class="footer">
-  📌 24 · 算法 · 共20题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_数据结构.html" style="color:var(--primary)">← 上一板块 数据结构</a>
+<!-- Q21 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">21</div>
+    <div class="q-meta"><div class="q-title">什么是令牌桶限流算法？和漏桶算法有什么区别？</div>
+      <div class="q-tags"><span class="q-tag">限流</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">令牌桶原理</strong></p>
+      <ul>
+        <li>系统以<strong>恒定速率生成令牌</strong>放入桶中，桶满则不再生成（桶容量限制突发上限）。</li>
+        <li>请求到达先取令牌：取到 → 放行；取不到 → 说明流量超过承载阈值，触发限流（拒绝/排队/降级）。</li>
+      </ul>
+      <p><strong class="sec-title">与漏桶的区别</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>令牌桶</th><th>漏桶</th></tr>
+        <tr><td>速率</td><td>限制<strong>平均</strong>速率，桶内余令牌可应对<strong>瞬时突发</strong></td><td>恒定速率流出，<strong>彻底抹平突发</strong></td></tr>
+        <tr><td>适合</td><td>限流（允许一定 burst）</td><td>整形流量、保护下游（MQ 生产消费模型即是）</td></tr>
+      </table></div>
+      <p>限流体系回答三问：对什么资源限、阈值多少、触发后熔断还是降级。实现：Guava RateLimiter、Redisson RRateLimiter、Sentinel 滑动窗口 + 令牌桶。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q22 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">22</div>
+    <div class="q-meta"><div class="q-title">2G 大小的文件中如何找出出现频率最高的 top100 单词？</div>
+      <div class="q-tags"><span class="q-tag">TopK</span><span class="q-tag">分治+堆</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">思路：分治 + Hash 统计 + 小顶堆</strong></p>
+      <ul>
+        <li><strong>分片：</strong>2G 文件按 512KB 切成约 2048 个小文件，避免一次性载入内存；多线程并行处理。</li>
+        <li><strong>Hash 统计：</strong>建长度 2048 的 hash 桶数组，对每个单词 <code>word.hashCode() % 2048</code> 落桶，在桶内累加词频 —— <strong>相同单词必落同一桶</strong>，保证全局词频正确。</li>
+        <li><strong>TopK：</strong>遍历所有桶，维护一个<strong>大小 100 的小顶堆</strong>：词频大于堆顶则替换堆顶并调整，全部处理完堆中即 top100。</li>
+      </ul>
+      <p>💡 延伸：内存还不够装桶 → 继续递归分治；要"精确"必须 hash 分治，要"近似"可以用 Count-Min Sketch。本题套路同样适用于 10 亿 URL 找重复、10 亿 int 找中位数（见第 20 题）。</p>
+    </div>
+  </div>
+</div>
+
+  📌 24 · 算法 · 共22题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_数据结构.html" style="color:var(--primary)">← 上一板块 数据结构</a> | <a href="Java面试宝典_Nginx.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -939,6 +988,6 @@ var bh=document.getElementById('backHome');
 function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
 window.addEventListener('scroll',onScroll);onScroll();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

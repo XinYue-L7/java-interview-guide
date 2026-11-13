@@ -105,7 +105,173 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="card"><div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Cookie、Session、Token（JWT）的区别？</div><div class="q-tags"><span class="q-tag">认证</span><span class="q-tag">高频</span></div></div></div><div class="card-body"><button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button><div class="answer"><p class="sec-title">定义</p><ul><li><strong>Cookie：</strong><br/>浏览器提供的一种<strong>客户端本地存储</strong>机制，服务器通过 <code>Set-Cookie</code> 响应头把一小段数据写给浏览器，浏览器之后每次访问该网站都会<strong>自动带上</strong>这段数据。</li><li><strong>Session：</strong><br/>服务器端维护的<strong>会话状态</strong>，用户登录后服务器在内存/数据库里存一份用户信息，并生成一个唯一的 <strong>SessionID</strong> 通过 Cookie 交给浏览器，后续浏览器凭这个 SessionID 来"认领"自己的会话。</li><li><strong>Token（JWT）：</strong><br/>一种<strong>无状态的认证凭证</strong>，服务器把用户信息（如用户ID、角色、过期时间）用签名算法打包成一个字符串，交给客户端保存；<br/>客户端每次请求时把这个字符串放在请求头里带过来，服务器<strong>验签</strong>即可知道你是谁，不需要在服务端存任何会话数据。</li></ul><p class="sec-title">作用</p><ul><li><strong>Cookie：</strong><br/>让浏览器"记住"一些服务器给的小信息（如登录状态标识、用户偏好设置），实现<strong>有状态的 HTTP 请求</strong>。</li><li><strong>Session：</strong><br/>在服务端安全地保存用户的登录状态、购物车、权限等敏感信息，<strong>数据不暴露给客户端</strong>，安全性高。</li><li><strong>Token（JWT）：</strong><br/>让服务器"不用记"用户状态，认证信息全由客户端自己保管和携带，天然适合<strong>分布式系统、微服务、移动端、跨域场景</strong>。</li></ul><p class="sec-title">原理</p><ul><li><strong>Cookie：</strong><br/>服务器 → <code>Set-Cookie</code> → 浏览器本地存储 → 后续请求自动 <code>Cookie: xxx</code> 带上。<br/>受<strong>同源策略</strong>限制，默认只能发给同域名，有 4KB 大小限制。</li><li><strong>Session：</strong><br/>用户登录 → 服务器创建 Session 对象（存内存/Redis）→ 生成 SessionID → 通过 Cookie 发给浏览器 → 后续请求浏览器带 SessionID → 服务器查 Session 表确认身份。<br/>多台服务器时需共享 Session 存储（如 Redis）。</li><li><strong>Token（JWT）：</strong><br/>用户登录 → 服务器用私钥签名生成 JWT（Header.Payload.Signature）→ 发给客户端 → 客户端存 localStorage 或内存 → 后续请求放在 <code>Authorization: Bearer xxx</code> 头里 → 服务器用公钥验签即可解析出用户信息，<strong>无需查库</strong>。</li></ul><p class="sec-title">Cookie、Session、Token 的区别</p><div class="table-wrap"><table><thead><tr><th>对比项</th><th>Cookie</th><th>Session</th><th>Token（JWT）</th></tr></thead><tbody><tr><td><strong>存储位置</strong></td><td>客户端浏览器</td><td>服务端（内存/Redis/数据库）</td><td>客户端（localStorage/header）</td></tr><tr><td><strong>数据内容</strong></td><td>通常是 SessionID 或偏好设置</td><td>完整的用户会话数据</td><td>用户ID、角色、过期时间等</td></tr><tr><td><strong>安全性</strong></td><td>较低，可被篡改/窃取（需配合 HttpOnly/Secure）</td><td>较高，敏感数据不暴露给客户端</td><td>中等，Payload 只是 Base64 不加密，需 HTTPS + 合理过期</td></tr><tr><td><strong>跨域支持</strong></td><td>默认受限，需设置 Domain/Path</td><td>依赖 Cookie 传递 SessionID，同样受限</td><td>天然支持，放在请求头里不受 Cookie 跨域限制</td></tr><tr><td><strong>服务端压力</strong></td><td>无，纯客户端存储</td><td>有，需维护 Session 存储，分布式需共享</td><td>无，服务端只验签不存状态</td></tr><tr><td><strong>适用场景</strong></td><td>传统 Web 网站、保持登录态</td><td>需要服务端控制会话、随时强制下线的场景</td><td>分布式系统、微服务、移动端、API 接口、单页应用</td></tr></tbody></table></div><p class="sec-title">举例讲解</p><p><strong>Cookie —— 像你的"会员卡"：</strong></p><ul><li>你去健身房办了一张会员卡，前台把卡号写在小纸条上给你（Set-Cookie）。</li><li>之后每次去健身房，你出示这张小纸条，前台就知道你是谁（自动带上 Cookie）。</li><li>小纸条只能在这家健身房用（同源限制），而且纸条很小，写不了太多字（4KB 限制）。</li></ul><p><strong>Session —— 像健身房的"会员档案柜"：</strong></p><ul><li>健身房前台有一个档案柜，里面存着每个会员的详细资料（Session 存服务端）。</li><li>你每次出示会员卡号（SessionID），前台去档案柜里找到你的资料，确认身份。</li><li>资料都在柜子里，很安全，但如果健身房开了分店，档案柜也要同步（分布式共享 Session）。</li></ul><p><strong>Token（JWT）—— 像你的"电子身份证"：</strong></p><ul><li>你去办了一张带数字签名的电子身份证（JWT），里面写好了你的名字、会员等级、有效期。</li><li>之后去任何一家连锁店，你出示这张电子身份证，店员用公钥验证签名是真的，就知道你是谁，<strong>不需要查档案柜</strong>。</li><li>身份证在你自己手里，适合去不同的店（跨域/分布式），但要注意身份证别丢了，而且上面的信息是公开的（Base64 不加密），所以敏感信息不能写上去。</li></ul><p><strong>JWT 使用注意事项：</strong></p><ul><li><strong>Payload 不加密：</strong><br/>JWT 的 Payload 只是 Base64 编码，任何人都能解码看到内容，<strong>不要放密码、身份证号等敏感信息</strong>。</li><li><strong>设置合理过期时间：</strong><br/>JWT 一旦签发，在过期前一直有效，服务端无法提前"作废"，所以要设置较短的过期时间（如 15 分钟）。</li><li><strong>配合 Refresh Token：</strong><br/>短效的 Access Token + 长效的 Refresh Token，既保证安全又避免频繁登录。</li><li><strong>必须用 HTTPS：</strong><br/>防止 Token 在传输过程中被截获。</li><li><strong>退出登录处理：</strong><br/>服务端维护一个"黑名单"（如 Redis），把要作废的 Token 加进去，验签时先查黑名单。</li></ul></div></div></div>
 
 <div class="footer">
-  📌 20 · 网络协议 · 共3题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_系统设计.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q4 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">4</div>
+    <div class="q-meta"><div class="q-title">IO 和 NIO 有什么区别？</div>
+      <div class="q-tags"><span class="q-tag">BIO/NIO</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>BIO（传统 IO）</th><th>NIO（JDK 1.4+）</th></tr>
+        <tr><td>模型</td><td>流式，面向字节流/字符流</td><td>面向缓冲区（Buffer）+ Channel</td></tr>
+        <tr><td>阻塞</td><td><strong>阻塞</strong>：连接未就绪就挂起等待</td><td><strong>非阻塞</strong>：未就绪继续轮询下一个连接</td></tr>
+        <tr><td>并发能力</td><td>一连接一线程，连接数有限</td><td>一个线程管理多个连接</td></tr>
+        <tr><td>核心组件</td><td>Stream</td><td>Channel、Buffer、<strong>Selector</strong></td></tr>
+      </table></div>
+      <p>NIO 的核心价值：用 <strong>Selector 多路复用</strong>让单线程监视成百上千个连接，就绪事件驱动读写，是 Netty、Tomcat NIO 模式、Redis 网络模型的基础。AIO（NIO.2）由操作系统完成 IO 再回调，Linux 支持不佳，实际应用少。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">5</div>
+    <div class="q-meta"><div class="q-title">什么是 IO 多路复用？</div>
+      <div class="q-tags"><span class="q-tag">Selector</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>用<strong>一个线程监视多个连接</strong>：某个连接就绪（读/写事件）时才通知应用去处理，从而单线程高效管理大量连接。</p>
+      <p><strong class="sec-title">工作方式</strong></p>
+      <ul>
+        <li>把多个连接（fd）注册到 <code>Selector</code> 上。</li>
+        <li><code>select()</code> 阻塞等待，任一连接就绪就返回就绪集合。</li>
+        <li>应用只遍历就绪的 channel 做读写，其余连接零开销。</li>
+      </ul>
+      <p>Linux 上的实现演进：<strong>select → poll → epoll</strong>。Redis 单线程处理 10W QPS、Netty 高吞吐都归功于多路复用。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">6</div>
+    <div class="q-meta"><div class="q-title">select 和 epoll 的区别？</div>
+      <div class="q-tags"><span class="q-tag">epoll</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>select</th><th>epoll</th></tr>
+        <tr><td>就绪检测</td><td>每次调用把整个 fd 集合<strong>拷入内核、线性轮询</strong>所有 fd</td><td>事件驱动，红黑树管理 fd，只返回<strong>就绪集合</strong>（回调机制）</td></tr>
+        <tr><td>fd 上限</td><td>受 FD_SETSIZE 限制（默认 1024）</td><td>可监听数十万 fd</td></tr>
+        <tr><td>性能</td><td>fd 越多越慢（O(n)），且每次都要全量拷贝</td><td>稳定高效（O(1) 事件通知），fd 数据常驻内核无需重复拷贝</td></tr>
+        <tr><td>触发模式</td><td>水平触发</td><td>支持水平触发（LT）+ <strong>边缘触发（ET）</strong></td></tr>
+      </table></div>
+      <p>💡 结论：高并发长连接场景（网关、IM、Redis）必须用 epoll；NIO 的 Selector 在 Linux 上底层就是 epoll。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">7</div>
+    <div class="q-meta"><div class="q-title">什么是零拷贝？为什么能提升性能？</div>
+      <div class="q-tags"><span class="q-tag">零拷贝</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">传统方式的问题（发一个文件 4 次拷贝 + 4 次切换）</strong></p>
+      <p>磁盘 → 内核缓冲区（DMA）→ <strong>用户空间</strong> → Socket 缓冲区 → 网卡（DMA）。中间经过用户态来回拷贝，还伴随内核态/用户态上下文切换。</p>
+      <p><strong class="sec-title">零拷贝方案</strong></p>
+      <ul>
+        <li><strong>sendfile（Kafka 用）：</strong>数据只进内核 Read Buffer，只传文件描述符给 Socket，DMA 直接从内核缓冲送到网卡，<strong>拷贝降为 2 次、切换降为 2 次</strong>。</li>
+        <li><strong>mmap + write（RocketMQ 用）：</strong>把文件映射到用户态虚拟内存（MappedByteBuffer），省去内核→用户的显式拷贝，适合需要修改数据的场景。</li>
+      </ul>
+      <p>Java 实现：<code>FileChannel.transferTo()</code>（对应 sendfile）、<code>FileChannel.map()</code>（对应 mmap）。Kafka 高吞吐、RocketMQ CommitLog 读写、Nginx 静态文件都依赖它。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">8</div>
+    <div class="q-meta"><div class="q-title">HTTP/1.1 和 HTTP/2 有什么区别？</div>
+      <div class="q-tags"><span class="q-tag">HTTP</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>特性</th><th>HTTP/1.1</th><th>HTTP/2</th></tr>
+        <tr><td>传输格式</td><td>文本协议</td><td><strong>二进制分帧</strong>（更高效、解析更快）</td></tr>
+        <tr><td>并发请求</td><td>每域名 6 个连接，排队等待（队头阻塞）</td><td><strong>多路复用</strong>：一个 TCP 连接上并行传输多个请求响应</td></tr>
+        <tr><td>头部</td><td>重复携带大量头字段</td><td><strong>HPACK 压缩</strong>头部，减少冗余</td></tr>
+        <tr><td>服务器推送</td><td>不支持</td><td>支持 Server Push（主动推送关联资源）</td></tr>
+        <tr><td>安全</td><td>明文可选</td><td>主流实现要求 TLS 1.2+</td></tr>
+      </table></div>
+      <p>💡 HTTP/2 解决了 HTTP 层的队头阻塞，但 TCP 层的队头阻塞仍在（丢包阻塞整个连接），所以有了 HTTP/3（QUIC，基于 UDP）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">9</div>
+    <div class="q-meta"><div class="q-title">什么是网络四元组？为什么它能唯一标识一条 TCP 连接？</div>
+      <div class="q-tags"><span class="q-tag">TCP</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">定义</strong></p>
+      <p><strong>源 IP + 源端口 + 目标 IP + 目标端口</strong>，四者组合唯一确定一条 TCP 连接。</p>
+      <p><strong class="sec-title">为什么需要四元组</strong></p>
+      <ul>
+        <li>服务端要同时服务大量客户端，必须能区分"哪条连接是哪个客户端的"。</li>
+        <li>服务端 IP 和端口是固定的，不同客户端只要 <strong>IP 或源端口不同</strong>即可区分 —— 源端口由客户端操作系统在建连时随机分配。</li>
+        <li>TCP 全双工，反向通信时客户端也能充当服务端角色，四元组保证双向可寻址。</li>
+      </ul>
+      <p>💡 应用：单机可建立的最大连接数受"客户端 IP 数 × 端口数"限制（约 6.4 万端口/IP），连接数不够时通常加多个虚拟 IP 而不是加大端口范围。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">10</div>
+    <div class="q-meta"><div class="q-title">TCP 和 UDP 的区别？各自适用什么场景？</div>
+      <div class="q-tags"><span class="q-tag">TCP/UDP</span><span class="q-tag">经典</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>TCP</th><th>UDP</th></tr>
+        <tr><td>连接</td><td>面向连接（三次握手）</td><td>无连接，直接发</td></tr>
+        <tr><td>可靠性</td><td>可靠：ACK 确认、超时重传、校验和</td><td>不保证到达与顺序</td></tr>
+        <tr><td>有序性</td><td>有序（序列号 + 排序）</td><td>不保证</td></tr>
+        <tr><td>流控/拥塞控制</td><td>滑动窗口 + 拥塞控制</td><td>无</td></tr>
+        <tr><td>头部开销</td><td>20~60 字节</td><td>8 字节，速度快</td></tr>
+        <tr><td>传输模式</td><td>字节流</td><td>数据报（有边界）</td></tr>
+      </table></div>
+      <p><strong>选型：</strong>要数据准确完整 → TCP（文件、网页、邮件、RPC）；要低延迟容忍丢包 → UDP（音视频、游戏、DNS、QUIC）。在 UDP 上自己实现可靠性（KCP、QUIC）可以兼得速度与可控。</p>
+    </div>
+  </div>
+</div>
+
+  📌 20 · 网络协议 · 共10题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_系统设计.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -165,6 +331,6 @@ window.addEventListener('scroll',onScroll);onScroll();
   }
 })();
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

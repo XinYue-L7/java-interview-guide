@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · Docker 容器化</title>
+<style>
+html{margin:0;padding:0;background:var(--hero-from)}
+:root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body data-section="26">
+<div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+  <h1>Docker 容器化</h1>
+  <p>8道题 · 镜像 · 容器 · Kubernetes · Service Mesh</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_Nginx.html">← Nginx</a>
+    <a href="Java面试宝典_数据库扩展.html">数据库扩展 →</a>
+  </div>
+</div>
+<div class="container">
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">什么是 Docker？为什么需要它？</div><div class="q-tags"><span class="q-tag">概述</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>Docker 是基于 <strong>Go 语言实现的开源应用容器引擎</strong>，通过把应用及其依赖（JDK、配置、库）打包成轻量级、可移植的容器，实现"一次构建，到处运行"。</p>
+      <p><strong>2. 解决什么问题：</strong></p>
+      <ul>
+        <li><strong>环境不一致：</strong>"在我电脑上是好的" —— 开发/测试/生产环境依赖版本不同导致的问题，容器把环境固化为镜像。</li>
+        <li><strong>部署繁琐：</strong>装机、装 JDK、配环境变量全是体力活，有镜像后一条 docker run 搞定。</li>
+        <li><strong>资源浪费：</strong>虚拟机每个都要装完整 OS（GB 级），容器共享宿主内核（MB 级），秒级启动、密度高几十倍。</li>
+      </ul>
+      <p><strong>3. 与虚拟机对比：</strong></p>
+      <p>VM = 硬件虚拟化（Hypervisor + Guest OS）；Docker = 操作系统级虚拟化（隔离进程组，共享内核）。容器更轻、更快、更省资源，但隔离性弱于 VM。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">Docker 有哪些核心组件？</div><div class="q-tags"><span class="q-tag">组件</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 镜像（Image）：</strong></p>
+      <p>只读模板，应用的运行环境打包（分层存储，每层可复用缓存）。类比"安装光盘"。</p>
+      <p><strong>2. 容器（Container）：</strong></p>
+      <p>镜像的运行实例，可启动、停止、删除，容器间相互隔离。类比"安装好的系统"。容器与镜像关系：类与对象。</p>
+      <p><strong>3. 仓库（Registry）：</strong></p>
+      <p>集中存放镜像，Docker Hub 是官方仓库，企业用 Harbor 私服。类比"Maven 中央仓库"。</p>
+      <p><strong>4. 隔离原理（Namespaces + Cgroups）：</strong></p>
+      <ul>
+        <li><strong>Namespace</strong>：隔离视图 —— PID（进程）、NET（网络）、MNT（文件系统挂载）、IPC、UTS（主机名）、USER，让容器以为自己独占系统。</li>
+        <li><strong>Cgroups</strong>：资源限额 —— 限制 CPU、内存、磁盘 IO 用量，防止容器吃光宿主机资源。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Dockerfile 是什么？镜像构建的分层原理？</div><div class="q-tags"><span class="q-tag">Dockerfile</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. Dockerfile 是描述镜像构建过程的脚本</strong>，docker build 逐条执行：</p>
+      <div class="code-block"><span class="kw">FROM</span> openjdk:17-jdk-slim        <span class="co"># 基础镜像</span>
+<span class="kw">COPY</span> target/app.jar /app.jar     <span class="co"># 拷贝产物</span>
+<span class="kw">EXPOSE</span> 8080                      <span class="co"># 声明端口</span>
+<span class="kw">ENTRYPOINT</span> [<span class="str">"java"</span>, <span class="str">"-jar"</span>, <span class="str">"/app.jar"</span>]  <span class="co"># 启动命令</span></div>
+      <p><strong>2. 分层存储（UnionFS 联合文件系统）：</strong></p>
+      <ul>
+        <li>Dockerfile 每条指令生成一层，层可<strong>缓存复用</strong>：没变化的指令直接命中缓存，秒级构建。</li>
+        <li>镜像层<strong>只读</strong>；容器启动时在最上面加一层<strong>可写层</strong>，删容器即删可写层，镜像不受污染。</li>
+        <li>最佳实践：把变化少的指令放前面（先 COPY 依赖再 COPY 代码），充分利用缓存。</li>
+      </ul>
+      <p>💡 优化：用多阶段构建（build 阶段用 Maven 镜像，run 阶段只拷 jar），最终镜像从 1GB 缩到 200MB。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Docker 容器之间是如何通信的？</div><div class="q-tags"><span class="q-tag">网络</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 四种网络模式：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>模式</th><th>说明</th></tr>
+        <tr><td>bridge（默认）</td><td>docker0 网桥 + veth pair，容器有自己的 IP，可互访，宿主机经 NAT 出外网</td></tr>
+        <tr><td>host</td><td>共享宿主机网络栈，无隔离（性能最好）</td></tr>
+        <tr><td>container</td><td>与指定容器共享网络（K8s Pod 的原理）</td></tr>
+        <tr><td>none</td><td>无网络，适合纯计算任务</td></tr>
+      </table></div>
+      <p><strong>2. bridge 模式细节：</strong></p>
+      <ul>
+        <li>同一 bridge 网络内容器<strong>用容器名互访</strong>（内置 DNS 解析）。</li>
+        <li>外部访问容器：-p 8080:8080 端口映射，docker-proxy/NAT 把宿主机端口流量转发进容器。</li>
+        <li>推荐用自定义网络（docker network create）代替默认 bridge，获得内置 DNS 与更好的隔离。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">容器退出码有哪些？如何排查容器异常退出？</div><div class="q-tags"><span class="q-tag">排查</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 常见退出码：</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>退出码</th><th>含义</th></tr>
+        <tr><td>0</td><td>正常执行完成退出</td></tr>
+        <tr><td>1</td><td>应用内部错误（异常/崩溃）</td></tr>
+        <tr><td>125</td><td>Docker 命令本身执行出错</td></tr>
+        <tr><td>126</td><td>命令无法执行（权限/找不到）</td></tr>
+        <tr><td>127</td><td>命令未找到</td></tr>
+        <tr><td>137</td><td>被 SIGKILL —— 最常见是 <strong>OOM（超内存限额被杀）</strong></td></tr>
+        <tr><td>139</td><td>段错误（Segfault）</td></tr>
+        <tr><td>143</td><td>收到 SIGTERM 优雅停止</td></tr>
+      </table></div>
+      <p><strong>2. 排查三板斧：</strong></p>
+      <ul>
+        <li><code>docker ps -a</code> 看退出码与状态。</li>
+        <li><code>docker logs --tail 200 容器</code> 看应用日志；<code>docker inspect</code> 看 OOMKilled 字段与重启策略。</li>
+        <li><code>docker exec -it 容器 sh</code> 进入容器现场（还在运行时）；彻底挂了就看宿主机 dmesg 里的 OOM 记录。</li>
+      </ul>
+      <p>💡 137 基本等于内存给少了：调大 -m 内存限额或排查内存泄漏。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">项目中是如何使用 Docker 的？</div><div class="q-tags"><span class="q-tag">实战</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 开发环境（docker-compose 一键起全套中间件）：</strong></p>
+      <ul>
+        <li>yml 里编排 MySQL、Redis、Nacos、RabbitMQ、ES 等服务，<code>docker-compose up -d</code> 秒起一套标准化环境，团队共享配置文件，告别"环境问题"。</li>
+        <li>好处：随起随删、版本可锁定、不污染本机。</li>
+      </ul>
+      <p><strong>2. 部署发布（镜像化交付）：</strong></p>
+      <ul>
+        <li>CI 流水线（Jenkins/GitLab CI）：拉代码 → mvn 打包 → <code>docker build</code> 出镜像 → push 到 Harbor 私服。</li>
+        <li>目标机器 <code>docker pull + docker run</code>（或 K8s 拉镜像起 Pod），实现"构建一次，处处运行"。</li>
+        <li>版本回滚 = 切回上一个镜像 tag，秒级完成。</li>
+      </ul>
+      <p><strong>3. 生产规范：</strong>镜像 tag 用版本号不用 latest；资源限额（-m、--cpus）；健康检查（HEALTHCHECK）；数据持久化挂 volume；日志收集接 ELK。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">什么是 Kubernetes？核心组件有哪些？</div><div class="q-tags"><span class="q-tag">K8s</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定位：</strong></p>
+      <p>K8s 是<strong>容器编排平台</strong>：Docker 解决"单个容器怎么跑"，K8s 解决"成百上千个容器怎么管理" —— 自动部署、扩缩容、故障自愈、滚动升级。</p>
+      <p><strong>2. 核心资源对象：</strong></p>
+      <ul>
+        <li><strong>Pod：</strong>最小调度单元，包含 1 个或多个共享网络/存储的容器。</li>
+        <li><strong>Deployment：</strong>声明 Pod 期望副本数，负责滚动更新与回滚。</li>
+        <li><strong>Service：</strong>一组 Pod 的稳定访问入口（ClusterIP/NodePort/LoadBalancer），解决 Pod IP 漂移问题。</li>
+        <li><strong>ConfigMap/Secret：</strong>配置与敏感信息与镜像解耦。</li>
+      </ul>
+      <p><strong>3. 架构组件：</strong></p>
+      <ul>
+        <li><strong>Master：</strong>API Server（唯一入口）、etcd（存集群状态）、Scheduler（调度分配）、Controller Manager（维持期望状态）。</li>
+        <li><strong>Node：</strong>kubelet（管理本机容器生命周期）、kube-proxy（Service 转发规则）。</li>
+      </ul>
+      <p>💡 自愈机制示例：Pod 挂了 → 控制器发现副本数不足 → 自动重建新 Pod → Service 自动把新 Pod 纳入负载。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">什么是 Service Mesh？为什么有了 K8s 还需要它？</div><div class="q-tags"><span class="q-tag">Service Mesh</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>服务网格是处理服务间通信的专用基础设施层，代表实现是 <strong>Istio</strong>。核心思路：把重试、熔断、灰度、加密、监控这些"服务治理能力"从业务代码里抽出来，下沉到 Sidecar 代理。</p>
+      <p><strong>2. 架构（以 Istio 为例）：</strong></p>
+      <ul>
+        <li><strong>数据面：</strong>每个 Pod 旁边注入一个 <strong>Sidecar（Envoy）</strong>，服务的进出流量全部经过它。</li>
+        <li><strong>控制面（istiod）：</strong>下发路由规则、证书、遥测配置给所有 Sidecar。</li>
+      </ul>
+      <p><strong>3. 为什么 K8s 不够：</strong></p>
+      <ul>
+        <li>K8s 只管"容器跑起来、能被发现"，不管服务间<strong>流量治理</strong>：超时重试、熔断降级、金丝雀发布按比例分流、mTLS 双向加密、全链路遥测。</li>
+        <li>传统做法靠 SDK（Spring Cloud）侵入代码，且只支持 Java；Mesh 用 <strong>Sidecar 无侵入</strong>实现，多语言统一治理，升级网格不用动业务。</li>
+      </ul>
+      <p>💡 代价：Sidecar 带来延迟与资源开销，运维复杂度高，中小团队上 Mesh 要慎重。</p>
+    </div>
+  </div>
+</div>
+📌 26 · Docker 容器化 · 共8题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_数据库扩展.html" style="color:var(--primary)">数据库扩展 →</a>
+
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+</body>
+</html>

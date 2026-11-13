@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · Nginx</title>
+<style>
+html{margin:0;padding:0;background:var(--hero-from)}
+:root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body data-section="25">
+<div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+  <h1>Nginx</h1>
+  <p>8道题 · 反向代理 · 负载均衡 · 高并发架构 · 运维</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_算法.html">← 算法</a>
+    <a href="Java面试宝典_Docker容器化.html">Docker 容器化 →</a>
+  </div>
+</div>
+<div class="container">
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">什么是 Nginx？有哪些优势和功能？</div><div class="q-tags"><span class="q-tag">概述</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定位：</strong></p>
+      <p>Nginx 是开源的<strong>高性能 HTTP 服务器和反向代理服务器</strong>，也可做邮件（IMAP/POP3）代理、TCP/UDP 负载均衡器。</p>
+      <p><strong>2. 三大核心功能：</strong></p>
+      <ul>
+        <li><strong>HTTP 服务器：</strong>承载静态资源（图片、CSS、JS、视频），响应速度快。</li>
+        <li><strong>反向代理 + 负载均衡：</strong>隐藏后端真实服务，把流量分发到多个应用节点。</li>
+        <li><strong>API 网关能力：</strong>限流、鉴权、缓存、动静分离、协议转换。</li>
+      </ul>
+      <p><strong>3. 优势：</strong></p>
+      <ul>
+        <li><strong>高并发：</strong>epoll + 异步非阻塞，单机可轻松支撑数万并发连接。</li>
+        <li><strong>内存消耗小：</strong>进程模型轻量，事件驱动无大量线程开销。</li>
+        <li><strong>热部署：</strong>nginx -s reload 平滑重载配置，不断连接。</li>
+        <li><strong>稳定：</strong>分阶段请求处理，某一模块异常不至于拖垮整个服务。</li>
+      </ul>
+      <p>💡 使用场景：静态资源服务器、反向代理、负载均衡、Web 服务缓存、限流。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">正向代理和反向代理有什么区别？Nginx 是哪种？</div><div class="q-tags"><span class="q-tag">反向代理</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 正向代理（代理客户端）：</strong></p>
+      <p>服务器不知道真实客户端是谁。客户端主动配置代理，请求经代理转发给目标服务器 —— 典型场景：VPN 翻墙、公司统一出口。</p>
+      <p><strong>2. 反向代理（代理服务端）：</strong></p>
+      <p>客户端不知道真实服务器是谁。请求打到 Nginx，由 Nginx 转发给内网集群，对客户端完全透明 —— 典型场景：负载均衡、SSL 终结、隐藏架构、CDN。</p>
+      <p><strong>3. 一句话区分：</strong></p>
+      <p><strong>正向代理隐藏客户端</strong>（服务端看不清访问者），<strong>反向代理隐藏服务端</strong>（客户端不知道背后有几台机器）。Nginx 主要用作反向代理：客户端不感知后端节点数量与拓扑，Nginx 负责转发、负载均衡与故障摘除。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">Nginx 为什么不使用多线程？如何实现超高并发？</div><div class="q-tags"><span class="q-tag">C10K</span><span class="q-tag">epoll</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 不用多线程的原因：</strong></p>
+      <ul>
+        <li>线程/进程切换开销大（上下文切换、栈内存），C10K 问题下上万个连接一个线程一条开销巨大。</li>
+        <li>线程间同步复杂，易死锁。</li>
+      </ul>
+      <p><strong>2. 核心设计：异步非阻塞 + IO 多路复用（epoll）</strong></p>
+      <ul>
+        <li><strong>非阻塞：</strong>数据未就绪不傻等，直接返回去做别的，等 epoll 事件通知再回来处理。</li>
+        <li><strong>epoll：</strong>一个 worker 进程监视成千上万个连接的事件（读写就绪），事件驱动处理，连接再多数千也只是"注册进内核"，不增加活跃线程。</li>
+        <li><strong>进程数与 CPU 核数绑定：</strong>每个 worker 单线程跑满一个核，无锁串行处理，CPU 亲和性绑定减少缓存失效。</li>
+      </ul>
+      <p>💡 Nginx 是 C10K 问题（单机 1 万并发连接）的标准答案之一；Node、Redis、Netty 同属"单线程 + 事件驱动"流派。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">Nginx 的 Master 进程和 Worker 进程分别做什么？</div><div class="q-tags"><span class="q-tag">进程模型</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. Master 进程（管理者，root 身份）：</strong></p>
+      <ul>
+        <li>读取、校验配置文件（nginx -t）。</li>
+        <li>创建、监听端口，<strong>fork 出 Worker 进程</strong>，监控其生死并自动拉起。</li>
+        <li>处理信号：reload 平滑重载（新起 Worker 加载新配置，旧 Worker 处理完存量请求后退出）、平滑升级二进制。</li>
+      </ul>
+      <p><strong>2. Worker 进程（干活的，普通用户身份）：</strong></p>
+      <ul>
+        <li>实际处理网络连接与请求（epoll 事件循环）。</li>
+        <li>数量通常等于 CPU 核数（worker_processes auto），彼此独立、互不干扰。</li>
+        <li><strong>Master/Worker 分离的好处：</strong>Worker 挂了 Master 自动拉新；reload 不断服务；权限分离（Worker 普通用户，降低提权风险）。</li>
+      </ul>
+      <p>💡 所有 Worker 通过锁竞争 accept 同一监听端口的连接（惊群已由内核解决）。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">Nginx 负载均衡的实现过程？常用哪些算法？</div><div class="q-tags"><span class="q-tag">负载均衡</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 实现过程：</strong></p>
+      <div class="code-block">upstream backend {
+    server 192.168.1.1:8080 weight=5;
+    server 192.168.1.2:8080;
+    server 192.168.1.3:8080 backup;
+}
+server {
+    listen 80;
+    location / {
+        proxy_pass http://backend;
+    }
+}</div>
+      <p>请求先到 Nginx，Nginx 按 upstream 里配置的策略挑一台后端转发，把响应回传客户端；节点挂了自动标记失败并在失败时间内不再分发。</p>
+      <p><strong>2. 常用算法：</strong></p>
+      <ul>
+        <li><strong>轮询（默认）：</strong>依次分发。</li>
+        <li><strong>weight 权重轮询：</strong>性能强的机器多接流量。</li>
+        <li><strong>ip_hash：</strong>同一客户端 IP 固定打到同一节点（会话保持）。</li>
+        <li><strong>least_conn：</strong>当前连接数最少的节点优先。</li>
+        <li><strong>hash：</strong>按自定义 key（如 URL、cookie）一致性哈希。</li>
+        <li><strong>fair（第三方）：</strong>按响应时间智能分配。</li>
+      </ul>
+      <p>💡 backup 备机只在主节点全挂时启用；健康检查配合 max_fails/fail_timeout 实现故障摘除。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">什么是动静分离？为什么要做动静分离？</div><div class="q-tags"><span class="q-tag">架构</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 概念：</strong></p>
+      <p>把网站的<strong>静态资源</strong>（HTML/CSS/JS/图片/视频）与<strong>动态内容</strong>（API 接口、需要计算生成的数据）分开部署、分开处理。</p>
+      <div class="code-block">location ~* \.(jpg|css|js|png)$ {    <span class="co"># 静态：Nginx 直接返回</span>
+    root /data/www/static;
+    expires 30d;
+}
+location /api/ {                    <span class="co"># 动态：转发给后端集群</span>
+    proxy_pass http://backend;
+}</div>
+      <p><strong>2. 为什么分离：</strong></p>
+      <ul>
+        <li>静态请求由 Nginx 直接吐文件，<strong>不用进应用服务器</strong>，大幅降低 Tomcat 等后端压力。</li>
+        <li>静态资源可单独加 CDN、设置长缓存头，浏览器命中缓存后直接本地读取，响应更快。</li>
+        <li>前后端彻底解耦：前端独立部署发布，不牵扯后端发版。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">Nginx 的高可用是怎么做的？</div><div class="q-tags"><span class="q-tag">Keepalived</span><span class="q-tag">高可用</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>问题：</strong>Nginx 单机部署时，它自己就是单点 —— 挂了整个入口都不可用。</p>
+      <p><strong>方案：Keepalived + VIP（虚拟 IP）双机主备</strong></p>
+      <ul>
+        <li>两台 Nginx 装相同配置，<strong>对外共用一个虚拟 IP（VIP）</strong>。</li>
+        <li>Keepalived 通过 <strong>VRRP 协议</strong>在两台机器间通信：Master 持有 VIP 并广播心跳。</li>
+        <li><strong>Master 挂掉 → Backup 收不到心跳 → 抢占 VIP 接管流量</strong>，客户端无感知（DNS 仍指向 VIP）。</li>
+        <li>Master 恢复后按抢占/非抢占策略夺回 VIP。</li>
+      </ul>
+      <p>💡 更高阶：LVS+Keepalived 四层做前置、Nginx 集群做七层；云上则用 SLB/ALB 等托管负载均衡替代自建。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">Nginx 常用命令有哪些？</div><div class="q-tags"><span class="q-tag">运维</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>命令</th><th>作用</th></tr>
+        <tr><td>nginx</td><td>启动</td></tr>
+        <tr><td>nginx -s stop</td><td>快速停止（立即）</td></tr>
+        <tr><td>nginx -s quit</td><td>优雅停止（处理完当前请求）</td></tr>
+        <tr><td><strong>nginx -s reload</strong></td><td><strong>平滑重载配置</strong>（不中断服务）</td></tr>
+        <tr><td>nginx -s reopen</td><td>重新打开日志文件（日志切割）</td></tr>
+        <tr><td>nginx -t</td><td>检测配置文件语法（改配置后先测）</td></tr>
+        <tr><td>nginx -v / -V</td><td>版本信息 / 编译参数详情</td></tr>
+        <tr><td>nginx -c file</td><td>指定配置文件路径</td></tr>
+      </table></div>
+      <p>日志切割实战：mv 移走旧日志后执行 <code>nginx -s reopen</code>，或用 logrotate 定时切割；改配置的标准流程是 <strong>nginx -t 校验 → nginx -s reload 热加载</strong>。</p>
+    </div>
+  </div>
+</div>
+📌 25 · Nginx · 共8题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_Docker容器化.html" style="color:var(--primary)">Docker 容器化 →</a>
+
+</div>
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+</body>
+</html>

@@ -2380,8 +2380,128 @@ sb.append(<span class="str">"b"</span>);   <span class="co">// 合法 ✔ 内容
   </div>
 </div>
 
+<!-- Q68 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">68</div>
+    <div class="q-meta"><div class="q-title">new String("abc") 到底创建了几个对象？</div>
+      <div class="q-tags"><span class="q-tag">String</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>字符串常量池中<strong>不存在 "abc" 时创建 2 个</strong>，已存在时只创建 1 个。</p>
+      <p><strong class="sec-title">过程拆解</strong></p>
+      <ul>
+        <li><strong>第一步：</strong><code>new</code> 关键字根据已加载的 String 类，<strong>在堆中实例化一个 String 对象</strong>（这一步一定创建新对象）。</li>
+        <li><strong>第二步：</strong>用字面量 <code>"abc"</code> 去<strong>字符串常量池</strong>查找引用：查不到 → 在常量池中创建一个 "abc" 对象并保存引用；查得到 → 直接复用。</li>
+      </ul>
+      <div class="code-block"><span class="kw">String</span> s1 = <span class="kw">new</span> <span class="kw">String</span>(<span class="str">"abc"</span>); <span class="co">// 堆中 1 个 + 常量池 1 个 = 2 个（常量池无 abc 时）</span>
+<span class="kw">String</span> s2 = <span class="kw">new</span> <span class="kw">String</span>(<span class="str">"abc"</span>); <span class="co">// 常量池已有，只创建堆中 1 个</span></div>
+      <p>💡 <strong>追问 intern()：</strong><code>s1.intern()</code> 返回常量池中的引用，因此 <code>s1 == s1.intern()</code> 为 false（s1 指向堆对象）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q69 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">69</div>
+    <div class="q-meta"><div class="q-title">SimpleDateFormat 是线程安全的吗？为什么？</div>
+      <div class="q-tags"><span class="q-tag">日期时间</span><span class="q-tag">线程安全</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">结论</strong></p>
+      <p><strong>不是线程安全的</strong>。它内部持有 <code>Calendar</code> 对象引用来保存日期信息，多线程共享同一个 SimpleDateFormat 时共用同一 Calendar，会产生脏读和不可预料的解析错误（甚至 ArrayIndexOutOfBoundsException）。</p>
+      <p><strong class="sec-title">解决方案</strong></p>
+      <ul>
+        <li>定义成<strong>局部变量</strong>（每次 new，有开销）</li>
+        <li>用 <code>ThreadLocal</code> 包装，每个线程一份实例</li>
+        <li>调用处加 <code>synchronized</code> 同步锁（性能差）</li>
+        <li><strong>推荐：</strong>改用 Java 8 的 <code>LocalDateTime</code> + <code>DateTimeFormatter</code>（不可变，天然线程安全）</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q70 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">70</div>
+    <div class="q-meta"><div class="q-title">过滤器和拦截器有什么区别？</div>
+      <div class="q-tags"><span class="q-tag">Servlet</span><span class="q-tag">Spring</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比点</th><th>过滤器 Filter</th><th>拦截器 Interceptor</th></tr>
+        <tr><td>归属</td><td>Servlet 容器管理（Java EE 规范）</td><td>Spring MVC 管理</td></tr>
+        <tr><td>执行时机</td><td>Servlet 调用<strong>前</strong>后</td><td>Servlet 调用后、DispatcherServlet 内部</td></tr>
+        <tr><td>可获取对象</td><td>只有 request / response</td><td>handler、ModelAndView、exception 等</td></tr>
+        <tr><td>能否拿 Spring Bean</td><td>不能（容器初始化早于 Spring）</td><td>能（依赖注入）</td></tr>
+        <tr><td>配置方式</td><td>web.xml / @WebFilter</td><td>WebMvcConfigurer / @Component</td></tr>
+      </table></div>
+      <p><strong>执行顺序：</strong>Filter.before → Interceptor.preHandle → Controller → Interceptor.postHandle → Filter.after。跨域编码、全局 XSS 过滤用 Filter；登录校验、权限、日志埋点用 Interceptor。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q71 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">71</div>
+    <div class="q-meta"><div class="q-title">为什么 POJO 类中的布尔类型属性不要用 is 开头？</div>
+      <div class="q-tags"><span class="q-tag">规范</span><span class="q-tag">序列化</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">原因</strong></p>
+      <p>JavaBeans 规范会把 <code>isXxx()</code> 视为 getter，属性名被解析成 <code>xxx</code>（去掉 is 前缀）。但不同序列化框架对布尔属性的解析逻辑不一致：</p>
+      <ul>
+        <li><strong>fastjson</strong> 遵循规范：序列化结果为 <code>man</code>（丢掉 is）</li>
+        <li><strong>gson</strong>：输出为 <code>isMan</code></li>
+      </ul>
+      <p>一旦跨工具做序列化/反序列化，字段名对不上，<strong>布尔值就会错乱（true 变 false）</strong>。所以布尔属性直接命名 <code>success</code>、<code>deleted</code>，不要加 is 前缀，对应 getter 用 <code>isSuccess()</code>。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q72 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">72</div>
+    <div class="q-meta"><div class="q-title">Java 中实现文件拷贝有哪几种方式？如何选择最高效的一种？</div>
+      <div class="q-tags"><span class="q-tag">IO</span><span class="q-tag">零拷贝</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">五种方式（由慢到快）</strong></p>
+      <div class="table-wrap"><table>
+        <tr><th>方式</th><th>特点</th><th>适用</th></tr>
+        <tr><td>字节流逐字节读写</td><td>最慢</td><td>不推荐</td></tr>
+        <tr><td>Buffered 缓冲流</td><td>快 2~5 倍</td><td>小文件、简单场景</td></tr>
+        <tr><td>Files.copy()（Java 7+）</td><td>一行代码，接近最优</td><td>小中文件</td></tr>
+        <tr><td><strong>FileChannel.transferTo</strong></td><td><strong>零拷贝</strong>，内核态直接搬运</td><td><strong>大文件最佳</strong></td></tr>
+        <tr><td>MappedByteBuffer 内存映射</td><td>映射到虚拟内存</td><td>超大文件，注意防 OOM</td></tr>
+      </table></div>
+      <p><strong>结论：</strong>小文件用 <code>Files.copy</code>；大文件用 <code>FileChannel.transferTo</code>（零拷贝：数据不经过用户态，直接在内核的 PageCache 间传输，减少上下文切换和内存拷贝）。</p>
+    </div>
+  </div>
+</div>
+
 <div class="footer">
-  📌 01 · Java 基础 · 共67题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_02_集合容器.html" style="color:var(--primary)">下一板块 →</a>
+  📌 01 · Java 基础 · 共72题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_02_集合容器.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 
 </div>
@@ -2450,6 +2570,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java 面试宝典 · 数据库扩展</title>
+<style>
+html{margin:0;padding:0;background:var(--hero-from)}
+:root,[data-theme="green"]{--primary:#00878f;--hero-from:#003540;--hero-mid:#00878f;--hero-to:#00a3ad;--bg:#f0f7f7;--card-bg:#fff;--text:#2c3e50;--muted:#6c757d;--border:#d0e4e5;--tag-bg:#d8eff0;--success:#007a80;--code-bg:#1e1e1e}
+[data-theme="gold"]{--primary:#c9a96e;--hero-from:#0d0d1a;--hero-mid:#1a1a2e;--hero-to:#0d0d1a;--bg:#fafaf8;--card-bg:#fff;--text:#1a1a2e;--muted:#888;--border:#e8e4dc;--tag-bg:#faf5ed;--success:#2d6a4f;--code-bg:#1a1a2e}
+[data-theme="purple"]{--primary:#5b4f8b;--hero-from:#2d2640;--hero-mid:#3f3556;--hero-to:#5b4f8b;--bg:#f9f8fb;--card-bg:#fff;--text:#2d2640;--muted:#7a7a8c;--border:#e4e0ee;--tag-bg:#f3f0f8;--success:#2d6a4f;--code-bg:#1e1b2e}
+[data-theme="light"]{--primary:#D6B38A;--hero-from:#C9A06F;--hero-mid:#D6B38A;--hero-to:#E5CDA8;--bg:#FAF1E3;--card-bg:#fff;--text:#5A4634;--muted:#A39480;--border:#EFDFCC;--tag-bg:#F5E9D6;--link:#D6B38A;--icon-bg:rgba(214,179,138,0.12)}
+[data-theme="dark"]{--primary:#60a5fa;--hero-from:#0f172a;--hero-mid:#1e293b;--hero-to:#0f172a;--bg:#0b1220;--card-bg:#151e2e;--text:#e2e8f0;--muted:#94a3b8;--border:#1e293b;--tag-bg:#1e3a5f;--link:#60a5fa;--icon-bg:rgba(96,165,250,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;margin:0;padding:0;min-height:100vh}
+.hero{background:linear-gradient(135deg,var(--hero-from) 0%,var(--hero-mid) 40%,var(--hero-to) 100%);color:#fff;padding:32px 24px 24px;text-align:center;position:relative}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:4px}
+.hero p{opacity:.85;font-size:14px}
+.hero .nav-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.nav-row a{font-size:12px;padding:3px 12px;border-radius:14px;text-decoration:none;color:#fff;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);cursor:pointer;transition:.2s}
+.nav-row a:hover{background:rgba(255,255,255,.2)}
+.container{max-width:860px;margin:0 auto;padding:24px 18px 50px}
+.card{background:var(--card-bg);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin:0 16px 16px;overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s}
+.card:hover{box-shadow:0 3px 14px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 0}
+.card-body{padding:12px 18px 16px}
+.q-num{flex-shrink:0;width:30px;height:30px;background:var(--primary);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.q-meta{flex:1;min-width:0}
+.q-title{font-size:16px;font-weight:700;color:var(--text)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.q-tag{font-size:11px;background:var(--tag-bg);color:var(--primary);padding:2px 9px;border-radius:10px;font-weight:500}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--primary);color:var(--primary);font-size:12px;font-weight:600;padding:4px 13px;border-radius:16px;cursor:pointer;margin-top:2px;transition:.2s}
+.toggle-btn:hover,.toggle-btn.open{background:var(--primary);color:#fff}
+.toggle-btn .arrow{font-size:10px;transition:transform .2s}
+.toggle-btn.open .arrow{transform:rotate(180deg)}
+.answer{display:none;margin-top:12px;padding:14px 16px;background:var(--tag-bg);border-radius:10px;border-left:4px solid var(--primary)}
+.answer.show{display:block}
+.answer p{margin-bottom:6px;font-size:14px}
+.answer ul,.answer ol{padding-left:18px;margin-bottom:6px;font-size:14px}
+.answer li{margin-bottom:3px}
+.answer strong{color:var(--success)}
+.code-block{background:var(--code-bg);color:#d4d4d4;border-radius:8px;padding:12px 14px;overflow-x:auto;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre}
+.code-block .kw{color:#569cd6}.code-block .str{color:#ce9178}.code-block .co{color:#6a9955}.code-block .fn{color:#dcdcaa}.code-block .num{color:#b5cea8}
+.switch{position:absolute;top:12px;left:12px;display:inline-block;width:36px;height:20px;z-index:100}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:3px;left:0;right:0;height:14px;background:rgba(255,255,255,.35);border-radius:7px;transition:.3s}
+.slider:before{position:absolute;content:'';height:20px;width:20px;left:-3px;top:-3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked + .slider{background:var(--primary)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+.footer{text-align:center;font-size:13px;color:var(--muted);padding:16px 0 0}
+.back-top{position:fixed;left:20px;bottom:40px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s}
+.back-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home{position:fixed;left:20px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;text-decoration:none}
+.back-home.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-home:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3);color:#fff}
+.back-top:hover{transform:translateY(-3px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+</style>
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="面试宝典">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body data-section="27">
+<div class="hero">
+  <label class="switch" title="展开全部答案">
+    <input type="checkbox" id="expandAllBtn" onchange="toggleExpandAll(this)">
+    <span class="slider"></span>
+  </label>
+  <h1>数据库扩展</h1>
+  <p>10道题 · PostgreSQL · Oracle · MVCC · 索引与分区</p>
+  <div class="nav-row">
+    <a href="Java面试宝典_总目录.html">总目录</a>
+    <a href="Java面试宝典_Docker容器化.html">← Docker 容器化</a>
+    <a href="Java面试宝典_AI大模型.html">AI 大模型 →</a>
+  </div>
+</div>
+<div class="container">
+<div class="card">
+  <div class="card-header"><div class="q-num">1</div><div class="q-meta"><div class="q-title">什么是 PostgreSQL？它有哪些特性？</div><div class="q-tags"><span class="q-tag">PostgreSQL</span><span class="q-tag">概述</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>PostgreSQL 是流行的<strong>对象关系型数据库管理系统</strong>（ORDBMS），用于构建高级应用的开源平台。支持多版本并发控制（MVCC）、客户-服务器网络架构、基于日志和触发器的复制、SSL 与高可用备用服务器。</p>
+      <p><strong>2. 核心特性：</strong></p>
+      <ul>
+        <li><strong>数据完整性：</strong>约束体系帮助构建容错环境。</li>
+        <li><strong>丰富的数据类型：</strong>UUID、数组、JSON、几何图元、任意精度数值、XML 等全覆盖。</li>
+        <li><strong>可扩展：</strong>自定义函数（PL/pgSQL、Python、Perl 等多种语言）、GiST 索引框架可扩展任意数据类型。</li>
+        <li><strong>SQL 标准遵循度高</strong>，功能丰富（窗口函数、CTE、全文搜索）。</li>
+      </ul>
+      <p>💡 优缺点：可靠、稳定、可扩展、跨平台开源；但简单读场景性能略逊 MySQL，生态应用少一些。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">2</div><div class="q-meta"><div class="q-title">PostgreSQL 和 MySQL 有什么区别？如何选型？</div><div class="q-tags"><span class="q-tag">选型</span><span class="q-tag">高频</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>MySQL</th><th>PostgreSQL</th></tr>
+        <tr><td>定位</td><td>用户友好、面向 Web 开发者</td><td>功能丰富、高度符合 SQL 标准</td></tr>
+        <tr><td>许可/归属</td><td>GPL、属 Oracle</td><td>自由许可（类 BSD）、社区主导</td></tr>
+        <tr><td>数据类型</td><td>常规类型</td><td>数组、JSONB、几何、自定义类型</td></tr>
+        <tr><td>索引</td><td>B+Tree、Hash、全文</td><td>B-tree、Hash、GiST、GIN、BRIN、SP-GiST</td></tr>
+        <tr><td>并发控制</td><td>MVCC + 锁</td><td>MVCC 更彻底（写也产生新版本）</td></tr>
+        <tr><td>复制</td><td>成熟易用</td><td>相对较新，部分高级配置靠扩展</td></tr>
+        <tr><td>性能</td><td>简单读场景更快、生态广</td><td>复杂查询、分析型负载更强</td></tr>
+      </table></div>
+      <p><strong>选型建议：</strong>互联网高并发读、简单业务、生态成熟度优先 → MySQL；复杂 SQL、地理信息（PostGIS）、JSON 半结构化、严格事务与标准兼容 → PostgreSQL。应基于实际业务压测对比后再定。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">3</div><div class="q-meta"><div class="q-title">PostgreSQL 的 MVCC 是如何实现的？</div><div class="q-tags"><span class="q-tag">MVCC</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 目的：</strong></p>
+      <p>用多版本并发控制<strong>避免不必要的锁</strong>，读不阻塞写、写不阻塞读，消除并发访问的延迟。</p>
+      <p><strong>2. 机制：</strong></p>
+      <ul>
+        <li>每行（元组）带有 xmin（创建事务 ID）与 xmax（删除事务 ID）系统字段；<strong>更新 = 标记旧行失效 + 插入新版本行</strong>，旧版本保留在表中供其他事务可见。</li>
+        <li>事务通过快照判断哪个版本对自己可见。</li>
+        <li>旧版本由 <strong>VACUUM</strong> 清理回收（这也是 PG 表膨胀问题的来源，需合理配置 autovacuum）。</li>
+      </ul>
+      <p>💡 与 MySQL InnoDB 的区别：InnoDB 旧版本放 undo log，PG 直接把多版本留在表里，回滚更快但需要 VACUUM。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">4</div><div class="q-meta"><div class="q-title">PostgreSQL 有哪些索引类型？分别适用什么场景？</div><div class="q-tags"><span class="q-tag">索引</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>类型</th><th>适用场景</th></tr>
+        <tr><td><strong>B-tree</strong>（默认）</td><td>等值与范围查询，最通用的索引</td></tr>
+        <tr><td>Hash</td><td>仅等值比较（=），不支持范围</td></tr>
+        <tr><td>GiST</td><td>可扩展框架：几何/空间数据（PostGIS）、范围类型、全文搜索</td></tr>
+        <tr><td>GIN</td><td>倒排索引：JSONB、数组、全文检索（ contains 类查询）</td></tr>
+        <tr><td>BRIN</td><td>超大表、数据与物理顺序强相关（时序数据），索引极小</td></tr>
+        <tr><td>SP-GiST</td><td>空间分区树：点、前缀树等非平衡结构</td></tr>
+      </table></div>
+      <p><code>CREATE INDEX</code> 默认建 B-tree，按查询模式显式指定其他类型可大幅提升性能（如 JSONB 字段查询建 GIN）。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">5</div><div class="q-meta"><div class="q-title">PostgreSQL 的表分区有哪些方式？</div><div class="q-tags"><span class="q-tag">分区</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>把大表拆成若干小分区，逻辑上是一张表、物理上分散存储，缩小单表规模、便于维护。</p>
+      <p><strong>2. 支持的分区类型：</strong></p>
+      <ul>
+        <li><strong>范围分区（Range）：</strong>按连续区间拆，如按月/按年拆订单表 —— 时序数据最常用。</li>
+        <li><strong>列表分区（List）：</strong>按离散值拆，如按地区、按状态。</li>
+        <li><strong>哈希分区（Hash）：</strong>按 key 哈希均匀打散，无明显业务边界时用。</li>
+        <li>官方通过<strong>表继承</strong>实现，需像主表的子表一样创建每个分区；分区键应包含在主键中。</li>
+      </ul>
+      <p><strong>3. 收益：</strong>查询可裁剪到相关分区（partition pruning）；单分区损坏只影响局部；历史数据可整体卸载归档。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">6</div><div class="q-meta"><div class="q-title">什么是 WAL（预写日志）？有什么作用？</div><div class="q-tags"><span class="q-tag">WAL</span><span class="q-tag">可靠性</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 定义：</strong></p>
+      <p>Write-Ahead Logging：<strong>修改数据页之前，先把变更顺序写入事务日志</strong>，保证数据完整性的标准方法。</p>
+      <p><strong>2. 作用：</strong></p>
+      <ul>
+        <li><strong>崩溃恢复：</strong>数据库崩溃后重放 WAL，把数据恢复到故障前的已提交状态，工作从中断点继续。</li>
+        <li><strong>提升写性能：</strong>只需顺序写日志即视为提交成功，数据页的随机写可以延迟批量刷盘。</li>
+        <li><strong>复制基础：</strong>流复制把 WAL 传给备库回放，实现主备同步与高可用。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">7</div><div class="q-meta"><div class="q-title">什么是 BRIN 索引？为什么它非常小？</div><div class="q-tags"><span class="q-tag">索引</span><span class="q-tag">进阶</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 原理：</strong></p>
+      <p>Block Range Index（块范围索引）：PG 读取<strong>每 8KB 数据页块中该列的最小值和最大值</strong>，在索引里只保存"页码范围 + min/max"摘要。查询时先通过 BRIN 判断哪些块范围不可能包含目标数据，直接跳过，只扫描候选块。</p>
+      <p><strong>2. 为什么小：</strong></p>
+      <p>普通 B-tree 每行都要建索引项，BRIN <strong>每个块范围只存一条摘要</strong> —— 10 亿行的表索引可能只有几十 MB。</p>
+      <p><strong>3. 适用条件：</strong>数据的物理存储顺序与查询列强相关（如按时间顺序插入的时序表），否则 min/max 区间重叠严重、过滤效果差。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">8</div><div class="q-meta"><div class="q-title">Oracle 中 function 和 procedure 有什么区别？</div><div class="q-tags"><span class="q-tag">Oracle</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>对比</th><th>函数 Function</th><th>存储过程 Procedure</th></tr>
+        <tr><td>返回值</td><td>必须有 return 返回值</td><td>不需要，用 out 参数带回</td></tr>
+        <tr><td>多值返回</td><td>不便</td><td>适合（多个 out 参数）</td></tr>
+        <tr><td>调用场景</td><td>可在 SQL 的 DML 语句中直接调用</td><td>只能用 call/exec 独立调用</td></tr>
+      </table></div>
+      <p>函数可理解为存储过程的一种特化形态：无参可以，但一定要有返回值；需要返回多个值时选存储过程。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">9</div><div class="q-meta"><div class="q-title">Oracle 分区是怎样优化数据库的？</div><div class="q-tags"><span class="q-tag">Oracle</span><span class="q-tag">分区</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 分区类型：</strong>列表分区、范围分区、散列分区、复合分区。</p>
+      <p><strong>2. 优化收益：</strong></p>
+      <ul>
+        <li><strong>高可用：</strong>单分区故障不影响其余分区继续服务；只修复受损分区，缩短停机时间。</li>
+        <li><strong>易维护：</strong>分区独立管理（备份、清理历史数据按分区操作）。</li>
+        <li><strong>均衡 I/O：</strong>不同分区放不同磁盘，分散读写压力。</li>
+        <li><strong>并行加速：</strong>大表的查询与增删改可分解到各分区并行执行。</li>
+        <li><strong>对用户透明：</strong>SQL 无需感知分区存在。</li>
+      </ul>
+      <p>💡 通用优化思路（减少磁盘 I/O）：物理层选好优化器与实例参数、建索引、分区；逻辑层 SQL 用绑定变量复用执行计划、避免 select *、用 exists 替代 in、批量处理。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="q-num">10</div><div class="q-meta"><div class="q-title">Oracle 有哪几种文件类型？导入导出有哪些方式？</div><div class="q-tags"><span class="q-tag">Oracle</span></div></div></div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong>1. 三类文件：</strong></p>
+      <ul>
+        <li><strong>数据文件</strong>（.dbf / .ora）：存放实际数据。</li>
+        <li><strong>日志文件</strong>（.log）：重做日志，保证可恢复。</li>
+        <li><strong>控制文件</strong>（.ctl）：记录库的结构信息（文件位置、SCN 等）。</li>
+      </ul>
+      <p><strong>2. 导入导出两种方式：</strong></p>
+      <ul>
+        <li>exp/imp 工具：导出<strong>二进制</strong>转储文件（全库/用户/表级）。</li>
+        <li>PL/SQL 工具：导出 <strong>SQL 语句文本</strong>（可读、可编辑）。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+📌 27 · 数据库扩展 · 共10题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_AI大模型.html" style="color:var(--primary)">AI 大模型 →</a>
+
+<script>
+function toggleAnswer(b){var a=b.nextElementSibling,c=a.classList.contains('show');a.classList.toggle('show');b.classList.toggle('open');b.innerHTML=c?'查看答案 <span class="arrow">▼</span>':'收起答案 <span class="arrow">▼</span>'}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+function toggleExpandAll(chk){
+  var expand=chk.checked;
+  var cards=document.querySelectorAll('.card');
+  cards.forEach(function(c){
+    var ans=c.querySelector('.answer');var tb=c.querySelector('.toggle-btn');
+    if(ans&&tb){
+      ans.classList.toggle('show',expand);
+      tb.classList.toggle('open',expand);
+      tb.innerHTML=expand?'收起答案 <span class="arrow">▼</span>':'查看答案 <span class="arrow">▼</span>';
+    }
+  });
+}
+;(function(){var t=localStorage.getItem('theme');if(t)setTheme(t);})();
+</script>
+
+<a href="Java面试宝典_总目录.html" class="back-home" id="backHome" title="回到首页">首页</a>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<script>
+var bt=document.getElementById('backTop');
+var bh=document.getElementById('backHome');
+function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
+window.addEventListener('scroll',onScroll);onScroll();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
+</body>
+</html>

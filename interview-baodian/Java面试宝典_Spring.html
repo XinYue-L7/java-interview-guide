@@ -342,7 +342,125 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <p>能区分 <strong>@Transient（JPA） vs transient（序列化） vs @JsonIgnore（JSON）</strong>三者，就是加分的完整回答。</p></div></div></div>
 
 <div class="footer">
-  📌 09 · Spring · 共25题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_SpringBoot.html" style="color:var(--primary)">下一板块 →</a>
+<!-- Q26 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">26</div>
+    <div class="q-meta"><div class="q-title">Spring 中哪些情况下不能解决循环依赖？</div>
+      <div class="q-tags"><span class="q-tag">循环依赖</span><span class="q-tag">高频</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">四类场景</strong></p>
+      <ul>
+        <li><strong>构造器注入：</strong>实例化阶段就必须拿到完整依赖，而此时 Bean 还没创建出来，无法提前暴露。</li>
+        <li><strong>prototype 作用域：</strong>三级缓存只缓存单例，prototype 每次 getBean 都新建，不缓存。</li>
+        <li><strong>单例 + AOP 代理（构造器代理场景）：</strong>代理要在属性填充后由代理工厂生成，构造器注入拿不到提前代理。</li>
+        <li><strong>@DependsOn 强依赖顺序：</strong>显式声明依赖的 Bean 必须先完成创建。</li>
+      </ul>
+      <p>💡 <strong>根源：</strong>三级缓存只能提前暴露"已完成实例化（构造完）、尚未填充属性"的对象；凡是实例化阶段就需要完整依赖的场景都无解。解决办法通常是 <code>@Lazy</code> 延迟注入或重构设计。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q27 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">27</div>
+    <div class="q-meta"><div class="q-title">@PostConstruct 注解有什么作用？在什么时机被调用？</div>
+      <div class="q-tags"><span class="q-tag">Bean生命周期</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">作用</strong></p>
+      <p>标注在方法上，该方法在<strong>依赖注入完成后、Bean 正式可用之前</strong>自动执行一次，用于初始化逻辑（预加载缓存、校验配置、初始化连接等），不用手动调用。</p>
+      <p><strong class="sec-title">执行时机（在生命周期中的位置）</strong></p>
+      <div class="code-block">实例化（构造器） → 依赖注入（@Autowired 填充）
+→ <span class="kw">@PostConstruct</span> 方法            <span class="co">// Aware 回调、BeanPostProcessor 前置之后</span>
+→ InitializingBean.afterPropertiesSet()
+→ init-method
+→ Bean 就绪</div>
+      <p>💡 对比：三者都在初始化阶段，顺序固定为 <strong>@PostConstruct → afterPropertiesSet → init-method</strong>；@PostConstruct 是 JSR-250 标准注解，与 Spring API 解耦。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q28 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">28</div>
+    <div class="q-meta"><div class="q-title">Spring AOP 中 Advice、JoinPoint、Pointcut 分别是什么？</div>
+      <div class="q-tags"><span class="q-tag">AOP</span><span class="q-tag">概念</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <div class="table-wrap"><table>
+        <tr><th>概念</th><th>含义</th><th>类比</th></tr>
+        <tr><td><strong>JoinPoint（连接点）</strong></td><td>程序执行中所有可被拦截的点（Spring 中即方法执行）</td><td>所有可用插座的墙</td></tr>
+        <tr><td><strong>Pointcut（切点）</strong></td><td>用表达式筛选出的、真正要拦截的连接点集合</td><td>选中的那几个插座</td></tr>
+        <tr><td><strong>Advice（通知）</strong></td><td>拦截后要执行的增强逻辑及时机（Before/After/Around/AfterReturning/AfterThrowing）</td><td>插上插座后的动作</td></tr>
+        <tr><td><strong>Advisor/Aspect（切面）</strong></td><td>Pointcut + Advice 的组合，封装完整切面</td><td>整套方案</td></tr>
+      </table></div>
+      <p>Advice 五种类型：@Before 前置、@After 后置（finally）、@AfterReturning 正常返回后、@AfterThrowing 异常后、<strong>@Around 环绕</strong>（功能最强，可控制是否执行原方法）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q29 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">29</div>
+    <div class="q-meta"><div class="q-title">为什么有些公司禁止（谨慎）使用 @Transactional 声明式事务？</div>
+      <div class="q-tags"><span class="q-tag">事务</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">原因</strong></p>
+      <ul>
+        <li><strong>长事务风险：</strong>方法内混入 RPC 调用、MQ 发送等耗时操作，事务被拉长 → 数据库连接被长期占用，高并发下连接池耗尽、锁竞争加剧。</li>
+        <li><strong>事务嵌套不可控：</strong>方法间互相调用时传播行为叠加（外层 REQUIRED 内层 REQUIRES_NEW 等），回滚范围难以推理，容易出诡异 bug。</li>
+        <li><strong>失效场景多：</strong>自调用、非 public 方法、异常被 catch、rollbackFor 配置不当等（见第 6 题）。</li>
+        <li><strong>粒度粗：</strong>注解只能到方法级，没法精确圈定哪几条 SQL 需要事务。</li>
+      </ul>
+      <p>💡 大厂普遍改用<strong>编程式事务</strong>（TransactionTemplate），显式圈定事务边界、控制粒度与传播行为。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Q30 -->
+<div class="card">
+  <div class="card-header">
+    <div class="q-num">30</div>
+    <div class="q-meta"><div class="q-title">Spring Security 的核心原理是什么？</div>
+      <div class="q-tags"><span class="q-tag">Security</span><span class="q-tag">安全</span></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <button class="toggle-btn" onclick="toggleAnswer(this)">查看答案 <span class="arrow">▼</span></button>
+    <div class="answer">
+      <p><strong class="sec-title">一句话概括</strong></p>
+      <p>基于 <strong>Servlet Filter 过滤器链</strong> 实现：一个请求先经过一串安全过滤器完成认证与授权，通过后才到达业务 Controller。</p>
+      <p><strong class="sec-title">认证流程（用户名密码）</strong></p>
+      <ul>
+        <li>请求受保护资源 → <code>UsernamePasswordAuthenticationFilter</code> 拦截登录请求，封装成 Authentication 对象。</li>
+        <li><code>AuthenticationManager</code> 委托 <code>UserDetailsService</code>（查库拿用户与角色），<code>PasswordEncoder</code>（BCrypt）校验密码。</li>
+        <li>校验通过 → 生成已认证的 Authentication，存入 <code>SecurityContextHolder</code>（ThreadLocal），后续请求据此判断身份；无状态方案则签发 JWT，下次请求由过滤器解析还原。</li>
+        <li>访问控制：hasRole / hasAuthority 表达式决定放行与否，未认证跳登录页，无权限返回 403。</li>
+      </ul>
+      <p>💡 注意 hasRole("ADMIN") 实际校验 <code>ROLE_ADMIN</code>（自动加前缀），hasAuthority 按字面匹配。</p>
+    </div>
+  </div>
+</div>
+
+  📌 09 · Spring · 共30题 | <a href="Java面试宝典_总目录.html" style="color:var(--primary)">返回总目录</a> | <a href="Java面试宝典_SpringBoot.html" style="color:var(--primary)">下一板块 →</a>
 </div>
 </div>
 <script>
@@ -407,6 +525,6 @@ document.addEventListener('click',function(e){
   if(sd && si && !sd.contains(e.target) && e.target!==si){sd.classList.remove('show');}
 });
 </script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=43')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=44')}</script>
 </body>
 </html>
