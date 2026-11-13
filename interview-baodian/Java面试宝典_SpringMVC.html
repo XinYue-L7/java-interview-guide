@@ -156,6 +156,30 @@ var bh=document.getElementById('backHome');
 function onScroll(){if(window.scrollY>300){bt.classList.add('show');if(bh)bh.classList.add('show');}else{bt.classList.remove('show');if(bh)bh.classList.remove('show');}}
 window.addEventListener('scroll',onScroll);onScroll();
 </script>
+
+<script>
+/* 搜索跳转定位：?q=题号 → 展开并滚动到对应题目 */
+(function(){
+  var m=location.search.match(/[?&]q=(\d+)/);
+  if(!m)return;
+  var n=parseInt(m[1],10);
+  var cards=document.querySelectorAll('.card');
+  for(var i=0;i<cards.length;i++){
+    var qn=cards[i].querySelector('.q-num');
+    if(qn&&parseInt(qn.textContent.trim(),10)===n){
+      var btn=cards[i].querySelector('.toggle-btn');
+      var ans=cards[i].querySelector('.answer');
+      if(btn&&ans&&!ans.classList.contains('show'))btn.click();
+      var el=cards[i];
+      setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'start'});},200);
+      el.style.boxShadow='0 0 0 3px rgba(214,179,138,.5)';
+      setTimeout(function(){el.style.boxShadow='';},2500);
+      break;
+    }
+  }
+})();
+</script>
+
 <script>
 (function(){
   var params=new URLSearchParams(window.location.search);
