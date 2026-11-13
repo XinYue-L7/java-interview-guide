@@ -7,6 +7,8 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+.codebuddy/
+.workbuddy/
 
 # Maven 编译产物
 target/
